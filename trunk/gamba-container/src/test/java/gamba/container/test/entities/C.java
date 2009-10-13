@@ -2,8 +2,11 @@ package gamba.container.test.entities;
 
 public class C {
 
-	private final A a;
-	private final B b;
+	private A a;
+	private B b;
+
+	public C() {
+	}
 
 	public C(final A a, final B b) {
 		super();
@@ -17,6 +20,14 @@ public class C {
 
 	public B getB() {
 		return b;
+	}
+
+	public void setA(final A a) {
+		this.a = a;
+	}
+
+	public void setB(final B b) {
+		this.b = b;
 	}
 
 }
