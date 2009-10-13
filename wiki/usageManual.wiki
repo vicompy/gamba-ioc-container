@@ -82,3 +82,160 @@ frame = ~org.lechuga.gromenauer.ui.CFrame (text-area)   \
 berbis-props = org.berbis.main.BerbisProps({org.berbis.main.Props;});
 properties-chooser = org.berbis.main.PropertiesChooser(frame, berbis-props);
 }}}
+
+
+
+
+
+
+
+
+
+= Usage Manual =
+
+
+== Using The Container As a Factory, And No More `new` Statements! ==
+
+In this first example we learn how to obtain class instances from a Gamba Container, and how it 
+decouples your component implementation from each others.
+
+Everybody knows that hardcoding is a bad practice... but whenever you place a `new` statement in your 
+code, you are really taking a concrete class implementation in a hardcoded way! For example, supposing 
+that you wants for a `java.util.List` implementation instance, and you choose a `java.util.ArrayList`:
+
+{{{
+	List<Integer> list = (List<Integer>) new ArrayList();
+}}}
+
+Well, but if you want to choose another implementation for a `List`, you will have to change all your 
+classes that `new`s it. Lechuga solves this problem, since the concrete implementation class is 
+uniquely declared in a context file as is:
+
+{{{
+	myList = java.util.ArrayList;
+}}}
+	
+
+After declaring the class implementation, you can obtain an instance of this, calling the 
+Gamba Container:
+
+	
+{{{
+	GambaContext gc = GambaContainer.getContext("tips-context.properties");
+	List<Integer> myList = (List<Integer>) gc.getBean("myList");
+
+	Assert.assertTrue(myList instanceof List);
+}}}
+	
+
+Now, if you want to choose another implementation for a `List` (i.e. `LinkedList`), you only must have 
+to change the class specified in a context file, and all your classes that instantiates it will obtain 
+the new implementation:
+
+{{{
+	myList = java.util.LinkedList;
+}}}
+	
+
+
+
+
+
+
+
+== Dependency Injection ==
+
+Dependency Injection means to inject recursively into your requested bean instance his declared dependencies.
+This feature allows you to obtain a desired bean instance (obtained by a Factory, in fact), fully configured 
+and ready to use, altought his object-dependencies are being injected.
+
+For example, suppose that you have in hands:
+
+{{{	
+		a = gamba.container.test.entities.A \
+			:setB <- b;
+		
+		b = gamba.container.test.entities.B;	
+}}}	
+	
+
+When you asks the container for an "a" instance, the container works for you and performs reflect operations 
+to do the same as the following piece of code:
+
+	
+{{{	
+		A a = new A();
+		B b = new B();
+		a.setB(b);
+		return a;
+}}}	
+	
+
+== Setter Injection ==
+
+In the above example, a "b" instance are being injected to an "a" instance using setter injection. 
+It is defined with:
+
+	
+{{{	
+		{: METHOD <- BEANID}
+}}}	
+	
+
+== Constructor Injection ==
+
+A constructor injection is another kind of injection. For example the definition:
+
+	
+{{{	
+		a = gamba.container.test.entities.A;
+		b = gamba.container.test.entities.B;		
+		
+		c = gamba.container.test.entities.C :(a, b);	
+}}}	
+	
+
+will cause that when a "c" instance is requested, container performs:
+
+{{{	
+		A a = new A();
+		B b = new B();
+		C c = new C(a, b);
+		return c;
+}}}	
+	
+
+Construction injection is defined by the syntax:
+
+		
+{{{	
+		[:(BEANID {, BEANID})]
+}}}	
+
+
+
+
+
+
+
+
+
+
+== Character "~" Means Singleton ==
+
+Note that the following declaration
+
+{{{
+		b = ~gamba.container.test.entities.B;
+}}}
+
+defines the bean identified by "b" as a Singleton object; that is, for every "b" instance that you 
+asks, the container will return the same instance.
+
+
+== Gamba Container Don't Works Lazily ==
+
+
+
+
+
