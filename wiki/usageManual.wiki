@@ -15,11 +15,15 @@ _Gamba_ means shrimp in spanish, and almost all classes are so called Gamba, in 
 
 == How Gamba Works ==
 
-`Gamba Container` is an IoC container, that provides a consistent way to configure and manage Java objects, and to wire her dependant instances. These Java objects will be called as Beans in this tutorial, only for historical motives, although they can be complex objects, not limited to Java-Bean properly conventions.
+`Gamba Container` is an IoC container, that provides a consistent way to configure and manage Java objects, 
+and to wire her dependant instances. These Java objects will be called as Beans in this tutorial, only for 
+historical motives, although they can be complex objects, not limited to Java-Bean properly conventions.
 
-Beans and his dependencies are declared by loading a properties file (called context file), that contains the suitable definitions.
+Beans and his dependencies are declared by loading a properties file (called context file), that contains 
+the suitable definitions.
 
-Objects can be obtained by means of container asking for an object with a specific identifier. The declared dependencies are also injected as defined, recursively.
+Objects can be obtained by means of container asking for an object with a specific identifier. The 
+declared dependencies are also injected as defined, recursively.
 
 By defining bean dependencies in a properties way, you may take the following advantages:
 
@@ -30,25 +34,51 @@ By defining bean dependencies in a properties way, you may take the following ad
 
 
 
+== Gamba Container Works Following The Property-Based Recipe ==
 
 
+Unlike other containers, Gamba dont works following an XML configuration file. For a simple parsing it uses a properties file, under the syntax:
 
+{{{
+ #
+ #  <BEANDEFINITION> ::= BEANID "=" <BEANDEF>
+ #  <BEANDEF> ::= ["~"] CLASS [<CONSTRUCTORINJ>] <METHODINJREP> ";"
+ #
+ #  <CONSTRUCTORINJ> ::= "(" <INJELEM> {"," <INJELEM>} ")"
+ #
+ #  <METHODINJREP> ::= {<METHODINJ>}
+ #  <METHODINJ> ::= ":" METHODNAME "<-" <INJELEM>
+ #
+ #  <INJELEM> ::=    "\"" STRINGVALUE "\""
+ #                   | "{" <BEANDEF> "}"
+ #                   | BEANID
+ #
+}}}
 
+Here an example:
 
+{{{
+controller = ~org.lechuga.gromenauer.ui.Controller;
 
+text-area = org.lechuga.gromenauer.ui.CTextArea;
 
+frame = ~org.lechuga.gromenauer.ui.CFrame (text-area)   \
+        : addWindowListener <- controller               \
+        : setTitle <- "GROMENAUER"                      \
+        : setLocation <- {                              \
+                java.awt.Point(                         \
+                    {java.lang.Integer("300");},        \
+                    {java.lang.Integer("200");}         \
+                );                                      \
+            }                                           \
+        : setSize <- {                                  \
+                java.awt.Dimension(                     \
+                    {java.lang.Integer("600");},        \
+                    {java.lang.Integer("400");}         \
+                );                                      \
+            }                                           \
+        ;
 
-
-
-
-
-
-
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+berbis-props = org.berbis.main.BerbisProps({org.berbis.main.Props;});
+properties-chooser = org.berbis.main.PropertiesChooser(frame, berbis-props);
+}}}
