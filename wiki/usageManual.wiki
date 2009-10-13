@@ -1,6 +1,10 @@
 #summary Gamba Container Usage Manual
 #labels Featured
 
+= Table Of Contents =
+<wiki:toc max_depth="3" />
+
+
 = Introduction =
 
 Gamba Container is an ultra-lightweight IoC Container that brings you the benefits of Dependency-Injection and Inversion of Control patterns for your Java applications, with a non-intrusive API that sizes around 20Kb. This article will introduce you to the usage of this container, with a lot of friendly examples.
@@ -234,8 +238,6 @@ asks, the container will return the same instance.
 
 
 == Gamba Container Don't Works Lazily ==
-
-
 
 
 
