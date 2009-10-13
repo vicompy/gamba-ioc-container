@@ -1,0 +1,54 @@
+#summary Gamba Container Usage Manual
+#labels Featured
+
+= Introduction =
+
+Gamba Container is an ultra-lightweight IoC Container that brings you the benefits of Dependency-Injection and Inversion of Control patterns for your Java applications, with a non-intrusive API that sizes around 20Kb. This article will introduce you to the usage of this container, with a lot of friendly examples.
+
+Gamba Container helps you to design better software, decoupling it in a reusable components.
+
+
+== Why Gamba? ==
+
+_Gamba_ means shrimp in spanish, and almost all classes are so called Gamba, in order to prevent naming confusions with other APIs or system classes.
+
+
+== How Gamba Works ==
+
+`Gamba Container` is an IoC container, that provides a consistent way to configure and manage Java objects, and to wire her dependant instances. These Java objects will be called as Beans in this tutorial, only for historical motives, although they can be complex objects, not limited to Java-Bean properly conventions.
+
+Beans and his dependencies are declared by loading a properties file (called context file), that contains the suitable definitions.
+
+Objects can be obtained by means of container asking for an object with a specific identifier. The declared dependencies are also injected as defined, recursively.
+
+By defining bean dependencies in a properties way, you may take the following advantages:
+
+    * declarations are focused in a single file per context, allowing to use multiple if required.
+    * avoids the Container to use a heavy-weight XML parser.
+    * contexts are declared parsing a concise declaration language, more readable, easy to write and to mantain than XML.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
