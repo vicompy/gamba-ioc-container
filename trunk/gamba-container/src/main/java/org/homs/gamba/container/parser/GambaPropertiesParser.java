@@ -1,7 +1,7 @@
 package org.homs.gamba.container.parser;
 
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.Set;
 
@@ -30,7 +30,12 @@ public class GambaPropertiesParser extends AbstractGambaParser {
 		super();
 		try {
 			props = new Properties();
-			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream(propertiesFileName));
+			final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(
+					propertiesFileName);
+			if (is == null) {
+				throw new GambaException("context file could not be opened: " + propertiesFileName);
+			}
+			props.load(is);
 		} catch (final IOException e) {
 			throw new GambaException("properties file not found: " + propertiesFileName, e);
 		}

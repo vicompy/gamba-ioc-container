@@ -2,13 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<name>Gamba IoC Container</name>
+	<description>An ultra-lightweight IoC container for Java</description>
+
+
 	<groupId>org.homs</groupId>
 	<artifactId>gamba-container</artifactId>
 	<version>0.0.5</version>
 	
-	<name>Gamba IoC Container</name>
-	<description>An ultra-lightweight IoC container for Java</description>
-
 
 
 	<dependencies>
