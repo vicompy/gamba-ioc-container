@@ -16,6 +16,7 @@ public class GambaSaxHandler extends DefaultHandler {
 	private final List<BeanTag> beanTags;
 
 	public GambaSaxHandler() {
+		super();
 		beanTags = new ArrayList<BeanTag>();
 	}
 

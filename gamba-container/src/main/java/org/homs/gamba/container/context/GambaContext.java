@@ -129,19 +129,7 @@ public class GambaContext {
 		final int nArgs = beanDef.constructorInj.injElems.length;
 		final Object[] parameterValues = new Object[nArgs];
 		for (int i = 0; i < nArgs; i++) {
-			final InjectableElement injElem = beanDef.constructorInj.injElems[i];
-			if (injElem.eInjType == EInjType.STRING_VALUE) {
-				// valor directe
-				if (injElem.type == null) {
-					// el valor és un String directe
-					parameterValues[i] = injElem.stringValue;
-				} else {
-					parameterValues[i] = injElem.typeInstance;
-				}
-			} else {
-				parameterValues[i] = obtainBean(injElem.beanRef);
-			}
-
+			parameterValues[i] = getInjectionInstance(beanDef.constructorInj.injElems[i]);
 		}
 
 		final Constructor<?> constructor = beanDef.constructorInj.constructor;
@@ -172,20 +160,7 @@ public class GambaContext {
 		final Object[] constrArgs = new Object[1];
 		for (final MethodInj methodInj : beanDef.methodInj) {
 
-			Object refBean = null;
-			if (methodInj.injElem.eInjType == EInjType.STRING_VALUE) {
-				// valor directe
-				if (methodInj.injElem.type == null) {
-					// el valor és un String directe
-					refBean = methodInj.injElem.stringValue;
-				} else {
-					// el valor és un singleton construit per String
-					refBean = methodInj.injElem.typeInstance;
-				}
-			} else {
-				// el valor és la referència a un altre bean definit
-				refBean = obtainBean(methodInj.injElem.beanRef);
-			}
+			final Object refBean = getInjectionInstance(methodInj.injElem);
 
 			constrArgs[0] = refBean;
 			try {
@@ -196,6 +171,31 @@ public class GambaContext {
 
 		}
 
+	}
+
+	/**
+	 * computa l'objecte a injectar; si es tracta d'un <tt>type</tt> l'objecte
+	 * retornat serà sempre el mateix serà singleton.
+	 *
+	 * @param injElem element del que extreure l'objecte que serà injectat
+	 * @return el valor de la injecció
+	 */
+	private Object getInjectionInstance(final InjectableElement injElem) {
+		Object refBean = null;
+		if (injElem.eInjType == EInjType.STRING_VALUE) {
+			// valor directe
+			if (injElem.type == null) {
+				// el valor és un String directe
+				refBean = injElem.stringValue;
+			} else {
+				// el valor és un singleton construit per String
+				refBean = injElem.typeInstance;
+			}
+		} else {
+			// el valor és la referència a un altre bean definit
+			refBean = obtainBean(injElem.beanRef);
+		}
+		return refBean;
 	}
 
 	// TODO implementar toString tb en entitats, pq mostrin la definició en XML
