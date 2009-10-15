@@ -32,8 +32,9 @@ public class GambaContext {
 	 *
 	 * @param xmlFileName properties file location path
 	 * @throws GambaException si surt algun error de parsing
+	 * @throws GambaConfigurationException
 	 */
-	public GambaContext(final String xmlFileName) throws GambaException {
+	public GambaContext(final String xmlFileName) throws GambaConfigurationException {
 		final GambaSaxParser sp = new GambaSaxParser(xmlFileName);
 		this.hashBeanDefs = new ContextProcessor(sp.getDefs()).translate();
 	}
@@ -46,7 +47,7 @@ public class GambaContext {
 	 * @return the requested object instance
 	 * @throws GambaException si l'identificador del bean no es troba en hash
 	 */
-	public Object getBean(final String beanId) throws GambaException {
+	public Object getBean(final String beanId) throws GambaConfigurationException {
 		final BeanDef beanDef = hashBeanDefs.get(beanId);
 		if (beanDef == null) {
 			throw new GambaConfigurationException("bean identifier not found: " + beanId);

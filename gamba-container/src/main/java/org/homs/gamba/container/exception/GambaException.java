@@ -29,11 +29,11 @@ public class GambaException extends RuntimeException {
 	private static final long serialVersionUID = -7710568077775524520L;
 
 	public GambaException(final String message, final BeanDef beanDefinition) {
-		super("\n" + message + "\n en definició: " + beanDefinition.toString());
+		super("\n" + message + "\n en definició de bean: " + beanDefinition.toString());
 	}
 
 	public GambaException(final String message, final BeanDef beanDefinition, final Exception nestedException) {
-		super("\n" + message + "\n en definició: " + beanDefinition.toString(), nestedException);
+		super("\n" + message + "\n en definició de bean: " + beanDefinition.toString(), nestedException);
 	}
 
 }

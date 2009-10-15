@@ -25,7 +25,7 @@ public class ContextProcessor {
 		this.beanDefs = beanDefs;
 	}
 
-	public Map<String, BeanDef> translate() {
+	public Map<String, BeanDef> translate() throws GambaConfigurationException {
 		for (final BeanTag b : beanDefs) {
 			final BeanDef bd = translateBean(b);
 			if (beanHash.get(bd.beanId) != null) {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.homs.gamba.container.exception.GambaConfigurationException;
-import org.homs.gamba.container.exception.GambaException;
 import org.homs.gamba.container.xmlparser.ents.BeanTag;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -15,15 +14,7 @@ public class GambaSaxParser {
 
 	private final GambaSaxHandler handler;
 
-	// private XMLReader xmlReader;
-
-	public static void main(final String[] args) {
-
-		new GambaSaxParser("spring-context.xml");
-
-	}
-
-	public GambaSaxParser(final String propertiesFileName) throws GambaException {
+	public GambaSaxParser(final String propertiesFileName) throws GambaConfigurationException {
 
 		final InputSource is = new InputSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(
 				propertiesFileName));
