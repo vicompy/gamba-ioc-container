@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE note SYSTEM "gamba-container.dtd">
+
+<beans>
+
+	<!-- objecte lector de propietats -->
+	<bean id="props" class="org.berbis.gretl.Props" />
+	<bean id="berbis-props" class="org.berbis.gretl.BerbisProps">
+		<constr-arg ref="props" />
+	</bean>
+	
+	<!-- dependències de CFrame -->
+	<bean id="downloader" class="org.berbis.gretl.Downloader" />
+	<bean id="text-area" class="org.berbis.gretl.ui.CTextArea" />
+
+	<!-- Controller -->
+	<bean id="controller" class="org.berbis.gretl.ui.Controller" singleton="true">
+		<method name="setDownloader" ref="downloader" />
+		<method name="setBerbisProps" ref="berbis-props" />
+	</bean>
+
+	<!-- Frame -->
+	<bean id="frame" class="org.berbis.gretl.ui.CFrame">
+		<constr-arg name="setTextArea" ref="text-area" />
+		<method name="addWindowListener" ref="controller" />
+	</bean>
+
+</beans>

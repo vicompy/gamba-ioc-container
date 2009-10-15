@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- root element -->
+<!ELEMENT beans 			(bean*)>
+
+<!-- bean element -->
+<!ELEMENT bean 				(method*, constr-arg*)>
+<!ATTLIST bean id 			CDATA #REQUIRED>
+<!ATTLIST bean class	 	CDATA #REQUIRED>
+<!ATTLIST bean singleton	(true|false) #IMPLIED>
+
+<!-- method element -->
+<!ELEMENT method 			(#PCDATA)>
+<!ATTLIST method name 		CDATA #REQUIRED>
+<!ATTLIST method ref 		CDATA #IMPLIED>
+<!ATTLIST method value		CDATA #IMPLIED>
+<!ATTLIST method type		CDATA #IMPLIED>
+
+<!-- constr-arg element -->
+<!ELEMENT constr-arg 		(#PCDATA)>
+<!ATTLIST constr-arg ref 	CDATA #IMPLIED>
+<!ATTLIST constr-arg value	CDATA #IMPLIED>
+<!ATTLIST constr-arg type	CDATA #IMPLIED>
+
