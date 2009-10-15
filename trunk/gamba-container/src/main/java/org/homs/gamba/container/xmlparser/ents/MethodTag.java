@@ -1,5 +1,7 @@
 package org.homs.gamba.container.xmlparser.ents;
 
+import org.homs.gamba.container.exception.GambaConfigurationException;
+
 /**
  * entitats directament corresponents amb el document XML, les propietats són
  * totes String, i es validen simplement els camps requerits, i els que són
@@ -14,7 +16,8 @@ public class MethodTag extends ConstrTag {
 	 */
 	public String methodName;
 
-	public MethodTag(final String methodName, final String ref, final String value, final String type) {
+	public MethodTag(final String methodName, final String ref, final String value, final String type)
+			throws GambaConfigurationException {
 		super(ref, value, type);
 		this.methodName = methodName;
 

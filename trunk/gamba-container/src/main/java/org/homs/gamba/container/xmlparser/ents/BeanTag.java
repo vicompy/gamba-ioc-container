@@ -26,7 +26,7 @@ public class BeanTag {
 	/** injeccions per mètode */
 	public List<MethodTag> methodTags;
 
-	public BeanTag(final String id, final String className, final String singleton) {
+	public BeanTag(final String id, final String className, final String singleton) throws GambaConfigurationException {
 		super();
 		this.id = id;
 		this.className = className;
@@ -46,8 +46,10 @@ public class BeanTag {
 	 *
 	 * @param attrName nom d'atrinut a mostrar
 	 * @param attrValue valor a testar
+	 * @throws GambaConfigurationException
 	 */
-	public static void checkIfInvalidAttrThrowing(final String attrName, final String attrValue) {
+	public static void checkIfInvalidAttrThrowing(final String attrName, final String attrValue)
+			throws GambaConfigurationException {
 		if (attrValue == null) {
 			throw new GambaConfigurationException("'" + attrName + "' atribute is required, but not specified");
 		}

@@ -1,7 +1,6 @@
 package org.homs.gamba.container.xmlparser.ents;
 
 import org.homs.gamba.container.exception.GambaConfigurationException;
-import org.homs.gamba.container.exception.GambaException;
 
 /**
  * entitats directament corresponents amb el document XML, les propietats són
@@ -21,7 +20,7 @@ public class ConstrTag {
 	/** inmediately String constructable class, if value!=null */
 	public String type;
 
-	public ConstrTag(final String ref, final String value, final String type) {
+	public ConstrTag(final String ref, final String value, final String type) throws GambaConfigurationException {
 		super();
 		this.ref = ref;
 		this.value = value;
@@ -38,7 +37,7 @@ public class ConstrTag {
 					throw new GambaConfigurationException("'type' atribute must be null");
 				}
 			}
-		} catch (final GambaException e) {
+		} catch (final GambaConfigurationException e) {
 			throw new GambaConfigurationException("bean definition attributes: ref | (value [type])", e);
 		}
 	}

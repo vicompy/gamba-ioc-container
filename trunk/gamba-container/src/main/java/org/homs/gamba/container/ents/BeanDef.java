@@ -69,4 +69,9 @@ public class BeanDef {
 	// return strb.toString();
 	// }
 
+	@Override
+	public String toString() {
+		return this.beanId;
+	}
+
 }
