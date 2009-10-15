@@ -3,22 +3,30 @@ package org.homs.gamba.container.xmlparser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.homs.gamba.container.exception.GambaConfigurationException;
 import org.homs.gamba.container.xmlparser.ents.BeanTag;
 import org.homs.gamba.container.xmlparser.ents.ConstrTag;
 import org.homs.gamba.container.xmlparser.ents.MethodTag;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class GambaSaxHandler extends DefaultHandler {
-	// TODO
-	// this.error(e)
-	// this.fatalError(e)
 
 	private final List<BeanTag> beanTags;
 
 	public GambaSaxHandler() {
-		super();
 		beanTags = new ArrayList<BeanTag>();
+	}
+
+	@Override
+	public void error(final SAXParseException e) {
+		throw new GambaConfigurationException("error parsing XML context file", e);
+	}
+
+	@Override
+	public void fatalError(final SAXParseException e) {
+		throw new GambaConfigurationException("error parsing XML context file", e);
 	}
 
 	// @Override
