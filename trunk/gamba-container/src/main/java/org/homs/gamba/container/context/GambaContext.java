@@ -131,9 +131,9 @@ public class GambaContext {
 		for (int i = 0; i < nArgs; i++) {
 			final InjectableElement injElem = beanDef.constructorInj.injElems[i];
 			if (injElem.eInjType == EInjType.STRING_VALUE) {
-				// l'argument és un String
-				// parameterValues[i] = injElem.stringValue;
+				// valor directe
 				if (injElem.type == null) {
+					// el valor és un String directe
 					parameterValues[i] = injElem.stringValue;
 				} else {
 					parameterValues[i] = injElem.typeInstance;
@@ -174,12 +174,16 @@ public class GambaContext {
 
 			Object refBean = null;
 			if (methodInj.injElem.eInjType == EInjType.STRING_VALUE) {
+				// valor directe
 				if (methodInj.injElem.type == null) {
+					// el valor és un String directe
 					refBean = methodInj.injElem.stringValue;
 				} else {
+					// el valor és un singleton construit per String
 					refBean = methodInj.injElem.typeInstance;
 				}
 			} else {
+				// el valor és la referència a un altre bean definit
 				refBean = obtainBean(methodInj.injElem.beanRef);
 			}
 
@@ -194,6 +198,7 @@ public class GambaContext {
 
 	}
 
+	// TODO implementar toString tb en entitats, pq mostrin la definició en XML
 	// /**
 	// * retorna una representació en <tt>java.lang.String</tt> de l'estat
 	// * d'aquest objecte.

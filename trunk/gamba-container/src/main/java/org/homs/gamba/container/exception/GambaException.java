@@ -28,6 +28,8 @@ public class GambaException extends RuntimeException {
 
 	private static final long serialVersionUID = -7710568077775524520L;
 
+	// TODO implementar toString tb en entitats, pq mostrin la definició en XML
+
 	public GambaException(final String message, final BeanDef beanDefinition) {
 		super("\n" + message + "\n en definició de bean: " + beanDefinition.toString());
 	}
