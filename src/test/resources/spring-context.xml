@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<bean id="a" class="gamba.container.test.entities.A" scope="prototype">
+		<property name="b" ref="b" />
+	</bean>
+
+	<bean id="b" class="gamba.container.test.entities.B" scope="singleton" />
+
+	<bean id="c" class="gamba.container.test.entities.C" scope="prototype">
+		<constructor-arg ref="a" />
+		<constructor-arg ref="b" />
+	</bean>
+
+</beans>
