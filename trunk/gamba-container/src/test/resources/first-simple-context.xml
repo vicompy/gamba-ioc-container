@@ -22,3 +22,13 @@
 	</bean>
 
 </beans>
+
+
+
+<!--
+Implementació ==> Interfície
+Classe Derivada ==> Classe Base
+Objecte Wrapper primitiu (Integer) ==> tipus primitiu (int)
+
+
+-->
