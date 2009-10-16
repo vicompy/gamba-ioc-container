@@ -1,5 +1,7 @@
 package org.homs.gamba.container.benchmark;
 
+import junit.framework.Assert;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.homs.gamba.container.context.GambaContainer;
@@ -14,22 +16,16 @@ public class MainBenchMarkTest {
 
 	private static final Log LOG = LogFactory.getLog(MainBenchMarkTest.class.getName());
 
-	private static final int GET_BEAN_N_REPS = 50000;
+	private static final int GET_BEAN_N_REPS = 10000;
 
 	private static long springGetBeanTestTime;
 	private static long gambaGetBeanTestTime;
-	private static long hardCodedGetBeanTestTime;
 
 	@AfterClass
 	public static void showStatistics() {
 		LOG.info("Spring getBean benckmark; elapsed time: " + springGetBeanTestTime + " ms.");
 		LOG.info("Gamba getBean benckmark; elapsed time: " + gambaGetBeanTestTime + " ms.");
-//		LOG.info("hard coded getBean benckmark; elapsed time: " + hardCodedGetBeanTestTime + " ms.");
 		LOG.info("Gamba is " + (springGetBeanTestTime / gambaGetBeanTestTime) + " times faster than Spring");
-//		if (hardCodedGetBeanTestTime > 0) {
-//			LOG.info("hard-coded is " + (gambaGetBeanTestTime / hardCodedGetBeanTestTime)
-//					+ " times faster than Gamba");
-//		}
 	}
 
 	@Test
@@ -44,18 +40,23 @@ public class MainBenchMarkTest {
 		}
 		springGetBeanTestTime = System.currentTimeMillis() - t1;
 
-//		Assert.assertEquals("hi", c.getA().getB().getMsg());
-//		Assert.assertEquals("hi", c.getB().getMsg());
+		Assert.assertEquals("m. homs", c.getA().getName());
+		Assert.assertEquals(Integer.valueOf(27), c.getA().getAge());
 
+		Assert.assertEquals("m. homs", c.getB().getA().getName());
+		Assert.assertEquals(Integer.valueOf(27), c.getB().getA().getAge());
+
+		Assert.assertEquals("m. santos", c.getName());
+		Assert.assertEquals(Integer.valueOf(25), c.getAge());
+
+		// singleton test
+		Assert.assertTrue(c.getA() == c.getB().getA());
 	}
 
 	@Test
 	public void gambaBenchMarkTest() {
 
 		final GambaContext context = GambaContainer.getContext("benchmark-gamba-context.xml");
-
-		System.out.println(GambaContainer.toStringStatic());
-
 
 		C c = null;
 		final long t1 = System.currentTimeMillis();
@@ -64,43 +65,18 @@ public class MainBenchMarkTest {
 		}
 		gambaGetBeanTestTime = System.currentTimeMillis() - t1;
 
-//		Assert.assertEquals("hi", c.getA().getB().getMsg());
-//		Assert.assertEquals("hi", c.getB().getMsg());
-	}
+		Assert.assertEquals("m. homs", c.getA().getName());
+		Assert.assertEquals(Integer.valueOf(27), c.getA().getAge());
 
-//	@Test
-//	public void hardCodedBenchMarkTest() {
-//
-//		final HardCodedContext hcc = new HardCodedContext();
-//
-//		C c = null;
-//		final long t1 = System.currentTimeMillis();
-//		for (int i = 0; i < GET_BEAN_N_REPS; i++) {
-//			c = hcc.buildC();
-//		}
-//		hardCodedGetBeanTestTime = System.currentTimeMillis() - t1;
-//
-////		Assert.assertEquals("hi", c.getA().getB().getMsg());
-////		Assert.assertEquals("hi", c.getB().getMsg());
-//	}
+		Assert.assertEquals("m. homs", c.getB().getA().getName());
+		Assert.assertEquals(Integer.valueOf(27), c.getB().getA().getAge());
+
+		Assert.assertEquals("m. santos", c.getName());
+		Assert.assertEquals(Integer.valueOf(25), c.getAge());
+
+		// singleton test
+		Assert.assertTrue(c.getA() == c.getB().getA());
+	}
 
 }
 
-//class HardCodedContext {
-//
-//	private static B b = new B();
-//
-//	public B buildB() {
-//		return b;
-//	}
-//
-//	public A buildA() {
-//		final A a = new A();
-//		a.setB(buildB());
-//		return a;
-//	}
-//
-//	public C buildC() {
-//		return new C(buildA(), buildB());
-//	}
-//}
