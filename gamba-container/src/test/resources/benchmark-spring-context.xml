@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="a" class="org.homs.gamba.container.test.ents.A" scope="singleton">
+		<property name="name" value="m. homs" />
+		<property name="age" value="27" />
+	</bean>
+
+	<bean id="b" class="org.homs.gamba.container.test.ents.B" scope="prototype">
+		<property name="a" ref="a" />
+		<property name="persons" value="2" />
+	</bean>
+
+	<bean id="c" class="org.homs.gamba.container.test.ents.C" scope="prototype">
+		<constructor-arg ref="a" index="0"/>
+		<constructor-arg ref="b" index="1"/>
+		<constructor-arg value="m. santos" index="2"/>
+		<constructor-arg value="25" index="3"/>
+		<constructor-arg value="2" index="4"/>
+	</bean>
+
+</beans>
+
