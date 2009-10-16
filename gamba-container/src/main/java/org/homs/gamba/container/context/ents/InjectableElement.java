@@ -1,4 +1,4 @@
-package org.homs.gamba.container.ents;
+package org.homs.gamba.container.context.ents;
 
 import org.homs.gamba.container.exception.GambaException;
 
@@ -13,6 +13,7 @@ public class InjectableElement {
 	public final String stringValue;
 	public final Class<?> type;
 
+	// TODO documentar
 	public Object typeInstance; // holds new type(stringValue)
 
 	/**

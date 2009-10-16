@@ -16,7 +16,7 @@
  */
 package org.homs.gamba.container.exception;
 
-import org.homs.gamba.container.ents.BeanDef;
+import org.homs.gamba.container.context.ents.BeanDef;
 
 /**
  * An exception type for <tt>Gamba IoC Container</tt>
@@ -38,4 +38,11 @@ public class GambaException extends RuntimeException {
 		super("\n" + message + "\n en definició de bean: " + beanDefinition.toString(), nestedException);
 	}
 
+	public GambaException(final String message) {
+		super("\n" + message);
+	}
+
+	public GambaException(final String message, final Exception nestedException) {
+		super("\n" + message, nestedException);
+	}
 }

@@ -3,7 +3,7 @@ package org.homs.gamba.container.xmlparser;
 import java.io.IOException;
 import java.util.List;
 
-import org.homs.gamba.container.exception.GambaConfigurationException;
+import org.homs.gamba.container.exception.GambaException;
 import org.homs.gamba.container.xmlparser.ents.BeanTag;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -14,7 +14,7 @@ public class GambaSaxParser {
 
 	private final GambaSaxHandler handler;
 
-	public GambaSaxParser(final String propertiesFileName) throws GambaConfigurationException {
+	public GambaSaxParser(final String propertiesFileName) throws GambaException {
 
 		final InputSource is = new InputSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(
 				propertiesFileName));
@@ -27,9 +27,9 @@ public class GambaSaxParser {
 			xmlReader.setErrorHandler(this.handler);
 			xmlReader.parse(is);
 		} catch (final SAXException e) {
-			throw new GambaConfigurationException("error obtaining XMLReader from XMLReaderFactory", e);
+			throw new GambaException("error obtaining XMLReader from XMLReaderFactory", e);
 		} catch (final IOException e) {
-			throw new GambaConfigurationException("could not open from classpath: " + propertiesFileName, e);
+			throw new GambaException("could not open from classpath: " + propertiesFileName, e);
 		}
 
 	}
