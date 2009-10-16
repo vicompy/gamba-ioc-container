@@ -4,21 +4,14 @@ import java.awt.Frame;
 
 public class CFrame extends Frame {
 
-	private static final long serialVersionUID = -1937619773722671380L;
+	private static final long serialVersionUID = -5038630318724347602L;
 
-	private final CTextArea textArea;
-
-	public CFrame(final CTextArea textArea) {
+	public CFrame() {
 		super();
-		this.textArea = textArea;
-		this.add(textArea);
-		this.setTitle("getl");
-		this.setLocation(200, 200);
-		this.setSize(600, 300);
 	}
 
 	public void addTextLine(final String s) {
-		this.textArea.addTextLine(s);
+		((CTextArea) this.getComponent(0)).addTextLine(s);
 	}
 
 }

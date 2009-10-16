@@ -19,10 +19,25 @@
 		<method name="setBerbisProps" ref="berbis-props" />
 	</bean>
 
+	<bean id="frame-location" class="java.awt.Point">
+		<constr-arg value="200" type="java.lang.Integer" />
+		<constr-arg value="200" type="java.lang.Integer" />
+	</bean>
+	<bean id="frame-dimension" class="java.awt.Dimension">
+		<constr-arg value="600" type="java.lang.Integer" />
+		<constr-arg value="300" type="java.lang.Integer" />
+	</bean>
+
 	<!-- Frame -->
 	<bean id="frame" class="org.berbis.gretl.ui.CFrame">
-		<constr-arg name="setTextArea" ref="text-area" />
+		<method name="add" ref="text-area" />
 		<method name="addWindowListener" ref="controller" />
+		<method name="setTitle" value="GROMENAUER" />
+		<method name="setLocation" ref="frame-location" />
+		<method name="setSize" ref="frame-dimension" />
 	</bean>
+	
+
+
 
 </beans>
