@@ -40,12 +40,13 @@ class ContextProcessor {
 	/**
 	 * realitza la conversió d'entitats, i tota la feina de preprocessat.
 	 *
-	 * @return
-	 * @throws GambaException
+	 * @return un map d'entitats convertides i processsades
+	 * @throws GambaException si apareix un identificador de bean duplicat
 	 */
 	public Map<String, BeanDef> translate() throws GambaException {
 		for (final BeanTag b : beanDefs) {
 			final BeanDef bd = translateBean(b);
+			// si el bean ja està registrat, error de duplicat
 			if (beanHash.get(bd.beanId) != null) {
 				throw new GambaException("duplicated bean identifier: " + bd.beanId);
 			}
@@ -89,7 +90,6 @@ class ContextProcessor {
 		for (int i = 0; i < ms.size(); i++) {
 			r[i] = parseMethod(ms.get(i), beanClass);
 		}
-
 		return r;
 	}
 
@@ -109,6 +109,7 @@ class ContextProcessor {
 		}
 
 		if (method == null) {
+			// TODO oferir alternatives, ja sigui per similaritat de nom, o de tipus d'arguments
 			final StringBuffer strb = new StringBuffer("method not found: ");
 			strb.append(beanClass.getName());
 			strb.append('.');
@@ -190,6 +191,7 @@ class ContextProcessor {
 		}
 
 		if (!founded) {
+			// TODO oferir alternatives, ja sigui per similaritat de nom, o de tipus d'arguments
 			final StringBuffer strb = new StringBuffer("constructor not found: ");
 			strb.append(targetClass);
 			strb.append('(');

@@ -64,11 +64,6 @@ public class GambaContext {
 	 */
 	private Object obtainBean(final BeanDef beanDef) throws GambaException {
 
-		// el bean demanat és singleton, i ja està construit
-		if (beanDef.isSingleton && beanDef.getSingletonInstance() != null) {
-			return beanDef.getSingletonInstance();
-		}
-
 		final Object beanInstance = getBeanInstance(beanDef);
 		dependencyInjection(beanDef, beanInstance);
 
@@ -77,7 +72,8 @@ public class GambaContext {
 
 	/**
 	 * construeix un bean, ja sigui per construcció per defecte, com per
-	 * injecció.
+	 * injecció. Maneja el tema de si el bean és un singleton, només es
+	 * construeix una sola vegada i sempre es retorna el mateix.
 	 *
 	 * @param beanDef la definició de bean demanada
 	 * @return la instpància de bean demanat, faltant la injecció de
@@ -88,6 +84,12 @@ public class GambaContext {
 
 		Object beanInstance = null;
 
+		// el bean demanat és singleton, i ja està construit; el retorna doncs
+		if (beanDef.isSingleton && beanDef.getSingletonInstance() != null) {
+			return beanDef.getSingletonInstance();
+		}
+
+		// construeix el bean
 		if (beanDef.constructorInj == null) {
 			// construcció per defecte
 			try {

@@ -13,6 +13,7 @@ public class BeanDef {
 	public final ConstructorInj constructorInj;
 	public final MethodInj[] methodInj;
 
+	// TODO documentar
 	private Object singletonInstance = null;
 
 	/**
