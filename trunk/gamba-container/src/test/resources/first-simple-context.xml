@@ -26,9 +26,9 @@
 
 
 <!--
-Implementació ==> Interfície
-Classe Derivada ==> Classe Base
-Objecte Wrapper primitiu (Integer) ==> tipus primitiu (int)
 
+	Implementació ==> Interfície
+	Classe Derivada ==> Classe Base
+	Objecte Wrapper primitiu (Integer) ==> tipus primitiu (int)
 
 -->
