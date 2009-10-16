@@ -1,4 +1,4 @@
-package org.homs.gamba.container.processor;
+package org.homs.gamba.container.context;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -6,30 +6,48 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.homs.gamba.container.ents.BeanDef;
-import org.homs.gamba.container.ents.ConstructorInj;
-import org.homs.gamba.container.ents.InjectableElement;
-import org.homs.gamba.container.ents.MethodInj;
-import org.homs.gamba.container.exception.GambaConfigurationException;
+import org.homs.gamba.container.context.ents.BeanDef;
+import org.homs.gamba.container.context.ents.ConstructorInj;
+import org.homs.gamba.container.context.ents.InjectableElement;
+import org.homs.gamba.container.context.ents.MethodInj;
+import org.homs.gamba.container.exception.GambaException;
 import org.homs.gamba.container.xmlparser.ents.BeanTag;
 import org.homs.gamba.container.xmlparser.ents.ConstrTag;
 import org.homs.gamba.container.xmlparser.ents.MethodTag;
 
-public class ContextProcessor {
+/**
+ * Converteix les entitats <tt>org.homs.gamba.container.xmlparser.ents</tt> a
+ * <tt>org.homs.gamba.container.context.ents</tt>; implica un preprocessat de
+ * tasques reflectives que es poden precalcular quan s'inicia un context, i així
+ * estalviar feina.
+ *
+ * @author mhoms
+ */
+class ContextProcessor {
 
 	private final List<BeanTag> beanDefs;
 	private final Map<String, BeanDef> beanHash;
 
+	/**
+	 * @param beanDefs llista d'entitats de definició de beans, provinent de
+	 *        l'etapa de parsing d'XML
+	 */
 	public ContextProcessor(final List<BeanTag> beanDefs) {
 		this.beanHash = new HashMap<String, BeanDef>();
 		this.beanDefs = beanDefs;
 	}
 
-	public Map<String, BeanDef> translate() throws GambaConfigurationException {
+	/**
+	 * realitza la conversió d'entitats, i tota la feina de preprocessat.
+	 *
+	 * @return
+	 * @throws GambaException
+	 */
+	public Map<String, BeanDef> translate() throws GambaException {
 		for (final BeanTag b : beanDefs) {
 			final BeanDef bd = translateBean(b);
 			if (beanHash.get(bd.beanId) != null) {
-				throw new GambaConfigurationException("duplicated bean identifier: " + bd.beanId);
+				throw new GambaException("duplicated bean identifier: " + bd.beanId);
 			}
 			beanHash.put(bd.beanId, bd);
 		}
@@ -42,7 +60,7 @@ public class ContextProcessor {
 		try {
 			beanClass = Class.forName(beanClassName);
 		} catch (final ClassNotFoundException e) {
-			throw new GambaConfigurationException("class not found: " + beanClassName, e);
+			throw new GambaException("class not found: " + beanClassName, e);
 		}
 
 		final boolean singleton = b.singleton != null && "true".equals(b.singleton.toLowerCase());
@@ -98,7 +116,7 @@ public class ContextProcessor {
 			strb.append('(');
 			strb.append(methodArgClass);
 			strb.append(')');
-			throw new GambaConfigurationException(strb.toString());
+			throw new GambaException(strb.toString());
 		}
 
 		return new MethodInj(method, parseInjElem(methodTag));
@@ -110,7 +128,7 @@ public class ContextProcessor {
 			// la dependència és una referència a un altre bean definit
 			final BeanDef refBeanDef = this.beanHash.get(m.ref);
 			if (refBeanDef == null) {
-				throw new GambaConfigurationException("referenced bean not defined: " + m.ref);
+				throw new GambaException("referenced bean not defined: " + m.ref);
 			}
 			return new InjectableElement(refBeanDef);
 		} else {
@@ -121,7 +139,7 @@ public class ContextProcessor {
 				try {
 					typeClass = Class.forName(m.type);
 				} catch (final ClassNotFoundException e) {
-					throw new GambaConfigurationException("dependency class not found: " + m.type, e);
+					throw new GambaException("dependency class not found: " + m.type, e);
 				}
 
 				final Constructor<?> c = findConstructor(typeClass, new Class<?>[] { String.class });
@@ -129,8 +147,7 @@ public class ContextProcessor {
 				try {
 					typeInstance = c.newInstance(m.value);
 				} catch (final Exception e) {
-					throw new GambaConfigurationException("error instantiating dependency: " + m.type + "(\"" + m.value
-							+ "\")", e);
+					throw new GambaException("error instantiating dependency: " + m.type + "(\"" + m.value + "\")", e);
 				}
 				return new InjectableElement(m.value, typeClass, typeInstance);
 			}
@@ -139,7 +156,16 @@ public class ContextProcessor {
 		}
 	}
 
-	private Constructor<?> findConstructor(final Class<?> targetClass, final Class<?>[] classArgsList) {
+	/**
+	 * Cerca el constructor adient, donada la llista dels tipus dels arguments
+	 *
+	 * @param targetClass classe a on buscar el constructor
+	 * @param classArgsList llista de tipus d'arguments de constructor
+	 * @return el constructor;
+	 * @throws GambaException si constructor no trobat
+	 */
+	private Constructor<?> findConstructor(final Class<?> targetClass, final Class<?>[] classArgsList)
+			throws GambaException {
 		final Constructor<?>[] constructors = targetClass.getConstructors();
 
 		Constructor<?> constructor = null;
@@ -172,7 +198,7 @@ public class ContextProcessor {
 				strb.append(", ");
 			}
 			strb.append(')');
-			throw new GambaConfigurationException(strb.toString());
+			throw new GambaException(strb.toString());
 		}
 		return constructor;
 	}

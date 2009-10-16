@@ -3,13 +3,11 @@ package org.homs.gamba.container.context;
 import java.lang.reflect.Constructor;
 import java.util.Map;
 
-import org.homs.gamba.container.ents.BeanDef;
-import org.homs.gamba.container.ents.InjectableElement;
-import org.homs.gamba.container.ents.MethodInj;
-import org.homs.gamba.container.ents.InjectableElement.EInjType;
-import org.homs.gamba.container.exception.GambaConfigurationException;
+import org.homs.gamba.container.context.ents.BeanDef;
+import org.homs.gamba.container.context.ents.InjectableElement;
+import org.homs.gamba.container.context.ents.MethodInj;
+import org.homs.gamba.container.context.ents.InjectableElement.EInjType;
 import org.homs.gamba.container.exception.GambaException;
-import org.homs.gamba.container.processor.ContextProcessor;
 import org.homs.gamba.container.xmlparser.GambaSaxParser;
 
 /**
@@ -34,7 +32,7 @@ public class GambaContext {
 	 * @throws GambaException si surt algun error de parsing
 	 * @throws GambaConfigurationException
 	 */
-	public GambaContext(final String xmlFileName) throws GambaConfigurationException {
+	public GambaContext(final String xmlFileName) throws GambaException {
 		final GambaSaxParser sp = new GambaSaxParser(xmlFileName);
 		this.hashBeanDefs = new ContextProcessor(sp.getDefs()).translate();
 	}
@@ -47,10 +45,10 @@ public class GambaContext {
 	 * @return the requested object instance
 	 * @throws GambaException si l'identificador del bean no es troba en hash
 	 */
-	public Object getBean(final String beanId) throws GambaConfigurationException {
+	public Object getBean(final String beanId) throws GambaException {
 		final BeanDef beanDef = hashBeanDefs.get(beanId);
 		if (beanDef == null) {
-			throw new GambaConfigurationException("bean identifier not found: " + beanId);
+			throw new GambaException("bean identifier not found: " + beanId);
 		}
 		return obtainBean(beanDef);
 	}

@@ -3,7 +3,7 @@ package org.homs.gamba.container.xmlparser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.container.exception.GambaConfigurationException;
+import org.homs.gamba.container.exception.GambaException;
 import org.homs.gamba.container.xmlparser.ents.BeanTag;
 import org.homs.gamba.container.xmlparser.ents.ConstrTag;
 import org.homs.gamba.container.xmlparser.ents.MethodTag;
@@ -11,7 +11,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class GambaSaxHandler extends DefaultHandler {
+class GambaSaxHandler extends DefaultHandler {
 
 	private final List<BeanTag> beanTags;
 
@@ -22,23 +22,13 @@ public class GambaSaxHandler extends DefaultHandler {
 
 	@Override
 	public void error(final SAXParseException e) {
-		throw new GambaConfigurationException("error parsing XML context file", e);
+		throw new GambaException("error parsing XML context file", e);
 	}
 
 	@Override
 	public void fatalError(final SAXParseException e) {
-		throw new GambaConfigurationException("error parsing XML context file", e);
+		throw new GambaException("error parsing XML context file", e);
 	}
-
-	// @Override
-	// public void startDocument() {
-	// System.out.println("Start document");
-	// }
-	//
-	// @Override
-	// public void endDocument() {
-	// System.out.println("End document");
-	// }
 
 	@Override
 	public void startElement(final String uri, final String name, final String qName, final Attributes atts) {
@@ -58,12 +48,6 @@ public class GambaSaxHandler extends DefaultHandler {
 		}
 
 	}
-
-	// @Override
-	// public void endElement(final String uri, final String name, final String
-	// qName) {
-	// System.out.println("End element:   " + name);
-	// }
 
 	public List<BeanTag> getBeanTags() {
 		return beanTags;

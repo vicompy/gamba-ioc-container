@@ -1,6 +1,6 @@
 package org.homs.gamba.container.xmlparser.ents;
 
-import org.homs.gamba.container.exception.GambaConfigurationException;
+import org.homs.gamba.container.exception.GambaException;
 
 /**
  * entitats directament corresponents amb el document XML, les propietats són
@@ -17,7 +17,7 @@ public class MethodTag extends ConstrTag {
 	public String methodName;
 
 	public MethodTag(final String methodName, final String ref, final String value, final String type)
-			throws GambaConfigurationException {
+			throws GambaException {
 		super(ref, value, type);
 		this.methodName = methodName;
 

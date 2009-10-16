@@ -1,4 +1,4 @@
-package org.homs.gamba.container.ents;
+package org.homs.gamba.container.context.ents;
 
 /**
  * codifica la totalitat de la definició d'un bean
@@ -16,8 +16,7 @@ public class BeanDef {
 	private Object singletonInstance = null;
 
 	/**
-	 * @param beanId si <tt>null</tt> és que és una definició anònima, i
-	 *        s'assigna a <tt>"inner-anonymous"</tt>.
+	 * @param beanId identificador del bean
 	 * @param isSingleton indica si aquest objecte s'ha d'instanciar de forma
 	 *        única
 	 * @param beanClass Class resolta del bean

@@ -3,7 +3,7 @@ package org.homs.gamba.container.xmlparser.ents;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.container.exception.GambaConfigurationException;
+import org.homs.gamba.container.exception.GambaException;
 
 /**
  * entitats directament corresponents amb el document XML, les propietats són
@@ -26,7 +26,7 @@ public class BeanTag {
 	/** injeccions per mètode */
 	public List<MethodTag> methodTags;
 
-	public BeanTag(final String id, final String className, final String singleton) throws GambaConfigurationException {
+	public BeanTag(final String id, final String className, final String singleton) throws GambaException {
 		super();
 		this.id = id;
 		this.className = className;
@@ -37,7 +37,7 @@ public class BeanTag {
 		checkIfInvalidAttrThrowing("id", id);
 		checkIfInvalidAttrThrowing("class", className);
 		if (singleton != null && !"true".equals(singleton.toLowerCase()) && !"false".equals(singleton.toLowerCase())) {
-			throw new GambaConfigurationException("'singleton' attribute must be 'true' or 'false', if specified");
+			throw new GambaException("'singleton' attribute must be 'true' or 'false', if specified");
 		}
 	}
 
@@ -48,10 +48,9 @@ public class BeanTag {
 	 * @param attrValue valor a testar
 	 * @throws GambaConfigurationException
 	 */
-	public static void checkIfInvalidAttrThrowing(final String attrName, final String attrValue)
-			throws GambaConfigurationException {
+	public static void checkIfInvalidAttrThrowing(final String attrName, final String attrValue) throws GambaException {
 		if (attrValue == null) {
-			throw new GambaConfigurationException("'" + attrName + "' atribute is required, but not specified");
+			throw new GambaException("'" + attrName + "' atribute is required, but not specified");
 		}
 	}
 
