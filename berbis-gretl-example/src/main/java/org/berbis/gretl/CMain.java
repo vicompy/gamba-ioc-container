@@ -9,6 +9,7 @@ public class CMain {
 
 		final CFrame f = (CFrame) GambaContainer.getContext("gretl-context.xml").getBean("frame");
 		f.setVisible(true);
+		f.run();
 
 	}
 

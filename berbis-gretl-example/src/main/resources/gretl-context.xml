@@ -13,12 +13,16 @@
 	<bean id="downloader" class="org.berbis.gretl.Downloader" />
 	<bean id="text-area" class="org.berbis.gretl.ui.CTextArea" />
 
-	<!-- Controller -->
-	<bean id="controller" class="org.berbis.gretl.ui.Controller" singleton="true">
+	<!--  lògica -->
+	<bean id="logic-thread" class="org.berbis.gretl.ui.LogicThread">
 		<method name="setDownloader" ref="downloader" />
 		<method name="setBerbisProps" ref="berbis-props" />
 	</bean>
 
+	<!-- Controller -->
+	<bean id="controller" class="org.berbis.gretl.ui.Controller" singleton="true" />
+
+	<!-- Frame -->
 	<bean id="frame-location" class="java.awt.Point">
 		<constr-arg value="200" type="java.lang.Integer" />
 		<constr-arg value="200" type="java.lang.Integer" />
@@ -27,9 +31,8 @@
 		<constr-arg value="600" type="java.lang.Integer" />
 		<constr-arg value="300" type="java.lang.Integer" />
 	</bean>
-
-	<!-- Frame -->
 	<bean id="frame" class="org.berbis.gretl.ui.CFrame">
+		<constr-arg ref="logic-thread" />
 		<method name="add" ref="text-area" />
 		<method name="addWindowListener" ref="controller" />
 		<method name="setTitle" value="GROMENAUER" />
