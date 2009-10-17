@@ -1,0 +1,247 @@
+#summary Gamba Container Usage Manual
+
+
+<wiki:toc max_depth="3" />
+
+
+
+= Introduction =
+
+Gamba Container is an ultra-lightweight IoC Container that brings you the benefits of Dependency-Injection and Inversion of Control patterns for your Java applications, with a non-intrusive API that sizes around 20Kb. This article will introduce you to the usage of this container, with a lot of friendly examples.
+
+Gamba Container helps you to design better software, decoupling it in a reusable components.
+
+
+== Why Gamba? ==
+
+_Gamba_ means shrimp in spanish, and almost all classes are so called Gamba, in order to prevent naming confusions with other APIs or system classes.
+
+
+== How Gamba Works ==
+
+`Gamba Container` is an IoC container, that provides a consistent way to configure and manage Java objects, 
+and to wire her dependant instances. These Java objects will be called as Beans in this tutorial, only for 
+historical motives, although they can be complex objects, not limited to Java-Bean properly conventions.
+
+Beans and his dependencies are declared by loading an XML file (called context file), that contains 
+the suitable definitions.
+
+Objects can be obtained by means of container asking for an object with a specific identifier. The 
+declared dependencies are also injected as defined, recursively.
+Declarations are focused in a single file per context, allowing to use multiple if required.
+
+
+== Why use Gamba instead of another IoC container, such as Spring? ==
+
+First of all, Spring IoC Container is intended to work for a big, enterprise web applications, 
+offering features like automatic dynamic proxies, web-oriented scopes, etc. And what happens with
+a little J2SE applications? You really think that Spring is adequate? I think that not. For this
+purpose I develop this little IoC container, keeping it simple, small, and reliable. 
+
+While Spring IoC Container Jar library sizes 900Kb, Gamba just still around 23Kb, and my benchmark
+tests confirms that runs very faster than the Spring one.
+
+<b>This makes Gamba ideal for a J2SE/J2ME applications</b>.
+
+
+
+== Gamba Container Works Following The XML-Based Recipe ==
+
+
+Here an example of a XML Gamba configuration file:
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE note SYSTEM "gamba-container.dtd">
+
+<beans>
+
+	<!-- objecte lector de propietats -->
+	<bean id="props" class="org.berbis.gretl.Props" />
+	<bean id="berbis-props" class="org.berbis.gretl.BerbisProps">
+		<constr-arg ref="props" />
+	</bean>
+	
+	<!--  lògica -->
+	<bean id="downloader" class="org.berbis.gretl.Downloader" />
+	<bean id="text-area" class="org.berbis.gretl.ui.CTextArea" />
+	<bean id="logic-thread" class="org.berbis.gretl.ui.LogicThread">
+		<method name="setDownloader" ref="downloader" />
+		<method name="setBerbisProps" ref="berbis-props" />
+	</bean>
+
+	<!-- Controller -->
+	<bean id="controller" class="org.berbis.gretl.ui.Controller" singleton="true" />
+
+	<!-- Frame -->
+	<bean id="frame-location" class="java.awt.Point">
+		<constr-arg value="200" type="java.lang.Integer" />
+		<constr-arg value="200" type="java.lang.Integer" />
+	</bean>
+	<bean id="frame-dimension" class="java.awt.Dimension">
+		<constr-arg value="600" type="java.lang.Integer" />
+		<constr-arg value="300" type="java.lang.Integer" />
+	</bean>
+	<bean id="frame" class="org.berbis.gretl.ui.CFrame">
+		<constr-arg ref="logic-thread" />
+		<method name="add" ref="text-area" />
+		<method name="addWindowListener" ref="controller" />
+		<method name="setTitle" value="GROMENAUER" />
+		<method name="setLocation" ref="frame-location" />
+		<method name="setSize" ref="frame-dimension" />
+	</bean>
+	
+</beans>
+}}}
+
+
+
+
+
+
+
+
+
+= Usage Manual =
+
+
+== Using The Container As a Factory, And No More "`new`" Statements! ==
+
+In this first example we learn how to obtain class instances from a Gamba Container, and how it 
+decouples your component implementation from each others.
+
+Everybody knows that hardcoding is a bad practice... but whenever you place a `new` statement in your 
+code, you are really taking a concrete class implementation in a hardcoded way! For example, supposing 
+that you wants for a `java.util.List` implementation instance, and you choose a `java.util.ArrayList`:
+
+{{{
+	List<Integer> list = (List<Integer>) new ArrayList();
+}}}
+
+Well, but if you want to choose another implementation for a `List`, you will have to change all your 
+classes that `new`s it. Lechuga solves this problem, since the concrete implementation class is 
+uniquely declared in a context file as is:
+
+{{{
+	<bean id="myList" class="java.util.ArrayList" />
+}}}
+	
+
+After declaring the class implementation, you can obtain an instance of this, calling the 
+Gamba Container:
+
+	
+{{{
+	GambaContext gc = GambaContainer.getContext("tips-context.xml");
+	List<Integer> myList = (List<Integer>) gc.getBean("myList");
+
+	Assert.assertTrue(myList instanceof List);
+}}}
+	
+
+Now, if you want to choose another implementation for a `List` (i.e. `LinkedList`), you only must have 
+to change the class specified in a context file, and all your classes that instantiates it will obtain 
+the new implementation:
+
+{{{
+	<bean id="myList" class="java.util.LinkedList" />
+}}}
+	
+
+
+
+
+
+
+== Dependency Injection ==
+
+Dependency Injection means to inject recursively into your requested bean instance his declared dependencies.
+This feature allows you to obtain a desired bean instance (obtained by a Factory, in fact), fully configured 
+and ready to use, altought his object-dependencies are being injected.
+
+
+=== Setter Injection ===
+
+For example, suppose that you have in hands:
+
+{{{	
+	<bean id="a-setter" class="org.homs.gamba.container.test.ents.A" />
+	
+	<bean id="b-setter" class="org.homs.gamba.container.test.ents.B">
+		<method name="setA" ref="a-setter" />
+	</bean>
+}}}	
+	
+In the above example, a "<tt>b</tt>" instance are being injected to an "<tt>a</tt>" instance using setter injection. 
+
+When you asks the container for an "<tt>a</tt>" instance, the container works for you and performs reflect operations 
+to do the same as the following piece of code:
+
+	
+{{{	
+	A a = new A();
+	B b = new B();
+	a.setB(b);
+	return a;
+}}}	
+	
+	
+
+=== Constructor Injection ===
+
+A constructor injection is another kind of injection. For example the definition:
+
+	
+{{{	
+	<bean id="a-constr" class="org.homs.gamba.container.test.ents.A" />
+	
+	<bean id="b-constr" class="org.homs.gamba.container.test.ents.B">
+		<constr-arg ref="a-constr" />
+	</bean>
+}}}	
+	
+
+will cause that when a "<tt>b</tt>" instance is requested, container performs:
+
+{{{	
+	A a = new A();
+	B b = new B(a);
+	return b;
+}}}	
+
+
+
+
+
+
+<wiki:comment>
+======================================================================================
+
+
+
+
+
+== Character "~" Means Singleton ==
+
+Note that the following declaration
+
+{{{
+		b = ~gamba.container.test.entities.B;
+}}}
+
+defines the bean identified by "b" as a Singleton object; that is, for every "b" instance that you 
+asks, the container will return the same instance.
+
+
+======================================================================================
+</wiki:comment>
+
+
+== Gamba Container Don't Works Lazily, just Eagerly ==
+
+
+In order to prevent unexpected exception throwing at run-time, all bean definitions are parsed and loaded
+in context loading-time (that is, when you calls `GambaContainer.getContext(...)`), performing a check 
+of all defined beans, thinking about her future life-cycle.
+
+

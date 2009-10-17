@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE note SYSTEM "gamba-container.dtd">
+
+<beans>
+
+	<!-- tip 1 -->
+	<bean id="myList" class="java.util.ArrayList" />
+
+	<!-- tip 2 -->
+	<bean id="a-setter" class="org.homs.gamba.container.test.ents.A" />
+	
+	<bean id="b-setter" class="org.homs.gamba.container.test.ents.B">
+		<method name="setA" ref="a-setter" />
+	</bean>
+	
+	<!-- tip 3 -->
+	<bean id="a-constr" class="org.homs.gamba.container.test.ents.A" />
+	
+	<bean id="b-constr" class="org.homs.gamba.container.test.ents.B">
+		<constr-arg ref="a-constr" />
+	</bean>
+	
+
+<!---->
+<!--	<bean id="c" class="org.homs.gamba.container.test.ents.C">-->
+<!--		<constr-arg ref="a" />-->
+<!--		<constr-arg ref="b" />-->
+<!--		<constr-arg value="m. santos" />-->
+<!--		<constr-arg value="25" type="java.lang.Integer" />-->
+<!--		<constr-arg value="2" type="java.lang.Integer" />-->
+<!--	</bean>-->
+
+</beans>

@@ -12,6 +12,12 @@ public class B {
 	public B(final IA a, final int persons) {
 		super();
 		this.a = a;
+		this.persons = persons;
+	}
+
+	public B(final IA a) {
+		super();
+		this.a = a;
 	}
 
 	public IA getA() {
