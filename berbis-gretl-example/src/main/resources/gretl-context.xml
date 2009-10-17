@@ -9,11 +9,9 @@
 		<constr-arg ref="props" />
 	</bean>
 	
-	<!-- dependències de CFrame -->
+	<!--  lògica -->
 	<bean id="downloader" class="org.berbis.gretl.Downloader" />
 	<bean id="text-area" class="org.berbis.gretl.ui.CTextArea" />
-
-	<!--  lògica -->
 	<bean id="logic-thread" class="org.berbis.gretl.ui.LogicThread">
 		<method name="setDownloader" ref="downloader" />
 		<method name="setBerbisProps" ref="berbis-props" />
@@ -39,8 +37,5 @@
 		<method name="setLocation" ref="frame-location" />
 		<method name="setSize" ref="frame-dimension" />
 	</bean>
-	
-
-
 
 </beans>
