@@ -26,23 +26,25 @@ public class ConstructorInj {
 		this.constructor = constructor;
 	}
 
-	// /**
-	// * retorna una representació de l'estat de l'objecte
-	// *
-	// * @see java.lang.Object#toString()
-	// */
-	// @Override
-	// public String toString() {
-	// final StringBuffer strb = new StringBuffer();
-	// strb.append('(');
-	// for (int i = 0; i < injElems.length; i++) {
-	// strb.append(injElems[i].toString());
-	// if (i < injElems.length - 1) {
-	// strb.append(", ");
-	// }
-	// }
-	// strb.append(") ");
-	// return strb.toString();
-	// }
+	 /**
+	 * retorna una representació de l'estat de l'objecte
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+//	// TODO
+//	@Override
+//	public String toString() {
+//		final StringBuffer strb = new StringBuffer();
+//		strb.append("   <constr-arg ");
+//		this.
+//		for (int i = 0; i < injElems.length; i++) {
+//			strb.append(injElems[i].toString());
+//			if (i < injElems.length - 1) {
+//				strb.append(", ");
+//			}
+//		}
+//		strb.append(") ");
+//		return strb.toString();
+//	}
 
 }

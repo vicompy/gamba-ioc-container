@@ -26,7 +26,7 @@ public class MethodInj {
 		this.injElem = injElem;
 	}
 
-	// /**
+	// /** TODO
 	// * retorna una representació de l'estat actual de l'objecte
 	// *
 	// * @see java.lang.Object#toString()

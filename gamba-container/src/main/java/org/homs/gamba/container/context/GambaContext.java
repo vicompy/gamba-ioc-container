@@ -199,19 +199,23 @@ public class GambaContext {
 	}
 
 	// TODO implementar toString tb en entitats, pq mostrin la definició en XML
-	// /**
-	// * retorna una representació en <tt>java.lang.String</tt> de l'estat
-	// * d'aquest objecte.
-	// *
-	// * @see java.lang.Object#toString()
-	// */
-	// @Override
-	// public String toString() {
-	// final StringBuffer strb = new StringBuffer();
-	// for (final String key : hashBeanDefs.keySet()) {
-	// strb.append(hashBeanDefs.get(key).toString());
-	// strb.append('\n');
-	// }
-	// return strb.toString();
-	// }
+	/**
+	 * retorna una representació en <tt>java.lang.String</tt> de l'estat
+	 * d'aquest objecte.
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		final StringBuffer strb = new StringBuffer();
+		for (final String key : hashBeanDefs.keySet()) {
+			strb.append("*************************************************************\n");
+			strb.append("context: ");
+			strb.append(key);
+			strb.append("*************************************************************\n");
+			strb.append(hashBeanDefs.get(key).toString());
+			strb.append('\n');
+		}
+		return strb.toString();
+	}
 }
