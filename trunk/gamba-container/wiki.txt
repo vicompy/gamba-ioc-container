@@ -214,14 +214,12 @@ will cause that when a "<tt>b</tt>" instance is requested, container performs:
 
 
 
+
+== Unique Instances (Singleton) ==
+
 <wiki:comment>
 ======================================================================================
 
-
-
-
-
-== Character "~" Means Singleton ==
 
 Note that the following declaration
 
