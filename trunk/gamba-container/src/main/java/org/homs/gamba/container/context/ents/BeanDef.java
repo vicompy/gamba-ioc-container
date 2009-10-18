@@ -10,6 +10,11 @@ public class BeanDef {
 	public final String beanId;
 	public final boolean isSingleton;
 	public final Class<?> beanClass;
+
+	// TODO
+	// public final ConstructorInj constructorInj;
+	// ha de ser
+	// public final ConstructorInj[] constructorInj;
 	public final ConstructorInj constructorInj;
 	public final MethodInj[] methodInj;
 
@@ -43,35 +48,32 @@ public class BeanDef {
 		this.singletonInstance = singletonInstance;
 	}
 
-	// /**
-	// * retorna la representació de l'estat d'aquest objecte
-	// *
-	// * @see java.lang.Object#toString()
-	// */
-	// @Override
-	// public String toString() {
-	// final StringBuffer strb = new StringBuffer();
-	// strb.append(beanId);
-	// strb.append(" = ");
-	// if (isSingleton) {
-	// strb.append('~');
-	// }
-	// strb.append(beanClass.getName().toString());
-	// if (constructorInj != null) {
-	// strb.append(constructorInj.toString());
-	// }
-	// if (methodInj != null) {
-	// for (int i = 0; i < methodInj.length; i++) {
-	// strb.append(methodInj[i].toString());
-	// }
-	// }
-	// strb.append(';');
-	// return strb.toString();
-	// }
-
+	 /**
+	 * retorna la representació de l'estat d'aquest objecte
+	 *
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		return this.beanId;
+		final StringBuffer strb = new StringBuffer();
+
+		strb.append("<bean id=\"" + this.beanId + "\" class=\"" + this.beanClass.getName() + "\"");
+		if (isSingleton) {
+			strb.append(" singleton=\"true\"");
+		}
+		strb.append(">");
+
+		if (constructorInj != null) {
+			strb.append(constructorInj.toString());
+		}
+		if (methodInj != null) {
+			for (int i = 0; i < methodInj.length; i++) {
+				strb.append(methodInj[i].toString());
+			}
+		}
+
+		strb.append("</bean>");
+		return strb.toString();
 	}
 
 }

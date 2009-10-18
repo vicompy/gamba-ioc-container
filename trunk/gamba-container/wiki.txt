@@ -41,7 +41,7 @@ purpose I develop this little IoC container, keeping it simple, small, and relia
 While Spring IoC Container Jar library sizes 900Kb, Gamba just still around 23Kb, and my benchmark
 tests confirms that runs very faster than the Spring one.
 
-<b>This makes Gamba ideal for a J2SE/J2ME applications</b>.
+<b>This makes Gamba ideal for a J2SE applications</b>.
 
 
 

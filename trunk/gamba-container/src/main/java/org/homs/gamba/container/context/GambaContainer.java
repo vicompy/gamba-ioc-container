@@ -81,7 +81,6 @@ public final class GambaContainer {
 			strb.append('\n');
 		}
 		return strb.toString();
-
 	}
 
 }
