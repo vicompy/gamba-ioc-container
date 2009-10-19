@@ -60,7 +60,9 @@ public class BeanTag {
 	//
 	// strb.append("id=" + id);
 	// strb.append(" class=" + className);
+	// if ("true".equals(singleton.toLowerCase())) {
 	// strb.append(" singleton=" + singleton);
+	// }
 	// strb.append('\n');
 	// for (final ConstrTag c : constrTags) {
 	// strb.append(c.toString());
@@ -72,4 +74,25 @@ public class BeanTag {
 	// return strb.toString();
 	// }
 
+	@Override
+	public String toString() {
+		final StringBuffer strb = new StringBuffer();
+
+		strb.append("<bean id=\"" + this.id + "\" class=\"" + this.className + "\"");
+
+		if ("true".equals(singleton.toLowerCase())) {
+			strb.append(" singleton=\"true\"");
+		}
+		strb.append(">\n");
+
+		for (final ConstrTag c : constrTags) {
+			strb.append(c.toString());
+		}
+		for (final MethodTag m : methodTags) {
+			strb.append(m.toString());
+		}
+
+		strb.append("</bean>\n");
+		return strb.toString();
+	}
 }

@@ -29,7 +29,7 @@ public final class GambaContainer {
 		private static final GambaContainer INSTANCE = new GambaContainer();
 	}
 
-	public static GambaContainer getFactory() {
+	public static GambaContainer getInstance() {
 		return SingletonHolder.INSTANCE;
 	}
 
@@ -60,11 +60,11 @@ public final class GambaContainer {
 	 * @throws GambaException if error ocurred loading the properties file
 	 */
 	public static GambaContext getContext(final String propertiesFilename) throws GambaException {
-		return GambaContainer.getFactory().obtainContext(propertiesFilename);
+		return GambaContainer.getInstance().obtainContext(propertiesFilename);
 	}
 
 	public static String toStringStatic() {
-		return getFactory().toString();
+		return getInstance().toString();
 	}
 
 	/**

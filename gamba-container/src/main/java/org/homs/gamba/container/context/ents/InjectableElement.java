@@ -54,19 +54,19 @@ public class InjectableElement {
 	 *
 	 * @see java.lang.Object#toString()
 	 */
-	@Override
-	public String toString() {
-		final StringBuffer strb = new StringBuffer();
-
-		if (eInjType == EInjType.STRING_VALUE) {
-			strb.append("value=\"" + stringValue + "\"");
-			if (type != null) {
-				strb.append(" type=\"" + type.getName() + "\"");
-			}
-		} else if (eInjType == EInjType.BEANREF) {
-			strb.append("ref=\"" + beanRef.beanId + "\"");
-		}
-		return strb.toString();
-	}
+//	@Override
+//	public String toString() {
+//		final StringBuffer strb = new StringBuffer();
+//
+//		if (eInjType == EInjType.STRING_VALUE) {
+//			strb.append("value=\"" + stringValue + "\"");
+//			if (type != null) {
+//				strb.append(" type=\"" + type.getName() + "\"");
+//			}
+//		} else if (eInjType == EInjType.BEANREF) {
+//			strb.append("ref=\"" + beanRef.beanId + "\"");
+//		}
+//		return strb.toString();
+//	}TODO mostrar en XML!
 
 }
