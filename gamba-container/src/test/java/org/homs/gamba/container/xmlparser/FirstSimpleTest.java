@@ -44,6 +44,8 @@ public class FirstSimpleTest {
 
 		// singleton test
 		Assert.assertTrue(c.getA() == c.getB().getA());
+
+//		System.out.println(new GambaContext("first-simple-context.xml").toString());
 	}
 
 }

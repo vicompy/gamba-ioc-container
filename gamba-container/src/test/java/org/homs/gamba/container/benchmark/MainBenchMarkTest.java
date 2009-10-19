@@ -12,6 +12,11 @@ import org.junit.Test;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+/**
+ * 21-33 vegades més ràpid que Spring
+ *
+ * @author mhoms
+ */
 public class MainBenchMarkTest {
 
 	private static final Log LOG = LogFactory.getLog(MainBenchMarkTest.class.getName());
@@ -30,8 +35,11 @@ public class MainBenchMarkTest {
 
 	@Test
 	public void springBenchMarkTest() {
+		System.gc();
+
 		final ClassPathResource res = new ClassPathResource("benchmark-spring-context.xml");
 		final XmlBeanFactory factory = new XmlBeanFactory(res);
+
 
 		C c = null;
 		final long t1 = System.currentTimeMillis();
@@ -51,10 +59,13 @@ public class MainBenchMarkTest {
 
 		// singleton test
 		Assert.assertTrue(c.getA() == c.getB().getA());
+
+		System.gc();
 	}
 
 	@Test
 	public void gambaBenchMarkTest() {
+		System.gc();
 
 		final GambaContext context = GambaContainer.getContext("benchmark-gamba-context.xml");
 
@@ -76,6 +87,8 @@ public class MainBenchMarkTest {
 
 		// singleton test
 		Assert.assertTrue(c.getA() == c.getB().getA());
+
+		System.gc();
 	}
 
 }

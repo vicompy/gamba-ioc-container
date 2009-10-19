@@ -13,7 +13,10 @@ public class InjectableElement {
 	public final String stringValue;
 	public final Class<?> type;
 
-	// TODO documentar
+	/**
+	 * en cas de definició d'injecció de classse directament construïda per
+	 * string, aquest valor és desat aquí com a singleton.
+	 */
 	public Object typeInstance; // holds new type(stringValue)
 
 	/**
@@ -46,23 +49,24 @@ public class InjectableElement {
 		}
 	}
 
-	// /** TODO
-	// * retorna una representació de l'estat actual de l'objecte
-	// *
-	// * @see java.lang.Object#toString()
-	// */
-	// @Override
-	// public String toString() {
-	// final StringBuffer strb = new StringBuffer();
-	//
-	// if (eInjType == EInjType.STRING_VALUE) {
-	// strb.append("\"" + stringValue + "\"");
-	// } else if (eInjType == EInjType.BEANREF) {
-	// strb.append(beanRef.toString());
-	// } else {
-	// strb.append("{ " + beanRef.toString() + " }");
-	// }
-	// return strb.toString();
-	// }
+	/**
+	 * retorna una representació de l'estat actual de l'objecte
+	 *
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		final StringBuffer strb = new StringBuffer();
+
+		if (eInjType == EInjType.STRING_VALUE) {
+			strb.append("value=\"" + stringValue + "\"");
+			if (type != null) {
+				strb.append(" type=\"" + type.getName() + "\"");
+			}
+		} else if (eInjType == EInjType.BEANREF) {
+			strb.append("ref=\"" + beanRef.beanId + "\"");
+		}
+		return strb.toString();
+	}
 
 }

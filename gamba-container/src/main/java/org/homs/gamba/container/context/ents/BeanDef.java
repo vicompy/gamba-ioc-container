@@ -11,14 +11,13 @@ public class BeanDef {
 	public final boolean isSingleton;
 	public final Class<?> beanClass;
 
-	// TODO
-	// public final ConstructorInj constructorInj;
-	// ha de ser
-	// public final ConstructorInj[] constructorInj;
 	public final ConstructorInj constructorInj;
 	public final MethodInj[] methodInj;
 
-	// TODO documentar
+	/**
+	 * si el bean és singleton, aquí se'n desa la seva única instància; per a
+	 * cada petició es retornarà la mateixa
+	 */
 	private Object singletonInstance = null;
 
 	/**
@@ -48,7 +47,7 @@ public class BeanDef {
 		this.singletonInstance = singletonInstance;
 	}
 
-	 /**
+	/**
 	 * retorna la representació de l'estat d'aquest objecte
 	 *
 	 * @see java.lang.Object#toString()
@@ -61,7 +60,7 @@ public class BeanDef {
 		if (isSingleton) {
 			strb.append(" singleton=\"true\"");
 		}
-		strb.append(">");
+		strb.append(">\n");
 
 		if (constructorInj != null) {
 			strb.append(constructorInj.toString());
@@ -72,7 +71,7 @@ public class BeanDef {
 			}
 		}
 
-		strb.append("</bean>");
+		strb.append("</bean>\n");
 		return strb.toString();
 	}
 
