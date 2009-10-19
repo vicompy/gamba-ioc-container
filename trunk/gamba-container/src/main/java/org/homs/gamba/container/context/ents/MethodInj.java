@@ -26,14 +26,14 @@ public class MethodInj {
 		this.injElem = injElem;
 	}
 
-	/**
-	 * retorna una representació de l'estat actual de l'objecte
-	 *
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "   <method name=\"" + method.getName() + "\" " + injElem.toString() + " />\n";
-	}
+//	/**
+//	 * retorna una representació de l'estat actual de l'objecte
+//	 *
+//	 * @see java.lang.Object#toString()
+//	 */
+//	@Override
+//	public String toString() {
+//		return "   <method name=\"" + method.getName() + "\" " + injElem.toString() + " />\n";
+//	}TODO mostrar en XML!
 
 }
