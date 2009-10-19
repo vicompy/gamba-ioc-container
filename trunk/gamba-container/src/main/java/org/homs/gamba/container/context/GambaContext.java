@@ -50,7 +50,11 @@ public class GambaContext {
 		if (beanDef == null) {
 			throw new GambaException("bean identifier not found: " + beanId);
 		}
-		return obtainBean(beanDef);
+		try {
+			return obtainBean(beanDef);
+		} catch (final GambaException e) {
+			throw new GambaException("error instancing bean", beanDef, e);
+		}
 	}
 
 	/**
@@ -198,7 +202,6 @@ public class GambaContext {
 		return refBean;
 	}
 
-	// TODO implementar toString tb en entitats, pq mostrin la definició en XML
 	/**
 	 * retorna una representació en <tt>java.lang.String</tt> de l'estat
 	 * d'aquest objecte.
@@ -209,12 +212,7 @@ public class GambaContext {
 	public String toString() {
 		final StringBuffer strb = new StringBuffer();
 		for (final String key : hashBeanDefs.keySet()) {
-			strb.append("*************************************************************\n");
-			strb.append("context: ");
-			strb.append(key);
-			strb.append("*************************************************************\n");
 			strb.append(hashBeanDefs.get(key).toString());
-			strb.append('\n');
 		}
 		return strb.toString();
 	}

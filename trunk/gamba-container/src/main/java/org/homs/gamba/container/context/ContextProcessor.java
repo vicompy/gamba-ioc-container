@@ -109,7 +109,6 @@ class ContextProcessor {
 		}
 
 		if (method == null) {
-			// TODO oferir alternatives, ja sigui per similaritat de nom, o de tipus d'arguments
 			final StringBuffer strb = new StringBuffer("method not found: ");
 			strb.append(beanClass.getName());
 			strb.append('.');
@@ -191,7 +190,6 @@ class ContextProcessor {
 		}
 
 		if (!founded) {
-			// TODO oferir alternatives, ja sigui per similaritat de nom, o de tipus d'arguments
 			final StringBuffer strb = new StringBuffer("constructor not found: ");
 			strb.append(targetClass);
 			strb.append('(');
