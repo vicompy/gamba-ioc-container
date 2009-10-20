@@ -1,8 +1,11 @@
 package org.homs.gamba.logging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
+
+import org.homs.gamba.logging.handlers.ConsoleHandler;
 
 public class Logger {
 
@@ -18,44 +21,64 @@ public class Logger {
 	public static final int INFO = 3;
 	public static final int DEBUG = 4;
 
-	private static final String[] levelTags = new String[] { "FATAL", "ERROR", "WARNING", "INFO", "DEBUG" };
+	private static final String[] levelTags = new String[] {
+		"[FATAL] ",
+		"[ERROR] ",
+		"[WARN]  ",
+		"[INFO]  ",
+		"[DEBUG] " };
 
 	private final List<ILogHandler> handlerList;
-	private boolean enabled;
-	private int logLevel;
-	private boolean showDate;
+	private final boolean enabled;
+	private final int logLevel;
+	private final boolean showDate;
+	private final SimpleDateFormat dateFormat;
 
-	public Logger addHandler(final ILogHandler handler) {
-		handlerList.add(handler);
-		return this;
-	}
+	// public Logger addHandler(final ILogHandler handler) {
+	// handlerList.add(handler);
+	// return this;
+	// }
+	//
+	// public Logger setLevel(final int level) {
+	// logLevel = level;
+	// return this;
+	// }
+	//
+	// public Logger setDisabled() {
+	// enabled = false;
+	// return this;
+	// }
+	//
+	// public Logger disableDateShowing() {
+	// showDate = false;
+	// return this;
+	// }
+	//
+	// public List<ILogHandler> getHandlerList() {
+	// return handlerList;
+	// }
 
-	public Logger setLevel(final int level) {
-		logLevel = level;
-		return this;
-	}
 
-	public Logger setDisabled() {
-		enabled = false;
-		return this;
-	}
+//     System.out.println(DateUtils.now("dd MMMMM yyyy"));
+//     System.out.println(DateUtils.now("yyyyMMdd"));
+//     System.out.println(DateUtils.now("dd.MM.yy"));
+//     System.out.println(DateUtils.now("MM/dd/yy"));
+//     System.out.println(DateUtils.now("yyyy.MM.dd G 'at' hh:mm:ss z"));
+//     System.out.println(DateUtils.now("EEE, MMM d, ''yy"));
+//     System.out.println(DateUtils.now("h:mm a"));
+//     System.out.println(DateUtils.now("H:mm:ss:SSS"));
+//     System.out.println(DateUtils.now("K:mm a,z"));
+//     System.out.println(DateUtils.now("yyyy.MMMMM.dd GGG hh:mm aaa"));
 
-	public Logger disableDateShowing() {
-		showDate = false;
-		return this;
-	}
-
-	public List<ILogHandler> getHandlerList() {
-		return handlerList;
-	}
-
-	public Logger cleanConfig() {
-		handlerList.clear();
-		enabled = true;
-		logLevel = 6;
-		showDate = true;
-		return this;
-	}
+//	private Logger cleanConfig() {
+//		enabled = true;
+//		logLevel = 6;
+//		showDate = true;
+//		dateFormat = new SimpleDateFormat("H:mm:ss:SSS");
+//		handlerList.clear();
+//		handlerList.add(new ConsoleHandler());
+//		return this;
+//	}
 
 	// ===============================================================
 	//
@@ -64,46 +87,54 @@ public class Logger {
 	// ===============================================================
 
 	private Logger() {
-		handlerList = new ArrayList<ILogHandler>();
+//		enabled = true;
+////		logLevel = 6;
+//		showDate = true;
+//		dateFormat = new SimpleDateFormat("H:mm:ss:SSS");
+//		handlerList.clear();
+//		handlerList.add(new ConsoleHandler());
+
+		final ConfigLoader cl = new ConfigLoader();
+
+		this.enabled = !cl.isDisabled(); // TODO negació tonta
+		logLevel = cl.getLogLevel();
+		showDate = cl.showTime();
+
+		if (cl.timeFormat() != null) {
+			dateFormat = new SimpleDateFormat(cl.timeFormat());
+		} else {
+			dateFormat = new SimpleDateFormat("H:mm:ss:SSS");
+		}
+
+		if (cl.getHandlerList() != null) {
+			handlerList = cl.getHandlerList();
+		} else {
+			handlerList = new ArrayList<ILogHandler>();
+			handlerList.add(new ConsoleHandler());
+		}
 	}
 
 	private static class SingletonHolder {
-		private static final Logger INSTANCE = new Logger().cleanConfig();
+		private static final Logger INSTANCE = new Logger();
 	}
 
 	public static Logger getLogger() {
 		return SingletonHolder.INSTANCE;
 	}
 
-	public void fatal(final String msg) {
-		sendMessage(0, msg);
+	public String getTimeStamp() {
+		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
-	public void error(final String msg) {
-		sendMessage(1, msg);
-	}
-
-	public void warning(final String msg) {
-		sendMessage(2, msg);
-	}
-
-	public void info(final String msg) {
-		sendMessage(3, msg);
-	}
-
-	public void debug(final String msg) {
-		sendMessage(4, msg);
-	}
-
-	private void sendMessage(final int level, final String msg) {
+	public void sendMessage(final int level, final Class<?> targetClass, final String msg) {
 		if (enabled && level <= logLevel) {
 
 			final StringBuffer rendMsg = new StringBuffer();
-			rendMsg.append('[');
 			rendMsg.append(levelTags[level]);
-			rendMsg.append("] ");
+			rendMsg.append(targetClass.getSimpleName());
+			rendMsg.append(": ");
 			if (showDate) {
-				rendMsg.append(new Date().toString());
+				rendMsg.append(getTimeStamp());
 				rendMsg.append(' ');
 			}
 			rendMsg.append(msg);
