@@ -94,7 +94,7 @@ class Logger {
 //		handlerList.clear();
 //		handlerList.add(new ConsoleHandler());
 
-		final ConfigLoader cl = new ConfigLoader();
+		final IConfigLoader cl = new ConfigLoader();
 
 		this.enabled = !cl.isDisabled(); // TODO negació tonta
 		logLevel = cl.getLogLevel();
