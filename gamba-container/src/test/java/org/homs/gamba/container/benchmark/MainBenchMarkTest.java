@@ -16,21 +16,32 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class MainBenchMarkTest {
 
-	private static final int GET_BEAN_N_REPS = 10000;
+	private static final int GET_BEAN_N_REPS = 30000;
 
 	private static long springGetBeanTestTime = 0;
 	private static long gambaGetBeanTestTime = 0;
 
-	@Test
-	public void benchmarkTest() {
+	public static void main(final String[] args) {
+		final MainBenchMarkTest m = new MainBenchMarkTest();
 		for (int i = 0; i < 20; i++) {
 			System.gc();
-			springBenchMarkTest();
+			m.springBenchMarkTest();
 			System.gc();
-			gambaBenchMarkTest();
-			System.out.println("Gamba is " + (springGetBeanTestTime / gambaGetBeanTestTime) + " times faster than Spring");
+			m.gambaBenchMarkTest();
 		}
 
+		System.out.println("mitjana ==> " + (springGetBeanTestTime / gambaGetBeanTestTime) + " times faster than Spring");
+		System.out.println("Spring getBean benckmark; elapsed time: " + springGetBeanTestTime + " ms.");
+		System.out.println("Gamba getBean benckmark; elapsed time: " + gambaGetBeanTestTime + " ms.");
+	}
+
+	@Test
+	public void benchmarkTest() {
+
+		springBenchMarkTest();
+		gambaBenchMarkTest();
+
+		System.out.println((springGetBeanTestTime / gambaGetBeanTestTime) + " times faster than Spring");
 		System.out.println("Spring getBean benckmark; elapsed time: " + springGetBeanTestTime + " ms.");
 		System.out.println("Gamba getBean benckmark; elapsed time: " + gambaGetBeanTestTime + " ms.");
 	}
@@ -41,11 +52,12 @@ public class MainBenchMarkTest {
 		final XmlBeanFactory factory = new XmlBeanFactory(res);
 
 		C c = null;
-		final long t1 = System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
 		for (int i = 0; i < GET_BEAN_N_REPS; i++) {
 			c = (C) factory.getBean("c");
 		}
-		springGetBeanTestTime += System.currentTimeMillis() - t1;
+		t1 = System.currentTimeMillis() - t1;
+		springGetBeanTestTime += t1;
 
 		Assert.assertEquals("m. homs", c.getA().getName());
 		Assert.assertEquals(Integer.valueOf(27), c.getA().getAge());
@@ -65,11 +77,12 @@ public class MainBenchMarkTest {
 		final GambaContext context = GambaContainer.getContext("benchmark-gamba-context.xml");
 
 		C c = null;
-		final long t1 = System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
 		for (int i = 0; i < GET_BEAN_N_REPS; i++) {
 			c = (C) context.getBean("c");
 		}
-		gambaGetBeanTestTime += System.currentTimeMillis() - t1;
+		t1 = System.currentTimeMillis() - t1;
+		gambaGetBeanTestTime += t1;
 
 		Assert.assertEquals("m. homs", c.getA().getName());
 		Assert.assertEquals(Integer.valueOf(27), c.getA().getAge());
