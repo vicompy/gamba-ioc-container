@@ -26,7 +26,8 @@ class ConfigLoader implements IConfigLoader {
 		}
 	}
 
-	/* (non-Javadoc)
+	/**
+	 *
 	 * @see org.homs.gamba.logging.IConfigLoader#isDisabled()
 	 */
 	public boolean isDisabled() {
@@ -35,7 +36,8 @@ class ConfigLoader implements IConfigLoader {
 		return "true".equals(disabled.toLowerCase());
 	}
 
-	/* (non-Javadoc)
+	/**
+	 *
 	 * @see org.homs.gamba.logging.IConfigLoader#getLogLevel()
 	 */
 	public int getLogLevel() {
@@ -55,7 +57,8 @@ class ConfigLoader implements IConfigLoader {
 		return defaultLogLevel;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 *
 	 * @see org.homs.gamba.logging.IConfigLoader#showTime()
 	 */
 	public boolean showTime() {
@@ -64,14 +67,16 @@ class ConfigLoader implements IConfigLoader {
 		return "true".equals(showTime.toLowerCase());
 	}
 
-	/* (non-Javadoc)
+	/**
+	 *
 	 * @see org.homs.gamba.logging.IConfigLoader#timeFormat()
 	 */
 	public String timeFormat() {
 		return props.getProperty("time-format");
 	}
 
-	/* (non-Javadoc)
+	/**
+	 *
 	 * @see org.homs.gamba.logging.IConfigLoader#getHandlerList()
 	 */
 	@SuppressWarnings("unchecked")
