@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import org.homs.gamba.logging.exception.GambaException;
 
-class ConfigLoader {
+class ConfigLoader implements IConfigLoader {
 
 	final static int defaultLogLevel = Logger.INFO;
 
@@ -26,12 +26,18 @@ class ConfigLoader {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.homs.gamba.logging.IConfigLoader#isDisabled()
+	 */
 	public boolean isDisabled() {
 		final String disabled = props.getProperty("disabled");
 
 		return "true".equals(disabled.toLowerCase());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.homs.gamba.logging.IConfigLoader#getLogLevel()
+	 */
 	public int getLogLevel() {
 		final String logLevel = props.getProperty("log-level").toLowerCase();
 
@@ -49,16 +55,25 @@ class ConfigLoader {
 		return defaultLogLevel;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.homs.gamba.logging.IConfigLoader#showTime()
+	 */
 	public boolean showTime() {
 		final String showTime = props.getProperty("show-time");
 
 		return "true".equals(showTime.toLowerCase());
 	}
 
+	/* (non-Javadoc)
+	 * @see org.homs.gamba.logging.IConfigLoader#timeFormat()
+	 */
 	public String timeFormat() {
 		return props.getProperty("time-format");
 	}
 
+	/* (non-Javadoc)
+	 * @see org.homs.gamba.logging.IConfigLoader#getHandlerList()
+	 */
 	@SuppressWarnings("unchecked")
 	public List<ILogHandler> getHandlerList() {
 		final List<ILogHandler> r = new ArrayList<ILogHandler>();
