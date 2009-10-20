@@ -14,7 +14,9 @@ public class ListHandler implements ILogHandler {
 	}
 
 	public void sendMessage(final String msg) {
-		logs.add(msg);
+		synchronized (this) {
+			logs.add(msg);
+		}
 	}
 
 	public String getReportedLog(final int index) {

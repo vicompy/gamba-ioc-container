@@ -16,7 +16,6 @@
  */
 package org.homs.gamba.logging.exception;
 
-
 /**
  * An exception type for <tt>Gamba IoC Container</tt>
  *
@@ -32,6 +31,5 @@ public class GambaException extends RuntimeException {
 	public GambaException(final String message, final Exception nestedException) {
 		super("\n" + message, nestedException);
 	}
-
 
 }
