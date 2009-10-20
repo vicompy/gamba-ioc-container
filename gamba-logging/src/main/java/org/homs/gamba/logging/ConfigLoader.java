@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import org.homs.gamba.logging.exception.GambaException;
 
-public class ConfigLoader {
+class ConfigLoader {
 
 	final static int defaultLogLevel = Logger.INFO;
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.homs.gamba.logging.handlers.ConsoleHandler;
 
-public class Logger {
+class Logger {
 
 	// ===============================================================
 	//
