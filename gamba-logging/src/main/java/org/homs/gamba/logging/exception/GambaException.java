@@ -24,6 +24,8 @@ package org.homs.gamba.logging.exception;
  */
 public class GambaException extends RuntimeException {
 
+	private static final long serialVersionUID = 4836160912314309326L;
+
 	public GambaException(final String message) {
 		super("\n" + message);
 	}
