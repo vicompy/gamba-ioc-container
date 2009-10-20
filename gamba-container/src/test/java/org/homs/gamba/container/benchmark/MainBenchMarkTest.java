@@ -23,7 +23,7 @@ public class MainBenchMarkTest {
 
 	public static void main(final String[] args) {
 		final MainBenchMarkTest m = new MainBenchMarkTest();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 10; i++) {
 			System.gc();
 			m.springBenchMarkTest();
 			System.gc();
