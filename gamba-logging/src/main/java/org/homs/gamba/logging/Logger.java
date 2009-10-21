@@ -18,7 +18,7 @@ class Logger extends LoggerLevelConstants {
 
 	public static final String DEFAULT_CONFIG_FILE = "logging-config.properties";
 
-	private Logger() {
+	protected Logger() {
 		final IConfigLoader cl = new ConfigLoader(DEFAULT_CONFIG_FILE);
 
 		disabled = cl.disableLogging();
@@ -33,7 +33,6 @@ class Logger extends LoggerLevelConstants {
 		}
 	}
 
-	// TODO per a test
 	public void resetup(final IConfigLoader cl) {
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
@@ -55,11 +54,11 @@ class Logger extends LoggerLevelConstants {
 		return SingletonHolder.INSTANCE;
 	}
 
-	protected String getTimeStamp() {
+	protected final String getTimeStamp() {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
-	public void sendMessage(final int level, final String label, final String msg) {
+	public final void sendMessage(final int level, final String label, final String msg) {
 		if (!disabled && level <= logLevel) {
 
 			final StringBuffer rendMsg = new StringBuffer();
