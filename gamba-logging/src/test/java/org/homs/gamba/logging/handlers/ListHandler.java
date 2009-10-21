@@ -13,11 +13,8 @@ public class ListHandler implements ILogHandler {
 		logs = new ArrayList<String>();
 	}
 
-	public void sendMessage(final String msg) {
-		synchronized (this) {
-			logs.add(msg);
-//			System.out.println(msg);//TODO
-		}
+	public synchronized void sendMessage(final String msg) {
+		logs.add(msg);
 	}
 
 	public String getReportedLog(final int index) {
