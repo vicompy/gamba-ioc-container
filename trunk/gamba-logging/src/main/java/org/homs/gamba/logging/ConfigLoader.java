@@ -48,22 +48,6 @@ class ConfigLoader implements IConfigLoader {
 	 */
 	protected boolean configFileNotFound = false;
 
-//	public ConfigLoader() {
-//		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
-//		if (is == null) {
-//			configFileNotFound = true;
-//			props = null;
-//			return;
-//		}
-//		props = new Properties();
-//		try {
-//			props.load(is);
-//		} catch (final IOException e) {
-//			configFileNotFound = true;
-//		}
-//	}
-
-	// TODO això només fa falta per als testos
 	public ConfigLoader(final String propertiesFile) {
 		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(propertiesFile);
 		if (is == null) {
