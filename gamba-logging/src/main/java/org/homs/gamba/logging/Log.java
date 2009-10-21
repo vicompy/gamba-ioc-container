@@ -1,5 +1,7 @@
 package org.homs.gamba.logging;
 
+import org.homs.gamba.logging.interfaces.IConfigLoader;
+
 public class Log {
 
 	protected final String messageLabel;
@@ -35,6 +37,11 @@ public class Log {
 
 	public void debug(final String msg) {
 		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
+	}
+
+	// TODO per al test
+	public void resetup(final IConfigLoader cl) {
+		logger.resetup(cl);
 	}
 
 }

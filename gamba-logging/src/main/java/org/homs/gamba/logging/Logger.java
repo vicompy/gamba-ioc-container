@@ -10,14 +10,16 @@ import org.homs.gamba.logging.interfaces.ILogHandler;
 
 class Logger extends LoggerLevelConstants {
 
-	protected final List<ILogHandler> handlerList;
-	protected final boolean disabled;
-	protected final int logLevel;
-	protected final boolean showDate;
-	protected final SimpleDateFormat dateFormat;
+	protected List<ILogHandler> handlerList;
+	protected boolean disabled;
+	protected int logLevel;
+	protected boolean showDate;
+	protected SimpleDateFormat dateFormat;
+
+	public static final String DEFAULT_CONFIG_FILE = "logging-config.properties";
 
 	private Logger() {
-		final IConfigLoader cl = new ConfigLoader();
+		final IConfigLoader cl = new ConfigLoader(DEFAULT_CONFIG_FILE);
 
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
@@ -29,7 +31,20 @@ class Logger extends LoggerLevelConstants {
 			sendMessage(WARNING, this.getClass().getSimpleName(),
 					"gamba-logging config file not found. default config is applied.");
 		}
+	}
 
+	// TODO per a test
+	public void resetup(final IConfigLoader cl) {
+		disabled = cl.disableLogging();
+		logLevel = cl.getLogLevel();
+		showDate = cl.enableDateTime();
+		dateFormat = new SimpleDateFormat(cl.getDateTimeFormat(), Locale.getDefault());
+		handlerList = cl.getHandlerList();
+
+		if (cl.isConfigFileNotFound()) {
+			sendMessage(WARNING, this.getClass().getSimpleName(),
+					"gamba-logging config file not found. default config is applied.");
+		}
 	}
 
 	private static class SingletonHolder {

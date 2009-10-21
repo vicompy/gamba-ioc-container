@@ -15,8 +15,7 @@ import org.homs.gamba.logging.interfaces.ILogHandler;
 
 class ConfigLoader implements IConfigLoader {
 
-	public static final String DEFAULT_CONFIG_FILE = "logging-config.properties";
-	public static final int DEFAULT_LOG_LEVEL = Logger.INFO;
+	public static final int DEFAULT_LOG_LEVEL = Logger.DEBUG;
 	public static final String DEFAULT_DATETIME_FORMAT = "H:mm:ss:SSS";
 
 	public static final String PROP_DISABLED = "disabled";
@@ -49,22 +48,22 @@ class ConfigLoader implements IConfigLoader {
 	 */
 	protected boolean configFileNotFound = false;
 
-	public ConfigLoader() {
-		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
-		if (is == null) {
-			configFileNotFound = true;
-			props = null;
-			return;
-		}
-		props = new Properties();
-		try {
-			props.load(is);
-		} catch (final IOException e) {
-			configFileNotFound = true;
-		}
-	}
+//	public ConfigLoader() {
+//		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
+//		if (is == null) {
+//			configFileNotFound = true;
+//			props = null;
+//			return;
+//		}
+//		props = new Properties();
+//		try {
+//			props.load(is);
+//		} catch (final IOException e) {
+//			configFileNotFound = true;
+//		}
+//	}
 
-	// això només fa falta per als testos
+	// TODO això només fa falta per als testos
 	public ConfigLoader(final String propertiesFile) {
 		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(propertiesFile);
 		if (is == null) {
@@ -79,6 +78,8 @@ class ConfigLoader implements IConfigLoader {
 			configFileNotFound = true;
 		}
 	}
+
+
 	private String getProperty(final String key) {
 		if (props == null) {
 			return null;
