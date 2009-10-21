@@ -16,6 +16,7 @@ public class ListHandler implements ILogHandler {
 	public void sendMessage(final String msg) {
 		synchronized (this) {
 			logs.add(msg);
+//			System.out.println(msg);//TODO
 		}
 	}
 
