@@ -1,8 +1,7 @@
 package org.homs.gamba.logging;
 
 import org.homs.gamba.logging.interfaces.IConfigLoader;
-
-
+import org.homs.gamba.logging.interfaces.ILogHandler;
 
 public class Log {
 
@@ -44,6 +43,16 @@ public class Log {
 	// TODO for testing only
 	public void resetup(final IConfigLoader cl) {
 		logger.resetup(cl);
+	}
+
+	// TODO for testing only
+	public ILogHandler getFirstMatchingHandler(final Class<? extends ILogHandler> handlerClass) {
+		for (final ILogHandler h : logger.getHandlerList()) {
+			if (h.getClass().equals(handlerClass)) {
+				return h;
+			}
+		}
+		return null;
 	}
 
 }

@@ -76,7 +76,10 @@ class Logger extends LoggerLevelConstants {
 				h.sendMessage(rendMsg.toString());
 			}
 		}
+	}
 
+	public List<ILogHandler> getHandlerList() {
+		return handlerList;
 	}
 
 }
