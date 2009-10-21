@@ -3,7 +3,9 @@ package org.homs.gamba.logging;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.homs.gamba.logging.exception.GambaException;
@@ -13,9 +15,9 @@ import org.homs.gamba.logging.interfaces.ILogHandler;
 
 class ConfigLoader implements IConfigLoader {
 
-	public static final String DEFAULT_DATETIME_FORMAT = "H:mm:ss:SSS";
-	public static final int DEFAULT_LOG_LEVEL = Logger.INFO;
 	public static final String DEFAULT_CONFIG_FILE = "logging-config.properties";
+	public static final int DEFAULT_LOG_LEVEL = Logger.INFO;
+	public static final String DEFAULT_DATETIME_FORMAT = "H:mm:ss:SSS";
 
 	public static final String PROP_DISABLED = "disabled";
 	public static final String PROP_LOG_LEVEL = "log-level";
@@ -26,6 +28,21 @@ class ConfigLoader implements IConfigLoader {
 
 	protected Properties props;
 
+	public static final Map<String,Integer> levelMap = new HashMap<String,Integer>();
+	{
+		levelMap.put("fatal", 0);
+		levelMap.put("error", 1);
+		levelMap.put("warning", 2);
+		levelMap.put("info", 3);
+		levelMap.put("debug", 4);
+
+		levelMap.put("err", 1);
+		levelMap.put("warn", 2);
+		levelMap.put("inf", 3);
+		levelMap.put("deb", 4);
+	}
+
+
 	/**
 	 * no s'ha trobat el fitxer de propietats, s'aplica doncs la config per
 	 * defecte; el logger accedirà aquest atribut i avisarà si cal.
@@ -34,6 +51,11 @@ class ConfigLoader implements IConfigLoader {
 
 	public ConfigLoader() {
 		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
+		if (is == null) {
+			configFileNotFound = true;
+			props = null;
+			return;
+		}
 		props = new Properties();
 		try {
 			props.load(is);
@@ -42,6 +64,21 @@ class ConfigLoader implements IConfigLoader {
 		}
 	}
 
+	// això només fa falta per als testos
+	public ConfigLoader(final String propertiesFile) {
+		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(propertiesFile);
+		if (is == null) {
+			configFileNotFound = true;
+			props = null;
+			return;
+		}
+		props = new Properties();
+		try {
+			props.load(is);
+		} catch (final IOException e) {
+			configFileNotFound = true;
+		}
+	}
 	private String getProperty(final String key) {
 		if (props == null) {
 			return null;
@@ -66,22 +103,14 @@ class ConfigLoader implements IConfigLoader {
 	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#getLogLevel()
 	 */
 	public int getLogLevel() {
-		String logLevel = getProperty(PROP_LOG_LEVEL);
+		final String logLevel = getProperty(PROP_LOG_LEVEL);
 		if (logLevel == null) {
 			return DEFAULT_LOG_LEVEL;
 		}
-		logLevel = logLevel.toLowerCase();
 
-		if ("fatal".equals(logLevel)) {
-			return Logger.FATAL;
-		} else if ("error".equals(logLevel)) {
-			return Logger.ERROR;
-		} else if ("warning".equals(logLevel)) {
-			return Logger.WARNING;
-		} else if ("info".equals(logLevel)) {
-			return Logger.INFO;
-		} else if ("debug".equals(logLevel)) {
-			return Logger.DEBUG;
+		final Integer level = levelMap.get(logLevel.toLowerCase());
+		if (level != null) {
+			return level;
 		}
 		return DEFAULT_LOG_LEVEL;
 	}
@@ -104,9 +133,12 @@ class ConfigLoader implements IConfigLoader {
 		final String format = getProperty(PROP_TIME_FORMAT);
 		if (format == null) {
 			return DEFAULT_DATETIME_FORMAT;
-		} else {
-			return format;
 		}
+		return format;
+	}
+
+	public boolean isConfigFileNotFound() {
+		return configFileNotFound;
 	}
 
 	/**
@@ -127,19 +159,11 @@ class ConfigLoader implements IConfigLoader {
 			try {
 				final Class<ILogHandler> c = (Class<ILogHandler>) Class.forName(h);
 				r.add(c.newInstance());
-			} catch (final ClassNotFoundException e) {
-				throw new GambaException("Classe ILogHandler no trobada: " + h, e);
-			} catch (final InstantiationException e) {
-				throw new GambaException("error instanciant: " + h, e);
-			} catch (final IllegalAccessException e) {
-				throw new GambaException("error d'accés instanciant: " + h, e);
+			} catch (final Exception e) {
+				throw new GambaException("error instanciant el handler: " + h, e);
 			}
 		}
 		return r;
-	}
-
-	public boolean isConfigFileNotFound() {
-		return configFileNotFound;
 	}
 
 }

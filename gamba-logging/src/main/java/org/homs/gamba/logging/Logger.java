@@ -19,15 +19,17 @@ class Logger extends LoggerLevelConstants {
 	private Logger() {
 		final IConfigLoader cl = new ConfigLoader();
 
-		if (cl.isConfigFileNotFound()) {
-			sendMessage(WARNING, Logger.class, "gamba-logging config file not found. default config is applied.");
-		}
-
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
 		showDate = cl.enableDateTime();
 		dateFormat = new SimpleDateFormat(cl.getDateTimeFormat(), Locale.getDefault());
 		handlerList = cl.getHandlerList();
+
+		if (cl.isConfigFileNotFound()) {
+			sendMessage(WARNING, this.getClass().getSimpleName(),
+					"gamba-logging config file not found. default config is applied.");
+		}
+
 	}
 
 	private static class SingletonHolder {
@@ -42,12 +44,12 @@ class Logger extends LoggerLevelConstants {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
-	public void sendMessage(final int level, final Class<?> targetClass, final String msg) {
+	public void sendMessage(final int level, final String label, final String msg) {
 		if (!disabled && level <= logLevel) {
 
 			final StringBuffer rendMsg = new StringBuffer();
 			rendMsg.append(levelTags[level]);
-			rendMsg.append(targetClass.getSimpleName());
+			rendMsg.append(label);
 			rendMsg.append(": ");
 			if (showDate) {
 				rendMsg.append(getTimeStamp());
