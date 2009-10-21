@@ -2,32 +2,39 @@ package org.homs.gamba.logging;
 
 public class Log {
 
-	protected final Class<?> targetClass;
+	protected final String messageLabel;
 	protected static final Logger logger = Logger.getLogger();
 
+	public Log() {
+		messageLabel = "";
+	}
+
+	public Log(final String label) {
+		messageLabel = label;
+	}
+
 	public Log(final Class<?> targetClass) {
-		super();
-		this.targetClass = targetClass;
+		messageLabel = targetClass.getSimpleName();
 	}
 
 	public void fatal(final String msg) {
-		logger.sendMessage(Logger.FATAL, targetClass, msg);
+		logger.sendMessage(Logger.FATAL, messageLabel, msg);
 	}
 
 	public void error(final String msg) {
-		logger.sendMessage(Logger.ERROR, targetClass, msg);
+		logger.sendMessage(Logger.ERROR, messageLabel, msg);
 	}
 
 	public void warning(final String msg) {
-		logger.sendMessage(Logger.WARNING, targetClass, msg);
+		logger.sendMessage(Logger.WARNING, messageLabel, msg);
 	}
 
 	public void info(final String msg) {
-		logger.sendMessage(Logger.INFO, targetClass, msg);
+		logger.sendMessage(Logger.INFO, messageLabel, msg);
 	}
 
 	public void debug(final String msg) {
-		logger.sendMessage(Logger.DEBUG, targetClass, msg);
+		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
 	}
 
 }
