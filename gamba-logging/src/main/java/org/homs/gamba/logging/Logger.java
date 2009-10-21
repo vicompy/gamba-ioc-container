@@ -16,7 +16,6 @@ class Logger extends LoggerLevelConstants {
 	//
 	// ===============================================================
 
-
 	protected final List<ILogHandler> handlerList;
 	protected final boolean disabled;
 	protected final int logLevel;
@@ -62,7 +61,7 @@ class Logger extends LoggerLevelConstants {
 		return SingletonHolder.INSTANCE;
 	}
 
-	public String getTimeStamp() {
+	protected String getTimeStamp() {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
@@ -80,7 +79,7 @@ class Logger extends LoggerLevelConstants {
 			rendMsg.append(msg);
 
 			for (final ILogHandler h : handlerList) {
-				h.sendMessage(level, rendMsg.toString());
+				h.sendMessage(rendMsg.toString());
 			}
 		}
 

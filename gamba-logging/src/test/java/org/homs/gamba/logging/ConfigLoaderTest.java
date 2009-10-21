@@ -12,15 +12,15 @@ public class ConfigLoaderTest {
 	 */
 	@Test
 	public void test0() {
-		final ConfigLoader cl = new ConfigLoader("config-loader-test-0.properties");
+		final ConfigLoaderForTest cl = new ConfigLoaderForTest("config-loader-test-0.properties");
 
 		Assert.assertEquals(true, cl.configFileNotFound);
 		Assert.assertEquals(false, cl.disableLogging());
-		Assert.assertEquals(ConfigLoader.DEFAULT_LOG_LEVEL, cl.getLogLevel());
+		Assert.assertEquals(ConfigLoaderForTest.DEFAULT_LOG_LEVEL, cl.getLogLevel());
 		Assert.assertEquals(true, cl.enableDateTime());
-		Assert.assertEquals(ConfigLoader.DEFAULT_DATETIME_FORMAT, cl.getDateTimeFormat());
+		Assert.assertEquals(ConfigLoaderForTest.DEFAULT_DATETIME_FORMAT, cl.getDateTimeFormat());
 		Assert.assertEquals(1, cl.getHandlerList().size());
-		Assert.assertEquals(ConfigLoader.DEFAULT_HANDLER, cl.getHandlerList().get(0));
+		Assert.assertEquals(ConfigLoaderForTest.DEFAULT_HANDLER, cl.getHandlerList().get(0));
 	}
 
 	/**
@@ -29,15 +29,15 @@ public class ConfigLoaderTest {
 	 */
 	@Test
 	public void test1() {
-		final ConfigLoader cl = new ConfigLoader("config-loader-test-1.properties");
+		final ConfigLoaderForTest cl = new ConfigLoaderForTest("config-loader-test-1.properties");
 
 		Assert.assertEquals(false, cl.configFileNotFound);
 		Assert.assertEquals(false, cl.disableLogging());
-		Assert.assertEquals(ConfigLoader.DEFAULT_LOG_LEVEL, cl.getLogLevel());
+		Assert.assertEquals(ConfigLoaderForTest.DEFAULT_LOG_LEVEL, cl.getLogLevel());
 		Assert.assertEquals(true, cl.enableDateTime());
-		Assert.assertEquals(ConfigLoader.DEFAULT_DATETIME_FORMAT, cl.getDateTimeFormat());
+		Assert.assertEquals(ConfigLoaderForTest.DEFAULT_DATETIME_FORMAT, cl.getDateTimeFormat());
 		Assert.assertEquals(1, cl.getHandlerList().size());
-		Assert.assertEquals(ConfigLoader.DEFAULT_HANDLER, cl.getHandlerList().get(0));
+		Assert.assertEquals(ConfigLoaderForTest.DEFAULT_HANDLER, cl.getHandlerList().get(0));
 	}
 
 }

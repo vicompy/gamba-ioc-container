@@ -24,7 +24,7 @@ class ConfigLoader implements IConfigLoader {
 	public static final String PROP_HANDLER_CLASSES = "handler-classes";
 	public static final ILogHandler DEFAULT_HANDLER = new ConsoleHandler();
 
-	protected final Properties props;
+	protected Properties props;
 
 	/**
 	 * no s'ha trobat el fitxer de propietats, s'aplica doncs la config per
@@ -34,21 +34,6 @@ class ConfigLoader implements IConfigLoader {
 
 	public ConfigLoader() {
 		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
-		props = new Properties();
-		try {
-			props.load(is);
-		} catch (final IOException e) {
-			configFileNotFound = true;
-		}
-	}
-
-	public ConfigLoader(final String propertiesFile) {
-		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(propertiesFile);
-		if (is == null) {
-			configFileNotFound = true;
-			props = null;
-			return;
-		}
 		props = new Properties();
 		try {
 			props.load(is);
