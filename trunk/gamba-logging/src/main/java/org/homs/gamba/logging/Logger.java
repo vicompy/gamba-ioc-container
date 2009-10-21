@@ -33,6 +33,7 @@ class Logger extends LoggerLevelConstants {
 		}
 	}
 
+	// TODO for testing only
 	public void resetup(final IConfigLoader cl) {
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
