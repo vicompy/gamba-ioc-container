@@ -2,7 +2,6 @@ package org.homs.gamba.logging;
 
 import org.junit.Test;
 
-
 public class LoggerTest {
 
 	@Test
@@ -15,8 +14,6 @@ public class LoggerTest {
 		log.warning("this is a WARNING log message");
 		log.info("this is a INFO log message");
 		log.debug("this is a DEBUG log message");
-
 	}
-
 
 }

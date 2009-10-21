@@ -8,6 +8,8 @@ public class LoggerLevelConstants {
 	public static final int INFO = 3;
 	public static final int DEBUG = 4;
 
-	protected static final String[] levelTags = new String[] { "[FATAL] ", "[ERROR] ", "[WARN]  ", "[INFO]  ", "[DEBUG] " };
+	protected static final String[] levelTags = new String[] {
+		"[FATAL] ", "[ERROR] ", "[WARN]  ", "[INFO]  ", "[DEBUG] "
+	};
 
 }
