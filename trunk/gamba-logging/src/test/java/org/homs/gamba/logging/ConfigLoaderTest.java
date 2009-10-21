@@ -38,8 +38,10 @@ public class ConfigLoaderTest {
 		Assert.assertEquals(ConfigLoader.DEFAULT_LOG_LEVEL, cl.getLogLevel());
 		Assert.assertEquals(true, cl.enableDateTime());
 		Assert.assertEquals(ConfigLoader.DEFAULT_DATETIME_FORMAT, cl.getDateTimeFormat());
-		Assert.assertEquals(1, cl.getHandlerList().size());
-		Assert.assertEquals(ConfigLoader.DEFAULT_HANDLER, cl.getHandlerList().get(0));
+		Assert.assertEquals(2, cl.getHandlerList().size());
+		Assert.assertEquals(ConsoleHandler.class, cl.getHandlerList().get(0).getClass());
+		Assert.assertEquals(ListHandler.class, cl.getHandlerList().get(1).getClass());
+
 	}
 
 	/**
