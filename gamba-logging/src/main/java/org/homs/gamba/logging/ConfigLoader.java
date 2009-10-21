@@ -27,7 +27,7 @@ class ConfigLoader implements IConfigLoader {
 
 	protected Properties props;
 
-	public static final Map<String,Integer> levelMap = new HashMap<String,Integer>();
+	public static final Map<String, Integer> levelMap = new HashMap<String, Integer>();
 	{
 		levelMap.put("fatal", 0);
 		levelMap.put("error", 1);
@@ -40,7 +40,6 @@ class ConfigLoader implements IConfigLoader {
 		levelMap.put("inf", 3);
 		levelMap.put("deb", 4);
 	}
-
 
 	/**
 	 * no s'ha trobat el fitxer de propietats, s'aplica doncs la config per
@@ -63,13 +62,11 @@ class ConfigLoader implements IConfigLoader {
 		}
 	}
 
-
 	private String getProperty(final String key) {
 		if (props == null) {
 			return null;
-		} else {
-			return props.getProperty(key);
 		}
+		return props.getProperty(key);
 	}
 
 	/**
@@ -79,9 +76,8 @@ class ConfigLoader implements IConfigLoader {
 		final String disabled = getProperty(PROP_DISABLED);
 		if (disabled == null) {
 			return false;
-		} else {
-			return "true".equals(disabled.toLowerCase());
 		}
+		return "true".equals(disabled.toLowerCase());
 	}
 
 	/**
@@ -122,6 +118,9 @@ class ConfigLoader implements IConfigLoader {
 		return format;
 	}
 
+	/**
+	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#isConfigFileNotFound()
+	 */
 	public boolean isConfigFileNotFound() {
 		return configFileNotFound;
 	}
@@ -129,7 +128,6 @@ class ConfigLoader implements IConfigLoader {
 	/**
 	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#getHandlerList()
 	 */
-	@SuppressWarnings("unchecked")
 	public List<ILogHandler> getHandlerList() {
 		final List<ILogHandler> r = new ArrayList<ILogHandler>();
 
@@ -142,8 +140,7 @@ class ConfigLoader implements IConfigLoader {
 
 		for (final String h : handlers) {
 			try {
-				final Class<ILogHandler> c = (Class<ILogHandler>) Class.forName(h);
-				r.add(c.newInstance());
+				r.add((ILogHandler) Class.forName(h).newInstance());
 			} catch (final Exception e) {
 				throw new GambaException("error instanciant el handler: " + h, e);
 			}

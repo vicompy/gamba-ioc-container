@@ -41,6 +41,7 @@ public class Log {
 		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
 	}
 
+	// TODO for testing only
 	public void resetup(final IConfigLoader cl) {
 		logger.resetup(cl);
 	}
