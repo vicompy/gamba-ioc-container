@@ -10,34 +10,11 @@ import org.homs.gamba.logging.interfaces.ILogHandler;
 
 class Logger extends LoggerLevelConstants {
 
-	// ===============================================================
-	//
-	// CONFIG
-	//
-	// ===============================================================
-
 	protected final List<ILogHandler> handlerList;
 	protected final boolean disabled;
 	protected final int logLevel;
 	protected final boolean showDate;
 	protected final SimpleDateFormat dateFormat;
-
-	// dd MMMMM yyyy
-	// yyyyMMdd
-	// dd.MM.yy
-	// MM/dd/yy
-	// yyyy.MM.dd G 'at' hh:mm:ss z
-	// EEE, MMM d, ''yy
-	// h:mm a
-	// H:mm:ss:SSS
-	// K:mm a,z
-	// yyyy.MMMMM.dd GGG hh:mm aaa
-
-	// ===============================================================
-	//
-	// SINGLETON
-	//
-	// ===============================================================
 
 	private Logger() {
 		final IConfigLoader cl = new ConfigLoader();
