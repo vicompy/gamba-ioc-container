@@ -3,7 +3,7 @@ package org.homs.gamba.logging.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.logging.ILogHandler;
+import org.homs.gamba.logging.interfaces.ILogHandler;
 
 public class ListHandler implements ILogHandler {
 
@@ -13,7 +13,7 @@ public class ListHandler implements ILogHandler {
 		logs = new ArrayList<String>();
 	}
 
-	public void sendMessage(final String msg) {
+	public void sendMessage(final int level, final String msg) {
 		synchronized (this) {
 			logs.add(msg);
 		}

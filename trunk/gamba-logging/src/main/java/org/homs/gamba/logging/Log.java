@@ -2,13 +2,12 @@ package org.homs.gamba.logging;
 
 public class Log {
 
-	private final Class<?> targetClass;
-	private final Logger logger;
+	protected final Class<?> targetClass;
+	protected static final Logger logger = Logger.getLogger();
 
 	public Log(final Class<?> targetClass) {
 		super();
 		this.targetClass = targetClass;
-		this.logger = Logger.getLogger();
 	}
 
 	public void fatal(final String msg) {
@@ -30,4 +29,5 @@ public class Log {
 	public void debug(final String msg) {
 		logger.sendMessage(Logger.DEBUG, targetClass, msg);
 	}
+
 }
