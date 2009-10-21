@@ -7,41 +7,85 @@ import java.util.List;
 import java.util.Properties;
 
 import org.homs.gamba.logging.exception.GambaException;
+import org.homs.gamba.logging.handlers.ConsoleHandler;
+import org.homs.gamba.logging.interfaces.IConfigLoader;
+import org.homs.gamba.logging.interfaces.ILogHandler;
 
 class ConfigLoader implements IConfigLoader {
 
-	final static int defaultLogLevel = Logger.INFO;
+	public static final String DEFAULT_DATETIME_FORMAT = "H:mm:ss:SSS";
+	public static final int DEFAULT_LOG_LEVEL = Logger.INFO;
+	public static final String DEFAULT_CONFIG_FILE = "logging-config.properties";
 
-	private final Properties props;
+	public static final String PROP_DISABLED = "disabled";
+	public static final String PROP_LOG_LEVEL = "log-level";
+	public static final String PROP_SHOW_TIME = "show-time";
+	public static final String PROP_TIME_FORMAT = "time-format";
+	public static final String PROP_HANDLER_CLASSES = "handler-classes";
+	public static final ILogHandler DEFAULT_HANDLER = new ConsoleHandler();
+
+	protected final Properties props;
+
+	/**
+	 * no s'ha trobat el fitxer de propietats, s'aplica doncs la config per
+	 * defecte; el logger accedirà aquest atribut i avisarà si cal.
+	 */
+	protected boolean configFileNotFound = false;
 
 	public ConfigLoader() {
-		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(
-				"logging-config.properties");
+		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
 		props = new Properties();
 		try {
 			props.load(is);
 		} catch (final IOException e) {
-			throw new GambaException("error carregant configuració de propietats");
-			// TODO si error, aplicar config per defecte!
+			configFileNotFound = true;
+		}
+	}
+
+	public ConfigLoader(final String propertiesFile) {
+		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(propertiesFile);
+		if (is == null) {
+			configFileNotFound = true;
+			props = null;
+			return;
+		}
+		props = new Properties();
+		try {
+			props.load(is);
+		} catch (final IOException e) {
+			configFileNotFound = true;
+		}
+	}
+
+	private String getProperty(final String key) {
+		if (props == null) {
+			return null;
+		} else {
+			return props.getProperty(key);
 		}
 	}
 
 	/**
-	 *
-	 * @see org.homs.gamba.logging.IConfigLoader#isDisabled()
+	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#disableLogging()
 	 */
-	public boolean isDisabled() {
-		final String disabled = props.getProperty("disabled");
-
-		return "true".equals(disabled.toLowerCase());
+	public boolean disableLogging() {
+		final String disabled = getProperty(PROP_DISABLED);
+		if (disabled == null) {
+			return false;
+		} else {
+			return "true".equals(disabled.toLowerCase());
+		}
 	}
 
 	/**
-	 *
-	 * @see org.homs.gamba.logging.IConfigLoader#getLogLevel()
+	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#getLogLevel()
 	 */
 	public int getLogLevel() {
-		final String logLevel = props.getProperty("log-level").toLowerCase();
+		String logLevel = getProperty(PROP_LOG_LEVEL);
+		if (logLevel == null) {
+			return DEFAULT_LOG_LEVEL;
+		}
+		logLevel = logLevel.toLowerCase();
 
 		if ("fatal".equals(logLevel)) {
 			return Logger.FATAL;
@@ -54,56 +98,63 @@ class ConfigLoader implements IConfigLoader {
 		} else if ("debug".equals(logLevel)) {
 			return Logger.DEBUG;
 		}
-		return defaultLogLevel;
+		return DEFAULT_LOG_LEVEL;
 	}
 
 	/**
-	 *
-	 * @see org.homs.gamba.logging.IConfigLoader#showTime()
+	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#enableDateTime()
 	 */
-	public boolean showTime() {
-		final String showTime = props.getProperty("show-time");
-
+	public boolean enableDateTime() {
+		final String showTime = getProperty(PROP_SHOW_TIME);
+		if (showTime == null) {
+			return true;
+		}
 		return "true".equals(showTime.toLowerCase());
 	}
 
 	/**
-	 *
-	 * @see org.homs.gamba.logging.IConfigLoader#timeFormat()
+	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#getDateTimeFormat()
 	 */
-	public String timeFormat() {
-		return props.getProperty("time-format");
+	public String getDateTimeFormat() {
+		final String format = getProperty(PROP_TIME_FORMAT);
+		if (format == null) {
+			return DEFAULT_DATETIME_FORMAT;
+		} else {
+			return format;
+		}
 	}
 
 	/**
-	 *
-	 * @see org.homs.gamba.logging.IConfigLoader#getHandlerList()
+	 * @see org.homs.gamba.logging.interfaces.IConfigLoader#getHandlerList()
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ILogHandler> getHandlerList() {
 		final List<ILogHandler> r = new ArrayList<ILogHandler>();
 
-		System.out.println(props.getProperty("handler-classes").replaceAll("\\s*", ""));
-		final String handlers[] = props.getProperty("handler-classes").replaceAll("\\s*", "").split(",");
+		if (getProperty(PROP_HANDLER_CLASSES) == null) {
+			r.add(DEFAULT_HANDLER);
+			return r;
+		}
+
+		final String handlers[] = getProperty(PROP_HANDLER_CLASSES).replaceAll("\\s*", "").split(",");
 
 		for (final String h : handlers) {
 			try {
 				final Class<ILogHandler> c = (Class<ILogHandler>) Class.forName(h);
 				r.add(c.newInstance());
 			} catch (final ClassNotFoundException e) {
-				throw new GambaException("Classe ILogHandler no trobada: " + h);
+				throw new GambaException("Classe ILogHandler no trobada: " + h, e);
 			} catch (final InstantiationException e) {
-				throw new GambaException("error instanciant: " + h);
+				throw new GambaException("error instanciant: " + h, e);
 			} catch (final IllegalAccessException e) {
-				throw new GambaException("error d'accés instanciant: " + h);
+				throw new GambaException("error d'accés instanciant: " + h, e);
 			}
 		}
 		return r;
 	}
 
-	// disabled=false
-	// log-level=debug
-	// show-time=true
-	// handler-classes=org.homs.gamba.logging.handlers.ConsoleHandler
+	public boolean isConfigFileNotFound() {
+		return configFileNotFound;
+	}
 
 }

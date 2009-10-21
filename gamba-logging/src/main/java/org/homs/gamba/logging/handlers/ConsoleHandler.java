@@ -1,12 +1,20 @@
 package org.homs.gamba.logging.handlers;
 
-import org.homs.gamba.logging.ILogHandler;
+
+import org.homs.gamba.logging.LoggerLevelConstants;
+import org.homs.gamba.logging.interfaces.ILogHandler;
 
 public class ConsoleHandler implements ILogHandler {
 
-	public void sendMessage(final String msg) {
+	// TODO falta emcanisme per a configurar els handlers
+
+	public void sendMessage(final int level, final String msg) {
 		synchronized (this) {
-			System.err.println(msg);
+			if (level <= LoggerLevelConstants.ERROR) {
+				System.err.println(msg);
+			} else {
+				System.out.println(msg);
+			}
 		}
 	}
 
