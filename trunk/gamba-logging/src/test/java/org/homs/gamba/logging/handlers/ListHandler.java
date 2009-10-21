@@ -13,7 +13,7 @@ public class ListHandler implements ILogHandler {
 		logs = new ArrayList<String>();
 	}
 
-	public void sendMessage(final int level, final String msg) {
+	public void sendMessage(final String msg) {
 		synchronized (this) {
 			logs.add(msg);
 		}
