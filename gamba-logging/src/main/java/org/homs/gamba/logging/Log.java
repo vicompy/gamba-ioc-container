@@ -1,7 +1,5 @@
 package org.homs.gamba.logging;
 
-import org.homs.gamba.logging.interfaces.IConfigLoader;
-import org.homs.gamba.logging.interfaces.ILogHandler;
 
 public class Log {
 
@@ -21,38 +19,23 @@ public class Log {
 	}
 
 	public void fatal(final String msg) {
-		logger.sendMessage(Logger.FATAL, messageLabel, msg);
+		logger.fatal(messageLabel, msg);
 	}
 
 	public void error(final String msg) {
-		logger.sendMessage(Logger.ERROR, messageLabel, msg);
+		logger.error(messageLabel, msg);
 	}
 
 	public void warning(final String msg) {
-		logger.sendMessage(Logger.WARNING, messageLabel, msg);
+		logger.warning(messageLabel, msg);
 	}
 
 	public void info(final String msg) {
-		logger.sendMessage(Logger.INFO, messageLabel, msg);
+		logger.info(messageLabel, msg);
 	}
 
 	public void debug(final String msg) {
-		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
-	}
-
-	// TODO for testing only
-	public void resetup(final IConfigLoader cl) {
-		logger.resetup(cl);
-	}
-
-	// TODO for testing only
-	public ILogHandler getFirstMatchingHandler(final Class<? extends ILogHandler> handlerClass) {
-		for (final ILogHandler h : logger.getHandlerList()) {
-			if (h.getClass().equals(handlerClass)) {
-				return h;
-			}
-		}
-		return null;
+		logger.debug(messageLabel, msg);
 	}
 
 }

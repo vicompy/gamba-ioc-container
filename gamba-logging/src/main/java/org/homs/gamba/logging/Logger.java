@@ -16,25 +16,11 @@ class Logger extends LoggerLevelConstants {
 	protected boolean showDate;
 	protected SimpleDateFormat dateFormat;
 
-	public static final String DEFAULT_CONFIG_FILE = "logging-config.properties";
+	public static String DEFAULT_CONFIG_FILE = "logging-config.properties";
 
 	protected Logger() {
 		final IConfigLoader cl = new ConfigLoader(DEFAULT_CONFIG_FILE);
 
-		disabled = cl.disableLogging();
-		logLevel = cl.getLogLevel();
-		showDate = cl.enableDateTime();
-		dateFormat = new SimpleDateFormat(cl.getDateTimeFormat(), Locale.getDefault());
-		handlerList = cl.getHandlerList();
-
-		if (cl.isConfigFileNotFound()) {
-			sendMessage(WARNING, this.getClass().getSimpleName(),
-					"gamba-logging config file not found. default config is applied.");
-		}
-	}
-
-	// TODO for testing only
-	public void resetup(final IConfigLoader cl) {
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
 		showDate = cl.enableDateTime();
@@ -59,7 +45,7 @@ class Logger extends LoggerLevelConstants {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
-	public final void sendMessage(final int level, final String label, final String msg) {
+	private final void sendMessage(final int level, final String label, final String msg) {
 		if (!disabled && level <= logLevel) {
 
 			final StringBuffer rendMsg = new StringBuffer();
@@ -78,8 +64,34 @@ class Logger extends LoggerLevelConstants {
 		}
 	}
 
-	public List<ILogHandler> getHandlerList() {
-		return handlerList;
+	public void fatal(final String msgLabel, final String msg) {
+		sendMessage(FATAL, msgLabel, msg);
+	}
+
+	public void error(final String msgLabel, final String msg) {
+		sendMessage(ERROR, msgLabel, msg);
+	}
+
+	public void warning(final String msgLabel, final String msg) {
+		sendMessage(WARNING, msgLabel, msg);
+	}
+
+	public void info(final String msgLabel, final String msg) {
+		sendMessage(INFO, msgLabel, msg);
+	}
+
+	public void debug(final String msgLabel, final String msg) {
+		sendMessage(DEBUG, msgLabel, msg);
+	}
+
+	// TODO for testing only
+	public ILogHandler getFirstMatchingHandler(final Class<? extends ILogHandler> handlerClass) {
+		for (final ILogHandler h : handlerList) {
+			if (h.getClass().equals(handlerClass)) {
+				return h;
+			}
+		}
+		return null;
 	}
 
 }

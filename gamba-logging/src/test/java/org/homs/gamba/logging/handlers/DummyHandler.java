@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.homs.gamba.logging.interfaces.ILogHandler;
 
-public class ListHandler implements ILogHandler {
+public class DummyHandler implements ILogHandler {
 
 	private final List<String> logs;
 
-	public ListHandler() {
+	public DummyHandler() {
 		logs = new ArrayList<String>();
 	}
 

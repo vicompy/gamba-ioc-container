@@ -3,7 +3,7 @@ package org.homs.gamba.logging;
 import junit.framework.Assert;
 
 import org.homs.gamba.logging.handlers.ConsoleHandler;
-import org.homs.gamba.logging.handlers.ListHandler;
+import org.homs.gamba.logging.handlers.DummyHandler;
 import org.junit.Test;
 
 public class ConfigLoaderTest {
@@ -40,7 +40,7 @@ public class ConfigLoaderTest {
 		Assert.assertEquals(ConfigLoader.DEFAULT_DATETIME_FORMAT, cl.getDateTimeFormat());
 		Assert.assertEquals(2, cl.getHandlerList().size());
 		Assert.assertEquals(ConsoleHandler.class, cl.getHandlerList().get(0).getClass());
-		Assert.assertEquals(ListHandler.class, cl.getHandlerList().get(1).getClass());
+		Assert.assertEquals(DummyHandler.class, cl.getHandlerList().get(1).getClass());
 
 	}
 
@@ -58,7 +58,7 @@ public class ConfigLoaderTest {
 		Assert.assertEquals("dd/MM/yyyy G 'at' hh:mm:ss z", cl.getDateTimeFormat());
 		Assert.assertEquals(2, cl.getHandlerList().size());
 		Assert.assertEquals(ConsoleHandler.class, cl.getHandlerList().get(0).getClass());
-		Assert.assertEquals(ListHandler.class, cl.getHandlerList().get(1).getClass());
+		Assert.assertEquals(DummyHandler.class, cl.getHandlerList().get(1).getClass());
 	}
 
 }
