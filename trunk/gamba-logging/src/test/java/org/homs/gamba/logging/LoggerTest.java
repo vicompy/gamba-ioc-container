@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 
 import junit.framework.Assert;
 
-import org.homs.gamba.logging.exception.GambaException;
+import org.homs.gamba.logging.exception.GambaLoggingException;
 import org.homs.gamba.logging.handlers.DummyHandler;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class LoggerTest {
 			cons.setAccessible(true);
 			return cons.newInstance();
 		} catch (final Exception e) {
-			throw new GambaException("error hackejant una nova instància singletona de Logger", e);
+			throw new GambaLoggingException("error hackejant una nova instància singletona de Logger", e);
 		}
 	}
 

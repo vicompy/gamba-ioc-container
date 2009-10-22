@@ -6,6 +6,9 @@
 	<groupId>org.homs</groupId>
 	<artifactId>gamba-logging</artifactId>
 	<version>0.0.1</version>
+	
+	<name>Gamba Logging</name>
+	<description>simple and lightweight logging for Java</description>
 
 	<dependencies>
 
