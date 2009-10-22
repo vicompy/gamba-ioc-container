@@ -8,15 +8,25 @@ import java.util.Locale;
 import org.homs.gamba.logging.interfaces.IConfigLoader;
 import org.homs.gamba.logging.interfaces.ILogHandler;
 
-class Logger extends LoggerLevelConstants {
+class Logger {
+
+	public static final int FATAL = 0;
+	public static final int ERROR = 1;
+	public static final int WARNING = 2;
+	public static final int INFO = 3;
+	public static final int DEBUG = 4;
+
+	protected static final String[] levelTags = new String[] {
+		"[FATAL] ", "[ERROR] ", "[WARN]  ", "[INFO]  ", "[DEBUG] "
+	};
+
+	public static String DEFAULT_CONFIG_FILE = "logging-config.properties";
 
 	protected List<ILogHandler> handlerList;
 	protected boolean disabled;
 	protected int logLevel;
 	protected boolean showDate;
 	protected SimpleDateFormat dateFormat;
-
-	public static String DEFAULT_CONFIG_FILE = "logging-config.properties";
 
 	protected Logger() {
 		final IConfigLoader cl = new ConfigLoader(DEFAULT_CONFIG_FILE);

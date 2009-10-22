@@ -27,6 +27,8 @@ class ConfigLoader implements IConfigLoader {
 
 	protected Properties props;
 
+
+
 	public static final Map<String, Integer> levelMap = new HashMap<String, Integer>();
 	{
 		levelMap.put("fatal", 0);
