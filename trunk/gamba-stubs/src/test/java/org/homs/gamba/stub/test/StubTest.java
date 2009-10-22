@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.homs.gamba.stub.Stub;
 import org.homs.gamba.stub.Stubber;
 import org.homs.gamba.stub.ents.IAdder;
+import org.homs.gamba.stub.ents.IConcater;
 import org.homs.gamba.stub.exception.GambaStubsException;
 import org.junit.Test;
 
@@ -41,6 +42,17 @@ public class StubTest {
 		final IAdder ia = m.play();
 
 		Assert.assertEquals(Integer.valueOf(5), ia.add(2, 3));
+	}
+
+
+	@Test
+	public void test4() {
+
+		final Stub<IConcater> m = Stubber.createStub(IConcater.class);
+		m.returning("hello world").concat("hello ", "world");
+		final IConcater ia = m.play();
+
+		Assert.assertEquals("hello world", ia.concat("hello ", "world"));
 	}
 
 
