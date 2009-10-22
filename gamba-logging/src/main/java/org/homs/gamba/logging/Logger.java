@@ -55,7 +55,7 @@ class Logger {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
-	private final void sendMessage(final int level, final String label, final String msg) {
+	public final void sendMessage(final int level, final String label, final String msg) {
 		if (!disabled && level <= logLevel) {
 
 			final StringBuffer rendMsg = new StringBuffer();
@@ -72,26 +72,6 @@ class Logger {
 				h.sendMessage(rendMsg.toString());
 			}
 		}
-	}
-
-	public void fatal(final String msgLabel, final String msg) {
-		sendMessage(FATAL, msgLabel, msg);
-	}
-
-	public void error(final String msgLabel, final String msg) {
-		sendMessage(ERROR, msgLabel, msg);
-	}
-
-	public void warning(final String msgLabel, final String msg) {
-		sendMessage(WARNING, msgLabel, msg);
-	}
-
-	public void info(final String msgLabel, final String msg) {
-		sendMessage(INFO, msgLabel, msg);
-	}
-
-	public void debug(final String msgLabel, final String msg) {
-		sendMessage(DEBUG, msgLabel, msg);
 	}
 
 	public ILogHandler getFirstMatchingHandler(final Class<? extends ILogHandler> handlerClass) {
