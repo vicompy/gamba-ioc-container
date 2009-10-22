@@ -15,24 +15,20 @@ public class FileHandler implements ILogHandler {
 		try {
 			out = new FileWriter("log.txt");
 		} catch (final IOException e) {
-			throw new GambaException("", e);
+			throw new GambaException(this.getClass().getSimpleName() + ": error obrint fitxer: log.txt", e);
 		}
 	}
-
-//	public synchronized void close() {
-//		try {
-//			out.close();
-//		} catch (final IOException e) {
-//			throw new GambaException("", e);
-//		}
-//	}
 
 	public synchronized void sendMessage(final String msg) {
 		try {
 			out.write(msg + '\n');
 			out.flush();
 		} catch (final IOException e) {
-			throw new GambaException("", e);
+			try {
+				out.close();
+			} catch (final IOException e1) {
+			}
+			throw new GambaException(this.getClass().getSimpleName() + ": error d'escriptura de log a fitxer: log.txt", e);
 		}
 	}
 

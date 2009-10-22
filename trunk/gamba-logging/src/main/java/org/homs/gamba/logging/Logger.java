@@ -84,7 +84,6 @@ class Logger extends LoggerLevelConstants {
 		sendMessage(DEBUG, msgLabel, msg);
 	}
 
-	// TODO for testing only
 	public ILogHandler getFirstMatchingHandler(final Class<? extends ILogHandler> handlerClass) {
 		for (final ILogHandler h : handlerList) {
 			if (h.getClass().equals(handlerClass)) {
