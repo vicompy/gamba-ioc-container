@@ -31,12 +31,12 @@ public class LoggerTest {
 		final Logger log = loggerNewHackedInstance();
 		final String labelMsg = this.getClass().getSimpleName();
 
-		log.fatal(labelMsg, "==================================");
-		log.fatal(labelMsg, "this is a FATAL log message");
-		log.error(labelMsg, "this is an ERROR log message");
-		log.warning(labelMsg, "this is a WARNING log message");
-		log.info(labelMsg, "this is a INFO log message");
-		log.debug(labelMsg, "this is a DEBUG log message");
+		log.sendMessage(Logger.FATAL, labelMsg, "==================================");
+		log.sendMessage(Logger.FATAL, labelMsg, "this is a FATAL log message");
+		log.sendMessage(Logger.ERROR, labelMsg, "this is an ERROR log message");
+		log.sendMessage(Logger.WARNING, labelMsg, "this is a WARNING log message");
+		log.sendMessage(Logger.INFO, labelMsg, "this is a INFO log message");
+		log.sendMessage(Logger.DEBUG, labelMsg, "this is a DEBUG log message");
 
 		return log;
 	}

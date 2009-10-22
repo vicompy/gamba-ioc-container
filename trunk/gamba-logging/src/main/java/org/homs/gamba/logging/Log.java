@@ -1,6 +1,5 @@
 package org.homs.gamba.logging;
 
-
 public class Log {
 
 	protected final String messageLabel;
@@ -19,24 +18,55 @@ public class Log {
 	}
 
 	public void fatal(final String msg) {
-		logger.fatal(messageLabel, msg);
+		logger.sendMessage(Logger.FATAL, messageLabel, msg);
 	}
 
 	public void error(final String msg) {
-		logger.error(messageLabel, msg);
+		logger.sendMessage(Logger.ERROR, messageLabel, msg);
 	}
 
 	public void warning(final String msg) {
-		logger.warning(messageLabel, msg);
+		logger.sendMessage(Logger.WARNING, messageLabel, msg);
 	}
 
 	public void info(final String msg) {
-		logger.info(messageLabel, msg);
+		logger.sendMessage(Logger.INFO, messageLabel, msg);
 	}
 
 	public void debug(final String msg) {
-		logger.debug(messageLabel, msg);
+		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
 	}
-	// TODO falta per loggejar excepcions amb l'stacktrace
 
+	// TODO falta per loggejar excepcions amb l'stacktrace
+	public void fatal(final Exception e) {
+		renderExceptionMessage(Logger.FATAL, e);
+	}
+
+	public void error(final Exception e) {
+		renderExceptionMessage(Logger.ERROR, e);
+	}
+
+	 public void warning(final Exception e) {
+		renderExceptionMessage(Logger.WARNING, e);
+	 }
+
+	 public void info(final Exception e) {
+		renderExceptionMessage(Logger.INFO, e);
+	 }
+
+	 public void debug(final Exception e) {
+		renderExceptionMessage(Logger.DEBUG, e);
+	 }
+
+	private void renderExceptionMessage(final int level, final Exception e) {
+		final StringBuffer strb = new StringBuffer();
+		strb.append(e.toString());
+		for (final StackTraceElement ste : e.getStackTrace()) {
+			strb.append(ste.toString());
+			strb.append('\n');
+		}
+		for (final String msg : strb.toString().split("\n")) {
+			logger.sendMessage(level, messageLabel, msg);
+		}
+	}
 }
