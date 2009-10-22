@@ -39,7 +39,7 @@ class Logger {
 
 		if (cl.isConfigFileNotFound()) {
 			sendMessage(WARNING, this.getClass().getSimpleName(),
-					"gamba-logging config file not found. default config is applied.");
+				"gamba-logging config file not found. default config is applied.");
 		}
 	}
 
