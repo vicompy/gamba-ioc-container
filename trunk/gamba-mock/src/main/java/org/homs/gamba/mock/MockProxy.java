@@ -81,27 +81,17 @@ class MockProxy implements InvocationHandler {
 			}
 
 			final RuntimeException e = new GambaMockException("method call not registered: \n"); // TODO
-			log.error(renderException(e));
+			log.error(e);
 			throw e;
 		}
-	}
-
-	private String renderException(final Exception e) {
-		final StringBuffer strb = new StringBuffer();
-		strb.append(e.toString());
-		for (final StackTraceElement ste : e.getStackTrace()) {
-			strb.append(ste.toString());
-			strb.append('\n');
-		}
-		return strb.toString();
 	}
 
 	private void checkRegisteredCalls() {
 		for (final CallingElement ce : cel) {
 			if (ce.getMethod() == null) {
 				final RuntimeException e = new GambaMockException(
-					"method call partially defined found, with returning value: " + ce.getReturningObject());
-				log.error(renderException(e));
+						"method call partially defined found, with returning value: " + ce.getReturningObject());
+				log.error(e);
 				throw e;
 			}
 		}
