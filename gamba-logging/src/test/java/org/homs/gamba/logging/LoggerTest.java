@@ -10,11 +10,6 @@ import org.junit.Test;
 
 public class LoggerTest {
 
-//	private static final Log log = new Log(LoggerTest.class);
-
-	// private static final ListHandler listHandler = (ListHandler)
-	// log.getFirstMatchingHandler(ListHandler.class);
-
 	private Logger loggerNewHackedInstance() {
 		Constructor<Logger> cons;
 		try {
@@ -30,7 +25,7 @@ public class LoggerTest {
 	 * @param propertiesFile si <tt>null</tt>, no varia la constant
 	 */
 	private Logger loggingOutput(final String propertiesFile) {
-		// listHandler.clear();
+		// DummyHandler.clear();
 
 		if (propertiesFile != null) {
 			Logger.DEFAULT_CONFIG_FILE = propertiesFile;
@@ -54,7 +49,7 @@ public class LoggerTest {
 	@Test
 	public void test1() {
 		final Logger log = loggingOutput(null);
-		final DummyHandler listHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
+		final DummyHandler DummyHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
 		Assert.assertEquals(
 				  "["
 				+ "[FATAL] LoggerTest: *:*:*,* => ==================================, "
@@ -62,7 +57,7 @@ public class LoggerTest {
 				+ "[ERROR] LoggerTest: *:*:*,* => this is an ERROR log message, "
 				+ "[WARN]  LoggerTest: *:*:*,* => this is a WARNING log message"
 				+ "]",
-				listHandler.getLogs()
+				DummyHandler.getLogs()
 				.toString().replaceAll("[0-9]+", "*"));
 	}
 
@@ -72,14 +67,14 @@ public class LoggerTest {
 	@Test
 	public void test2() {
 		final Logger log = loggingOutput("config-loader-test-1.properties");
-		final DummyHandler listHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
+		final DummyHandler DummyHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
 
 		Assert.assertEquals("[" + "[FATAL] LoggerTest: *:*:*:* ==================================, "
 				+ "[FATAL] LoggerTest: *:*:*:* this is a FATAL log message, "
 				+ "[ERROR] LoggerTest: *:*:*:* this is an ERROR log message, "
 				+ "[WARN]  LoggerTest: *:*:*:* this is a WARNING log message, "
 				+ "[INFO]  LoggerTest: *:*:*:* this is a INFO log message, "
-				+ "[DEBUG] LoggerTest: *:*:*:* this is a DEBUG log message" + "]", listHandler.getLogs().toString()
+				+ "[DEBUG] LoggerTest: *:*:*:* this is a DEBUG log message" + "]", DummyHandler.getLogs().toString()
 				.replaceAll("[0-9]+", "*"));
 	}
 
@@ -89,11 +84,11 @@ public class LoggerTest {
 	@Test
 	public void test3() {
 		final Logger log = loggingOutput("config-loader-test-2.properties");
-		final DummyHandler listHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
+		final DummyHandler DummyHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
 		Assert.assertEquals("[" + "[FATAL] LoggerTest: ==================================, "
 				+ "[FATAL] LoggerTest: this is a FATAL log message, "
 				+ "[ERROR] LoggerTest: this is an ERROR log message, "
-				+ "[WARN]  LoggerTest: this is a WARNING log message" + "]", listHandler.getLogs().toString());
+				+ "[WARN]  LoggerTest: this is a WARNING log message" + "]", DummyHandler.getLogs().toString());
 	}
 
 	/**
@@ -102,8 +97,8 @@ public class LoggerTest {
 	@Test
 	public void test4() {
 		final Logger log = loggingOutput("non-existant-config-file");
-		final DummyHandler listHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
-		Assert.assertTrue(listHandler == null);
+		final DummyHandler DummyHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
+		Assert.assertTrue(DummyHandler == null);
 	}
 
 }
