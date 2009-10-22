@@ -9,12 +9,15 @@ import java.util.List;
 import org.homs.gamba.logging.Log;
 import org.homs.gamba.mock.exception.GambaMockException;
 
+/**
+ *
+ * @author mhoms
+ */
 class MockProxy implements InvocationHandler {
 
 	private final List<CallingElement> cel = new ArrayList<CallingElement>();
 	private boolean recording = true;
 	private static final Log log = new Log(MockProxy.class);
-
 
 	public static Object newInstance(final Class<?> mockableInterface) {
 		return Proxy.newProxyInstance(mockableInterface.getClassLoader(), new Class<?>[] { mockableInterface,
@@ -44,26 +47,21 @@ class MockProxy implements InvocationHandler {
 			}
 			if (method.getName().equals("stopRecording")) {
 				recording = false;
+				checkRegisteredCalls();
 				return null;
 			}
 
-//			final Class<?>[] cl = new Class<?>[args.length];
 			final CallingElement ce = cel.get(cel.size() - 1);
 			ce.setMethod(method);
 			ce.setCallingArgsValues(args);
-//			for (int i = 0; i < args.length; i++) {
-//				cl[i] = args[i].getClass();
-//			}
-//			ce.setCallingArgsTypes(cl);
 
-//			System.out.println("registered call: " + cel.get(cel.size() - 1));
 			log.debug("registered call: " + cel.get(cel.size() - 1));
 			return null;
 		} else {
 			/*
 			 * in playing state
 			 */
-			for(final CallingElement ce : cel) {
+			for (final CallingElement ce : cel) {
 				if (ce.getMethod().equals(method)) {
 
 					boolean argsOK = true;
@@ -82,17 +80,30 @@ class MockProxy implements InvocationHandler {
 				}
 			}
 
-			final StringBuffer strb = new StringBuffer();
+			final RuntimeException e = new GambaMockException("method call not registered: \n"); // TODO
+			log.error(renderException(e));
+			throw e;
+		}
+	}
 
-			final Exception e = new GambaMockException("method call not registered: \n"); // TODO
-			strb.append(e.toString());
-			for (final StackTraceElement ste : e.getStackTrace()) {
+	private String renderException(final Exception e) {
+		final StringBuffer strb = new StringBuffer();
+		strb.append(e.toString());
+		for (final StackTraceElement ste : e.getStackTrace()) {
 			strb.append(ste.toString());
 			strb.append('\n');
-			}
+		}
+		return strb.toString();
+	}
 
-			log.error(strb.toString());
-			throw e;
+	private void checkRegisteredCalls() {
+		for (final CallingElement ce : cel) {
+			if (ce.getMethod() == null) {
+				final RuntimeException e = new GambaMockException(
+					"method call partially defined found, with returning value: " + ce.getReturningObject());
+				log.error(renderException(e));
+				throw e;
+			}
 		}
 	}
 

@@ -33,4 +33,15 @@ public class MockTest {
 		ia.add(3, 4);
 	}
 
+	@Test(expected = GambaMockException.class)
+	public void test3() {
+
+		final Mock<IAdder> m = Mocker.createMock(IAdder.class);
+		m.returning(3);
+		final IAdder ia = m.play();
+
+		Assert.assertEquals(Integer.valueOf(5), ia.add(2, 3));
+	}
+
+
 }

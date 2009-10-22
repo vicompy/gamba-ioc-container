@@ -37,5 +37,6 @@ public class Log {
 	public void debug(final String msg) {
 		logger.debug(messageLabel, msg);
 	}
+	// TODO falta per loggejar excepcions amb l'stacktrace
 
 }

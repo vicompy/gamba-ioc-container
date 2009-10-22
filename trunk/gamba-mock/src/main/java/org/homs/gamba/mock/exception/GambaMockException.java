@@ -27,11 +27,11 @@ public class GambaMockException extends RuntimeException {
 	private static final long serialVersionUID = 4836160912314309326L;
 
 	public GambaMockException(final String message) {
-		super("\n" + message);
+		super('\n' + message + '\n');
 	}
 
 	public GambaMockException(final String message, final Exception nestedException) {
-		super("\n" + message, nestedException);
+		super('\n' + message + '\n', nestedException);
 	}
 
 }
