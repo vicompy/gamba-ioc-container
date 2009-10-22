@@ -1,4 +1,4 @@
-[FATAL] LoggerTest: 05:00:48,812 => ==================================
-[FATAL] LoggerTest: 05:00:48,814 => this is a FATAL log message
-[ERROR] LoggerTest: 05:00:48,815 => this is an ERROR log message
-[WARN]  LoggerTest: 05:00:48,816 => this is a WARNING log message
+[FATAL] LoggerTest: 06:40:08,314 => ==================================
+[FATAL] LoggerTest: 06:40:08,329 => this is a FATAL log message
+[ERROR] LoggerTest: 06:40:08,330 => this is an ERROR log message
+[WARN]  LoggerTest: 06:40:08,331 => this is a WARNING log message

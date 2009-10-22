@@ -25,8 +25,6 @@ public class LoggerTest {
 	 * @param propertiesFile si <tt>null</tt>, no varia la constant
 	 */
 	private Logger loggingOutput(final String propertiesFile) {
-		// DummyHandler.clear();
-
 		if (propertiesFile != null) {
 			Logger.DEFAULT_CONFIG_FILE = propertiesFile;
 		}
