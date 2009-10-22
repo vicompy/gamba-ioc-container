@@ -22,15 +22,15 @@ package org.homs.gamba.logging.exception;
  * @author mhoms
  * @since Ago-2009
  */
-public class GambaException extends RuntimeException {
+public class GambaLoggingException extends RuntimeException {
 
 	private static final long serialVersionUID = 4836160912314309326L;
 
-	public GambaException(final String message) {
+	public GambaLoggingException(final String message) {
 		super("\n" + message);
 	}
 
-	public GambaException(final String message, final Exception nestedException) {
+	public GambaLoggingException(final String message, final Exception nestedException) {
 		super("\n" + message, nestedException);
 	}
 

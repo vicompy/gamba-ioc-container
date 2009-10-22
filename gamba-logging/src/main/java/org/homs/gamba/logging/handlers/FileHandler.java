@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.homs.gamba.logging.exception.GambaException;
+import org.homs.gamba.logging.exception.GambaLoggingException;
 import org.homs.gamba.logging.interfaces.ILogHandler;
 
 public class FileHandler implements ILogHandler {
@@ -15,7 +15,7 @@ public class FileHandler implements ILogHandler {
 		try {
 			out = new FileWriter("log.txt");
 		} catch (final IOException e) {
-			throw new GambaException(this.getClass().getSimpleName() + ": error obrint fitxer: log.txt", e);
+			throw new GambaLoggingException(this.getClass().getSimpleName() + ": error obrint fitxer: log.txt", e);
 		}
 	}
 
@@ -28,7 +28,7 @@ public class FileHandler implements ILogHandler {
 				out.close();
 			} catch (final IOException e1) {
 			}
-			throw new GambaException(this.getClass().getSimpleName() + ": error d'escriptura de log a fitxer: log.txt", e);
+			throw new GambaLoggingException(this.getClass().getSimpleName() + ": error d'escriptura de log a fitxer: log.txt", e);
 		}
 	}
 

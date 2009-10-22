@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.homs.gamba.logging.exception.GambaException;
+import org.homs.gamba.logging.exception.GambaLoggingException;
 import org.homs.gamba.logging.handlers.ConsoleHandler;
 import org.homs.gamba.logging.interfaces.IConfigLoader;
 import org.homs.gamba.logging.interfaces.ILogHandler;
@@ -142,7 +142,7 @@ class ConfigLoader implements IConfigLoader {
 			try {
 				r.add((ILogHandler) Class.forName(h).newInstance());
 			} catch (final Exception e) {
-				throw new GambaException("error instanciant el handler: " + h, e);
+				throw new GambaLoggingException("error instanciant el handler: " + h, e);
 			}
 		}
 		return r;
