@@ -1,14 +1,34 @@
-package org.homs.gamba.mock.proxy;
+package org.homs.gamba.mock;
 
 import java.lang.reflect.Method;
 
-public class CallingElement {
+/**
+ * entitat que registra una crida a l'objecte mock.
+ *
+ * @author mhoms
+ */
+class CallingElement {
 
+	/**
+	 * mètode cridat
+	 */
 	private Method method;
-//	private Class<?>[] callingArgsTypes;
+
+	/**
+	 * llistat de valors dels arguments passats
+	 */
 	private Object[] callingArgsValues;
+
+	/**
+	 * valor de retorn desitjat
+	 */
 	private final Object returningObject;
 
+	/**
+	 * constructor que especifica, anticipadament, el valor de retorn desitjat
+	 *
+	 * @param returningObject
+	 */
 	public CallingElement(final Object returningObject) {
 		super();
 		this.returningObject = returningObject;
@@ -22,14 +42,6 @@ public class CallingElement {
 		this.method = method;
 	}
 
-//	public Class<?>[] getCallingArgsTypes() {
-//		return callingArgsTypes;
-//	}
-//
-//	public void setCallingArgsTypes(final Class<?>[] callingArgsTypes) {
-//		this.callingArgsTypes = callingArgsTypes;
-//	}
-
 	public Object[] getCallingArgsValues() {
 		return callingArgsValues;
 	}
@@ -42,6 +54,11 @@ public class CallingElement {
 		return returningObject;
 	}
 
+	/**
+	 * retorna una representació en String de l'estat d'aquest objecte
+	 *
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		final StringBuffer strb = new StringBuffer();

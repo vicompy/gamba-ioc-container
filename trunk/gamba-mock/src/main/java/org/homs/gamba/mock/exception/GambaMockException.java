@@ -17,7 +17,7 @@
 package org.homs.gamba.mock.exception;
 
 /**
- * An exception type for <tt>Gamba IoC Container</tt>
+ * An exception type for <tt>Gamba Mock</tt>
  *
  * @author mhoms
  * @since Ago-2009

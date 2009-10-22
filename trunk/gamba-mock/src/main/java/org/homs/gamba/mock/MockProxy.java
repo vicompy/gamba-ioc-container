@@ -1,4 +1,4 @@
-package org.homs.gamba.mock.proxy;
+package org.homs.gamba.mock;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -9,7 +9,7 @@ import java.util.List;
 import org.homs.gamba.logging.Log;
 import org.homs.gamba.mock.exception.GambaMockException;
 
-public class MockProxy implements InvocationHandler {
+class MockProxy implements InvocationHandler {
 
 	private final List<CallingElement> cel = new ArrayList<CallingElement>();
 	private boolean recording = true;
