@@ -1,6 +1,7 @@
 package org.homs.gamba.utils;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 import org.homs.gamba.stub.exception.GambaStubsException;
 
@@ -12,8 +13,9 @@ import org.homs.gamba.stub.exception.GambaStubsException;
 public class TestUtils {
 
 	/**
-	 * retorna una nova instància d'una classe amb constructor per defecte
-	 * privat, a utilitzar especialment en testos unitaris de patrons Singleton.
+	 * invoca a un constructor per defecte privat, i en retorna una nova
+	 * instància. A utilitzar especialment en testos unitaris de patrons
+	 * Singleton.
 	 *
 	 * @param <T> tipus del Singleton
 	 * @param singletonClass classe de Singleton
@@ -28,7 +30,26 @@ public class TestUtils {
 			cons.setAccessible(false);
 			return instance;
 		} catch (final Exception e) {
-			throw new GambaStubsException("error hackejant una nova instància singletona de Logger", e);
+			throw new GambaStubsException("error hackejant una nova instància singletona", e);
+		}
+	}
+
+	/**
+	 * invoca a un mètode privat
+	 *
+	 * @param targetClass
+	 * @param method
+	 * @param args
+	 * @return
+	 */
+	public static Object hackedMethodInvocation(final Object targetClass, final Method method, final Object... args) {
+		try {
+			method.setAccessible(true);
+			final Object returnValue = method.invoke(targetClass, args);
+			method.setAccessible(false);
+			return returnValue;
+		} catch (final Exception e) {
+			throw new GambaStubsException("error hackejant una invocació", e);
 		}
 	}
 

@@ -5,16 +5,16 @@ public class Log {
 	protected final String messageLabel;
 	protected static final Logger logger = Logger.getLogger();
 
-	public Log() {
-		messageLabel = "";
-	}
-
 	public Log(final String label) {
 		messageLabel = label;
 	}
 
+	public Log() {
+		this("");
+	}
+
 	public Log(final Class<?> targetClass) {
-		messageLabel = targetClass.getSimpleName();
+		this(targetClass.getSimpleName());
 	}
 
 	public void fatal(final String msg) {
@@ -37,7 +37,6 @@ public class Log {
 		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
 	}
 
-	// TODO falta per loggejar excepcions amb l'stacktrace
 	public void fatal(final Exception e) {
 		renderExceptionMessage(Logger.FATAL, e);
 	}
