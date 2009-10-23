@@ -26,6 +26,17 @@ public class Stub<T> {
 		return proxiedStub;
 	}
 
+
+	public T throwing(final Throwable t) {
+		((IStubable) proxiedStub).setThrowing(t);
+		return proxiedStub;
+	}
+
+	public T delegates(final IDelegator delegator) {
+		((IStubable) proxiedStub).setDelegator(delegator);
+		return proxiedStub;
+	}
+
 	/**
 	 * configura el proxy en mode simulació, deixant de registrar
 	 *

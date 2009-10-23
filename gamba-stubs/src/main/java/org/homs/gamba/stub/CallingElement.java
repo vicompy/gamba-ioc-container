@@ -23,15 +23,25 @@ class CallingElement {
 	 * valor de retorn desitjat
 	 */
 	private final Object returningObject;
+	private final Boolean returningObjectisAnExceptionToThrow;
+	private final IDelegator delegator;
 
 	/**
-	 * constructor que especifica, anticipadament, el valor de retorn desitjat
+	 * constructor que especifica, anticipadament, el comportament de la crida a
+	 * stubbar
 	 *
 	 * @param returningObject
 	 */
-	public CallingElement(final Object returningObject) {
-		super();
+	public CallingElement(final Object returningObject, final boolean returningObjectisAnExceptionToThrow) {
 		this.returningObject = returningObject;
+		this.returningObjectisAnExceptionToThrow = returningObjectisAnExceptionToThrow;
+		this.delegator = null;
+	}
+
+	public CallingElement(final IDelegator delegator) {
+		this.returningObject = null;
+		this.returningObjectisAnExceptionToThrow = null;
+		this.delegator = delegator;
 	}
 
 	public Method getMethod() {
@@ -61,17 +71,28 @@ class CallingElement {
 	 */
 	@Override
 	public String toString() {
-		final StringBuffer strb = new StringBuffer();
-		strb.append(returningObject.toString());
+		final StringBuffer strb = new StringBuffer(100);
+		strb.append(returningObject);
 		strb.append(" <= ");
 		strb.append(method.getName());
 		strb.append('(');
 		for (int i = 0; i < callingArgsValues.length; i++) {
-			strb.append(callingArgsValues[i].toString());
+			strb.append(callingArgsValues[i]);
 			strb.append(", ");
 		}
-		strb.append(')');
+		strb.append(") : throwing: ");
+		if (returningObjectisAnExceptionToThrow != null) {
+			strb.append(this.returningObject);
+		}
 		return strb.toString();
+	}
+
+	public Boolean getReturningObjectisAnExceptionToThrow() {
+		return returningObjectisAnExceptionToThrow;
+	}
+
+	public IDelegator getDelegator() {
+		return delegator;
 	}
 
 }

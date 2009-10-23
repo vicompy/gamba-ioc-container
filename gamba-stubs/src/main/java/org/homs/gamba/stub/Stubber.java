@@ -18,4 +18,5 @@ public class Stubber {
 	public static <T> Stub<T> createStub(final Class<T> interfaceToStub) {
 		return new Stub(StubProxy.newInstance(interfaceToStub));
 	}
+
 }

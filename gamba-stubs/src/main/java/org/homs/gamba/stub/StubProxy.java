@@ -10,7 +10,6 @@ import org.homs.gamba.logging.Log;
 import org.homs.gamba.stub.exception.GambaStubsException;
 
 /**
- *
  * @author mhoms
  */
 class StubProxy implements InvocationHandler {
@@ -26,11 +25,11 @@ class StubProxy implements InvocationHandler {
 
 	/**
 	 * contracte de crides a aquest proxy:
-	 *
-	 * 1. cridar a setReturnValue, amb el valor de retorn desitjat. 2. fer la
-	 * crida a l'ínterfície originar i així registrar el
-	 * <tt>CallingElement</tt>. 3. repetir (2). 4. cridar stopRecording
-	 *
+	 * 1. cridar a setReturnValue, amb el valor de retorn desitjat.
+	 * 2. fer la crida a l'ínterfície original i així
+	 * registrar el <tt>CallingElement</tt>.
+	 * 3. repetir (2).
+	 * 4. cridar stopRecording
 	 *
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
@@ -42,9 +41,30 @@ class StubProxy implements InvocationHandler {
 			 * in recording state
 			 */
 			if (method.getName().equals("setReturnValue")) {
-				cel.add(new CallingElement(args[0]));
+				cel.add(new CallingElement(args[0], false));
 				return null;
 			}
+			if (method.getName().equals("setThrowing")) {
+				if (!(args[0] instanceof Throwable)) {
+					final RuntimeException e = new GambaStubsException("this is not a Throwable object \n"); // TODO
+					log.error(e);
+					throw e;
+				}
+				final CallingElement ce = new CallingElement(args[0], true);
+				cel.add(ce);
+				return null;
+			}
+
+			if (method.getName().equals("setDelegator")) {
+				if (!(args[0] instanceof IDelegator)) {
+					final RuntimeException e = new GambaStubsException("this is not an IDelegator object \n"); // TODO
+					log.error(e);
+					throw e;
+				}
+				cel.add(new CallingElement((IDelegator) args[0]));
+				return null;
+			}
+
 			if (method.getName().equals("stopRecording")) {
 				recording = false;
 				checkRegisteredCalls();
@@ -74,6 +94,15 @@ class StubProxy implements InvocationHandler {
 					}
 
 					if (argsOK) {
+						if (ce.getReturningObjectisAnExceptionToThrow() != null
+								&& ce.getReturningObjectisAnExceptionToThrow()) {
+							log.debug("throwing...");
+							throw (Throwable) ce.getReturningObject();
+						}
+						if (ce.getDelegator() != null) {
+							log.debug("delegating...");
+							return ce.getDelegator().delegates(args);
+						}
 						log.debug("calling: " + ce.toString());
 						return ce.getReturningObject();
 					}
