@@ -19,7 +19,7 @@ class StubProxy implements InvocationHandler {
 	private static final Log log = new Log(StubProxy.class);
 
 	public static Object newInstance(final Class<?> stubableInterface) {
-		return Proxy.newProxyInstance(stubableInterface.getClassLoader(), new Class<?>[] { stubableInterface,
+		return Proxy.newProxyInstance(IStubable.class.getClassLoader(), new Class<?>[] { stubableInterface,
 				IStubable.class }, new StubProxy());
 	}
 
@@ -76,7 +76,8 @@ class StubProxy implements InvocationHandler {
 			ce.setCallingArgsValues(args);
 
 			log.debug("registered call: " + cel.get(cel.size() - 1));
-			return null;
+			return computeRecordingReturn(method);
+
 		} else {
 			/*
 			 * in playing state
@@ -113,6 +114,30 @@ class StubProxy implements InvocationHandler {
 			log.error(e);
 			throw e;
 		}
+	}
+
+	private Object computeRecordingReturn(final Method method) {
+		final Class<?> r = method.getReturnType();
+
+		if (r.equals(int.class)) {
+			return Integer.valueOf(0);
+		}
+		if (r.equals(long.class)) {
+			return Long.valueOf(0);
+		}
+		if (r.equals(float.class)) {
+			return Float.valueOf(0);
+		}
+		if (r.equals(double.class)) {
+			return Double.valueOf(0);
+		}
+		if (r.equals(boolean.class)) {
+			return Boolean.FALSE;
+		}
+		if (r.equals(char.class)) {
+			return Character.valueOf(' ');
+		}
+		return null;
 	}
 
 	private void checkRegisteredCalls() {
