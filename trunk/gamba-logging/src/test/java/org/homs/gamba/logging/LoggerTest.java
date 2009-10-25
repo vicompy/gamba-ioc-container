@@ -26,7 +26,7 @@ public class LoggerTest {
 	 */
 	private Logger loggingOutput(final String propertiesFile) {
 		if (propertiesFile != null) {
-			Logger.DEFAULT_CONFIG_FILE = propertiesFile;
+			Logger.setDefaultConfigFileName(propertiesFile);
 		}
 		final Logger log = loggerNewHackedInstance();
 		final String labelMsg = this.getClass().getSimpleName();

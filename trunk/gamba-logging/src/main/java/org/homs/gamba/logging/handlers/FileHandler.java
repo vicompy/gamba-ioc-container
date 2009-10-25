@@ -27,6 +27,7 @@ public class FileHandler implements ILogHandler {
 			try {
 				out.close();
 			} catch (final IOException e1) {
+				// passar, no es pot fer re
 			}
 			throw new GambaLoggingException(this.getClass().getSimpleName() + ": error d'escriptura de log a fitxer: log.txt", e);
 		}

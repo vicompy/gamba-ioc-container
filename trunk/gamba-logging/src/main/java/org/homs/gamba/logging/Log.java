@@ -3,7 +3,7 @@ package org.homs.gamba.logging;
 public class Log {
 
 	protected final String messageLabel;
-	protected static final Logger logger = Logger.getLogger();
+	protected static final Logger LOGGER = Logger.getLogger();
 
 	public Log(final String label) {
 		messageLabel = label;
@@ -18,23 +18,23 @@ public class Log {
 	}
 
 	public void fatal(final String msg) {
-		logger.sendMessage(Logger.FATAL, messageLabel, msg);
+		LOGGER.sendMessage(Logger.FATAL, messageLabel, msg);
 	}
 
 	public void error(final String msg) {
-		logger.sendMessage(Logger.ERROR, messageLabel, msg);
+		LOGGER.sendMessage(Logger.ERROR, messageLabel, msg);
 	}
 
 	public void warning(final String msg) {
-		logger.sendMessage(Logger.WARNING, messageLabel, msg);
+		LOGGER.sendMessage(Logger.WARNING, messageLabel, msg);
 	}
 
 	public void info(final String msg) {
-		logger.sendMessage(Logger.INFO, messageLabel, msg);
+		LOGGER.sendMessage(Logger.INFO, messageLabel, msg);
 	}
 
 	public void debug(final String msg) {
-		logger.sendMessage(Logger.DEBUG, messageLabel, msg);
+		LOGGER.sendMessage(Logger.DEBUG, messageLabel, msg);
 	}
 
 	public void fatal(final Exception e) {
@@ -65,7 +65,7 @@ public class Log {
 			strb.append('\n');
 		}
 		for (final String msg : strb.toString().split("\n")) {
-			logger.sendMessage(level, messageLabel, msg);
+			LOGGER.sendMessage(level, messageLabel, msg);
 		}
 	}
 }
