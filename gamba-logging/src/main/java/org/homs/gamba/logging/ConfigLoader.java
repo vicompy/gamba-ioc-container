@@ -29,18 +29,18 @@ class ConfigLoader implements IConfigLoader {
 
 
 
-	public static final Map<String, Integer> levelMap = new HashMap<String, Integer>();
+	public static final Map<String, Integer> LEVEL_MAP = new HashMap<String, Integer>();
 	{
-		levelMap.put("fatal", 0);
-		levelMap.put("error", 1);
-		levelMap.put("warning", 2);
-		levelMap.put("info", 3);
-		levelMap.put("debug", 4);
+		LEVEL_MAP.put("fatal", 0);
+		LEVEL_MAP.put("error", 1);
+		LEVEL_MAP.put("warning", 2);
+		LEVEL_MAP.put("info", 3);
+		LEVEL_MAP.put("debug", 4);
 
-		levelMap.put("err", 1);
-		levelMap.put("warn", 2);
-		levelMap.put("inf", 3);
-		levelMap.put("deb", 4);
+		LEVEL_MAP.put("err", 1);
+		LEVEL_MAP.put("warn", 2);
+		LEVEL_MAP.put("inf", 3);
+		LEVEL_MAP.put("deb", 4);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class ConfigLoader implements IConfigLoader {
 			return DEFAULT_LOG_LEVEL;
 		}
 
-		final Integer level = levelMap.get(logLevel.toLowerCase());
+		final Integer level = LEVEL_MAP.get(logLevel.toLowerCase());
 		if (level != null) {
 			return level;
 		}

@@ -16,11 +16,11 @@ class Logger {
 	public static final int INFO = 3;
 	public static final int DEBUG = 4;
 
-	protected static final String[] levelTags = new String[] {
+	protected static final String[] LEVEL_TAGS = new String[] {
 		"[FATAL] ", "[ERROR] ", "[WARN]  ", "[INFO]  ", "[DEBUG] "
 	};
 
-	public static String DEFAULT_CONFIG_FILE = "logging-config.properties";
+	private static String defaultConfigFileName = "logging-config.properties";
 
 	protected List<ILogHandler> handlerList;
 	protected boolean disabled;
@@ -29,7 +29,7 @@ class Logger {
 	protected SimpleDateFormat dateFormat;
 
 	protected Logger() {
-		final IConfigLoader cl = new ConfigLoader(DEFAULT_CONFIG_FILE);
+		final IConfigLoader cl = new ConfigLoader(defaultConfigFileName);
 
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
@@ -59,7 +59,7 @@ class Logger {
 		if (!disabled && level <= logLevel) {
 
 			final StringBuffer rendMsg = new StringBuffer();
-			rendMsg.append(levelTags[level]);
+			rendMsg.append(LEVEL_TAGS[level]);
 			rendMsg.append(label);
 			rendMsg.append(": ");
 			if (showDate) {
@@ -81,6 +81,10 @@ class Logger {
 			}
 		}
 		return null;
+	}
+
+	public static void setDefaultConfigFileName(final String defaultConfigFileName) {
+		Logger.defaultConfigFileName = defaultConfigFileName;
 	}
 
 }
