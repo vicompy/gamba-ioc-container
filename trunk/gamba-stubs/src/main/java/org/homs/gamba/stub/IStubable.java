@@ -6,7 +6,7 @@ package org.homs.gamba.stub;
  *
  * @author mhoms
  */
-interface IStubable {
+public interface IStubable {
 
 	/**
 	 * defineix el valor del retorn desitjat per al pròxim registre de crida.

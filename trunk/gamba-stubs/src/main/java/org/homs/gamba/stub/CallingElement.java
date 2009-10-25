@@ -64,6 +64,14 @@ class CallingElement {
 		return returningObject;
 	}
 
+	public Boolean getReturningObjectisAnExceptionToThrow() {
+		return returningObjectisAnExceptionToThrow;
+	}
+
+	public IDelegator getDelegator() {
+		return delegator;
+	}
+
 	/**
 	 * retorna una representació en String de l'estat d'aquest objecte
 	 *
@@ -72,7 +80,9 @@ class CallingElement {
 	@Override
 	public String toString() {
 		final StringBuffer strb = new StringBuffer(100);
-		strb.append(returningObject);
+		if (returningObjectisAnExceptionToThrow != null && !returningObjectisAnExceptionToThrow) {
+			strb.append(returningObject);
+		}
 		strb.append(" <= ");
 		strb.append(method.getName());
 		strb.append('(');
@@ -81,18 +91,10 @@ class CallingElement {
 			strb.append(", ");
 		}
 		strb.append(") : throwing: ");
-		if (returningObjectisAnExceptionToThrow != null) {
+		if (returningObjectisAnExceptionToThrow != null && returningObjectisAnExceptionToThrow) {
 			strb.append(this.returningObject);
 		}
 		return strb.toString();
-	}
-
-	public Boolean getReturningObjectisAnExceptionToThrow() {
-		return returningObjectisAnExceptionToThrow;
-	}
-
-	public IDelegator getDelegator() {
-		return delegator;
 	}
 
 }
