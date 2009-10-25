@@ -53,11 +53,11 @@ class CallingElement {
 	}
 
 	public Object[] getCallingArgsValues() {
-		return callingArgsValues;
+		return callingArgsValues.clone();
 	}
 
 	public void setCallingArgsValues(final Object[] callingArgsValues) {
-		this.callingArgsValues = callingArgsValues;
+		this.callingArgsValues = callingArgsValues.clone();
 	}
 
 	public Object getReturningObject() {
