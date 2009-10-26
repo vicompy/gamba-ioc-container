@@ -166,7 +166,7 @@ class ContextProcessor {
 	 */
 	private Constructor<?> findConstructor(final Class<?> targetClass, final Class<?>[] classArgsList)
 			throws GambaException {
-		final Constructor<?>[] constructors = targetClass.getConstructors();
+		final Constructor<?>[] constructors = targetClass.getDeclaredConstructors();
 
 		Constructor<?> constructor = null;
 
