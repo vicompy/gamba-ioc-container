@@ -8,19 +8,12 @@ import java.util.Locale;
 import org.homs.gamba.logging.interfaces.IConfigLoader;
 import org.homs.gamba.logging.interfaces.ILogHandler;
 
-class Logger {
+class Logger implements ILogger {
 
-	public static final int FATAL = 0;
-	public static final int ERROR = 1;
-	public static final int WARNING = 2;
-	public static final int INFO = 3;
-	public static final int DEBUG = 4;
+	protected static final String[] LEVEL_TAGS = new String[] { "[FATAL] ", "[ERROR] ", "[WARN]  ", "[INFO]  ",
+			"[DEBUG] " };
 
-	protected static final String[] LEVEL_TAGS = new String[] {
-		"[FATAL] ", "[ERROR] ", "[WARN]  ", "[INFO]  ", "[DEBUG] "
-	};
-
-	private static String defaultConfigFileName = "logging-config.properties";
+	private final static String DEFAULT_CONFIG_FILENAME = "logging-config.properties";
 
 	protected List<ILogHandler> handlerList;
 	protected boolean disabled;
@@ -29,7 +22,12 @@ class Logger {
 	protected SimpleDateFormat dateFormat;
 
 	protected Logger() {
-		final IConfigLoader cl = new ConfigLoader(defaultConfigFileName);
+		this(new ConfigLoader(DEFAULT_CONFIG_FILENAME));
+	}
+
+	// TODO porta d'enllaç de testing
+	protected Logger(final IConfigLoader customConfigLoader) {
+		final IConfigLoader cl = customConfigLoader;
 
 		disabled = cl.disableLogging();
 		logLevel = cl.getLogLevel();
@@ -39,15 +37,15 @@ class Logger {
 
 		if (cl.isConfigFileNotFound()) {
 			sendMessage(WARNING, this.getClass().getSimpleName(),
-				"gamba-logging config file not found. default config is applied.");
+					"gamba-logging config file not found. default config is applied.");
 		}
 	}
 
 	private static class SingletonHolder {
-		private static final Logger INSTANCE = new Logger();
+		private static final ILogger INSTANCE = new Logger();
 	}
 
-	public static Logger getLogger() {
+	public static ILogger getLogger() {
 		return SingletonHolder.INSTANCE;
 	}
 
@@ -55,6 +53,10 @@ class Logger {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 
+	/**
+	 * @see org.homs.gamba.logging.ILogger#sendMessage(int, java.lang.String,
+	 *      java.lang.String)
+	 */
 	public final void sendMessage(final int level, final String label, final String msg) {
 		if (!disabled && level <= logLevel) {
 
@@ -74,6 +76,24 @@ class Logger {
 		}
 	}
 
+	// TODO nou, testar
+	/**
+	 * @see org.homs.gamba.logging.ILogger#sendMessage(int, java.lang.String,
+	 *      java.lang.Object)
+	 */
+	public final void sendMessage(final int level, final String label, final Object... msgs) {
+		if (!disabled && level <= logLevel) {
+			final StringBuffer strb = new StringBuffer();
+			for (final Object o : msgs) {
+				strb.append(o.toString());
+			}
+			sendMessage(level, label, strb.toString());
+		}
+	}
+
+	/**
+	 * @see org.homs.gamba.logging.ILogger#getFirstMatchingHandler(java.lang.Class)
+	 */
 	public ILogHandler getFirstMatchingHandler(final Class<? extends ILogHandler> handlerClass) {
 		for (final ILogHandler h : handlerList) {
 			if (h.getClass().equals(handlerClass)) {
@@ -81,10 +101,6 @@ class Logger {
 			}
 		}
 		return null;
-	}
-
-	public static void setDefaultConfigFileName(final String defaultConfigFileName) {
-		Logger.defaultConfigFileName = defaultConfigFileName;
 	}
 
 }

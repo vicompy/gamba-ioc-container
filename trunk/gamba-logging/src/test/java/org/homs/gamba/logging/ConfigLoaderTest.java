@@ -53,7 +53,7 @@ public class ConfigLoaderTest {
 
 		Assert.assertEquals(false, cl.configFileNotFound);
 		Assert.assertEquals(false, cl.disableLogging());
-		Assert.assertEquals(Logger.WARNING, cl.getLogLevel());
+		Assert.assertEquals(ILogger.WARNING, cl.getLogLevel());
 		Assert.assertEquals(false, cl.enableDateTime());
 		Assert.assertEquals("dd/MM/yyyy G 'at' hh:mm:ss z", cl.getDateTimeFormat());
 		Assert.assertEquals(2, cl.getHandlerList().size());

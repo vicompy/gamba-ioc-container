@@ -1,11 +1,11 @@
 package org.homs.gamba.stub.test;
 
 import org.homs.gamba.stub.IDelegator;
-import org.homs.gamba.stub.Stub;
-import org.homs.gamba.stub.Stubber;
 import org.homs.gamba.stub.ents.IAdder;
 import org.homs.gamba.stub.ents.IConcater;
 import org.homs.gamba.stub.exception.GambaStubsException;
+import org.homs.gamba.stub.syntax.IStubber;
+import org.homs.gamba.stub.syntax.Stubber;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,21 +14,23 @@ public class StubTest {
 	@Test
 	public void test1() {
 
-		final Stub<IAdder> m = Stubber.createStub(IAdder.class);
-		m.returning(3).add(1, 2);
-		m.returning(5).add(2, 3);
+		final IStubber<IAdder> m = Stubber.createStub(IAdder.class);
+		m.doReturn(3).when().add(1, 2);
+		m.doReturn(5).when().add(2, 3);
 		final IAdder ia = m.play();
 
 		Assert.assertEquals(Integer.valueOf(3), ia.add(1, 2));
 		Assert.assertEquals(Integer.valueOf(5), ia.add(2, 3));
+
+		System.out.println(Stubber.obtainReport(ia));
 	}
 
 	@Test(expected = GambaStubsException.class)
 	public void test2() {
 
-		final Stub<IAdder> m = Stubber.createStub(IAdder.class);
-		m.returning(3).add(1, 2);
-		m.returning(5).add(2, 3);
+		final IStubber<IAdder> m = Stubber.createStub(IAdder.class);
+		m.doReturn(3).when().add(1, 2);
+		m.doReturn(5).when().add(2, 3);
 		final IAdder ia = m.play();
 
 		ia.add(3, 4);
@@ -37,8 +39,8 @@ public class StubTest {
 	@Test(expected = GambaStubsException.class)
 	public void test3() {
 
-		final Stub<IAdder> m = Stubber.createStub(IAdder.class);
-		m.returning(3);
+		final IStubber<IAdder> m = Stubber.createStub(IAdder.class);
+		m.doReturn(3);
 		final IAdder ia = m.play();
 
 		Assert.assertEquals(Integer.valueOf(5), ia.add(2, 3));
@@ -47,18 +49,19 @@ public class StubTest {
 	@Test
 	public void test4() {
 
-		final Stub<IConcater> m = Stubber.createStub(IConcater.class);
-		m.returning("hello world").concat("hello ", "world");
+		final IStubber<IConcater> m = Stubber.createStub(IConcater.class);
+		m.doReturn("hello world").when().concat("hello ", "world");
 		final IConcater ia = m.play();
 
 		Assert.assertEquals("hello world", ia.concat("hello ", "world"));
+		System.out.println(Stubber.obtainReport(ia));
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void test5() {
 
-		final Stub<IConcater> m = Stubber.createStub(IConcater.class);
-		m.throwing(new NullPointerException("jou")).concat("hello ", null);
+		final IStubber<IConcater> m = Stubber.createStub(IConcater.class);
+		m.doThrow(new NullPointerException("jou")).when().concat("hello ", null);
 		final IConcater ia = m.play();
 
 		Assert.assertEquals("hello world", ia.concat("hello ", null));
@@ -67,11 +70,12 @@ public class StubTest {
 	@Test
 	public void test6() {
 
-		final Stub<IConcater> m = Stubber.createStub(IConcater.class);
-		m.delegates(new DelegatorConcat()).concat("hello ", "world");
+		final IStubber<IConcater> m = Stubber.createStub(IConcater.class);
+		m.doDelegate(new DelegatorConcat()).when().concat("hello ", "world");
 		final IConcater ia = m.play();
 
 		Assert.assertEquals("hello world", ia.concat("hello ", "world"));
+		System.out.println(Stubber.obtainReport(ia));
 	}
 
 }

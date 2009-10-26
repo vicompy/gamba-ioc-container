@@ -11,12 +11,12 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.homs</groupId>
-			<artifactId>gamba-logging</artifactId>
-			<version>0.0.1</version>
-			<scope>provided</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.homs</groupId>-->
+<!--			<artifactId>gamba-logging</artifactId>-->
+<!--			<version>0.0.1</version>-->
+<!--			<scope>provided</scope>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>junit</groupId>

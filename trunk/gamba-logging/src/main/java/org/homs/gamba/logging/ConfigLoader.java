@@ -15,7 +15,7 @@ import org.homs.gamba.logging.interfaces.ILogHandler;
 
 class ConfigLoader implements IConfigLoader {
 
-	public static final int DEFAULT_LOG_LEVEL = Logger.DEBUG;
+	public static final int DEFAULT_LOG_LEVEL = ILogger.DEBUG;
 	public static final String DEFAULT_DATETIME_FORMAT = "H:mm:ss:SSS";
 
 	public static final String PROP_DISABLED = "disabled";
