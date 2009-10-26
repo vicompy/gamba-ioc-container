@@ -23,11 +23,15 @@ public class StubProxy implements InvocationHandler {
 	}
 
 	/**
-	 * contracte de crides a aquest proxy: 1. cridar a setReturnValue, amb el
-	 * valor de retorn desitjat. 2. fer la crida a l'ínterfície original i així
-	 * registrar el <tt>CallingElement</tt>. 3. repetir (2). 4. cridar
-	 * stopRecording.
-	 *
+	 * contracte de crides a aquest proxy:
+	 * <ul>
+	 * <li>1. cridar a <tt>setReturnValue</tt>, amb el valor de retorn desitjat.
+	 * </li>
+	 * <li>2. fer la crida a l'ínterfície original i així registrar el
+	 * <tt>CallingElement</tt>.</li>
+	 * <li>3. repetir (2).</li>
+	 * <li>4. cridar stopRecording.</li>
+	 * </ul>
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
 	 */
@@ -77,7 +81,8 @@ public class StubProxy implements InvocationHandler {
 			}
 		}
 
-		final RuntimeException e = new GambaStubsException("method call not registered: \n" + method.getName()); // TODO
+		final RuntimeException e = new GambaStubsException("method call not registered: \n"
+				+ method.getName()); // TODO
 		throw e;
 	}
 
@@ -88,7 +93,7 @@ public class StubProxy implements InvocationHandler {
 		}
 
 		if (method.getName().equals("setThrowing")) {
-			if (! (args[0] instanceof Throwable)) {
+			if (!(args[0] instanceof Throwable)) {
 				throw new GambaStubsException("this is not a Throwable object \n"); // TODO
 			}
 			final CallingElement ce = new CallingElement(args[0], true);
@@ -97,7 +102,7 @@ public class StubProxy implements InvocationHandler {
 		}
 
 		if (method.getName().equals("setDelegator")) {
-			if (! (args[0] instanceof IDelegator)) {
+			if (!(args[0] instanceof IDelegator)) {
 				throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
 			}
 			cel.add(new CallingElement((IDelegator) args[0]));
@@ -143,8 +148,8 @@ public class StubProxy implements InvocationHandler {
 	private void checkRegisteredCalls() {
 		for (final CallingElement ce : cel) {
 			if (ce.getMethod() == null) {
-				throw new GambaStubsException(
-						"method call partially defined found, with returning value: " + ce.getReturningObject());
+				throw new GambaStubsException("method call partially defined found, with returning value: "
+						+ ce.getReturningObject());
 			}
 		}
 	}

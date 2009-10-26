@@ -14,15 +14,15 @@ public class StubTest {
 	@Test
 	public void test1() {
 
-		final IStubber<IAdder> m = Stubber.createStub(IAdder.class);
-		m.doReturn(3).when().add(1, 2);
-		m.doReturn(5).when().add(2, 3);
-		final IAdder ia = m.play();
+		final IStubber<IAdder> adderStubber = Stubber.createStub(IAdder.class);
+		adderStubber.doReturn(3).when().add(1, 2);
+		adderStubber.doReturn(5).when().add(2, 3);
+		final IAdder adderStub = adderStubber.play();
 
-		Assert.assertEquals(Integer.valueOf(3), ia.add(1, 2));
-		Assert.assertEquals(Integer.valueOf(5), ia.add(2, 3));
+		Assert.assertEquals(Integer.valueOf(3), adderStub.add(1, 2));
+		Assert.assertEquals(Integer.valueOf(5), adderStub.add(2, 3));
 
-		System.out.println(Stubber.obtainReport(ia));
+		System.out.println(Stubber.obtainReport(adderStub));
 	}
 
 	@Test(expected = GambaStubsException.class)
