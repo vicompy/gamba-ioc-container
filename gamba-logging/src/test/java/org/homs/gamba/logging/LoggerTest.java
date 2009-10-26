@@ -1,66 +1,25 @@
 package org.homs.gamba.logging;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.logging.exception.GambaLoggingException;
 import org.homs.gamba.logging.handlers.DummyHandler;
 import org.homs.gamba.logging.interfaces.IConfigLoader;
 import org.homs.gamba.logging.interfaces.ILogHandler;
 import org.homs.gamba.stub.syntax.IStubber;
 import org.homs.gamba.stub.syntax.Stubber;
+import org.homs.gamba.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class LoggerTest {
 
-	private ILogger loggerNewHackedInstance(final IConfigLoader configLoader) {
-		Constructor<Logger> cons;
-		try {
-			cons = Logger.class.getDeclaredConstructor(IConfigLoader.class);
-			cons.setAccessible(true);
-			return cons.newInstance(configLoader);
-		} catch (final Exception e) {
-			throw new GambaLoggingException("error hackejant una nova instància singletona de Logger", e);
-		}
-	}
-//	private ILogger loggerNewHackedInstance() {
-//		Constructor<Logger> cons;
-//		try {
-//			cons = Logger.class.getDeclaredConstructor();
-//			cons.setAccessible(true);
-//			return cons.newInstance();
-//		} catch (final Exception e) {
-//			throw new GambaLoggingException("error hackejant una nova instància singletona de Logger", e);
-//		}
-//	}
-
-//	/**
-//	 * @param propertiesFile si <tt>null</tt>, no varia la constant
-//	 */
-//	private ILogger loggingOutput(final String propertiesFile) {
-//		final ILogger log;
-//		if (propertiesFile != null) {
-//			log = loggerNewHackedInstance(new ConfigLoader(propertiesFile));
-//		} else {
-//			log = loggerNewHackedInstance();
-//		}
-//		final String labelMsg = this.getClass().getSimpleName();
-//
-//		log.sendMessage(ILogger.FATAL, labelMsg, "==================================");
-//		log.sendMessage(ILogger.FATAL, labelMsg, "this is a FATAL log message");
-//		log.sendMessage(ILogger.ERROR, labelMsg, "this is an ERROR log message");
-//		log.sendMessage(ILogger.WARNING, labelMsg, "this is a WARNING log message");
-//		log.sendMessage(ILogger.INFO, labelMsg, "this is a INFO log message");
-//		log.sendMessage(ILogger.DEBUG, labelMsg, "this is a DEBUG log message");
-//
-//		return log;
-//	}
-
-
 	@Test
 	public void test1() {
+
+		/*
+		 * stub behavior definition
+		 */
 		final List<ILogHandler> handlerList = new ArrayList<ILogHandler>();
 		handlerList.add(new DummyHandler());
 
@@ -73,11 +32,20 @@ public class LoggerTest {
 		lcStubber.doReturn(false).when().isConfigFileNotFound();
 		final IConfigLoader configLoaderStub = lcStubber.play();
 
-		final Logger logger = (Logger) loggerNewHackedInstance(configLoaderStub);
+		/*
+		 * hacked singleton instance
+		 */
+		final Logger logger = (Logger) TestUtils.newHackedInstance(Logger.class, configLoaderStub);
 
+		/*
+		 * run testing code
+		 */
 		logger.sendMessage(ILogger.WARNING, this.getClass().getSimpleName(), "hi");
 		logger.sendMessage(ILogger.WARNING, this.getClass().getSimpleName(), "1","2","3");
 
+		/*
+		 * assertions
+		 */
 		final List<String> outlogs = ((DummyHandler) handlerList.get(0)).getLogs();
 
 		Assert.assertEquals(
@@ -87,6 +55,8 @@ public class LoggerTest {
 			"]",
 			outlogs.toString()
 		);
+
+	}
 
 //		final DummyHandler DummyHandler = (DummyHandler) log.getFirstMatchingHandler(DummyHandler.class);
 //		Assert.assertEquals(
@@ -98,7 +68,6 @@ public class LoggerTest {
 //				+ "]",
 //				DummyHandler.getLogs()
 //				.toString().replaceAll("[0-9]+", "*"));
-	}
 
 
 //	/**
