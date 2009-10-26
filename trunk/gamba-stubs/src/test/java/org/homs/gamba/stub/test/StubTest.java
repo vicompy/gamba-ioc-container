@@ -79,7 +79,6 @@ public class StubTest {
 	}
 
 }
-
 class DelegatorConcat implements IDelegator {
 
 	public Object delegates(final Object... os) {
