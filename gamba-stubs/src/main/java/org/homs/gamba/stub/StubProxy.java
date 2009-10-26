@@ -6,17 +6,16 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.logging.Log;
 import org.homs.gamba.stub.exception.GambaStubsException;
 
 /**
  * @author mhoms
  */
-class StubProxy implements InvocationHandler {
+public class StubProxy implements InvocationHandler {
 
 	private final List<CallingElement> cel = new ArrayList<CallingElement>();
+	private final List<CallingReport> crl = new ArrayList<CallingReport>();
 	private boolean proxyIsRecording = true;
-	private static final Log LOG = new Log(StubProxy.class);
 
 	public static Object newInstance(final Class<?> stubableInterface) {
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] {
@@ -27,7 +26,7 @@ class StubProxy implements InvocationHandler {
 	 * contracte de crides a aquest proxy: 1. cridar a setReturnValue, amb el
 	 * valor de retorn desitjat. 2. fer la crida a l'ínterfície original i així
 	 * registrar el <tt>CallingElement</tt>. 3. repetir (2). 4. cridar
-	 * stopRecording
+	 * stopRecording.
 	 *
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
@@ -39,7 +38,6 @@ class StubProxy implements InvocationHandler {
 			 * in recording state
 			 */
 			return recording(method, args);
-
 		} else {
 			/*
 			 * in playing state
@@ -49,6 +47,12 @@ class StubProxy implements InvocationHandler {
 	}
 
 	private Object playing(final Method method, final Object[] args) throws Throwable {
+
+		if (method.getName().equals("obtainReport")) {
+			return crl;
+		}
+		crl.add(new CallingReport(method, args));
+
 		for (final CallingElement ce : cel) {
 			if (ce.getMethod().equals(method)) {
 
@@ -62,23 +66,18 @@ class StubProxy implements InvocationHandler {
 				}
 
 				if (argsOK) {
-					if (ce.getReturningObjectisAnExceptionToThrow() != null
-							&& ce.getReturningObjectisAnExceptionToThrow()) {
-						LOG.debug("throwing...");
+					if (ce.getCallingElementType() == ECallingElementType.THROWING) {
 						throw (Throwable) ce.getReturningObject();
-					} else if (ce.getDelegator() != null) {
-						LOG.debug("delegating...");
-						return ce.getDelegator().delegates(args);
+					} else if (ce.getCallingElementType() == ECallingElementType.DELEGATING) {
+						return ((IDelegator) ce.getReturningObject()).delegates(args);
 					} else {
-						LOG.debug("calling: " + ce.toString());
 						return ce.getReturningObject();
 					}
 				}
 			}
 		}
 
-		final RuntimeException e = new GambaStubsException("method call not registered: \n"); // TODO
-		LOG.error(e);
+		final RuntimeException e = new GambaStubsException("method call not registered: \n" + method.getName()); // TODO
 		throw e;
 	}
 
@@ -87,11 +86,10 @@ class StubProxy implements InvocationHandler {
 			cel.add(new CallingElement(args[0], false));
 			return null;
 		}
+
 		if (method.getName().equals("setThrowing")) {
-			if (!(args[0] instanceof Throwable)) {
-				final RuntimeException e = new GambaStubsException("this is not a Throwable object \n"); // TODO
-				LOG.error(e);
-				throw e;
+			if (! (args[0] instanceof Throwable)) {
+				throw new GambaStubsException("this is not a Throwable object \n"); // TODO
 			}
 			final CallingElement ce = new CallingElement(args[0], true);
 			cel.add(ce);
@@ -99,10 +97,8 @@ class StubProxy implements InvocationHandler {
 		}
 
 		if (method.getName().equals("setDelegator")) {
-			if (!(args[0] instanceof IDelegator)) {
-				final RuntimeException e = new GambaStubsException("this is not an IDelegator object \n"); // TODO
-				LOG.error(e);
-				throw e;
+			if (! (args[0] instanceof IDelegator)) {
+				throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
 			}
 			cel.add(new CallingElement((IDelegator) args[0]));
 			return null;
@@ -115,10 +111,8 @@ class StubProxy implements InvocationHandler {
 		}
 
 		final CallingElement ce = cel.get(cel.size() - 1);
-		ce.setMethod(method);
-		ce.setCallingArgsValues(args);
+		ce.setCall(method, args);
 
-		LOG.debug("registered call: " + cel.get(cel.size() - 1));
 		return computeRecordingReturn(method);
 	}
 
@@ -149,10 +143,8 @@ class StubProxy implements InvocationHandler {
 	private void checkRegisteredCalls() {
 		for (final CallingElement ce : cel) {
 			if (ce.getMethod() == null) {
-				final RuntimeException e = new GambaStubsException(
+				throw new GambaStubsException(
 						"method call partially defined found, with returning value: " + ce.getReturningObject());
-				LOG.error(e);
-				throw e;
 			}
 		}
 	}

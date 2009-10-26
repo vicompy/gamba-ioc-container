@@ -1,5 +1,8 @@
 package org.homs.gamba.stub;
 
+import java.util.List;
+
+
 /**
  * defineix mètodes addicionals al proxy de qualsevol stub, dedicats a la
  * configuració del mateix.
@@ -24,5 +27,7 @@ public interface IStubable {
 	 * retornant els valors registrats
 	 */
 	public void stopRecording();
+
+	public List<CallingReport> obtainReport();
 
 }
