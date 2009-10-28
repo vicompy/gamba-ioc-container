@@ -11,8 +11,9 @@ class CallingElement {
 
 	private Method method;
 	private Object[] callingArgsValues;
-	private final Object returningObject;
+
 	private final ECallingElementType callingElementType;
+	private final Object returningObject;
 
 	/**
 	 * constructor que especifica, anticipadament, el comportament de la crida a

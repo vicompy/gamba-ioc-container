@@ -2,17 +2,15 @@ package org.homs.gamba.stub.delegator;
 
 import org.homs.gamba.stub.IDelegator;
 
-public abstract class PingPongDelegator implements IDelegator {
+public class PingPongSequence implements IDelegator {
 
 	private int dir = 1;
 	private int index = 0;
 	private Object[] sequence = null;
 
-	public PingPongDelegator() {
-		sequence = getSequence();
+	public PingPongSequence(final Object... sequence) {
+		this.sequence = sequence;
 	}
-
-	protected abstract Object[] getSequence();
 
 	public Object delegates(final Object... os) {
 		final Object r = sequence[index];
