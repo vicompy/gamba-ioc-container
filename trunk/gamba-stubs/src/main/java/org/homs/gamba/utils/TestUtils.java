@@ -10,7 +10,11 @@ import org.homs.gamba.stub.exception.GambaStubsException;
  *
  * @author mhoms
  */
-public class TestUtils {
+public final class TestUtils {
+
+	private TestUtils() {
+
+	}
 
 	/**
 	 * invoca a un constructor per defecte privat, i en retorna una nova
@@ -21,7 +25,7 @@ public class TestUtils {
 	 * @param singletonClass classe de Singleton
 	 * @return la nova instància
 	 */
-	public static Object newHackedInstance(final Class<?> singletonClass, final Object...args) {
+	public static Object newHackedInstance(final Class<?> singletonClass, final Object... args) {
 		final Constructor<?> cons;
 		final Class<?>[] argClasses = new Class<?>[args.length];
 		for (int i = 0; i < args.length; i++) {
@@ -133,8 +137,8 @@ public class TestUtils {
 				dst2 = Character.class;
 			} else if (dst.equals(byte.class)) {
 				dst2 = Byte.class;
-			} else if (dst.equals(short.class)) {
-				dst2 = Short.class;
+				// } else if (dst.equals(short.class)) {
+				// dst2 = Short.class;
 			}
 		}
 

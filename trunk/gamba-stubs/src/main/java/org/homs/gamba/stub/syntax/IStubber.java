@@ -1,26 +1,32 @@
 package org.homs.gamba.stub.syntax;
 
-import org.homs.gamba.stub.IDelegator;
+import org.homs.gamba.stub.delegator.IDelegator;
 
 public interface IStubber<T> {
 
 	/**
 	 * especifica un valor de retorn
 	 *
-	 * @param r valor de retorn
+	 * @param object valor de retorn
 	 * @return el proxy
 	 */
-	public abstract IWhenSyntax<T> doReturn(final Object r);
+	IWhenSyntax<T> willReturn(final Object object);
 
-	public abstract IWhenSyntax<T> doThrow(final Throwable t);
+	IWhenSyntax<T> loop(Object... objects);
 
-	public abstract IWhenSyntax<T> doDelegate(final IDelegator delegator);
+	IWhenSyntax<T> singlePass(Object... objects);
+
+	IWhenSyntax<T> pingPongLoop(Object... objects);
+
+	IWhenSyntax<T> willThrows(final Throwable throwable);
+
+	IWhenSyntax<T> willDelegates(final IDelegator delegator);
 
 	/**
 	 * configura el proxy en mode simulació, deixant de registrar
 	 *
 	 * @return el proxy
 	 */
-	public abstract T play();
+	T play();
 
 }
