@@ -13,6 +13,10 @@ public final class Seq {
 		return tl.toArray(new Object[tl.size()]);
 	}
 
+	public static List<Object> enList(final Object... os) {
+		return Arrays.asList(os);
+	}
+
 	public static Object[] rep(final int n, final Object... ts) {
 		final List<Object> r = new ArrayList<Object>();
 		final List<Object> l = Arrays.asList(seq(ts));
@@ -27,8 +31,8 @@ public final class Seq {
 		final List<Object> r = new ArrayList<Object>();
 
 		for (final Object t : ts) {
-			if (t instanceof List) {
-				r.addAll((List<?>) t);
+			if (t.getClass().isArray()) {
+				r.addAll(enList((Object[]) t));
 			} else {
 				r.add(t);
 			}
@@ -36,5 +40,7 @@ public final class Seq {
 
 		return toArray(r);
 	}
+
+
 
 }
