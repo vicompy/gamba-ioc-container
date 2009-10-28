@@ -9,7 +9,7 @@ public final class Seq {
 	private Seq() {
 	}
 
-	private static Object[] enList(final List<?> tl) {
+	private static Object[] toArray(final List<?> tl) {
 		return tl.toArray(new Object[tl.size()]);
 	}
 
@@ -20,7 +20,7 @@ public final class Seq {
 		for (int i = 0; i < n; i++) {
 			r.addAll(l);
 		}
-		return enList(r);
+		return toArray(r);
 	}
 
 	public static Object[] seq(final Object... ts) {
@@ -34,7 +34,7 @@ public final class Seq {
 			}
 		}
 
-		return enList(r);
+		return toArray(r);
 	}
 
 }
