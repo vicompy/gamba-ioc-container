@@ -24,12 +24,12 @@ public class LoggerTest {
 		handlerList.add(new DummyHandler());
 
 		final IStubber<IConfigLoader> lcStubber = Stubber.createStub(IConfigLoader.class);
-		lcStubber.doReturn(false).when().disableLogging();
-		lcStubber.doReturn(ILogger.INFO).when().getLogLevel();
-		lcStubber.doReturn(false).when().enableDateTime();
-		lcStubber.doReturn("").when().getDateTimeFormat();
-		lcStubber.doReturn(handlerList).when().getHandlerList();
-		lcStubber.doReturn(false).when().isConfigFileNotFound();
+		lcStubber.thenReturn(false).when().disableLogging();
+		lcStubber.thenReturn(ILogger.INFO).when().getLogLevel();
+		lcStubber.thenReturn(false).when().enableDateTime();
+		lcStubber.thenReturn("").when().getDateTimeFormat();
+		lcStubber.thenReturn(handlerList).when().getHandlerList();
+		lcStubber.thenReturn(false).when().isConfigFileNotFound();
 		final IConfigLoader configLoaderStub = lcStubber.play();
 
 		/*

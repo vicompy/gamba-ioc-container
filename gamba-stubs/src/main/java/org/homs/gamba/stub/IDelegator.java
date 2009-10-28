@@ -1,5 +1,5 @@
 package org.homs.gamba.stub;
 
 public interface IDelegator {
-	public Object delegates(Object... os);
+	public Object delegates(Object... args);
 }
