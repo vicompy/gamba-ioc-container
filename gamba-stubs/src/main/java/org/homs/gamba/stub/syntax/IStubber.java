@@ -10,17 +10,17 @@ public interface IStubber<T> {
 	 * @param object valor de retorn
 	 * @return el proxy
 	 */
-	IWhenSyntax<T> thenReturn(final Object object);
+	IWhenSyntax<T> doReturn(final Object object);
 
-	IWhenSyntax<T> thenLoop(Object... objects);
+	IWhenSyntax<T> doLoop(Object... objects);
 
-	IWhenSyntax<T> thenSinglePass(Object... objects);
+	IWhenSyntax<T> doSinglePass(Object... objects);
 
-	IWhenSyntax<T> thenPingPongLoop(Object... objects);
+	IWhenSyntax<T> doPingPongLoop(Object... objects);
 
-	IWhenSyntax<T> thenThrows(final Throwable throwable);
+	IWhenSyntax<T> doThrow(final Throwable throwable);
 
-	IWhenSyntax<T> thenDelegates(final IDelegator delegator);
+	IWhenSyntax<T> doDelegate(final IDelegator delegator);
 
 	/**
 	 * configura el proxy en mode simulació, deixant de registrar

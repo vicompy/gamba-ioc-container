@@ -15,8 +15,8 @@ public class StubTest {
 	public void test1() {
 
 		final IStubber<IAdder> adderStubber = Stubber.createStub(IAdder.class);
-		adderStubber.thenReturn(3).when().add(1, 2);
-		adderStubber.thenReturn(5).when().add(2, 3);
+		adderStubber.doReturn(3).when().add(1, 2);
+		adderStubber.doReturn(5).when().add(2, 3);
 		final IAdder adderStub = adderStubber.play();
 
 		Assert.assertEquals(Integer.valueOf(3), adderStub.add(1, 2));
@@ -29,8 +29,8 @@ public class StubTest {
 	public void test2() {
 
 		final IStubber<IAdder> m = Stubber.createStub(IAdder.class);
-		m.thenReturn(3).when().add(1, 2);
-		m.thenReturn(5).when().add(2, 3);
+		m.doReturn(3).when().add(1, 2);
+		m.doReturn(5).when().add(2, 3);
 		final IAdder ia = m.play();
 
 		ia.add(3, 4);
@@ -40,7 +40,7 @@ public class StubTest {
 	public void test3() {
 
 		final IStubber<IAdder> m = Stubber.createStub(IAdder.class);
-		m.thenReturn(3);
+		m.doReturn(3);
 		final IAdder ia = m.play();
 
 		Assert.assertEquals(Integer.valueOf(5), ia.add(2, 3));
@@ -50,7 +50,7 @@ public class StubTest {
 	public void test4() {
 
 		final IStubber<IConcater> m = Stubber.createStub(IConcater.class);
-		m.thenReturn("hello world").when().concat("hello ", "world");
+		m.doReturn("hello world").when().concat("hello ", "world");
 		final IConcater ia = m.play();
 
 		Assert.assertEquals("hello world", ia.concat("hello ", "world"));
@@ -61,7 +61,7 @@ public class StubTest {
 	public void test5() {
 
 		final IStubber<IConcater> m = Stubber.createStub(IConcater.class);
-		m.thenThrows(new NullPointerException("jou")).when().concat("hello ", null);
+		m.doThrow(new NullPointerException("jou")).when().concat("hello ", null);
 		final IConcater ia = m.play();
 
 		Assert.assertEquals("hello world", ia.concat("hello ", null));
@@ -71,7 +71,7 @@ public class StubTest {
 	public void test6() {
 
 		final IStubber<IConcater> m = Stubber.createStub(IConcater.class);
-		m.thenDelegates(new DelegatorConcat()).when().concat("hello ", "world");
+		m.doDelegate(new DelegatorConcat()).when().concat("hello ", "world");
 		final IConcater ia = m.play();
 
 		Assert.assertEquals("hello world", ia.concat("hello ", "world"));
