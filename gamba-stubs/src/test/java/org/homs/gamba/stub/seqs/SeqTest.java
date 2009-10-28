@@ -6,7 +6,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-public class SeqMain {
+public class SeqTest {
 
 	@Test
 	public void test1() {
