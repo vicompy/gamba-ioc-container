@@ -11,7 +11,7 @@ public class CiclicSequence implements IDelegator {
 		this.sequence = sequence;
 	}
 
-	public Object delegates(final Object... os) {
+	public Object delegates(final Object... args) {
 		if (index >= sequence.length) {
 			index = 0;
 		}

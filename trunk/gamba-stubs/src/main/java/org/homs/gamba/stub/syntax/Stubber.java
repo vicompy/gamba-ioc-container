@@ -33,40 +33,40 @@ public final class Stubber<T> implements IStubber<T>, IWhenSyntax<T> {
 	}
 
 	/**
-	 * @see org.homs.gamba.stub.IStub#willReturn(java.lang.Object)
+	 * @see org.homs.gamba.stub.IStub#thenReturn(java.lang.Object)
 	 */
-	public IWhenSyntax<T> willReturn(final Object object) {
+	public IWhenSyntax<T> thenReturn(final Object object) {
 		((IStubable) proxiedStub).setDelegator(new ConstantValue(object));
 		return this;
 	}
 
-	public IWhenSyntax<T> loop(final Object... objects) {
+	public IWhenSyntax<T> thenLoop(final Object... objects) {
 		((IStubable) proxiedStub).setDelegator(new CyclicSequence(objects));
 		return this;
 	}
 
-	public IWhenSyntax<T> singlePass(final Object... objects) {
+	public IWhenSyntax<T> thenSinglePass(final Object... objects) {
 		((IStubable) proxiedStub).setDelegator(new OnePassSequence(objects));
 		return this;
 	}
 
-	public IWhenSyntax<T> pingPongLoop(final Object... objects) {
+	public IWhenSyntax<T> thenPingPongLoop(final Object... objects) {
 		((IStubable) proxiedStub).setDelegator(new PingPongSequence(objects));
 		return this;
 	}
 
 	/**
-	 * @see org.homs.gamba.stub.IStub#willThrows(java.lang.Throwable)
+	 * @see org.homs.gamba.stub.IStub#thenThrows(java.lang.Throwable)
 	 */
-	public IWhenSyntax<T> willThrows(final Throwable throwable) {
+	public IWhenSyntax<T> thenThrows(final Throwable throwable) {
 		((IStubable) proxiedStub).setDelegator(new ExceptionTrigger(throwable));
 		return this;
 	}
 
 	/**
-	 * @see org.homs.gamba.stub.IStub#willDelegates(org.homs.gamba.stub.delegator.IDelegator)
+	 * @see org.homs.gamba.stub.IStub#thenDelegates(org.homs.gamba.stub.delegator.IDelegator)
 	 */
-	public IWhenSyntax<T> willDelegates(final IDelegator delegator) {
+	public IWhenSyntax<T> thenDelegates(final IDelegator delegator) {
 		((IStubable) proxiedStub).setDelegator(delegator);
 		return this;
 	}

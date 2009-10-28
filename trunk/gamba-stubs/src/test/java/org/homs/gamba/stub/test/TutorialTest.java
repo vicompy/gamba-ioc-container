@@ -14,7 +14,7 @@ public class TutorialTest {
 	public void test1() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.willReturn(5).when().get(0);
+		m.thenReturn(5).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(5, myListStub.get(0));
@@ -30,7 +30,7 @@ public class TutorialTest {
 	public void test2() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.loop(0, 1).when().get(0);
+		m.thenLoop(0, 1).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(0, myListStub.get(0));
@@ -46,7 +46,7 @@ public class TutorialTest {
 	public void test3() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.singlePass(0, 1).when().get(0);
+		m.thenSinglePass(0, 1).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(0, myListStub.get(0));
@@ -62,7 +62,7 @@ public class TutorialTest {
 	public void test4() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.pingPongLoop(0, 1, 2).when().get(0);
+		m.thenPingPongLoop(0, 1, 2).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(0, myListStub.get(0));
