@@ -6,6 +6,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.homs.gamba.stub.delegator.IDelegator;
 import org.homs.gamba.stub.exception.GambaStubsException;
 
 /**
@@ -13,8 +14,8 @@ import org.homs.gamba.stub.exception.GambaStubsException;
  */
 public class StubProxy implements InvocationHandler {
 
-	private final List<CallingElement> cel = new ArrayList<CallingElement>();
-	private final List<CallingReport> crl = new ArrayList<CallingReport>();
+	private final List<CallActionConfig> callsConfig = new ArrayList<CallActionConfig>();
+	private final List<CalledRegister> callsReport = new ArrayList<CalledRegister>();
 	private boolean proxyIsRecording = true;
 
 	public static Object newInstance(final Class<?> stubableInterface) {
@@ -32,6 +33,7 @@ public class StubProxy implements InvocationHandler {
 	 * <li>3. repetir (2).</li>
 	 * <li>4. cridar stopRecording.</li>
 	 * </ul>
+	 *
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
 	 */
@@ -53,11 +55,11 @@ public class StubProxy implements InvocationHandler {
 	private Object playing(final Method method, final Object[] args) throws Throwable {
 
 		if (method.getName().equals("obtainReport")) {
-			return crl;
+			return callsReport;
 		}
-		crl.add(new CallingReport(method, args));
+		callsReport.add(new CalledRegister(method, args));
 
-		for (final CallingElement ce : cel) {
+		for (final CallActionConfig ce : callsConfig) {
 			if (ce.getMethod().equals(method)) {
 
 				boolean argsOK = true;
@@ -70,42 +72,21 @@ public class StubProxy implements InvocationHandler {
 				}
 
 				if (argsOK) {
-					if (ce.getCallingElementType() == ECallingElementType.THROWING) {
-						throw (Throwable) ce.getReturningObject();
-					} else if (ce.getCallingElementType() == ECallingElementType.DELEGATING) {
-						return ((IDelegator) ce.getReturningObject()).delegates(args);
-					} else {
-						return ce.getReturningObject();
-					}
+					return ce.getDelegator().delegates(args);
 				}
 			}
 		}
 
-		final RuntimeException e = new GambaStubsException("method call not registered: \n"
-				+ method.getName()); // TODO
-		throw e;
+		throw new GambaStubsException("method call not registered: \n" + method.getName()); // TODO
 	}
 
 	private Object recording(final Method method, final Object[] args) {
-		if (method.getName().equals("setReturnValue")) {
-			cel.add(new CallingElement(args[0], false));
-			return null;
-		}
-
-		if (method.getName().equals("setThrowing")) {
-			if (!(args[0] instanceof Throwable)) {
-				throw new GambaStubsException("this is not a Throwable object \n"); // TODO
-			}
-			final CallingElement ce = new CallingElement(args[0], true);
-			cel.add(ce);
-			return null;
-		}
 
 		if (method.getName().equals("setDelegator")) {
 			if (!(args[0] instanceof IDelegator)) {
 				throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
 			}
-			cel.add(new CallingElement((IDelegator) args[0]));
+			callsConfig.add(new CallActionConfig((IDelegator) args[0]));
 			return null;
 		}
 
@@ -115,41 +96,41 @@ public class StubProxy implements InvocationHandler {
 			return null;
 		}
 
-		final CallingElement ce = cel.get(cel.size() - 1);
-		ce.setCall(method, args);
+		final CallActionConfig callConfig = callsConfig.get(callsConfig.size() - 1);
+		callConfig.setCall(method, args);
 
 		return computeRecordingReturn(method);
 	}
 
 	private Object computeRecordingReturn(final Method method) {
-		final Class<?> r = method.getReturnType();
+		final Class<?> type = method.getReturnType();
 
-		if (r.equals(int.class)) {
+		if (type.equals(int.class)) {
 			return Integer.valueOf(0);
 		}
-		if (r.equals(long.class)) {
+		if (type.equals(long.class)) {
 			return Long.valueOf(0);
 		}
-		if (r.equals(float.class)) {
+		if (type.equals(float.class)) {
 			return Float.valueOf(0);
 		}
-		if (r.equals(double.class)) {
+		if (type.equals(double.class)) {
 			return Double.valueOf(0);
 		}
-		if (r.equals(boolean.class)) {
+		if (type.equals(boolean.class)) {
 			return Boolean.FALSE;
 		}
-		if (r.equals(char.class)) {
+		if (type.equals(char.class)) {
 			return Character.valueOf(' ');
 		}
 		return null;
 	}
 
 	private void checkRegisteredCalls() {
-		for (final CallingElement ce : cel) {
+		for (final CallActionConfig ce : callsConfig) {
 			if (ce.getMethod() == null) {
 				throw new GambaStubsException("method call partially defined found, with returning value: "
-						+ ce.getReturningObject());
+						+ ce.getDelegator());
 			}
 		}
 	}

@@ -2,12 +2,17 @@ package org.homs.gamba.stub.syntax;
 
 import java.util.List;
 
-import org.homs.gamba.stub.CallingReport;
-import org.homs.gamba.stub.IDelegator;
+import org.homs.gamba.stub.CalledRegister;
 import org.homs.gamba.stub.IStubable;
 import org.homs.gamba.stub.StubProxy;
+import org.homs.gamba.stub.delegator.ConstantValue;
+import org.homs.gamba.stub.delegator.CyclicSequence;
+import org.homs.gamba.stub.delegator.ExceptionTrigger;
+import org.homs.gamba.stub.delegator.IDelegator;
+import org.homs.gamba.stub.delegator.OnePassSequence;
+import org.homs.gamba.stub.delegator.PingPongSequence;
 
-public class Stubber<T> implements IStubber<T>, IWhenSyntax<T> {
+public final class Stubber<T> implements IStubber<T>, IWhenSyntax<T> {
 
 	private final T proxiedStub;
 
@@ -27,30 +32,41 @@ public class Stubber<T> implements IStubber<T>, IWhenSyntax<T> {
 		return new Stubber(StubProxy.newInstance(interfaceToStub));
 	}
 
-	public static <T> List<CallingReport> obtainReport(final T proxiedStub) {
-		return ((IStubable) proxiedStub).obtainReport();
+	/**
+	 * @see org.homs.gamba.stub.IStub#willReturn(java.lang.Object)
+	 */
+	public IWhenSyntax<T> willReturn(final Object object) {
+		((IStubable) proxiedStub).setDelegator(new ConstantValue(object));
+		return this;
 	}
 
-	/**
-	 * @see org.homs.gamba.stub.IStub#doReturn(java.lang.Object)
-	 */
-	public IWhenSyntax<T> doReturn(final Object r) {
-		((IStubable) proxiedStub).setReturnValue(r);
+	public IWhenSyntax<T> loop(final Object... objects) {
+		((IStubable) proxiedStub).setDelegator(new CyclicSequence(objects));
+		return this;
+	}
+
+	public IWhenSyntax<T> singlePass(final Object... objects) {
+		((IStubable) proxiedStub).setDelegator(new OnePassSequence(objects));
+		return this;
+	}
+
+	public IWhenSyntax<T> pingPongLoop(final Object... objects) {
+		((IStubable) proxiedStub).setDelegator(new PingPongSequence(objects));
 		return this;
 	}
 
 	/**
-	 * @see org.homs.gamba.stub.IStub#doThrow(java.lang.Throwable)
+	 * @see org.homs.gamba.stub.IStub#willThrows(java.lang.Throwable)
 	 */
-	public IWhenSyntax<T> doThrow(final Throwable t) {
-		((IStubable) proxiedStub).setThrowing(t);
+	public IWhenSyntax<T> willThrows(final Throwable throwable) {
+		((IStubable) proxiedStub).setDelegator(new ExceptionTrigger(throwable));
 		return this;
 	}
 
 	/**
-	 * @see org.homs.gamba.stub.IStub#doDelegate(org.homs.gamba.stub.IDelegator)
+	 * @see org.homs.gamba.stub.IStub#willDelegates(org.homs.gamba.stub.delegator.IDelegator)
 	 */
-	public IWhenSyntax<T> doDelegate(final IDelegator delegator) {
+	public IWhenSyntax<T> willDelegates(final IDelegator delegator) {
 		((IStubable) proxiedStub).setDelegator(delegator);
 		return this;
 	}
@@ -68,6 +84,10 @@ public class Stubber<T> implements IStubber<T>, IWhenSyntax<T> {
 	 */
 	public T when() {
 		return proxiedStub;
+	}
+
+	public static <T> List<CalledRegister> obtainReport(final T proxiedStub) {
+		return ((IStubable) proxiedStub).obtainReport();
 	}
 
 }

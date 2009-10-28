@@ -2,9 +2,6 @@ package org.homs.gamba.stub.test;
 
 import java.util.List;
 
-import org.homs.gamba.stub.delegator.CiclicSequence;
-import org.homs.gamba.stub.delegator.OnePassSequence;
-import org.homs.gamba.stub.delegator.PingPongSequence;
 import org.homs.gamba.stub.syntax.IStubber;
 import org.homs.gamba.stub.syntax.Stubber;
 import org.junit.Assert;
@@ -17,7 +14,7 @@ public class TutorialTest {
 	public void test1() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.doReturn(5).when().get(0);
+		m.willReturn(5).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(5, myListStub.get(0));
@@ -33,7 +30,7 @@ public class TutorialTest {
 	public void test2() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.doDelegate(new CiclicSequence(0, 1)).when().get(0);
+		m.loop(0, 1).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(0, myListStub.get(0));
@@ -49,7 +46,7 @@ public class TutorialTest {
 	public void test3() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.doDelegate(new OnePassSequence(0, 1)).when().get(0);
+		m.singlePass(0, 1).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(0, myListStub.get(0));
@@ -65,7 +62,7 @@ public class TutorialTest {
 	public void test4() {
 
 		final IStubber<List> m = Stubber.createStub(List.class);
-		m.doDelegate(new PingPongSequence(0, 1, 2)).when().get(0);
+		m.pingPongLoop(0, 1, 2).when().get(0);
 		final List myListStub = m.play();
 
 		Assert.assertEquals(0, myListStub.get(0));
@@ -82,3 +79,5 @@ public class TutorialTest {
 	}
 
 }
+
+
