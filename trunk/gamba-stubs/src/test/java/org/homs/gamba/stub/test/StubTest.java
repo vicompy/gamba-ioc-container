@@ -29,6 +29,7 @@ public class StubTest {
 		Assert.assertEquals(Integer.valueOf(5), adderStub.add(2, 3));
 	}
 
+	// es fa una crida no registrada
 	@Test(expected = GambaStubsException.class)
 	public void test2() {
 
@@ -37,6 +38,16 @@ public class StubTest {
 		willReturn(5).when(adderStub).add(2, 3);
 		play(adderStub);
 		adderStub.add(3, 4);
+	}
+
+	// en la definició falta la crida al mètode a simular
+	@Test(expected = GambaStubsException.class)
+	public void test3() {
+
+		final IAdder adderStub = (IAdder) createStub(IAdder.class);
+		willReturn(3).when(adderStub); //.add(1, 2);
+		play(adderStub);
+		adderStub.add(1, 2);
 	}
 
 	@Test
