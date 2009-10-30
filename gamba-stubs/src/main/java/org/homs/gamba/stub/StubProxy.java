@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.homs.gamba.stub.delegator.IDelegator;
 import org.homs.gamba.stub.exception.GambaStubsException;
+import org.homs.gamba.utils.Seq;
 
 /**
  * @author mhoms
@@ -76,7 +77,7 @@ public class StubProxy implements InvocationHandler {
 			}
 		}
 
-		throw new GambaStubsException("method call not registered: \n" + method.getName()); // TODO
+		throw new GambaStubsException("method call not registered: " + method.getName() + "("+Seq.enList(args).toString()+")"); // TODO
 		// mostrar
 		// arguments,
 		// home!
