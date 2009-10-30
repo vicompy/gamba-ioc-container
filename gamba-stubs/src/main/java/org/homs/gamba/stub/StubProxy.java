@@ -33,7 +33,6 @@ public class StubProxy implements InvocationHandler {
 	 * <li>3. repetir (2).</li>
 	 * <li>4. cridar stopRecording.</li>
 	 * </ul>
-	 *
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
 	 */
@@ -44,12 +43,12 @@ public class StubProxy implements InvocationHandler {
 			 * in recording state
 			 */
 			return recording(method, args);
-		} else {
-			/*
-			 * in playing state
-			 */
-			return playing(method, args);
 		}
+		/*
+		 * in playing state
+		 */
+		return playing(method, args);
+
 	}
 
 	private Object playing(final Method method, final Object[] args) throws Throwable {
@@ -78,10 +77,16 @@ public class StubProxy implements InvocationHandler {
 		}
 
 		throw new GambaStubsException("method call not registered: \n" + method.getName()); // TODO
+		// mostrar
+		// arguments,
+		// home!
 	}
 
 	private Object recording(final Method method, final Object[] args) {
 
+		// es prepara per a una nova crida a registrar (s'està en estat de
+		// gravació)
+		// i hi desa el delegator
 		if (method.getName().equals("setDelegator")) {
 			if (!(args[0] instanceof IDelegator)) {
 				throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
@@ -90,12 +95,16 @@ public class StubProxy implements InvocationHandler {
 			return null;
 		}
 
+		// atura el mode de gravació i passa al de reproducció
 		if (method.getName().equals("stopRecording")) {
 			proxyIsRecording = false;
 			checkRegisteredCalls();
 			return null;
 		}
 
+		// 2n pas: no s'ha cridat a cap mètode de IStubable, per tant és una
+		// crida a la interfície proxejada
+		// i s'ha de guardar la crida
 		final CallActionConfig callConfig = callsConfig.get(callsConfig.size() - 1);
 		callConfig.setCall(method, args);
 
@@ -126,6 +135,10 @@ public class StubProxy implements InvocationHandler {
 		return null;
 	}
 
+	/**
+	 * verifica que no s'hagi registrat un delegator de retorn sense haver
+	 * registrat la crida
+	 */
 	private void checkRegisteredCalls() {
 		for (final CallActionConfig ce : callsConfig) {
 			if (ce.getMethod() == null) {

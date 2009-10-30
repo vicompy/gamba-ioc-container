@@ -13,7 +13,7 @@ import org.homs.gamba.stub.exception.GambaStubsException;
 public final class TestUtils {
 
 	private TestUtils() {
-
+		// all static members
 	}
 
 	/**

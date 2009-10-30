@@ -5,15 +5,15 @@ import java.lang.reflect.Method;
 public class CalledRegister {
 
 	public final Method method;
-	public final Object[] args;
+	public final Object[] arguments;
 
 	public CalledRegister(final Method method, final Object[] args) {
 		super();
 		this.method = method;
 		if (args == null) {
-			this.args = null;
+			this.arguments = null;
 		} else {
-			this.args = args.clone();
+			this.arguments = args.clone();
 		}
 	}
 
@@ -22,10 +22,10 @@ public class CalledRegister {
 		final StringBuffer strb = new StringBuffer();
 		strb.append(method.getName());
 		strb.append('(');
-		if (args != null) {
-			for (int i = 0; i < args.length; i++) {
-				strb.append(args[i]);
-				if (i < args.length - 1) {
+		if (arguments != null) {
+			for (int i = 0; i < arguments.length; i++) {
+				strb.append(arguments[i]);
+				if (i < arguments.length - 1) {
 					strb.append(", ");
 				}
 			}
