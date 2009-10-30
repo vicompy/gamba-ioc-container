@@ -6,6 +6,7 @@
 	
 	
 	<property name="src-dir" value="src/main/java" />
+	<property name="test-dir" value="src/test/java" />
 	<property name="tmp-dir" value="temp" />
 
 	<property name="jar-dir" value="target" />
@@ -28,20 +29,18 @@
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<target name="compile" depends="clean">
 		<javac srcdir="${src-dir}" destdir="${build-dir}" />
+		<javac srcdir="${test-dir}" destdir="${build-dir}" />
 	</target>
 
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- goal: build               -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	<target name="jar-bin" depends="compile">
+	<target name="jars" depends="compile">
 		<jar basedir="${build-dir}" destfile="${jar-dir}/${jar-name}" />
-	</target>
-
-	<target name="jar-src">
 		<jar basedir="${src-dir}" destfile="${jar-dir}/${jar-src-name}" />
 	</target>
 
-	<target name="build" depends="jar-bin,jar-src">
+	<target name="build" depends="jars">
 		<echo level="info" message="build OK" />
 	</target>
 
