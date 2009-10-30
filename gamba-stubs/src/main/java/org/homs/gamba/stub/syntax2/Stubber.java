@@ -53,7 +53,6 @@ public final class Stubber implements IWhen {
 		return proxy;
 	}
 
-	// --------
 	public static void play(final Object proxy) {
 		((IStubable) proxy).stopRecording();
 	}
