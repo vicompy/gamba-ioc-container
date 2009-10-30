@@ -7,6 +7,7 @@ import java.util.List;
 public final class Seq {
 
 	private Seq() {
+		// all static members
 	}
 
 	private static Object[] toArray(final List<?> tl) {

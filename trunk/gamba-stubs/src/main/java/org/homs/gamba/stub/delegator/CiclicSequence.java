@@ -1,7 +1,5 @@
 package org.homs.gamba.stub.delegator;
 
-import org.homs.gamba.stub.IDelegator;
-
 public class CiclicSequence implements IDelegator {
 
 	private int index = 0;

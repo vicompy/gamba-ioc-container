@@ -1,8 +1,8 @@
 package org.homs.gamba.stub.seqs;
 
+import static org.homs.gamba.utils.Seq.enList;
 import static org.homs.gamba.utils.Seq.rep;
 import static org.homs.gamba.utils.Seq.seq;
-import static org.homs.gamba.utils.Seq.enList;
 import junit.framework.Assert;
 
 import org.junit.Test;
