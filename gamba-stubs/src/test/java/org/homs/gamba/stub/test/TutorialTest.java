@@ -1,12 +1,12 @@
 package org.homs.gamba.stub.test;
 
-import static org.homs.gamba.stub.syntax2.Stubber.createStub;
-import static org.homs.gamba.stub.syntax2.Stubber.obtainReport;
-import static org.homs.gamba.stub.syntax2.Stubber.play;
-import static org.homs.gamba.stub.syntax2.Stubber.willLoop;
-import static org.homs.gamba.stub.syntax2.Stubber.willPingPongLoop;
-import static org.homs.gamba.stub.syntax2.Stubber.willReturn;
-import static org.homs.gamba.stub.syntax2.Stubber.willSinglePass;
+import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
+import static org.homs.gamba.stub.bsyntax.Stubber.obtainReport;
+import static org.homs.gamba.stub.bsyntax.Stubber.play;
+import static org.homs.gamba.stub.bsyntax.Stubber.willLoop;
+import static org.homs.gamba.stub.bsyntax.Stubber.willPingPongLoop;
+import static org.homs.gamba.stub.bsyntax.Stubber.willReturn;
+import static org.homs.gamba.stub.bsyntax.Stubber.willSinglePass;
 
 import java.util.List;
 
