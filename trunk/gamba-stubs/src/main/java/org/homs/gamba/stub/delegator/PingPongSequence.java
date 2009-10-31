@@ -1,6 +1,6 @@
 package org.homs.gamba.stub.delegator;
 
-public class PingPongSequence extends Delegator {
+public class PingPongSequence extends AbstractDelegator {
 
 	private int dir = 1;
 

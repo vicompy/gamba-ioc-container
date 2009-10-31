@@ -1,6 +1,6 @@
 package org.homs.gamba.stub.delegator;
 
-public class ExceptionTrigger extends Delegator {
+public class ExceptionTrigger extends AbstractDelegator {
 
 	public ExceptionTrigger(final Throwable exception) {
 		super(exception);

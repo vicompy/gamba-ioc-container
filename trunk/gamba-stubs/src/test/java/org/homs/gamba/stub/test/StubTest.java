@@ -1,11 +1,6 @@
 package org.homs.gamba.stub.test;
 
-import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
-import static org.homs.gamba.stub.bsyntax.Stubber.obtainReport;
-import static org.homs.gamba.stub.bsyntax.Stubber.play;
-import static org.homs.gamba.stub.bsyntax.Stubber.willDelegate;
-import static org.homs.gamba.stub.bsyntax.Stubber.willReturn;
-import static org.homs.gamba.stub.bsyntax.Stubber.willThrow;
+import static org.homs.gamba.stub.bsyntax.Stubber.*;
 
 import org.homs.gamba.stub.delegator.IDelegator;
 import org.homs.gamba.stub.ents.IAdder;
@@ -20,8 +15,14 @@ public class StubTest {
 	public void test1() {
 
 		final IAdder adderStub = (IAdder) createStub(IAdder.class);
-		willReturn(3).when(adderStub).add(1, 2);
-		willReturn(5).when(adderStub).add(2, 3);
+		thenReturn(3).when(adderStub).add(1, 2);
+		thenReturn(5).when(adderStub).add(2, 3);
+
+
+		// TODO i la sintaxi: when(adderStub.add(1, 2)).thenReturn(3); ... és insegura?
+
+
+
 		play(adderStub);
 		System.out.println(obtainReport(adderStub));
 
@@ -34,8 +35,8 @@ public class StubTest {
 	public void test2() {
 
 		final IAdder adderStub = (IAdder) createStub(IAdder.class);
-		willReturn(3).when(adderStub).add(1, 2);
-		willReturn(5).when(adderStub).add(2, 3);
+		thenReturn(3).when(adderStub).add(1, 2);
+		thenReturn(5).when(adderStub).add(2, 3);
 		play(adderStub);
 		adderStub.add(3, 4);
 	}
@@ -45,7 +46,7 @@ public class StubTest {
 	public void test3() {
 
 		final IAdder adderStub = (IAdder) createStub(IAdder.class);
-		willReturn(3).when(adderStub); //.add(1, 2);
+		thenReturn(3).when(adderStub); //.add(1, 2);
 		play(adderStub);
 		adderStub.add(1, 2);
 	}
@@ -54,7 +55,7 @@ public class StubTest {
 	public void test4() {
 
 		final IConcater c = (IConcater) createStub(IConcater.class);
-		willReturn("hello world").when(c).concat("hello ", "world");
+		thenReturn("hello world").when(c).concat("hello ", "world");
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", "world"));
@@ -65,17 +66,49 @@ public class StubTest {
 	public void test5() {
 
 		final IConcater c = (IConcater) createStub(IConcater.class);
-		willThrow(new NullPointerException("jou")).when(c).concat("hello ", null);
+		thenThrow(new NullPointerException("jou")).when(c).concat("hello ", null);
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", null));
 	}
 
-	@Test
-	public void test6() {
+//	// TODO és un problema interceptar els mètodes propis de Object!! (toString, getClass...) ????
+//	@Test//(expected = NullPointerException.class)
+//	public void test6() {
+//
+//		final IConcater c = (IConcater) createStub(IConcater.class);
+//		thenThrow(new NullPointerException("jou")).when(c).getClass();  // Claro, retorna la Class del proxy!!
+//		play(c);
+//
+////		Assert.assertEquals("hello world", c.concat("hello ", null));
+//		System.out.println(c.getClass());
+//	}
+
+	@Test(expected = NullPointerException.class)
+	public void test7() {
 
 		final IConcater c = (IConcater) createStub(IConcater.class);
-		willDelegate(new DelegatorConcat()).when(c).concat("hello ", "world");
+		thenThrow(new NullPointerException("jou")).when(c).getMessage();
+		play(c);
+
+		System.out.println(c.getMessage());
+	}
+
+	@Test
+	public void test8() {
+
+		final IConcater c = (IConcater) createStub(IConcater.class);
+		thenReturn("jou").when(c).getMessage();
+		play(c);
+
+		Assert.assertEquals("jou", c.getMessage());
+	}
+
+	@Test
+	public void test9() {
+
+		final IConcater c = (IConcater) createStub(IConcater.class);
+		thenDelegate(new DelegatorConcat()).when(c).concat("hello ", "world");
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", "world"));

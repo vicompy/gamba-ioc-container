@@ -2,7 +2,7 @@ package org.homs.gamba.stub.delegator;
 
 
 
-public class ConstantValue extends Delegator {
+public class ConstantValue extends AbstractDelegator {
 
 	public ConstantValue(final Object single) {
 		super(single);

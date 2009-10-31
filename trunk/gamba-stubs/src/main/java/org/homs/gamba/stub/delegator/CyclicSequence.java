@@ -1,6 +1,6 @@
 package org.homs.gamba.stub.delegator;
 
-public class CyclicSequence extends Delegator {
+public class CyclicSequence extends AbstractDelegator {
 
 	public CyclicSequence(final Object... sequence) {
 		super(sequence);

@@ -24,27 +24,27 @@ public final class Stubber implements IWhen {
 		return StubProxy.newInstance(interfaceToStub);
 	}
 
-	public static IWhen willReturn(final Object obj) {
+	public static IWhen thenReturn(final Object obj) {
 		return new Stubber(new ConstantValue(obj));
 	}
 
-	public static IWhen willLoop(final Object... objs) {
-		return new Stubber(new CyclicSequence(objs));
-	}
-
-	public static IWhen willSinglePass(final Object... objs) {
+	public static IWhen thenReturn(final Object... objs) {
 		return new Stubber(new OnePassSequence(objs));
 	}
 
-	public static IWhen willPingPongLoop(final Object... objs) {
+	public static IWhen thenLoop(final Object... objs) {
+		return new Stubber(new CyclicSequence(objs));
+	}
+
+	public static IWhen thenPingPongLoop(final Object... objs) {
 		return new Stubber(new PingPongSequence(objs));
 	}
 
-	public static IWhen willThrow(final Throwable throwable) {
+	public static IWhen thenThrow(final Throwable throwable) {
 		return new Stubber(new ExceptionTrigger(throwable));
 	}
 
-	public static IWhen willDelegate(final IDelegator delegator) {
+	public static IWhen thenDelegate(final IDelegator delegator) {
 		return new Stubber(delegator);
 	}
 
@@ -60,5 +60,9 @@ public final class Stubber implements IWhen {
 	public static List<CalledRegister> obtainReport(final Object proxy) {
 		return ((IStubable) proxy).obtainReport();
 	}
+
+//	public static Integer anyInt() {
+//		return
+//	} TODO
 
 }

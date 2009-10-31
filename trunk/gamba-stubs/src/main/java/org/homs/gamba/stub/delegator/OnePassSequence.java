@@ -1,6 +1,6 @@
 package org.homs.gamba.stub.delegator;
 
-public class OnePassSequence extends Delegator {
+public class OnePassSequence extends AbstractDelegator {
 
 	public OnePassSequence(final Object... sequence) {
 		super(sequence);
