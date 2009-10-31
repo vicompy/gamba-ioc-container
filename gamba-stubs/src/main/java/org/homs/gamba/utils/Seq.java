@@ -2,6 +2,7 @@ package org.homs.gamba.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public final class Seq {
@@ -40,6 +41,21 @@ public final class Seq {
 		}
 
 		return toArray(r);
+	}
+
+
+	public static <T> T[] seqT(final T... ts) {
+		final List<T> r = new ArrayList<T>();
+
+		for (final T t : ts) {
+			if (t.getClass().isArray()) {
+				r.addAll((Collection<? extends T>) enList((T[]) t));
+			} else {
+				r.add(t);
+			}
+		}
+
+		return (T[]) toArray(r);
 	}
 
 

@@ -24,6 +24,10 @@ public final class Stubber implements IWhen {
 		return StubProxy.newInstance(interfaceToStub);
 	}
 
+	public static Object createStub(final Class<?>... interfacesToStub) {
+		return StubProxy.newInstance(interfacesToStub);
+	}
+
 	public static IWhen thenReturn(final Object obj) {
 		return new Stubber(new ConstantValue(obj));
 	}

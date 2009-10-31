@@ -31,13 +31,22 @@ public final class StubProxy implements InvocationHandler {
 					stubableInterface, IStubable.class }, new StubProxy());
 		}
 
-		// TODO si lo a stubbar no és una interfície, doncs és una classe, es
-		// proxeja extraient-ne les seves interfícies implementades; cal testar
-		// encara.
-		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), (Class<?>[]) Seq.seq(
-				stubableInterface.getInterfaces(), IStubable.class), new StubProxy());
+		throw new GambaStubsException("cannot stub a class, just have to be interface(s)");
+	}
 
-		// TODO falta testar encara què passa amb herència de classses, interfícies, etc.
+	public static Object newInstance(final Class<?>... stubableInterfaces) {
+
+		final Class<?>[] interfaces = new Class<?>[stubableInterfaces.length + 1];
+		for (int i = 0; i < stubableInterfaces.length; i++) {
+			if (!stubableInterfaces[i].isInterface()) {
+				throw new GambaStubsException("cannot stub a class, just have to be interface(s)");
+			}
+			interfaces[i] = stubableInterfaces[i];
+		}
+		interfaces[stubableInterfaces.length] = IStubable.class;
+
+		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces,
+				new StubProxy());
 	}
 
 	/**
