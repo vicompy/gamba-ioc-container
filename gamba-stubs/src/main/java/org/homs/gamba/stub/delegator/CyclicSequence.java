@@ -1,12 +1,9 @@
 package org.homs.gamba.stub.delegator;
 
-public class CyclicSequence implements IDelegator {
-
-	private int index = 0;
-	private final Object[] sequence;
+public class CyclicSequence extends Delegator {
 
 	public CyclicSequence(final Object... sequence) {
-		this.sequence = sequence;
+		super(sequence);
 	}
 
 	public Object delegates(final Object... args) {

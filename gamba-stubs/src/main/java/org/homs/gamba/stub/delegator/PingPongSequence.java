@@ -1,13 +1,11 @@
 package org.homs.gamba.stub.delegator;
 
-public class PingPongSequence implements IDelegator {
+public class PingPongSequence extends Delegator {
 
 	private int dir = 1;
-	private int index = 0;
-	private final Object[] sequence;
 
 	public PingPongSequence(final Object... sequence) {
-		this.sequence = sequence;
+		super(sequence);
 	}
 
 	public Object delegates(final Object... args) {
@@ -20,3 +18,4 @@ public class PingPongSequence implements IDelegator {
 	}
 
 }
+
