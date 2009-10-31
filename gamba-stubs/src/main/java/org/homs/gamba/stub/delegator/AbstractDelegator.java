@@ -1,15 +1,15 @@
 package org.homs.gamba.stub.delegator;
 
-public abstract class Delegator implements IDelegator {
+public abstract class AbstractDelegator implements IDelegator {
 
 	protected int index = 0;
 	protected final Object[] sequence;
 
-	public Delegator(final Object single) {
+	public AbstractDelegator(final Object single) {
 		this.sequence = new Object[] { single };
 	}
 
-	public Delegator(final Object... sequence) {
+	public AbstractDelegator(final Object... sequence) {
 		this.sequence = sequence;
 	}
 

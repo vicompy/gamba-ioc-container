@@ -30,12 +30,12 @@ class CallActionConfig {
 		return method;
 	}
 
-	public void setCall(final Method method, final Object[] callingArgsV) {
+	public void setCall(final Method method, final Object[] callingArgsArray) {
 		this.method = method;
-		if (callingArgsV == null) {
+		if (callingArgsArray == null) {
 			this.callingArgs = new Object[0];
 		} else {
-			this.callingArgs = callingArgsV.clone();
+			this.callingArgs = callingArgsArray.clone();
 		}
 	}
 

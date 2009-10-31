@@ -1,12 +1,6 @@
 package org.homs.gamba.stub.test;
 
-import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
-import static org.homs.gamba.stub.bsyntax.Stubber.obtainReport;
-import static org.homs.gamba.stub.bsyntax.Stubber.play;
-import static org.homs.gamba.stub.bsyntax.Stubber.willLoop;
-import static org.homs.gamba.stub.bsyntax.Stubber.willPingPongLoop;
-import static org.homs.gamba.stub.bsyntax.Stubber.willReturn;
-import static org.homs.gamba.stub.bsyntax.Stubber.willSinglePass;
+import static org.homs.gamba.stub.bsyntax.Stubber.*;
 
 import java.util.List;
 
@@ -20,7 +14,7 @@ public class TutorialTest {
 	public void test1() {
 
 		final List l = (List) createStub(List.class);
-		willReturn(5).when(l).get(0);
+		thenReturn(5).when(l).get(0);
 		play(l);
 
 		Assert.assertEquals(5, l.get(0));
@@ -36,7 +30,7 @@ public class TutorialTest {
 	public void test2() {
 
 		final List l = (List) createStub(List.class);
-		willLoop(0, 1).when(l).get(0);
+		thenLoop(0, 1).when(l).get(0);
 		play(l);
 
 		Assert.assertEquals(0, l.get(0));
@@ -52,8 +46,13 @@ public class TutorialTest {
 	public void test3() {
 
 		final List l = (List) createStub(List.class);
-		willSinglePass(0, 1).when(l).get(0);
+		thenReturn(0, 1).when(l).get(0);
 		play(l);
+
+
+
+		// TODO fer comodins:
+		// willReturn(0, 1).when(l).get(All(Integer.class));
 
 		Assert.assertEquals(0, l.get(0));
 		Assert.assertEquals(1, l.get(0));
@@ -68,7 +67,7 @@ public class TutorialTest {
 	public void test4() {
 
 		final List l = (List) createStub(List.class);
-		willPingPongLoop(0, 1, 2).when(l).get(0);
+		thenPingPongLoop(0, 1, 2).when(l).get(0);
 		play(l);
 
 		Assert.assertEquals(0, l.get(0));

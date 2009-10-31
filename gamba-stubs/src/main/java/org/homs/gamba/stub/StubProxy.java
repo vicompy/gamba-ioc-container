@@ -13,15 +13,17 @@ import org.homs.gamba.utils.Seq;
 /**
  * @author mhoms
  */
-public class StubProxy implements InvocationHandler {
+public final class StubProxy implements InvocationHandler {
 
-	private final List<CallActionConfig> callsConfig = new ArrayList<CallActionConfig>(); // TODO
-	// controlar
-	// amb
-	// un
-	// Map<Method, CallActionConfig>
-	private final List<CalledRegister> callsReport = new ArrayList<CalledRegister>();
-	private boolean proxyIsRecording = true;
+	private final List<CallActionConfig> callsConfig;
+	private final List<CalledRegister> callsReport;
+	private boolean proxyIsRecording;
+
+	private StubProxy() {
+		callsConfig = new ArrayList<CallActionConfig>();
+		callsReport = new ArrayList<CalledRegister>();
+		proxyIsRecording = true;
+	}
 
 	public static Object newInstance(final Class<?> stubableInterface) {
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] {
@@ -83,10 +85,7 @@ public class StubProxy implements InvocationHandler {
 		}
 
 		throw new GambaStubsException("method call not registered: " + method.getName() + "("
-				+ Seq.enList(args).toString() + ")"); // TODO
-		// mostrar
-		// arguments,
-		// home!
+				+ Seq.enList(args).toString() + ")");
 	}
 
 	private Object recording(final Method method, final Object[] args) {
@@ -112,8 +111,9 @@ public class StubProxy implements InvocationHandler {
 		// 2n pas: no s'ha cridat a cap mètode de IStubable, per tant és una
 		// crida a la interfície proxejada
 		// i s'ha de guardar la crida
-		final CallActionConfig callConfig = callsConfig.get(callsConfig.size() - 1);
-		callConfig.setCall(method, args);
+		callsConfig.get(callsConfig.size() - 1).setCall(method, args);
+
+//		System.out.println("registering: " + method.getName() + "("+Seq.enList(args).toString() + ")");
 
 		return computeRecordingReturn(method);
 	}
@@ -121,23 +121,25 @@ public class StubProxy implements InvocationHandler {
 	private Object computeRecordingReturn(final Method method) {
 		final Class<?> type = method.getReturnType();
 
-		if (type.equals(int.class)) {
-			return Integer.valueOf(0);
-		}
-		if (type.equals(long.class)) {
-			return Long.valueOf(0);
-		}
-		if (type.equals(float.class)) {
-			return Float.valueOf(0);
-		}
-		if (type.equals(double.class)) {
-			return Double.valueOf(0);
-		}
-		if (type.equals(boolean.class)) {
-			return Boolean.FALSE;
-		}
-		if (type.equals(char.class)) {
-			return Character.valueOf(' ');
+		if (type.isPrimitive()) {
+			if (type.equals(int.class)) {
+				return Integer.valueOf(0);
+			}
+			if (type.equals(long.class)) {
+				return Long.valueOf(0);
+			}
+			if (type.equals(float.class)) {
+				return Float.valueOf(0);
+			}
+			if (type.equals(double.class)) {
+				return Double.valueOf(0);
+			}
+			if (type.equals(boolean.class)) {
+				return Boolean.FALSE;
+			}
+			if (type.equals(char.class)) {
+				return Character.valueOf(' ');
+			}
 		}
 		return null;
 	}
@@ -153,6 +155,8 @@ public class StubProxy implements InvocationHandler {
 						+ ce.getDelegator());
 			}
 		}
+
+		// TODO comprovar també que no hi hagin definicions de crides repetides
 	}
 
 }
