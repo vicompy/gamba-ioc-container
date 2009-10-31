@@ -1,12 +1,9 @@
 package org.homs.gamba.stub.delegator;
 
-public class OnePassSequence implements IDelegator {
-
-	private int index = 0;
-	private final Object[] sequence;
+public class OnePassSequence extends Delegator {
 
 	public OnePassSequence(final Object... sequence) {
-		this.sequence = sequence;
+		super(sequence);
 	}
 
 	public Object delegates(final Object... args) {

@@ -15,7 +15,11 @@ import org.homs.gamba.utils.Seq;
  */
 public class StubProxy implements InvocationHandler {
 
-	private final List<CallActionConfig> callsConfig = new ArrayList<CallActionConfig>();
+	private final List<CallActionConfig> callsConfig = new ArrayList<CallActionConfig>(); // TODO
+	// controlar
+	// amb
+	// un
+	// Map<Method, CallActionConfig>
 	private final List<CalledRegister> callsReport = new ArrayList<CalledRegister>();
 	private boolean proxyIsRecording = true;
 
@@ -59,6 +63,7 @@ public class StubProxy implements InvocationHandler {
 		}
 		callsReport.add(new CalledRegister(method, args));
 
+		// TODO cerca de la crida lenta?
 		for (final CallActionConfig ce : callsConfig) {
 			if (ce.getMethod().equals(method)) {
 
@@ -77,7 +82,8 @@ public class StubProxy implements InvocationHandler {
 			}
 		}
 
-		throw new GambaStubsException("method call not registered: " + method.getName() + "("+Seq.enList(args).toString()+")"); // TODO
+		throw new GambaStubsException("method call not registered: " + method.getName() + "("
+				+ Seq.enList(args).toString() + ")"); // TODO
 		// mostrar
 		// arguments,
 		// home!

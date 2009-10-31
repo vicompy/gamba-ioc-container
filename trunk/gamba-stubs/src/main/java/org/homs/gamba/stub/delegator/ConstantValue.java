@@ -1,15 +1,15 @@
 package org.homs.gamba.stub.delegator;
 
-public class ConstantValue implements IDelegator {
 
-	private final Object sequence;
 
-	public ConstantValue(final Object theUniqueValue) {
-		this.sequence = theUniqueValue;
+public class ConstantValue extends Delegator {
+
+	public ConstantValue(final Object single) {
+		super(single);
 	}
 
 	public Object delegates(final Object... args) {
-		return sequence;
+		return super.sequence[0];
 	}
 
 }

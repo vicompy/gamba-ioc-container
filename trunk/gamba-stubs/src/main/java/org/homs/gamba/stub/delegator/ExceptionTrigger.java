@@ -1,15 +1,13 @@
 package org.homs.gamba.stub.delegator;
 
-public class ExceptionTrigger implements IDelegator {
-
-	private final Throwable exception;
+public class ExceptionTrigger extends Delegator {
 
 	public ExceptionTrigger(final Throwable exception) {
-		this.exception = exception;
+		super(exception);
 	}
 
 	public Object delegates(final Object... args) throws Throwable {
-		throw exception;
+		throw (Throwable) super.sequence[0];
 	}
 
 }
