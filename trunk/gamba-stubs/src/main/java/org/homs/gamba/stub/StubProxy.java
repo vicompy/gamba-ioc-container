@@ -26,8 +26,18 @@ public final class StubProxy implements InvocationHandler {
 	}
 
 	public static Object newInstance(final Class<?> stubableInterface) {
-		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] {
-				stubableInterface, IStubable.class }, new StubProxy());
+		if (stubableInterface.isInterface()) {
+			return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] {
+					stubableInterface, IStubable.class }, new StubProxy());
+		}
+
+		// TODO si lo a stubbar no és una interfície, doncs és una classe, es
+		// proxeja extraient-ne les seves interfícies implementades; cal testar
+		// encara.
+		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), (Class<?>[]) Seq.seq(
+				stubableInterface.getInterfaces(), IStubable.class), new StubProxy());
+
+		// TODO falta testar encara què passa amb herència de classses, interfícies, etc.
 	}
 
 	/**
@@ -113,7 +123,8 @@ public final class StubProxy implements InvocationHandler {
 		// i s'ha de guardar la crida
 		callsConfig.get(callsConfig.size() - 1).setCall(method, args);
 
-//		System.out.println("registering: " + method.getName() + "("+Seq.enList(args).toString() + ")");
+		// System.out.println("registering: " + method.getName() +
+		// "("+Seq.enList(args).toString() + ")");
 
 		return computeRecordingReturn(method);
 	}
