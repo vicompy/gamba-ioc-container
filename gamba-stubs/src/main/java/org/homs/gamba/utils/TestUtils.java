@@ -7,20 +7,18 @@ import org.homs.gamba.stub.exception.GambaStubsException;
 
 /**
  * Utilitats estàtiques de testing
- *
  * @author mhoms
  */
 public final class TestUtils {
 
 	private TestUtils() {
-		// all static members
+		// all members are static
 	}
 
 	/**
 	 * invoca a un constructor per defecte privat, i en retorna una nova
 	 * instància. A utilitzar especialment en testos unitaris de patrons
 	 * Singleton.
-	 *
 	 * @param <T> tipus del Singleton
 	 * @param singletonClass classe de Singleton
 	 * @return la nova instància
@@ -44,13 +42,13 @@ public final class TestUtils {
 
 	/**
 	 * invoca a un mètode privat
-	 *
 	 * @param targetClass
 	 * @param method
 	 * @param args
 	 * @return
 	 */
-	public static Object hackedMethodInvocation(final Object targetClass, final Method method, final Object... args) {
+	public static Object hackedMethodInvocation(final Object targetClass, final Method method,
+			final Object... args) {
 		try {
 			method.setAccessible(true);
 			final Object returnValue = method.invoke(targetClass, args);
@@ -63,7 +61,6 @@ public final class TestUtils {
 
 	/**
 	 * Cerca el constructor adient, donada la llista dels tipus dels arguments
-	 *
 	 * @param targetClass classe a on buscar el constructor
 	 * @param classArgsList llista de tipus d'arguments de constructor
 	 * @return el constructor;
@@ -115,7 +112,6 @@ public final class TestUtils {
 	 * doncs aquest mètode aplica la corresponent conversió de tipus primitius a
 	 * classe Wrapper primitiva, per tal re reconsiderar
 	 * <tt>isAssignableFrom</tt>.
-	 *
 	 * @param dst tipus destí de l'assignació
 	 * @param org tipus origen de l'assignació
 	 * @return si tal assignació és possible
