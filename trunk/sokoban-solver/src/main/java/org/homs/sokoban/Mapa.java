@@ -1,6 +1,8 @@
 package org.homs.sokoban;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mapa {
 
@@ -17,7 +19,8 @@ public class Mapa {
 
     private final char[] map;
     private final boolean[] accMap;
-    private final int playerIndex;
+    private int playerIndex;
+    private final List<Integer> boxList;
 
     public Mapa(final String l) {
 
@@ -26,7 +29,10 @@ public class Mapa {
 	this.ROWS = d.height;
 
 	this.map = encodeMap(l);
-	this.playerIndex = findPlayer();
+
+	this.boxList = new ArrayList<Integer>();
+	findElements();
+
 	this.accMap = computeAccessMap();
 
 	// System.out.println(this.toString());
@@ -55,13 +61,20 @@ public class Mapa {
 	return map;
     }
 
-    private int findPlayer() {
+    private void findElements() {
+	Integer playerPos = null;
 	for (int i = 0; i < this.map.length; i++) {
-	    if ((map[i] & PLAY) != 0) {
-		return i;
+	    if (map[i] == '@' || map[i] == '+') {
+		playerPos = i;
+	    }
+	    if (map[i] == '$' || map[i] == '*') {
+		this.boxList.add(i);
 	    }
 	}
-	throw new NullPointerException("kjhkjh");
+	if (playerPos == null) {
+	    throw new NullPointerException("kjhkjh");
+	}
+	this.playerIndex = playerPos;
     }
 
     private Dimension computeLevelSize(final String l) {
@@ -84,42 +97,6 @@ public class Mapa {
 	} while (l.charAt(index) != '\n');
 
 	return new Dimension(maxc, maxf);
-    }
-
-    @Override
-    public String toString() {
-	final StringBuffer strb = new StringBuffer();
-
-	strb.append(ROWS);
-	strb.append(',');
-	strb.append(COLS);
-	strb.append('\n');
-
-	for (int i = 0; i < playerIndex % COLS; i++) {
-	    strb.append(' ');
-	}
-	strb.append("|\n");
-
-	for (int i = 0; i < ROWS; i++) {
-	    for (int j = 0; j < COLS; j++) {
-		strb.append(map[j + i * COLS]);
-	    }
-	    if (i == playerIndex / COLS) {
-		strb.append('-');
-	    }
-	    strb.append('\n');
-	}
-	strb.append('\n');
-
-	for (int i = 0; i < ROWS; i++) {
-	    for (int j = 0; j < COLS; j++) {
-		strb.append(accMap[j + i * COLS] ? ' ' : '#');
-	    }
-	    strb.append('\n');
-	}
-	strb.append('\n');
-
-	return strb.toString();
     }
 
     private boolean[] computeAccessMap() {
@@ -156,4 +133,44 @@ public class Mapa {
 
 	return ac2;
     }
+
+    @Override
+    public String toString() {
+	final StringBuffer strb = new StringBuffer();
+
+	strb.append(ROWS);
+	strb.append(',');
+	strb.append(COLS);
+	strb.append(',');
+	strb.append(this.boxList.size());
+	strb.append('\n');
+
+	for (int i = 0; i < playerIndex % COLS; i++) {
+	    strb.append(' ');
+	}
+	strb.append("|\n");
+
+	for (int i = 0; i < ROWS; i++) {
+	    for (int j = 0; j < COLS; j++) {
+		strb.append(map[j + i * COLS]);
+	    }
+	    if (i == playerIndex / COLS) {
+		strb.append('-');
+	    }
+	    strb.append('\n');
+	}
+	strb.append('\n');
+
+	for (int i = 0; i < ROWS; i++) {
+	    for (int j = 0; j < COLS; j++) {
+		strb.append(accMap[j + i * COLS] ? ' ' : '#');
+	    }
+	    strb.append('\n');
+	}
+	strb.append('\n');
+
+	return strb.toString();
+    }
+
+
 }
