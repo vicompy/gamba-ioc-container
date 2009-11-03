@@ -25,14 +25,12 @@ public class Solver {
     }
 
     private SolutionResult solve(final int level, final MapaGen mapaGen) {
+
 	this.nodes++;
-//	System.out.println(mapaGen.toString());
 
 	if (mapaGen.isSolved()) {
 	    System.out.println("solved at level=" + level);
 	    this.maxLevel = level - 1;
-//	    System.exit(1);
-
 	    return new SolutionResult(level, mapaGen);
 	}
 
@@ -46,7 +44,7 @@ public class Solver {
 	for(final MapaGen m : mapaGenList) {
 	    final SolutionResult sr = solve(level+1, m);
 	    if (bestSolutionResult != null) {
-		if (bestSolutionResult.isWorseThan(sr)) { //TODO millorar expressió
+		if (bestSolutionResult.isWorseThan(sr)) {
 		    bestSolutionResult = sr;
 		}
 	    } else {
@@ -55,6 +53,6 @@ public class Solver {
 	}
 
 	return bestSolutionResult;
-
     }
+
 }
