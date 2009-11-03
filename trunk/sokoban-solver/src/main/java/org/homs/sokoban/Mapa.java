@@ -29,7 +29,7 @@ public class Mapa {
 		this.playerIndex = findPlayer();
 		this.accMap = computeAccessMap();
 
-		System.out.println(this.toString());
+//		System.out.println(this.toString());
 	}
 
 	private char[] encodeMap(final String l) {
@@ -86,6 +86,7 @@ public class Mapa {
 		return new Dimension(maxc, maxf);
 	}
 
+	@Override
 	public String toString() {
 		final StringBuffer strb = new StringBuffer();
 
