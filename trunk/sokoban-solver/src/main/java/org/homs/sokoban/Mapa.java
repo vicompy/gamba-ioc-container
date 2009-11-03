@@ -2,6 +2,7 @@ package org.homs.sokoban;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Mapa {
@@ -24,15 +25,27 @@ public class Mapa {
 
     public Mapa(final String l) {
 
+	/*
+	 * calcula les dimensions del mapa
+	 */
 	final Dimension d = computeLevelSize(l);
 	this.COLS = d.width;
 	this.ROWS = d.height;
 
+	/*
+	 * carrega el mapa
+	 */
 	this.map = encodeMap(l);
 
+	/*
+	 * cerca les caixes i el player
+	 */
 	this.boxList = new ArrayList<Integer>();
 	findElements();
 
+	/*
+	 * calcula el mapa d'accessibilitat
+	 */
 	this.accMap = computeAccessMap();
 
 	// System.out.println(this.toString());
@@ -134,8 +147,7 @@ public class Mapa {
 	return ac2;
     }
 
-    @Override
-    public String toString() {
+    public String toString2() {
 	final StringBuffer strb = new StringBuffer();
 
 	strb.append(ROWS);
@@ -172,5 +184,51 @@ public class Mapa {
 	return strb.toString();
     }
 
+    @Override
+    public String toString() {
+	final StringBuffer strb = new StringBuffer();
+
+	for (int i = 0; i < ROWS; i++) {
+	    for (int j = 0; j < COLS; j++) {
+		strb.append(map[j + i * COLS]);
+	    }
+	    if (i == playerIndex / COLS) {
+		strb.append('-');
+	    }
+	    strb.append('\n');
+	}
+	strb.append('\n');
+
+	return strb.toString();
+    }
+
+
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + Arrays.hashCode(accMap);
+	result = prime * result + ((boxList == null) ? 0 : boxList.hashCode());
+	return result;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	final Mapa other = (Mapa) obj;
+	if (!Arrays.equals(accMap, other.accMap))
+	    return false;
+	if (boxList == null) {
+	    if (other.boxList != null)
+		return false;
+	} else if (!boxList.equals(other.boxList))
+	    return false;
+	return true;
+    }
 
 }

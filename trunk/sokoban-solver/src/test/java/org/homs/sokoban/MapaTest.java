@@ -24,7 +24,7 @@ public class MapaTest {
 		"########\n" +
 		"\n";
 
-		System.out.println(new Mapa(l).toString());
+		System.out.println(new Mapa(l).toString2());
 
 		Assert.assertEquals(
 			"13,9,3<" +
@@ -57,7 +57,7 @@ public class MapaTest {
 			"# #    ##<" +
 			"#########<" +
 			"<",
-			new Mapa(l).toString().replace('\n', '<'));
+			new Mapa(l).toString2().replace('\n', '<'));
 	}
 
 
@@ -73,7 +73,7 @@ public class MapaTest {
 		"##############\n" +
 		"\n";
 
-		System.out.println(new Mapa(l).toString());
+		System.out.println(new Mapa(l).toString2());
 
 		Assert.assertEquals(
 			"7,14,2<" +
@@ -94,7 +94,7 @@ public class MapaTest {
 			"# ############<" +
 			"##############<" +
 			"<",
-			new Mapa(l).toString().replace('\n', '<'));
+			new Mapa(l).toString2().replace('\n', '<'));
 	}
 
 }
