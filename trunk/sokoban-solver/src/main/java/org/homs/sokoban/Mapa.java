@@ -15,27 +15,13 @@ public class Mapa {
     public final static char GOAL_PLAY = '+';
     public final static char GOAL_BOX = '*';
 
-    private final int ROWS;
-    private final int COLS;
+    protected final int ROWS;
+    protected final int COLS;
 
-    private final char[] map;
-    private final boolean[] accMap;
-    private final int playerIndex;
-    private final Integer[] boxList;
-
-    // public Mapa(final Mapa mapa, final int indexOrgBox, final int
-    // indexDstBox) {
-    // this.ROWS = mapa.ROWS;
-    // this.COLS = mapa.COLS;
-    //
-    // this.playerIndex = indexOrgBox;
-    //
-    // for(int i = 0; i < boxList.size(); i++) {
-    // if (boxList.get(i) == indexOrgBox) {
-    // boxList.get(i) = ind
-    // }
-    // }
-    // }
+    protected final char[] map;
+    protected final boolean[] accMap;
+    protected final int playerIndex;
+    protected final Integer[] boxList;
 
     public Mapa(final String l) {
 
@@ -64,6 +50,50 @@ public class Mapa {
 	this.accMap = computeAccessMap();
 
 	// System.out.println(this.toString());
+	checkMap();
+    }
+
+    protected Mapa(final Mapa mapa, final int indexOrgBox, final int indexDstBox) {
+
+	this.ROWS = mapa.ROWS;
+	this.COLS = mapa.COLS;
+
+	this.map = mapa.map.clone();
+
+	if (map[mapa.playerIndex] == '@') {
+	    map[mapa.playerIndex] = ' ';
+	} else if (map[mapa.playerIndex] == '+') {
+	    map[mapa.playerIndex] = '.';
+	}
+
+	this.playerIndex = indexOrgBox;
+
+	final Integer[] bl = mapa.boxList.clone();
+	for (int i = 0; i < bl.length; i++) {
+	    if (bl[i] == indexOrgBox) {
+		bl[i] = indexDstBox;
+	    }
+	}
+	this.boxList = bl;
+
+	if (map[indexOrgBox] == '$') {
+	    map[indexOrgBox] = '@';
+	} else if (map[indexOrgBox] == '*') {
+	    map[indexOrgBox] = '+';
+	} else {
+	    throw new NullPointerException("kjhkjh");
+	}
+
+	if (map[indexDstBox] == ' ') {
+	    map[indexDstBox] = '$';
+	} else if (map[indexDstBox] == '.') {
+	    map[indexDstBox] = '*';
+	} else {
+	    throw new NullPointerException("kjhkjh");
+	}
+
+	this.accMap = computeAccessMap();
+	checkMap();
     }
 
     private char[] encodeMap(final String l) {
@@ -132,7 +162,7 @@ public class Mapa {
 	return new Dimension(maxc, maxf);
     }
 
-    private boolean[] computeAccessMap() {
+    protected boolean[] computeAccessMap() {
 
 	final boolean[] ac = new boolean[ROWS * COLS];
 	for (int i = 0; i < ac.length; i++) {
@@ -208,12 +238,10 @@ public class Mapa {
     public String toString() {
 	final StringBuffer strb = new StringBuffer();
 
+	strb.append('\n');
 	for (int i = 0; i < ROWS; i++) {
 	    for (int j = 0; j < COLS; j++) {
 		strb.append(map[j + i * COLS]);
-	    }
-	    if (i == playerIndex / COLS) {
-		strb.append('-');
 	    }
 	    strb.append('\n');
 	}
@@ -248,6 +276,29 @@ public class Mapa {
 	} else if (!boxList.equals(other.boxList))
 	    return false;
 	return true;
+    }
+
+    @Deprecated
+    protected void checkMap() {
+	int ngoals = 0;
+	for (int i = 0; i < map.length; i++) {
+	    if (map[i] == '.' || map[i] == '*' || map[i] == '+') {
+		ngoals++;
+	    }
+	}
+	if (ngoals != this.boxList.length) {
+	    throw new NullPointerException();
+	}
+
+	for (final int boxPos : boxList) {
+	    if (map[boxPos] != '$' && map[boxPos] != '*') {
+		throw new NullPointerException();
+	    }
+	}
+
+	if (map[playerIndex] != '@' && map[playerIndex] != '+') {
+	    throw new NullPointerException(""+map[playerIndex]);
+	}
     }
 
 }
