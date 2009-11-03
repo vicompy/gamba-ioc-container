@@ -36,7 +36,18 @@ public class MapaGen extends Mapa {
     }
 
     private boolean boxableCell(final int index) {
-	return super.map[index] == ' ' || super.map[index] == '.';
+	return super.map[index] == ' ' || super.map[index] == '.'
+	    ||super.map[index] == '+' || super.map[index] == '@'
+	    ;
+    }
+
+    public boolean isSolved() {
+	for (final int boxPos : super.boxList) {
+	    if (super.map[boxPos] != '*') {
+		return false;
+	    }
+	}
+	return true;
     }
 
 }
