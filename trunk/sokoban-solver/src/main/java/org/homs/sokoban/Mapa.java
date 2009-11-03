@@ -20,8 +20,22 @@ public class Mapa {
 
     private final char[] map;
     private final boolean[] accMap;
-    private int playerIndex;
-    private final List<Integer> boxList;
+    private final int playerIndex;
+    private final Integer[] boxList;
+
+    // public Mapa(final Mapa mapa, final int indexOrgBox, final int
+    // indexDstBox) {
+    // this.ROWS = mapa.ROWS;
+    // this.COLS = mapa.COLS;
+    //
+    // this.playerIndex = indexOrgBox;
+    //
+    // for(int i = 0; i < boxList.size(); i++) {
+    // if (boxList.get(i) == indexOrgBox) {
+    // boxList.get(i) = ind
+    // }
+    // }
+    // }
 
     public Mapa(final String l) {
 
@@ -40,8 +54,9 @@ public class Mapa {
 	/*
 	 * cerca les caixes i el player
 	 */
-	this.boxList = new ArrayList<Integer>();
-	findElements();
+	// this.boxList = new ArrayList<Integer>();
+	this.playerIndex = findPlayer();
+	this.boxList = findBoxes();
 
 	/*
 	 * calcula el mapa d'accessibilitat
@@ -74,20 +89,25 @@ public class Mapa {
 	return map;
     }
 
-    private void findElements() {
-	Integer playerPos = null;
+    private int findPlayer() {
 	for (int i = 0; i < this.map.length; i++) {
 	    if (map[i] == '@' || map[i] == '+') {
-		playerPos = i;
+		return i;
 	    }
+	}
+	throw new NullPointerException("kjhkjh");
+    }
+
+    private Integer[] findBoxes() {
+	final List<Integer> bl = new ArrayList<Integer>();
+
+	for (int i = 0; i < this.map.length; i++) {
 	    if (map[i] == '$' || map[i] == '*') {
-		this.boxList.add(i);
+		bl.add(i);
 	    }
 	}
-	if (playerPos == null) {
-	    throw new NullPointerException("kjhkjh");
-	}
-	this.playerIndex = playerPos;
+
+	return bl.toArray(new Integer[bl.size()]);
     }
 
     private Dimension computeLevelSize(final String l) {
@@ -154,7 +174,7 @@ public class Mapa {
 	strb.append(',');
 	strb.append(COLS);
 	strb.append(',');
-	strb.append(this.boxList.size());
+	strb.append(this.boxList.length);
 	strb.append('\n');
 
 	for (int i = 0; i < playerIndex % COLS; i++) {
@@ -201,7 +221,6 @@ public class Mapa {
 
 	return strb.toString();
     }
-
 
     @Override
     public int hashCode() {
