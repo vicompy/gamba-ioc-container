@@ -18,7 +18,7 @@ public class MapaGenTest {
 		"########\n" +
 		"\n";
 
-		System.out.println(new MapaGen(l).moveGen().toString().replace('\n', '<'));
+//		System.out.println(new MapaGen(l).moveGen().toString().replace('\n', '<'));
 
 		Assert.assertEquals("" +
 				"[<" +
