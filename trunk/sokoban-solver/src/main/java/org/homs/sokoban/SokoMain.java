@@ -4,24 +4,24 @@ public class SokoMain {
 
 	public static void main(final String[] args) {
 		final String l = "" +
-				"########\n" +
-				"#      #\n" +
-				"#  @$* #\n" +
-				"#  $.. #\n" +
-				"#      #\n" +
-				"########\n" +
-				"\n";
+		"########\n" +
+		"#      #\n" +
+		"#  @$*  #\n" +
+		"#  $..  #\n" +
+		"#      #\n" +
+		"#### ###\n" +
+		"#      #\n" +
+		"# #### #\n" +
+		"# #  # #\n" +
+		"#   ## #\n" +
+		"# ## # #\n" +
+		"# #    #\n" +
+		"########\n" + "\n";
 
+
+		new Mapa(l);
 	}
 
 
-
-	public static void levelSizes(final String l) {
-
-		for (int i = 0; i < l.length(); i++) {
-			
-		}
-
-	}
 
 }
