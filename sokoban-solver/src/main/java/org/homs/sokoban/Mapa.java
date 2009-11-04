@@ -40,7 +40,6 @@ public class Mapa {
 		/*
 		 * cerca les caixes i el player
 		 */
-		// this.boxList = new ArrayList<Integer>();
 		this.playerIndex = findPlayer();
 		this.boxList = findBoxes();
 
@@ -49,7 +48,6 @@ public class Mapa {
 		 */
 		this.accMap = computeAccessMap();
 
-		// System.out.println(this.toString());
 		checkMap();
 	}
 
@@ -282,6 +280,7 @@ public class Mapa {
 	}
 
 	@Deprecated
+	// TODO for test only
 	protected void checkMap() {
 		int ngoals = 0;
 		for (int i = 0; i < map.length; i++) {

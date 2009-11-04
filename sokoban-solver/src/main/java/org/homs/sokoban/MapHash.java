@@ -21,19 +21,12 @@ public class MapHash implements IMapHash {
 			span = new ArrayList<MapaW>();
 			hash.put(hashValue, span);
 		}
-//		System.out.println("added map:" + hashValue);
 		span.add(mapa);
-
-//		System.out.println(this.hash.get(hashValue).toString());
 	}
 
 	public MapaW exists(final MapaGen mapaGen, final int level) {
 		final MapaW mapa = new MapaW(mapaGen, level);
 		final int hashValue = mapa.hashCode();
-
-//		System.out.println(this.hash.get(hashValue).toString());
-//		System.out.println("finding map:" + hashValue);
-
 
 		final List<MapaW> mapaList = this.hash.get(hashValue);
 
@@ -43,7 +36,6 @@ public class MapHash implements IMapHash {
 
 		for (final MapaW m : mapaList) {
 			if (m.equals(mapa)) {
-//				System.out.println("trobat");
 				return m;
 			}
 		}
@@ -70,7 +62,6 @@ public class MapHash implements IMapHash {
 				return false;
 			} else {
 				// es pot tallar
-//				System.out.println("cut!");
 				return true;
 			}
 		}
@@ -95,8 +86,6 @@ class MapaW {
 	public boolean equals(final Object obj) {
 		if (obj instanceof MapaW) {
 			return this.getMapa().equals(((MapaW) obj).getMapa());
-//		} else if (obj instanceof MapaGen) {
-//			return this.mapa.equals(obj);
 		} else {
 			throw new NullPointerException();
 		}

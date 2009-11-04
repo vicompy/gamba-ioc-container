@@ -107,7 +107,7 @@ public class SolverTest {
 		" ####\n"+
 		"\n";
 
-		final SolutionResult sr = new Solver(l, new MapHash()).solve(36);
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(34);
 		System.out.println(sr.toString());
 		Assert.assertEquals(34, sr.getLevel());
 	}
