@@ -197,6 +197,7 @@ public class Mapa {
 		return ac2;
 	}
 
+	// TODO for test only
 	public String toString2() {
 		final StringBuffer strb = new StringBuffer();
 
@@ -279,21 +280,6 @@ public class Mapa {
 		}
 		return true;
 	}
-
-	// private static <T> boolean equalsList(final List<T> l1, final List<T> l2)
-	// {
-	//
-	// if (l1.size() != l2.size()) {
-	// return false;
-	// }
-	// for (int i = 0; i < l1.size(); i++) {
-	// if (l1.get(i) != l2.get(i)) {
-	// return false;
-	// }
-	// }
-	//
-	// return true;
-	// }
 
 	@Deprecated
 	protected void checkMap() {
