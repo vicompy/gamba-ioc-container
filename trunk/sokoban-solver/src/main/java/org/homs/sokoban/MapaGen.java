@@ -5,49 +5,48 @@ import java.util.List;
 
 public class MapaGen extends Mapa {
 
-    public MapaGen(final String l) {
-	super(l);
-    }
+	public MapaGen(final String l) {
+		super(l);
+	}
 
-    protected MapaGen(final MapaGen mapaGen, final int indexOrgBox, final int indexDstBox) {
-	super(mapaGen, indexOrgBox, indexDstBox);
-    }
+	protected MapaGen(final MapaGen mapaGen, final int indexOrgBox, final int indexDstBox) {
+		super(mapaGen, indexOrgBox, indexDstBox);
+	}
 
-    private MapaGen doMove(final int indexOrgBox, final int indexDstBox) {
-	return new MapaGen(this, indexOrgBox, indexDstBox);
-    }
+	private MapaGen doMove(final int indexOrgBox, final int indexDstBox) {
+		return new MapaGen(this, indexOrgBox, indexDstBox);
+	}
 
-    private final int[] dirs = new int[] { -1, 1, super.COLS, -super.COLS };
+	private final int[] dirs = new int[] { -1, 1, super.COLS, -super.COLS };
 
-    public List<MapaGen> moveGen() {
+	public List<MapaGen> moveGen() {
 
-	final List<MapaGen> r = new ArrayList<MapaGen>();
+		final List<MapaGen> r = new ArrayList<MapaGen>();
 
-	for (final int boxPos : super.boxList) {
-	    for (final int dir : dirs) {
-		if (super.accMap[boxPos - dir] && boxableCell(boxPos + dir)) {
-		    r.add(doMove(boxPos, boxPos + dir));
+		for (final int boxPos : super.boxList) {
+			for (final int dir : dirs) {
+				if (super.accMap[boxPos - dir] && boxableCell(boxPos + dir)) {
+					r.add(doMove(boxPos, boxPos + dir));
+				}
+			}
+
 		}
-	    }
 
+		return r;
 	}
 
-	return r;
-    }
-
-    private boolean boxableCell(final int index) {
-	return super.map[index] == ' ' || super.map[index] == '.'
-	    ||super.map[index] == '+' || super.map[index] == '@'
-	    ;
-    }
-
-    public boolean isSolved() {
-	for (final int boxPos : super.boxList) {
-	    if (super.map[boxPos] != '*') {
-		return false;
-	    }
+	private boolean boxableCell(final int index) {
+		return super.map[index] == ' ' || super.map[index] == '.' || super.map[index] == '+'
+				|| super.map[index] == '@';
 	}
-	return true;
-    }
+
+	public boolean isSolved() {
+		for (final int boxPos : super.boxList) {
+			if (super.map[boxPos] != '*') {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }
