@@ -4,55 +4,60 @@ import java.util.List;
 
 public class Solver {
 
-    private final MapaGen mapaGen;
-    private int maxLevel;
-    private int nodes;
+	private final MapaGen mapaGen;
+	private int maxLevel;
+	private int nodes;
+	private final IMapHash mapHash;
 
-    public int getNodes() {
-        return nodes;
-    }
-
-    public Solver(final String l) {
-	this.mapaGen = new MapaGen(l);
-    }
-
-    public SolutionResult solve(final int maxLevel) {
-	this.nodes = 0;
-	this.maxLevel = maxLevel;
-	final SolutionResult sr = solve(0, this.mapaGen);
-	sr.setNodes(nodes);
-	return sr;
-    }
-
-    private SolutionResult solve(final int level, final MapaGen mapaGen) {
-
-	this.nodes++;
-
-	if (mapaGen.isSolved()) {
-	    System.out.println("solved at level=" + level);
-	    this.maxLevel = level - 1;
-	    return new SolutionResult(level, mapaGen);
+	public Solver(final String l, final IMapHash mapHash) {
+		this.mapaGen = new MapaGen(l);
+		this.mapHash = mapHash;
 	}
 
-	if (level >= maxLevel) {
-	    return null;
+	public SolutionResult solve(final int maxLevel) {
+		this.nodes = 0;
+		this.maxLevel = maxLevel;
+		final SolutionResult sr = solve(0, this.mapaGen);
+		sr.setNodes(nodes);
+		return sr;
 	}
 
+	private SolutionResult solve(final int level, final MapaGen mapaGen) {
 
-	final List<MapaGen> mapaGenList = mapaGen.moveGen();
-	SolutionResult bestSolutionResult = null;
-	for(final MapaGen m : mapaGenList) {
-	    final SolutionResult sr = solve(level+1, m);
-	    if (bestSolutionResult != null) {
-		if (bestSolutionResult.isWorseThan(sr)) {
-		    bestSolutionResult = sr;
+		this.nodes++;
+
+		if (mapaGen.isSolved()) {
+			System.out.println("solved at level=" + level);
+			this.maxLevel = level - 1;
+			return new SolutionResult(level, mapaGen);
 		}
-	    } else {
-		bestSolutionResult = sr;
-	    }
+
+		if (level >= maxLevel) {
+			return null;
+		}
+
+		if (mapHash.cuttable(mapaGen, level)) {
+			return null;
+		}
+
+		final List<MapaGen> mapaGenList = mapaGen.moveGen();
+		SolutionResult bestSolutionResult = null;
+		for (final MapaGen m : mapaGenList) {
+			final SolutionResult sr = solve(level + 1, m);
+			if (bestSolutionResult != null) {
+				if (bestSolutionResult.isWorseThan(sr)) {
+					bestSolutionResult = sr;
+				}
+			} else {
+				bestSolutionResult = sr;
+			}
+		}
+
+		return bestSolutionResult;
 	}
 
-	return bestSolutionResult;
-    }
+	public int getNodes() {
+		return nodes;
+	}
 
 }

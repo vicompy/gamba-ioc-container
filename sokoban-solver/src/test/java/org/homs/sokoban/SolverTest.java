@@ -17,12 +17,11 @@ public class SolverTest {
 		"#####\n"+
 		"\n";
 
-		final SolutionResult sr = new Solver(l).solve(18);
-		System.out.println(sr.toString());
+//		System.out.println(l);
+		final SolutionResult sr = new Solver(l, new DummyMapHashImpl()).solve(18);
 		System.out.println(sr.toString());
 		Assert.assertEquals(9, sr.getLevel());
 	}
-
 
 	@Test
 	public void test2() {
@@ -36,37 +35,46 @@ public class SolverTest {
 		"####\n"+
 		"\n";
 
-		final SolutionResult sr = new Solver(l).solve(18);
+//		System.out.println(l);
+		final SolutionResult sr = new Solver(l, new DummyMapHashImpl()).solve(18);
 		System.out.println(sr.toString());
 		Assert.assertEquals(12, sr.getLevel());
 	}
 
+	@Test
+	public void test1Hash() {
+		final String l = "" +
+		" #####\n"+
+		" # ..#\n"+
+		"##$@ #\n"+
+		"#  $ #\n"+
+		"#   ##\n"+
+		"#####\n"+
+		"\n";
+
+//		System.out.println(l);
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(18);
+		System.out.println(sr.toString());
+		Assert.assertEquals(9, sr.getLevel());
+	}
+
+	@Test
+	public void test2Hash() {
+		final String l = "" +
+		"####\n"+
+		"#. #\n"+
+		"#. ###\n"+
+		"#@$  #\n"+
+		"# $  #\n"+
+		"#  ###\n"+
+		"####\n"+
+		"\n";
+
+//		System.out.println(l);
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(18);
+		System.out.println(sr.toString());
+		Assert.assertEquals(12, sr.getLevel());
+	}
 
 }
 
-
-// 18p.
-//"  #####\n"+
-//"  # . #\n"+
-//"###$. #\n"+
-//"#   . #\n"+
-//"# $$  #\n"+
-//"## @###\n"+
-//" ####\n"+
-
-//9p.
-//" #####\n"+
-//" # ..#\n"+
-//"##$@ #\n"+
-//"#  $ #\n"+
-//"#   ##\n"+
-//"#####\n"+
-
-// 12p.
-//"####\n"+
-//"#. #\n"+
-//"#. ###\n"+
-//"#@$  #\n"+
-//"# $  #\n"+
-//"#  ###\n"+
-//"####\n"+
