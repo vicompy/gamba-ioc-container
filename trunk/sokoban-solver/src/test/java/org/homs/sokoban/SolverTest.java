@@ -72,5 +72,46 @@ public class SolverTest {
 		Assert.assertEquals(12, sr.getLevel());
 	}
 
+	@Test
+	public void test3Hash() {
+		final String l = "" +
+		"  #####\n"+
+		"  # . #\n"+
+		"###$. #\n"+
+		"#   . #\n"+
+		"# $$  #\n"+
+		"## @###\n"+
+		" ####\n"+
+		"\n";
+
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(20);
+		System.out.println(sr.toString());
+		Assert.assertEquals(18, sr.getLevel());
+	}
+
+	@Test
+	public void test4Hash() {
+		final String l = "" +
+		"#####\n"+
+		"#   #\n"+
+		"#   #\n"+
+		"#  .#\n"+
+		"##$ #\n"+
+		" # +#\n"+
+		" #$ #\n"+
+		" # .#\n"+
+		" #$ #\n"+
+		" # .#\n"+
+		" #$ #\n"+
+		" #  #\n"+
+		" ####\n"+
+		"\n";
+
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(36);
+		System.out.println(sr.toString());
+		Assert.assertEquals(34, sr.getLevel());
+	}
+
 }
+
 
