@@ -27,28 +27,29 @@ class RequestDispatcher {
 		formBeanMapping.put("/final", "org.homs.test1.actions.B");
 	}
 
+	/**
+	 * despacha una petició segons els mappings d'Action i de FormBeans;
+	 * instancia la Action correcta, i li passa el FormBean definit amb els
+	 * paràmetres bindats.
+	 *
+	 * @param requestUri
+	 * @param requestParametersExpression
+	 * @return
+	 * @throws Exception
+	 */
 	public String dispatch(final String requestUri, final String requestParametersExpression)
 			throws Exception {
 
 		/*
 		 * determina la instància i mètode a executar com a Action
 		 */
-		final ResolvedAction ra = resolve(requestUri);
+		final ResolvedAction ra = resolveAction(requestUri);
 
 		/*
 		 * si està declarat, instancia el FormBean a utilitzar, i li fa el
 		 * binding amb els paràmetres passats de form HTML
 		 */
-		Object resolvedFormBean = null;
-		if (requestParametersExpression != null) {
-			final Map<String, Object> atrs = parseRequestParametersExpression(requestParametersExpression);
-			final String resolvedFormBeanClassName = formBeanMapping.get(requestUri);
-
-			if (resolvedFormBeanClassName != null) {
-				final Class<?> resolvedFormBeanClass = Class.forName(resolvedFormBeanClassName);
-				resolvedFormBean = this.bm.doBind(resolvedFormBeanClass, atrs);
-			}
-		}
+		final Object resolvedFormBean = resolveFormBean(requestUri, requestParametersExpression);
 
 		/*
 		 * invoca la action
@@ -61,7 +62,22 @@ class RequestDispatcher {
 		}
 	}
 
-	private ResolvedAction resolve(final String requestUri) throws Exception {
+	private Object resolveFormBean(final String requestUri, final String requestParametersExpression)
+			throws ClassNotFoundException {
+		Object resolvedFormBean = null;
+		if (requestParametersExpression != null) {
+			final Map<String, Object> atrs = parseRequestParametersExpression(requestParametersExpression);
+			final String resolvedFormBeanClassName = formBeanMapping.get(requestUri);
+
+			if (resolvedFormBeanClassName != null) {
+				final Class<?> resolvedFormBeanClass = Class.forName(resolvedFormBeanClassName);
+				resolvedFormBean = this.bm.doBind(resolvedFormBeanClass, atrs);
+			}
+		}
+		return resolvedFormBean;
+	}
+
+	private ResolvedAction resolveAction(final String requestUri) throws Exception {
 		final String[] parts = this.actionMapping.get(requestUri).split("#");
 
 		final Class<?> actionClass = Class.forName(parts[ACTION_CLASS_NAME_INDEX]);
@@ -78,10 +94,18 @@ class RequestDispatcher {
 		return new ResolvedAction(actionInstance, actionMethod);
 	}
 
+	/**
+	 * parseja una expressió <tt>name=hjk&age=fgk887</tt> ó
+	 * <tt>name=asdf&age=4&members=2&members=3</tt>; ve igualment formatada de
+	 * GET com de POST
+	 *
+	 * @param requestParametersExpression
+	 * @return
+	 */
 	private Map<String, Object> parseRequestParametersExpression(final String requestParametersExpression) {
 		final Map<String, Object> r = new HashMap<String, Object>();
 
-		// name=hjk&age=fgk887
+		// TODO falta parsejar name=asdf&age=4&members=2&members=3
 
 		final String[] parts = requestParametersExpression.split("&");
 		for (final String part : parts) {
