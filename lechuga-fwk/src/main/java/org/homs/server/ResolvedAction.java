@@ -2,7 +2,7 @@ package org.homs.server;
 
 import java.lang.reflect.Method;
 
-public class ResolvedAction {
+class ResolvedAction {
 
 	public final Object actionInstance;
 	public final Method actionMethod;

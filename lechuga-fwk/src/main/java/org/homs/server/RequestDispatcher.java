@@ -6,9 +6,8 @@ import java.util.Map;
 
 import org.homs.binding.CatchedBeanBinder;
 import org.homs.binding.IBinder;
-import org.homs.test1.actions.B;
 
-public class RequestDispatcher {
+class RequestDispatcher {
 
 	private static final int ACTION_METHOD_NAME_INDEX = 1;
 	private static final int ACTION_CLASS_NAME_INDEX = 0;
@@ -26,14 +25,20 @@ public class RequestDispatcher {
 		actionMapping.put("/final", "org.homs.test1.actions.FinalAction#execute");
 
 		formBeanMapping.put("/final", "org.homs.test1.actions.B");
-		// formBeanMapping.put("/final",
-		// "org.homs.test1.actions.FinalAction#execute");
 	}
 
 	public String dispatch(final String requestUri, final String requestParametersExpression)
 			throws Exception {
+
+		/*
+		 * determina la instància i mètode a executar com a Action
+		 */
 		final ResolvedAction ra = resolve(requestUri);
 
+		/*
+		 * si està declarat, instancia el FormBean a utilitzar, i li fa el
+		 * binding amb els paràmetres passats de form HTML
+		 */
 		Object resolvedFormBean = null;
 		if (requestParametersExpression != null) {
 			final Map<String, Object> atrs = parseRequestParametersExpression(requestParametersExpression);
@@ -44,13 +49,13 @@ public class RequestDispatcher {
 				resolvedFormBean = this.bm.doBind(resolvedFormBeanClass, atrs);
 			}
 		}
-		System.out.println("invoke: " + ra.getActionInstance().getClass() + "#"
-				+ ra.getActionMethod().getName());
 
+		/*
+		 * invoca la action
+		 */
 		if (resolvedFormBean != null) {
 			return (String) ra.getActionMethod().invoke(ra.getActionInstance(),
 					new Object[] { resolvedFormBean });
-
 		} else {
 			return (String) ra.getActionMethod().invoke(ra.getActionInstance(), new Object[] {});
 		}

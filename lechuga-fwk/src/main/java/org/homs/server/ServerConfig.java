@@ -1,8 +1,8 @@
 package org.homs.server;
 
-public class ServerConfig {
+class ServerConfig {
 
-	public final static String APPLICATION_CONTEXT_NAME = "/demo";
-	public final static int SERVER_PORT = 8888;
+	public final String APPLICATION_CONTEXT_NAME = "/demo";
+	public final int SERVER_PORT = 8888;
 
 }
