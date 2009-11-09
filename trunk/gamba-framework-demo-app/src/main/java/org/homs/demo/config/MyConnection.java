@@ -8,6 +8,7 @@ public class MyConnection implements IConnection {
 	private final String connectionURL;
 	private final String userName;
 	private final String password;
+	private final int maxConnections;
 
 	public MyConnection() {
 		super();
@@ -15,6 +16,7 @@ public class MyConnection implements IConnection {
 		this.connectionURL = "jdbc:hsqldb:file:/home/mhoms/usuarios";
 		this.userName = null;
 		this.password = null;
+		this.maxConnections = 10;
 	}
 
 	/**
@@ -43,6 +45,10 @@ public class MyConnection implements IConnection {
 	 */
 	public String getDriverClassName() {
 		return driverClassName;
+	}
+
+	public int getMaxConnections() {
+		return this.maxConnections;
 	}
 
 }
