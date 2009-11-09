@@ -12,13 +12,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class Test2 {
+public class ArtifactInspector {
 
 //	private BufferedOutputStream os;
 	private BufferedOutputStream os2;
 	private int jarCounter = 0;
 
-	public Test2() {
+	public ArtifactInspector() {
 //		os = null;
 		os2 = null;
 		try {
@@ -31,7 +31,7 @@ public class Test2 {
 	}
 
 	public static void main(final String[] args) throws Exception {
-		new Test2().connectTo("http://repo1.maven.org/maven2/", "http://repo1.maven.org/maven2/jboss/");
+		new ArtifactInspector().connectTo("http://repo1.maven.org/maven2/", "http://repo1.maven.org/maven2/jboss/");
 	}
 
 	private static String parseUrl(final String baseURL, final String httpsURL) {
