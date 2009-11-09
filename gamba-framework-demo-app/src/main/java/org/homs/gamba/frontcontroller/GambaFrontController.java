@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.homs.demo.config.MyConnection;
 import org.homs.gamba.binding.BindingException;
 import org.homs.gamba.binding.CachedHttpBeanBinder;
 import org.homs.gamba.binding.IHttpBinder;
 import org.homs.gamba.connectionpool.BasicPool;
+import org.homs.gamba.connectionpool.IConnection;
 import org.homs.gamba.scanner.AnnotatedActionsScanner;
 import org.homs.gamba.scanner.DeclaredAction;
 
@@ -47,7 +47,24 @@ public class GambaFrontController extends HttpServlet {
 		definedActions = new AnnotatedActionsScanner().doScan(actionBasePackage);
 		viewResolver = new ViewResolver(this);
 
-		BasicPool.getInstance().setup(new MyConnection());
+		final String jdbcPoolingConfigClassName = getInitParameter("jdbc-pooling-config");
+		if (jdbcPoolingConfigClassName == null) {
+			throw new BindingException("valor d'init-parameter 'jdbc-pooling-config' no especificat.");
+		}
+
+		Class<?> jdbcPoolingConfigClass = null;
+		try {
+			jdbcPoolingConfigClass = Class.forName(jdbcPoolingConfigClassName);
+		} catch (final ClassNotFoundException exc) {
+			throw new BindingException("classe 'jdbc-pooling-config' no trobada: "
+					+ jdbcPoolingConfigClassName);
+		}
+		try {
+			BasicPool.getInstance().setup((IConnection) jdbcPoolingConfigClass.newInstance());
+		} catch (final Exception exc) {
+			throw new BindingException("error instanciant classe 'jdbc-pooling-config': "
+					+ jdbcPoolingConfigClassName, exc);
+		}
 	}
 
 	/**
