@@ -5,9 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Vector;
 
-public class BasicPool {
-
-	// TODO quan finalitzi l'aplicació, s'han de tancar totes les connexions!!
+public class BasicConnectionPool {
 
 	private final Vector<Connection> availableConnections = new Vector<Connection>();
 	private final Vector<Connection> usedConnections = new Vector<Connection>();
@@ -15,12 +13,12 @@ public class BasicPool {
 	protected String connectionURL;
 	protected String userName;
 	protected String password;
-	private int maxConnections;
+	private int poolSize;
 
-	private BasicPool() {
+	private BasicConnectionPool() {
 	}
 
-	public void setup(final IConnection connection) {
+	public void setup(final IConnectionConfig connection) {
 
 		try {
 			Class.forName(connection.getDriverClassName());
@@ -31,9 +29,9 @@ public class BasicPool {
 		this.connectionURL = connection.getConnectionURL();
 		this.userName = connection.getUserName();
 		this.password = connection.getPassword();
-		this.maxConnections = connection.getMaxConnections();
+		this.poolSize = connection.getPoolSize();
 
-		for (int i = 0; i < maxConnections; i++) {
+		for (int i = 0; i < poolSize; i++) {
 			try {
 				availableConnections.addElement(getNewConnection());
 			} catch (final SQLException exc) {
@@ -44,10 +42,10 @@ public class BasicPool {
 	}
 
 	private static class SingletonHolder {
-		private static final BasicPool INSTANCE = new BasicPool();
+		private static final BasicConnectionPool INSTANCE = new BasicConnectionPool();
 	}
 
-	public static BasicPool getInstance() {
+	public static BasicConnectionPool getInstance() {
 		return SingletonHolder.INSTANCE;
 	}
 
@@ -73,8 +71,8 @@ public class BasicPool {
 	}
 
 	public synchronized void releaseConnection(final Connection c) {
-		if (c != null) {
-			usedConnections.removeElement(c);
+		usedConnections.removeElement(c);
+		if (availableConnections.size() < poolSize) {
 			availableConnections.addElement(c);
 		}
 	}

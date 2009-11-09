@@ -17,26 +17,34 @@
 	<br />
 	<br />
 
+	<form action="${contextName}/start.do" method="get">
+		<input type='submit' value="return">
+	</form>
+
+	<small>
     <table>
-    	<thead>
-        <tr>
-          <th>groupId</th>
-          <th>artifactId</th>
-          <th>version</th>
-          <th>Jar file</th>
-          <th>Url</th>
-        </tr>
-        </thead>
-      <c:forEach var="artifact" items="${artifactlist}">
-        <tr>
-          <td>${artifact.groupId}</td>
-          <td>${artifact.artifactId}</td>
-          <td>${artifact.version}</td>
-          <td><a href='${artifact.url}${artifact.jarName}'>${artifact.jarName}</a></td>
-          <td><a href='${artifact.url}'>${artifact.url}</a></td>
-        </tr>
-      </c:forEach>
+		<thead>
+			<tr>
+			    <th>groupId</th>
+			    <th>artifactId</th>
+			    <th>version</th>
+			    <th>Jar file</th>
+			    <th>Url</th>
+		   	</tr>
+		</thead>
+		<tbody>
+		<c:forEach var="artifact" items="${artifactlist}">
+			<tr>
+			 	<td>${artifact.groupId}</td>
+				<td>${artifact.artifactId}</td>
+				<td>${artifact.version}</td>
+				<td><a href='${artifact.url}${artifact.jarName}'>${artifact.jarName}</a></td>
+				<td><a href='${artifact.url}'>${artifact.url}</a></td>
+			</tr>
+		</c:forEach>
+		</tbody>
     </table>
+    </small>
     
 	<br />
 	<br />

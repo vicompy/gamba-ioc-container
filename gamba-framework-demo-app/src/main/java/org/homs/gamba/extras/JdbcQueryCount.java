@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.homs.gamba.connectionpool.BasicPool;
+import org.homs.gamba.connectionpool.BasicConnectionPool;
 
 public class JdbcQueryCount {
 
@@ -15,14 +15,14 @@ public class JdbcQueryCount {
 		Connection conn = null;
 		try {
 
-			conn = BasicPool.getInstance().getConnection();
+			conn = BasicConnectionPool.getInstance().getConnection();
 			final PreparedStatement ps = conn.prepareStatement(query);
 			final ResultSet rs = ps.executeQuery();
 
 			rs.next();
 			r = rs.getInt(1);
 
-			BasicPool.getInstance().releaseConnection(conn);
+			BasicConnectionPool.getInstance().releaseConnection(conn);
 
 		} catch (final SQLException exc) {
 			throw new RuntimeException(exc);
