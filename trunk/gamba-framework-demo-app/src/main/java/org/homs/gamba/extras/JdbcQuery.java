@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.homs.gamba.connectionpool.BasicPool;
+import org.homs.gamba.connectionpool.BasicConnectionPool;
 
 public abstract class JdbcQuery<T> {
 	protected abstract T bind(final ResultSet rs) throws SQLException;
@@ -15,7 +15,7 @@ public abstract class JdbcQuery<T> {
 		Connection conn = null;
 		try {
 
-			conn = BasicPool.getInstance().getConnection();
+			conn = BasicConnectionPool.getInstance().getConnection();
 			final PreparedStatement ps = conn.prepareStatement(query);
 			final ResultSet rs = ps.executeQuery();
 
@@ -23,7 +23,7 @@ public abstract class JdbcQuery<T> {
 				list.add(bind(rs));
 			}
 
-			BasicPool.getInstance().releaseConnection(conn);
+			BasicConnectionPool.getInstance().releaseConnection(conn);
 
 		} catch (final SQLException exc) {
 			throw new RuntimeException(exc);

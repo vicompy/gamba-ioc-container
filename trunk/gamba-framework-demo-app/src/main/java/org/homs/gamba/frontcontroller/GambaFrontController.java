@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.homs.gamba.binding.BindingException;
 import org.homs.gamba.binding.CachedHttpBeanBinder;
 import org.homs.gamba.binding.IHttpBinder;
-import org.homs.gamba.connectionpool.BasicPool;
-import org.homs.gamba.connectionpool.IConnection;
+import org.homs.gamba.connectionpool.BasicConnectionPool;
+import org.homs.gamba.connectionpool.IConnectionConfig;
 import org.homs.gamba.scanner.AnnotatedActionsScanner;
 import org.homs.gamba.scanner.DeclaredAction;
 
@@ -60,7 +60,7 @@ public class GambaFrontController extends HttpServlet {
 					+ jdbcPoolingConfigClassName);
 		}
 		try {
-			BasicPool.getInstance().setup((IConnection) jdbcPoolingConfigClass.newInstance());
+			BasicConnectionPool.getInstance().setup((IConnectionConfig) jdbcPoolingConfigClass.newInstance());
 		} catch (final Exception exc) {
 			throw new BindingException("error instanciant classe 'jdbc-pooling-config': "
 					+ jdbcPoolingConfigClassName, exc);
@@ -69,7 +69,7 @@ public class GambaFrontController extends HttpServlet {
 
 	@Override
 	public void destroy() {
-		BasicPool.getInstance().closeAllConnections();
+		BasicConnectionPool.getInstance().closeAllConnections();
 	}
 
 	/**

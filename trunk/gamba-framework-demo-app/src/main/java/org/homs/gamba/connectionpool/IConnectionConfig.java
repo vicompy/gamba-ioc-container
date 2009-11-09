@@ -1,6 +1,6 @@
 package org.homs.gamba.connectionpool;
 
-public interface IConnection {
+public interface IConnectionConfig {
 
 	public abstract String getConnectionURL();
 
@@ -10,6 +10,6 @@ public interface IConnection {
 
 	public abstract String getDriverClassName();
 
-	public abstract int getMaxConnections();
+	public abstract int getPoolSize();
 
 }
