@@ -7,6 +7,8 @@ import java.util.Vector;
 
 public class BasicPool {
 
+	// TODO quan finalitzi l'aplicació, s'han de tancar totes les connexions!!
+
 	private final Vector<Connection> availableConnections = new Vector<Connection>();
 	private final Vector<Connection> usedConnections = new Vector<Connection>();
 

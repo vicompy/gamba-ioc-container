@@ -23,7 +23,7 @@ public class Test2 {
 		os2 = null;
 		try {
 //			os = new BufferedOutputStream(new FileOutputStream(new File("./artifacts.csv")));
-			os2 = new BufferedOutputStream(new FileOutputStream(new File("./artifacts.sql")));
+			os2 = new BufferedOutputStream(new FileOutputStream(new File("./artifacts2.sql")));
 		} catch (final FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class Test2 {
 	}
 
 	public static void main(final String[] args) throws Exception {
-		new Test2().connectTo("http://repo1.maven.org/maven2/", "http://repo1.maven.org/maven2/");
+		new Test2().connectTo("http://repo1.maven.org/maven2/", "http://repo1.maven.org/maven2/jboss/");
 	}
 
 	private static String parseUrl(final String baseURL, final String httpsURL) {
@@ -100,9 +100,11 @@ public class Test2 {
 //		System.out.print(this.jarCounter + ": " + parsedUrl.replaceAll("\\$", "\t") + "\t" + httpsURL + "\n");
 //		os.write((parsedUrl.replaceAll("\\$", "\t") + "\t" + httpsURL + "\n").getBytes());
 
-		final String q = "INSERT INTO ARTIFACTS (ID,GROUPID,ARTIFACTID,VERSION,JARNAME,URL,DEPT) VALUES ("
+		String q = "INSERT INTO ARTIFACTS (ID,GROUPID,ARTIFACTID,VERSION,JARNAME,URL,DEPT) VALUES ("
 				+ this.jarCounter + ",'" + parts[0] + "','" + parts[1] + "','" + parts[2] + "','" + parts[3]
-				+ "','" + httpsURL + "'," + (parts[0].split("\\.").length +parts[1].split("\\.").length+1)  +");\n";
+				+ "','" + httpsURL + "'," + (parts[0].split("\\.").length +parts[1].split("\\.").length+1)  +");";
+
+		q = "st.executeUpdate(\"" + q + "\");\n";
 		os2.write(q.getBytes());
 		System.out.print(q);
 	}
