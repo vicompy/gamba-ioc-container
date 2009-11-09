@@ -12,11 +12,10 @@ public class BasicPool {
 	private final Vector<Connection> availableConnections = new Vector<Connection>();
 	private final Vector<Connection> usedConnections = new Vector<Connection>();
 
-	private final int initialConnectionCount = 5;
-
 	protected String connectionURL;
 	protected String userName;
 	protected String password;
+	private int maxConnections;
 
 	private BasicPool() {
 	}
@@ -32,8 +31,9 @@ public class BasicPool {
 		this.connectionURL = connection.getConnectionURL();
 		this.userName = connection.getUserName();
 		this.password = connection.getPassword();
+		this.maxConnections = connection.getMaxConnections();
 
-		for (int i = 0; i < initialConnectionCount; i++) {
+		for (int i = 0; i < maxConnections; i++) {
 			try {
 				availableConnections.addElement(getNewConnection());
 			} catch (final SQLException exc) {

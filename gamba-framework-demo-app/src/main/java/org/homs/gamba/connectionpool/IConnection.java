@@ -10,4 +10,6 @@ public interface IConnection {
 
 	public abstract String getDriverClassName();
 
+	public abstract int getMaxConnections();
+
 }
