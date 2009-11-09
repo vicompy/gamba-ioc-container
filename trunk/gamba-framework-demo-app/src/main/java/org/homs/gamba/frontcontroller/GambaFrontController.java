@@ -67,6 +67,11 @@ public class GambaFrontController extends HttpServlet {
 		}
 	}
 
+	@Override
+	public void destroy() {
+		BasicPool.getInstance().closeAllConnections();
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
