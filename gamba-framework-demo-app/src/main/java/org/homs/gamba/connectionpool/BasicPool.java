@@ -79,7 +79,24 @@ public class BasicPool {
 		}
 	}
 
+	public void closeAllConnections() {
+		for (final Connection c : this.availableConnections) {
+			try {
+				c.close();
+			} catch (final SQLException exc) {
+			}
+		}
+		for (final Connection c : this.usedConnections) {
+			try {
+				c.close();
+			} catch (final SQLException exc) {
+			}
+		}
+		System.out.println("all connections closed");
+	}
+
 	public int availableCount() {
 		return availableConnections.size();
 	}
+
 }
