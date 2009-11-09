@@ -14,18 +14,14 @@ import java.net.URLConnection;
 
 public class ArtifactInspector {
 
-//	private BufferedOutputStream os;
-	private BufferedOutputStream os2;
+	private BufferedOutputStream os;
 	private int jarCounter = 0;
 
 	public ArtifactInspector() {
-//		os = null;
-		os2 = null;
+		os = null;
 		try {
-//			os = new BufferedOutputStream(new FileOutputStream(new File("./artifacts.csv")));
-			os2 = new BufferedOutputStream(new FileOutputStream(new File("./artifacts2.sql")));
+			os = new BufferedOutputStream(new FileOutputStream(new File("./artifacts2.sql")));
 		} catch (final FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -51,7 +47,6 @@ public class ArtifactInspector {
 			}
 		}
 
-		// artifact = artifact.replaceAll("\\$", "\t") + "\n";
 		return artifact;
 	}
 
@@ -91,21 +86,18 @@ public class ArtifactInspector {
 				connectTo(baseURL, httpsURL + file);
 			}
 		}
-//		os.flush();
-		os2.flush();
+		os.flush();
 	}
 
 	private void joinPoint(final String httpsURL, final String parsedUrl, final String[] parts)
 			throws IOException {
-//		System.out.print(this.jarCounter + ": " + parsedUrl.replaceAll("\\$", "\t") + "\t" + httpsURL + "\n");
-//		os.write((parsedUrl.replaceAll("\\$", "\t") + "\t" + httpsURL + "\n").getBytes());
 
 		String q = "INSERT INTO ARTIFACTS (ID,GROUPID,ARTIFACTID,VERSION,JARNAME,URL,DEPT) VALUES ("
 				+ this.jarCounter + ",'" + parts[0] + "','" + parts[1] + "','" + parts[2] + "','" + parts[3]
 				+ "','" + httpsURL + "'," + (parts[0].split("\\.").length +parts[1].split("\\.").length+1)  +");";
 
 		q = "st.executeUpdate(\"" + q + "\");\n";
-		os2.write(q.getBytes());
+		os.write(q.getBytes());
 		System.out.print(q);
 	}
 

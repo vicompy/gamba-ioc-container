@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class HSQLExample {
+public class HSQLSetup {
 
 	public static void main(final String[] args) throws SQLException {
 		Connection conn = null;
