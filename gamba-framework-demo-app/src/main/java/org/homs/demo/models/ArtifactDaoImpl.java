@@ -14,7 +14,15 @@ public class ArtifactDaoImpl implements IArtifactDao {
 	 * @see org.homs.demo.models.IArtifactDao#findBy(java.lang.String)
 	 */
 	public List<Artifact> findBy(final String searchWord, final int dept) {
-		return new SelectArtifacts().execute("SELECT * FROM ARTIFACTS", new ArrayList<Artifact>());
+		return new SelectArtifacts().execute(
+			"SELECT * " +
+			"FROM ARTIFACTS " +
+			"WHERE " +
+			"	GROUPID LIKE '%"+searchWord+"%' OR " +
+			"	ARTIFACTID LIKE '%"+searchWord+"%' OR " +
+			"	VERSION LIKE '%"+searchWord+"%' OR " +
+			"	JARNAME LIKE '%"+searchWord+"%' "
+			, new ArrayList<Artifact>());
 	}
 
 	class SelectArtifacts extends JdbcQuery<Artifact> {
