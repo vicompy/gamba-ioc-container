@@ -12,7 +12,8 @@ public class Artifact {
 
 	}
 
-	public Artifact(final String groupId, final String artifactId, final String version, final String jarName, final String url) {
+	public Artifact(final String groupId, final String artifactId, final String version,
+			final String jarName, final String url) {
 		super();
 		this.groupId = groupId;
 		this.artifactId = artifactId;

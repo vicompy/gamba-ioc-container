@@ -17,11 +17,12 @@ public class ArtifactDaoImpl implements IArtifactDao {
 		return new SelectArtifacts().execute(
 			"SELECT * " +
 			"FROM ARTIFACTS " +
-			"WHERE " +
+			"WHERE (" +
 			"	GROUPID LIKE '%"+searchWord+"%' OR " +
 			"	ARTIFACTID LIKE '%"+searchWord+"%' OR " +
 			"	VERSION LIKE '%"+searchWord+"%' OR " +
-			"	JARNAME LIKE '%"+searchWord+"%' "
+			"	JARNAME LIKE '%"+searchWord+"%' " +
+			") AND DEPT <= " + dept
 			, new ArrayList<Artifact>());
 	}
 
