@@ -24,10 +24,10 @@ public class BeanBinder implements IBeanBinder {
 			if (atrName.toUpperCase().equals(beanProp.propertyName/*.toUpperCase()*/)) {
 				// ei, propietat coincident amb atribut!
 				try {
-					beanProp.method.invoke(bean, convert((String[]) atr.get(atrName), beanProp.argType));
+					beanProp.setterMethod.invoke(bean, convert((String[]) atr.get(atrName), beanProp.argType));
 				} catch (final Exception exc) {
 					throw new BindingException("error injectant al bean: "
-							+ cachedBean.getBeanClass().getName() + "." + beanProp.method.getName() + "("
+							+ cachedBean.getBeanClass().getName() + "." + beanProp.setterMethod.getName() + "("
 							+ beanProp.argType.getName() + ")", exc);
 				}
 			}

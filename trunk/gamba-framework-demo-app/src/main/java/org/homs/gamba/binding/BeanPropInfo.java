@@ -6,16 +6,16 @@ public class BeanPropInfo {
 
 	public String propertyName;
 	public String setterName;
-	public Method method;
+	public Method setterMethod;
 	public Class<?> argType;
 	public boolean argIsArray;
 
-	public BeanPropInfo(final String propertyName, final String methodName, final Method method,
+	public BeanPropInfo(final String propertyName, final String methodName, final Method setterMethod,
 			final Class<?> argType) {
 		super();
 		this.propertyName = propertyName.toUpperCase();
 		this.setterName = methodName;
-		this.method = method;
+		this.setterMethod = setterMethod;
 		this.argType = argType;
 		this.argIsArray = argType.isArray();
 	}
