@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.homs.demo.models.Artifact;
-import org.homs.gamba.binding.CachedBeanBinder;
 import org.homs.gamba.binding.IBeanBinder;
+import org.homs.gamba.binding.SingletonCachedBeanBinder;
 import org.homs.gamba.connectionpool.GambaPooling;
 
 public class Query<T> extends GenericMappingQuery {
 
-	private final IBeanBinder bm = new CachedBeanBinder();
+	private final IBeanBinder bm = SingletonCachedBeanBinder.getInstance();
 
 	public List<T> execute(final String query, final List<T> list) {
 
