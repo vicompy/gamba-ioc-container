@@ -36,6 +36,12 @@ public class BeanBinderTest {
 		Assert.assertFalse(bl[0].hashCode() == bl[1].hashCode());
 		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
 		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
+
+		final B b = bl[0];
+		Assert.assertEquals("mhc", b.getName());
+		Assert.assertEquals(Integer.valueOf(27), Integer.valueOf(b.getAge()));
+		Assert.assertEquals(Float.valueOf(27), b.getMembers()[0]);
+		Assert.assertEquals(Float.valueOf(28), b.getMembers()[1]);
 	}
 
 	/**
@@ -61,6 +67,12 @@ public class BeanBinderTest {
 		Assert.assertFalse(bl[0].hashCode() == bl[1].hashCode());
 		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
 		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
+
+		final B b = bl[0];
+		Assert.assertEquals("mhc", b.getName());
+		Assert.assertEquals(Integer.valueOf(27), Integer.valueOf(b.getAge()));
+		Assert.assertEquals(Float.valueOf(27), b.getMembers()[0]);
+		Assert.assertEquals(Float.valueOf(28), b.getMembers()[1]);
 	}
 
 	/**
@@ -72,7 +84,7 @@ public class BeanBinderTest {
 		final Map<String, String[]> attr = new HashMap<String, String[]>();
 		attr.put("name", new String[] { "mhc" });
 		// attr.put("age", new String[] { "27" });
-		attr.put("members", new String[] { "27", "28" });
+		// attr.put("members", new String[] { "27", "28" });
 
 		final IBeanBinder bm = new BeanBinder();
 
@@ -87,12 +99,17 @@ public class BeanBinderTest {
 		Assert.assertFalse(bl[0].hashCode() == bl[1].hashCode());
 		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
 		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
+
+		final B b = bl[0];
+		Assert.assertEquals("mhc", b.getName());
+		Assert.assertEquals(0, b.getAge());
+		Assert.assertArrayEquals(null, b.getMembers());
 	}
 
 	/**
 	 * prova que si hi ha un atribut que no té propietat, tira excepció
 	 */
-	@Test(expected=BindingException.class)
+	@Test(expected = BindingException.class)
 	public void test4() {
 		final Map<String, String[]> attr = new HashMap<String, String[]>();
 		attr.put("name", new String[] { "mhc" });
@@ -102,17 +119,8 @@ public class BeanBinderTest {
 
 		final IBeanBinder bm = new BeanBinder();
 
-		final B[] bl = new B[3];
-		for (int i = 0; i < 3; i++) {
-			bl[i] = (B) bm.doBind(B.class, attr);
-		}
-
-		Assert.assertTrue(bl[0].toString().equals(bl[1].toString()));
-		Assert.assertTrue(bl[1].toString().equals(bl[2].toString()));
-
-		Assert.assertFalse(bl[0].hashCode() == bl[1].hashCode());
-		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
-		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
+		@SuppressWarnings("unused")
+		final B b = (B) bm.doBind(B.class, attr);
 	}
 
 }
