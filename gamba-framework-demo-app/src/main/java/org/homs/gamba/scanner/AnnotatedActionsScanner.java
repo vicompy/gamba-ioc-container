@@ -21,7 +21,7 @@ public class AnnotatedActionsScanner {
 
 		if (actionBasePackage == null) {
 			actionBasePackage = ACTIONS_BASE_PACKAGE_DEFAULT_VALUE;
-			System.out.println("front-controller init-param not specified, using the default value: "
+			System.out.println("warning: front-controller init-param not specified, using the default value: "
 					+ actionBasePackage);
 		}
 
