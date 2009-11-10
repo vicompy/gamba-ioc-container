@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.homs.gamba.binding.BindingException;
-import org.homs.gamba.binding.CachedBeanBinder;
 import org.homs.gamba.binding.IBeanBinder;
+import org.homs.gamba.binding.SingletonCachedBeanBinder;
 import org.homs.gamba.connectionpool.GambaPooling;
 import org.homs.gamba.scanner.AnnotatedActionsScanner;
 import org.homs.gamba.scanner.DeclaredAction;
@@ -34,7 +34,7 @@ public class GambaFrontController extends HttpServlet {
 	 */
 	public GambaFrontController() {
 		super();
-		httpBinder = new CachedBeanBinder();
+		httpBinder = SingletonCachedBeanBinder.getInstance();
 	}
 
 	@Override
