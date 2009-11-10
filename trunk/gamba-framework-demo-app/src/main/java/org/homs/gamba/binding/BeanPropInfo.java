@@ -2,7 +2,7 @@ package org.homs.gamba.binding;
 
 import java.lang.reflect.Method;
 
-class BeanPropInfo {
+public class BeanPropInfo {
 
 	public String propertyName;
 	public String setterName;

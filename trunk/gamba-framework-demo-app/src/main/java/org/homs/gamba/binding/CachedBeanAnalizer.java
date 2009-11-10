@@ -20,8 +20,7 @@ public class CachedBeanAnalizer {
 		return SingletonHolder.INSTANCE;
 	}
 
-
-	public BeanInfo analitza(final Class<?> beanClass) throws BindingException {
+	public BeanInfo analize(final Class<?> beanClass) throws BindingException {
 
 		BeanInfo beanInfo = this.cache.get(beanClass);
 		if (beanInfo == null) {
@@ -30,7 +29,6 @@ public class CachedBeanAnalizer {
 		}
 		return beanInfo;
 	}
-
 
 	protected BeanInfo analitzaBean(final Class<?> beanClass) {
 
@@ -52,9 +50,8 @@ public class CachedBeanAnalizer {
 	}
 
 	private boolean isMethodSetter(final Method m) {
-		return 	m.getParameterTypes().length == 1 &&
-				m.getReturnType() == void.class &&
-				isSetterName(m.getName());
+		return m.getParameterTypes().length == 1 && m.getReturnType() == void.class
+				&& isSetterName(m.getName());
 	}
 
 	private boolean isSetterName(final String s) {
