@@ -1,18 +1,17 @@
-package org.homs.gamba.scanner.subdir;
+package org.homs.gamba.scanner;
 
 import org.homs.demo.formbeans.SearchBean;
 import org.homs.gamba.extras.EmptyFormBean;
 import org.homs.gamba.frontcontroller.RequestContext;
-import org.homs.gamba.scanner.Action;
 
-public class TestingController2 {
+public class Controller {
 
-	@Action(name = "search2", formBean = SearchBean.class)
+	@Action(name = "search", formBean = SearchBean.class)
 	public String search(final RequestContext req, final SearchBean form) {
 		return null;
 	}
 
-	@Action(name = "start2")
+	@Action(name = "start")
 	public String startingView(final RequestContext req, final EmptyFormBean form) {
 		return null;
 	}
