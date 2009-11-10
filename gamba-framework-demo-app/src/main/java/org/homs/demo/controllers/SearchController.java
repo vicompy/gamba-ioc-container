@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.homs.demo.formbeans.SearchBean;
 import org.homs.demo.models.Artifact;
-import org.homs.demo.models.ArtifactService;
+import org.homs.demo.models.ArtifactBO;
 import org.homs.gamba.extras.EmptyFormBean;
 import org.homs.gamba.frontcontroller.RequestContext;
 import org.homs.gamba.scanner.Action;
 
 public class SearchController {
 
-	private final ArtifactService artifactService;
+	private final ArtifactBO artifactService;
 
 	public SearchController() {
-		artifactService = new ArtifactService();
+		artifactService = new ArtifactBO();
 	}
 
 	@Action(name = "search", formBean = SearchBean.class)
