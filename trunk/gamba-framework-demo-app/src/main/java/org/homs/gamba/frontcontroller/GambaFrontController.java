@@ -45,30 +45,10 @@ public class GambaFrontController extends HttpServlet {
 		final String actionBasePackage = getInitParameter(ACTIONS_BASE_PACKAGE);
 		definedActions = new AnnotatedActionsScanner().doScan(actionBasePackage);
 		viewResolver = new ViewResolver(this);
-
-//		final String jdbcPoolingConfigClassName = getInitParameter("jdbc-pooling-config");
-//		if (jdbcPoolingConfigClassName == null) {
-//			throw new BindingException("valor d'init-parameter 'jdbc-pooling-config' no especificat.");
-//		}
-//
-//		Class<?> jdbcPoolingConfigClass = null;
-//		try {
-//			jdbcPoolingConfigClass = Class.forName(jdbcPoolingConfigClassName);
-//		} catch (final ClassNotFoundException exc) {
-//			throw new BindingException("classe 'jdbc-pooling-config' no trobada: "
-//					+ jdbcPoolingConfigClassName);
-//		}
-//		try {
-//			BasicConnectionPool.getInstance().setup((IConnectionConfig) jdbcPoolingConfigClass.newInstance());
-//		} catch (final Exception exc) {
-//			throw new BindingException("error instanciant classe 'jdbc-pooling-config': "
-//					+ jdbcPoolingConfigClassName, exc);
-//		}
 	}
 
 	@Override
 	public void destroy() {
-//		BasicConnectionPool.getInstance().closeAllConnections();
 		GambaPooling.getInstance().destroyAllConnections();
 	}
 
@@ -98,13 +78,11 @@ public class GambaFrontController extends HttpServlet {
 
 		final String requestServletPath = request.getServletPath();
 		final String actionName = requestServletPath.substring(1, requestServletPath.length() - 3);
-		// System.out.println(request.getServletPath() + " ==> " + actionName);
 
 		final DeclaredAction declaredAction = this.definedActions.get(actionName);
 		if (declaredAction == null) {
 			throw new BindingException("error d'action no trobada per la request: " + actionName);
 		}
-		// System.out.println("execing action: " + declaredAction.toString());
 
 		final Object actionForm = this.httpBinder
 				.doBind(declaredAction.actionForm, request.getParameterMap());
