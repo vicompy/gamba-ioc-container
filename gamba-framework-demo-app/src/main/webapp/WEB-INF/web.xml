@@ -21,10 +21,10 @@
 			<param-name>view-resource-postfix</param-name>
 			<param-value>.jsp</param-value>
 		</init-param>
-		<init-param>
-			<param-name>jdbc-pooling-config</param-name>
-			<param-value>org.homs.demo.config.MyConnection</param-value>
-		</init-param>
+<!--		<init-param>-->
+<!--			<param-name>jdbc-pooling-config</param-name>-->
+<!--			<param-value>org.homs.demo.config.MyConnection</param-value>-->
+<!--		</init-param>-->
 		
 	</servlet>
 
