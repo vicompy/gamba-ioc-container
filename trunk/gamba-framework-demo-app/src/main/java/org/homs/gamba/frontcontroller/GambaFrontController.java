@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.homs.gamba.binding.BindingException;
 import org.homs.gamba.binding.CachedHttpBeanBinder;
 import org.homs.gamba.binding.IHttpBinder;
-import org.homs.gamba.connectionpool.Pool;
+import org.homs.gamba.connectionpool.GambaPooling;
 import org.homs.gamba.scanner.AnnotatedActionsScanner;
 import org.homs.gamba.scanner.DeclaredAction;
 
@@ -69,7 +69,7 @@ public class GambaFrontController extends HttpServlet {
 	@Override
 	public void destroy() {
 //		BasicConnectionPool.getInstance().closeAllConnections();
-		Pool.getInstance().destroyAllConnections();
+		GambaPooling.getInstance().destroyAllConnections();
 	}
 
 	/**

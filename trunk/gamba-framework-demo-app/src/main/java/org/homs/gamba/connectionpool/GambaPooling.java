@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pool {
+public class GambaPooling {
 
 	private final String driverClassName;
 	private final String connectionUrl;
@@ -17,7 +17,7 @@ public class Pool {
 	private final List<Connection> pool;
 	private final Driver driverInstance;
 
-	private Pool() {
+	private GambaPooling() {
 
 		final PropertiesLoader pl = new PropertiesLoader();
 		driverClassName = pl.getProperty("driver-class-name");
@@ -46,7 +46,7 @@ public class Pool {
 				pool.add(conn);
 			}
 		} catch (final Exception exc) {
-			throw new PoolException(exc);
+			throw new GambaPoolingException(exc);
 		}
 
 		// Statement stmt = conn.createStatement();
@@ -66,7 +66,7 @@ public class Pool {
 			try {
 				return DriverManager.getConnection(connectionUrl, userName, passWord);
 			} catch (final Exception exc) {
-				throw new PoolException(exc);
+				throw new GambaPoolingException(exc);
 			}
 		} else {
 			final Connection conn;
@@ -93,7 +93,7 @@ public class Pool {
 			}
 			System.out.println("-" + poolCurrentSize() + "-");
 		} catch (final Exception exc) {
-			throw new PoolException(exc);
+			throw new GambaPoolingException(exc);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class Pool {
 			pool.clear();
 			DriverManager.deregisterDriver(driverInstance);
 		} catch (final Exception exc) {
-			throw new PoolException(exc);
+			throw new GambaPoolingException(exc);
 		}
 	}
 
@@ -114,10 +114,10 @@ public class Pool {
 	}
 
 	static class SingletonInstanceHolder {
-		static final Pool poolInstance = new Pool();
+		static final GambaPooling poolInstance = new GambaPooling();
 	}
 
-	public static Pool getInstance() {
+	public static GambaPooling getInstance() {
 		return SingletonInstanceHolder.poolInstance;
 	}
 }

@@ -14,20 +14,20 @@ public class PropertiesLoader {
 		final InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(
 				propertiesFile);
 		if (is == null) {
-			throw new PoolException("properites file not found");
+			throw new GambaPoolingException("properites file not found");
 		}
 		props = new Properties();
 		try {
 			props.load(is);
 		} catch (final IOException e) {
-			throw new PoolException("properites file not found");
+			throw new GambaPoolingException("properites file not found");
 		}
 	}
 
 	public String getProperty(final String name) {
 		final String r = props.getProperty(name);
 		if (r == null) {
-			throw new PoolException("property not found: " + name);
+			throw new GambaPoolingException("property not found: " + name);
 		}
 		return r;
 	}

@@ -2,7 +2,7 @@ package org.homs.demo.models;
 
 import java.util.List;
 
-public class ArtifactService {
+public class ArtifactBO {
 
 	final IArtifactDao artifactDao = new ArtifactDaoImpl();
 
