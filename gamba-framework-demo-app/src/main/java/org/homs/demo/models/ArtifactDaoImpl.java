@@ -3,8 +3,8 @@ package org.homs.demo.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.dao.JdbcQuery;
-import org.homs.gamba.dao.JdbcQueryCount;
+import org.homs.gamba.dao.Query;
+import org.homs.gamba.dao.QueryCount;
 
 public class ArtifactDaoImpl implements IArtifactDao {
 
@@ -12,7 +12,7 @@ public class ArtifactDaoImpl implements IArtifactDao {
 	 * @see org.homs.demo.models.IArtifactDao#findBy(java.lang.String)
 	 */
 	public List<Artifact> findBy(final String searchWord, final int dept) {
-		return new JdbcQuery<Artifact>().execute(
+		return new Query<Artifact>().execute(
 			"SELECT * " +
 			"FROM ARTIFACTS " +
 			"WHERE (" +
@@ -26,6 +26,6 @@ public class ArtifactDaoImpl implements IArtifactDao {
 	}
 
 	public Long artifactsCount() {
-		return Long.valueOf(new JdbcQueryCount().integerCount("SELECT COUNT(*) FROM ARTIFACTS"));
+		return Long.valueOf(new QueryCount().integerCount("SELECT COUNT(*) FROM ARTIFACTS"));
 	}
 }

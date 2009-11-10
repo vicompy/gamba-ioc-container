@@ -3,9 +3,9 @@ package org.homs.binding;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.homs.gamba.binding.CachedHttpBeanBinder;
-import org.homs.gamba.binding.HttpBeanBinder;
-import org.homs.gamba.binding.IHttpBinder;
+import org.homs.gamba.binding.CachedBeanBinder;
+import org.homs.gamba.binding.BeanBinder;
+import org.homs.gamba.binding.IBeanBinder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class BindingTest {
 		attr.put("age", new String[] { "27" });
 		attr.put("members", new String[] { "27", "28" });
 
-		final IHttpBinder bm = new CachedHttpBeanBinder();
+		final IBeanBinder bm = new CachedBeanBinder();
 
 		final B[] bl = new B[3];
 		for (int j = 0; j < 10000; j++)
@@ -55,7 +55,7 @@ public class BindingTest {
 		attr.put("age", new String[] { "27" });
 		attr.put("members", new String[] { "27", "28" });
 
-		final IHttpBinder bm = new HttpBeanBinder();
+		final IBeanBinder bm = new BeanBinder();
 
 		final B[] bl = new B[3];
 		for (int j = 0; j < 10000; j++)

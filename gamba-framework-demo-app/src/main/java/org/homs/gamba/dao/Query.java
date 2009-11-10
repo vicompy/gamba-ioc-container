@@ -7,19 +7,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.homs.demo.models.Artifact;
-import org.homs.gamba.binding.CachedHttpBeanBinder;
-import org.homs.gamba.binding.IHttpBinder;
+import org.homs.gamba.binding.CachedBeanBinder;
+import org.homs.gamba.binding.IBeanBinder;
 import org.homs.gamba.connectionpool.GambaPooling;
 
-public class JdbcQuery<T> extends GenericMappingQuery {
+public class Query<T> extends GenericMappingQuery {
 
-	private final IHttpBinder bm = new CachedHttpBeanBinder();
+	private final IBeanBinder bm = new CachedBeanBinder();
 
 	public List<T> execute(final String query, final List<T> list) {
-		Connection conn = null;
-		try {
 
-			conn = GambaPooling.getInstance().getConnection();
+		try {
+			final Connection conn = GambaPooling.getInstance().getConnection();
 			final PreparedStatement ps = conn.prepareStatement(query);
 			final ResultSet rs = ps.executeQuery();
 
