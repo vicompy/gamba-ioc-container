@@ -2,7 +2,7 @@ package org.homs.gamba.binding;
 
 import java.util.Map;
 
-public class BeanBinder extends BeanAnalizer implements IBeanBinder {
+public class BeanBinder implements IBeanBinder {
 
 	protected Object bind(final BeanInfo cachedBean, final Map<String, String[]> atr) throws BindingException {
 
@@ -108,7 +108,7 @@ public class BeanBinder extends BeanAnalizer implements IBeanBinder {
 	}
 
 	public Object doBind(final Class<?> beanClass, final Map<String, String[]> atr) throws BindingException {
-		final BeanInfo cb = analitza(beanClass);
+		final BeanInfo cb = CachedBeanAnalizer.getInstance().analitza(beanClass);
 		return bind(cb, atr);
 	}
 
