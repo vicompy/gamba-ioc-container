@@ -97,6 +97,7 @@ public class GambaPooling {
 		}
 	}
 
+	@Deprecated // només invocar en finalitzar l'aplicació!!
 	public void destroyAllConnections() {
 		try {
 			for (final Connection c : pool) {
@@ -104,6 +105,24 @@ public class GambaPooling {
 			}
 			pool.clear();
 			DriverManager.deregisterDriver(driverInstance);
+		} catch (final Exception exc) {
+			throw new GambaPoolingException(exc);
+		}
+	}
+
+	/**
+	 * reinicialitza l'estat del pool: tanca les anteriors, i re-omple el pool creant-ne de noves
+	 */
+	public void clearConnections() {
+		try {
+			for (final Connection c : pool) {
+				c.close();
+			}
+			pool.clear();
+			for (int i = 0; i < preferredPoolSize; i++) {
+				final Connection conn = DriverManager.getConnection(connectionUrl, userName, passWord);
+				pool.add(conn);
+			}
 		} catch (final Exception exc) {
 			throw new GambaPoolingException(exc);
 		}
