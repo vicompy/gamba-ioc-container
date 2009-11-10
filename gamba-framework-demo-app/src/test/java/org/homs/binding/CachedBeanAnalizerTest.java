@@ -31,19 +31,19 @@ public class CachedBeanAnalizerTest {
 		final BeanPropInfo nameInfo = props.get("NAME");
 		Assert.assertEquals(false, nameInfo.argIsArray);
 		Assert.assertEquals(String.class, nameInfo.argType);
-		Assert.assertEquals("setName", nameInfo.method.getName());
+		Assert.assertEquals("setName", nameInfo.setterMethod.getName());
 		Assert.assertEquals("setName", nameInfo.setterName);
 
 		final BeanPropInfo ageInfo = props.get("AGE");
 		Assert.assertEquals(false, ageInfo.argIsArray);
 		Assert.assertEquals(int.class, ageInfo.argType);
-		Assert.assertEquals("setAge", ageInfo.method.getName());
+		Assert.assertEquals("setAge", ageInfo.setterMethod.getName());
 		Assert.assertEquals("setAge", ageInfo.setterName);
 
 		final BeanPropInfo membersInfo = props.get("MEMBERS");
 		Assert.assertEquals(true, membersInfo.argIsArray);
 		Assert.assertEquals(Float[].class, membersInfo.argType);
-		Assert.assertEquals("setMembers", membersInfo.method.getName());
+		Assert.assertEquals("setMembers", membersInfo.setterMethod.getName());
 		Assert.assertEquals("setMembers", membersInfo.setterName);
 	}
 
