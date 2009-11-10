@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.homs.gamba.binding.BindingException;
 import org.homs.gamba.binding.CachedHttpBeanBinder;
 import org.homs.gamba.binding.IHttpBinder;
-import org.homs.gamba.connectionpool.BasicConnectionPool;
-import org.homs.gamba.connectionpool.IConnectionConfig;
+import org.homs.gamba.connectionpool.Pool;
 import org.homs.gamba.scanner.AnnotatedActionsScanner;
 import org.homs.gamba.scanner.DeclaredAction;
 
@@ -47,29 +46,30 @@ public class GambaFrontController extends HttpServlet {
 		definedActions = new AnnotatedActionsScanner().doScan(actionBasePackage);
 		viewResolver = new ViewResolver(this);
 
-		final String jdbcPoolingConfigClassName = getInitParameter("jdbc-pooling-config");
-		if (jdbcPoolingConfigClassName == null) {
-			throw new BindingException("valor d'init-parameter 'jdbc-pooling-config' no especificat.");
-		}
-
-		Class<?> jdbcPoolingConfigClass = null;
-		try {
-			jdbcPoolingConfigClass = Class.forName(jdbcPoolingConfigClassName);
-		} catch (final ClassNotFoundException exc) {
-			throw new BindingException("classe 'jdbc-pooling-config' no trobada: "
-					+ jdbcPoolingConfigClassName);
-		}
-		try {
-			BasicConnectionPool.getInstance().setup((IConnectionConfig) jdbcPoolingConfigClass.newInstance());
-		} catch (final Exception exc) {
-			throw new BindingException("error instanciant classe 'jdbc-pooling-config': "
-					+ jdbcPoolingConfigClassName, exc);
-		}
+//		final String jdbcPoolingConfigClassName = getInitParameter("jdbc-pooling-config");
+//		if (jdbcPoolingConfigClassName == null) {
+//			throw new BindingException("valor d'init-parameter 'jdbc-pooling-config' no especificat.");
+//		}
+//
+//		Class<?> jdbcPoolingConfigClass = null;
+//		try {
+//			jdbcPoolingConfigClass = Class.forName(jdbcPoolingConfigClassName);
+//		} catch (final ClassNotFoundException exc) {
+//			throw new BindingException("classe 'jdbc-pooling-config' no trobada: "
+//					+ jdbcPoolingConfigClassName);
+//		}
+//		try {
+//			BasicConnectionPool.getInstance().setup((IConnectionConfig) jdbcPoolingConfigClass.newInstance());
+//		} catch (final Exception exc) {
+//			throw new BindingException("error instanciant classe 'jdbc-pooling-config': "
+//					+ jdbcPoolingConfigClassName, exc);
+//		}
 	}
 
 	@Override
 	public void destroy() {
-		BasicConnectionPool.getInstance().closeAllConnections();
+//		BasicConnectionPool.getInstance().closeAllConnections();
+		Pool.getInstance().destroyAllConnections();
 	}
 
 	/**
