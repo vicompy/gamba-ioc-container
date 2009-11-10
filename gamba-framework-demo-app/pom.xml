@@ -11,19 +11,27 @@
 
 
 
-	<dependency>
-		<groupId>hsqldb</groupId>
-		<artifactId>hsqldb</artifactId>
-		<version>1.8.0.7</version>
-		<scope>provided</scope>
-	</dependency>
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>1.8.0.7</version>
+			<scope>provided</scope>
+		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>org.homs</groupId>-->
-<!--			<artifactId>gamba-framework</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--			<scope>provided</scope>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.homs</groupId>
+			<artifactId>gamba-stubs</artifactId>
+			<version>0.0.1</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!--		<dependency>-->
+		<!--			<groupId>org.homs</groupId>-->
+		<!--			<artifactId>gamba-framework</artifactId>-->
+		<!--			<version>0.0.1-SNAPSHOT</version>-->
+		<!--			<scope>provided</scope>-->
+		<!--		</dependency>-->
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -98,14 +106,14 @@
 		</plugins>
 	</build>
 
-<!--	<repositories>--> 
+	<!--	<repositories>--> 
 <!---->
-<!--		<repository>-->
-<!--			<id>mvn2</id>-->
-<!--			<name>Maven2 Public Repository</name>-->
-<!--			<url>http://repo1.maven.org/maven2/</url>-->
-<!--		</repository>-->
+	<!--		<repository>-->
+	<!--			<id>mvn2</id>-->
+	<!--			<name>Maven2 Public Repository</name>-->
+	<!--			<url>http://repo1.maven.org/maven2/</url>-->
+	<!--		</repository>-->
 <!---->
-<!--	</repositories>-->
+	<!--	</repositories>-->
 
 </project>
