@@ -12,6 +12,10 @@ public class BindingException extends RuntimeException {
 		super(msg);
 	}
 
+	public BindingException(final Throwable exc) {
+		super(exc);
+	}
+
 	public BindingException(final String msg, final Throwable exc) {
 		super(msg, exc);
 	}

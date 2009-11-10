@@ -19,7 +19,7 @@ public class BindingTest {
 	 */
 	@Test
 	public void test1() {
-		final Map<String, Object> attr = new HashMap<String, Object>();
+		final Map<String, String[]> attr = new HashMap<String, String[]>();
 		attr.put("name", new String[] { "mhc" });
 		attr.put("age", new String[] { "27" });
 		attr.put("members", new String[] { "27", "28" });
@@ -50,7 +50,7 @@ public class BindingTest {
 	 */
 	@Test
 	public void test2() {
-		final Map<String, Object> attr = new HashMap<String, Object>();
+		final Map<String, String[]> attr = new HashMap<String, String[]>();
 		attr.put("name", new String[] { "mhc" });
 		attr.put("age", new String[] { "27" });
 		attr.put("members", new String[] { "27", "28" });

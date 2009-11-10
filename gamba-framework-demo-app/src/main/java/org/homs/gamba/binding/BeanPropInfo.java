@@ -13,7 +13,7 @@ class BeanPropInfo {
 	public BeanPropInfo(final String propertyName, final String methodName, final Method method,
 			final Class<?> argType) {
 		super();
-		this.propertyName = propertyName;
+		this.propertyName = propertyName.toUpperCase();
 		this.setterName = methodName;
 		this.method = method;
 		this.argType = argType;
