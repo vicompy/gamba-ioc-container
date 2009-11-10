@@ -3,7 +3,7 @@ package org.homs.gamba.binding;
 import java.util.HashMap;
 import java.util.Map;
 
-class BeanInfo {
+public class BeanInfo {
 
 	private final Class<?> beanClass;
 	private final Map<String, BeanPropInfo> beanProps;

@@ -18,6 +18,9 @@ public class BeanBinder implements IBeanBinder {
 			System.out.println("asking for prop: "+atrName.toUpperCase());
 			final BeanPropInfo beanProp = cachedBean.getBeanProps().get(atrName.toUpperCase());
 			// TODO i si beanProp==null?
+			if (beanProp == null) {
+				throw new BindingException("l'atribut no coincideix amb cap propietat: " + atrName);
+			}
 			if (atrName.toUpperCase().equals(beanProp.propertyName/*.toUpperCase()*/)) {
 				// ei, propietat coincident amb atribut!
 				try {
@@ -108,7 +111,7 @@ public class BeanBinder implements IBeanBinder {
 	}
 
 	public Object doBind(final Class<?> beanClass, final Map<String, String[]> atr) throws BindingException {
-		final BeanInfo cb = CachedBeanAnalizer.getInstance().analitza(beanClass);
+		final BeanInfo cb = CachedBeanAnalizer.getInstance().analize(beanClass);
 		return bind(cb, atr);
 	}
 
