@@ -106,9 +106,6 @@
 					</execution>
 				</executions>
 				<configuration>
-<!--					<includes>-->
-<!--						<include>**/org/homs/gamba/*</include>-->
-<!--					</includes>-->
 					<excludes>
 						<exclude>**/org/homs/demo/</exclude>
 					</excludes>
