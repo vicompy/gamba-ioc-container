@@ -17,7 +17,7 @@ public class CachedHttpBeanBinder extends HttpBeanBinder implements IHttpBinder 
 	 * @see org.homs.gamba.binding.IHttpBinder#doBind(java.lang.Class, java.util.Map)
 	 */
 	@Override
-	public Object doBind(final Class<?> beanClass, final Map<String, Object> atr) throws BindingException {
+	public Object doBind(final Class<?> beanClass, final Map<String, String[]> atr) throws BindingException {
 
 		BeanInfo beanInfo = this.cache.get(beanClass);
 		if (beanInfo == null) {

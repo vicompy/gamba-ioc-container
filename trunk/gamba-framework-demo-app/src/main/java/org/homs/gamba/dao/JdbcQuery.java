@@ -1,4 +1,4 @@
-package org.homs.gamba.extras;
+package org.homs.gamba.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,10 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.homs.demo.models.Artifact;
+import org.homs.gamba.binding.CachedHttpBeanBinder;
+import org.homs.gamba.binding.IHttpBinder;
 import org.homs.gamba.connectionpool.GambaPooling;
 
-public abstract class JdbcQuery<T> {
-	protected abstract T bind(final ResultSet rs) throws SQLException;
+public class JdbcQuery<T> extends GenericMappingQuery {
+
+	private final IHttpBinder bm = new CachedHttpBeanBinder();
 
 	public List<T> execute(final String query, final List<T> list) {
 		Connection conn = null;
@@ -31,5 +35,11 @@ public abstract class JdbcQuery<T> {
 
 		return list;
 	}
+
+	@SuppressWarnings("unchecked")
+	protected T bind(final ResultSet rs) {
+		return (T) bm.doBind(Artifact.class, getValueMap(rs));
+	}
+
 }
 

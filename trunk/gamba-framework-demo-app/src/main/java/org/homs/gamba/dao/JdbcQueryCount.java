@@ -1,4 +1,4 @@
-package org.homs.gamba.extras;
+package org.homs.gamba.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

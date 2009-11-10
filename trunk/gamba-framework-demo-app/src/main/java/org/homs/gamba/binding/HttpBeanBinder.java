@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class HttpBeanBinder implements IHttpBinder {
 
-	protected Object bind(final BeanInfo cachedBean, final Map<String, Object> atr) throws BindingException {
+	protected Object bind(final BeanInfo cachedBean, final Map<String, String[]> atr) throws BindingException {
 
 		Object bean = null;
 		try {
@@ -16,8 +16,9 @@ public class HttpBeanBinder implements IHttpBinder {
 		}
 
 		for (final String atrName : atr.keySet()) {
-			final BeanPropInfo beanProp = cachedBean.getBeanProps().get(atrName);
-			if (atrName.equals(beanProp.propertyName)) {
+			System.out.println("asking for prop: "+atrName.toUpperCase());
+			final BeanPropInfo beanProp = cachedBean.getBeanProps().get(atrName.toUpperCase());
+			if (atrName.toUpperCase().equals(beanProp.propertyName/*.toUpperCase()*/)) {
 				// ei, propietat coincident amb atribut!
 				try {
 					beanProp.method.invoke(bean, convert((String[]) atr.get(atrName), beanProp.argType));
@@ -132,7 +133,7 @@ public class HttpBeanBinder implements IHttpBinder {
 		return false;
 	}
 
-	public Object doBind(final Class<?> beanClass, final Map<String, Object> atr) throws BindingException {
+	public Object doBind(final Class<?> beanClass, final Map<String, String[]> atr) throws BindingException {
 		final BeanInfo cb = analitza(beanClass);
 		return bind(cb, atr);
 	}

@@ -15,7 +15,8 @@ class BeanInfo {
 	}
 
 	public void addBeanProp(final BeanPropInfo beanProp) {
-		this.beanProps.put(beanProp.propertyName, beanProp);
+		this.beanProps.put(beanProp.propertyName.toUpperCase(), beanProp);
+		System.out.println("registered prop: "+beanProp.propertyName.toUpperCase());
 	}
 
 	public Class<?> getBeanClass() {

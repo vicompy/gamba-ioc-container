@@ -31,6 +31,7 @@ public class SearchController {
 
 		} catch (final Exception exc) {
 			req.getRequest().setAttribute("exception", exc);
+			exc.printStackTrace();
 			return "error";
 		}
 	}

@@ -2,24 +2,28 @@ package org.homs.demo.models;
 
 public class Artifact {
 
+	private int id;
 	private String groupId;
 	private String artifactId;
 	private String version;
 	private String jarName;
 	private String url;
+	private int dept;
 
-	public Artifact() {
-
+	public int getDept() {
+		return dept;
 	}
 
-	public Artifact(final String groupId, final String artifactId, final String version,
-			final String jarName, final String url) {
-		super();
-		this.groupId = groupId;
-		this.artifactId = artifactId;
-		this.version = version;
-		this.jarName = jarName;
-		this.url = url;
+	public void setDept(final int dept) {
+		this.dept = dept;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
 	}
 
 	public String getGroupId() {
