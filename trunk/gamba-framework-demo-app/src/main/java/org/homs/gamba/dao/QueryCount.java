@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.homs.gamba.connectionpool.GambaPooling;
 
-public class JdbcQueryCount {
+public class QueryCount {
 
 	public Integer integerCount(final String query) {
 

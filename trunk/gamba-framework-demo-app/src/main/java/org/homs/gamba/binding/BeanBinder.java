@@ -3,7 +3,7 @@ package org.homs.gamba.binding;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-public class HttpBeanBinder implements IHttpBinder {
+public class BeanBinder implements IBeanBinder {
 
 	protected Object bind(final BeanInfo cachedBean, final Map<String, String[]> atr) throws BindingException {
 
@@ -18,6 +18,7 @@ public class HttpBeanBinder implements IHttpBinder {
 		for (final String atrName : atr.keySet()) {
 			System.out.println("asking for prop: "+atrName.toUpperCase());
 			final BeanPropInfo beanProp = cachedBean.getBeanProps().get(atrName.toUpperCase());
+			// TODO i si beanProp==null?
 			if (atrName.toUpperCase().equals(beanProp.propertyName/*.toUpperCase()*/)) {
 				// ei, propietat coincident amb atribut!
 				try {
