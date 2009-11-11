@@ -14,9 +14,9 @@ public class BeanInfo {
 		this.beanProps = new HashMap<String, BeanPropInfo>();
 	}
 
-	public void addBeanProp(final BeanPropInfo beanProp) {
-		this.beanProps.put(beanProp.propertyName.toUpperCase(), beanProp);
-		System.out.println("registered prop: "+beanProp.propertyName.toUpperCase());
+	public void addBeanProp(final BeanPropInfo beanPropInfo) {
+		this.beanProps.put(beanPropInfo.propertyName/*.toUpperCase()*/, beanPropInfo);
+//		System.out.println("registered prop: "+beanProp.propertyName.toUpperCase());
 	}
 
 	public Class<?> getBeanClass() {
