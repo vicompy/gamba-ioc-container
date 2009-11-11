@@ -51,4 +51,35 @@ public class BusinessTest {
 
 	}
 
+	@Test
+	public void test2() throws SQLException {
+
+		final IPersonBO personBO = (IPersonBO) GambaBOLoader.newInstance(PersonBO.class);
+
+		personBO.deleteAll();
+		Assert.assertEquals("[]", personBO.findAll().toString());
+
+
+		final Person person1 = new Person(1L, "mhc", 27);
+		final Person person2 = new Person(2L, "sob", 25);
+		final Person person3 = new Person(1L, "dgc", 32);
+		final Person person4 = new Person(3L, "jos", 26);
+
+		try {
+    		personBO.insert(person1);
+    		personBO.insert(person2);
+    		personBO.insert(person3);
+    		personBO.insert(person4);
+		} catch (final Exception e) {
+			// it's expected
+		}
+
+		Assert.assertEquals("[1-mhc-27, 2-sob-25]", personBO.findAll().toString());
+
+
+		GambaPooling.getInstance().getConnection().createStatement().executeUpdate("SHUTDOWN");
+		GambaPooling.getInstance().clearConnections();
+	}
+
+
 }

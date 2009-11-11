@@ -1,6 +1,6 @@
 package org.homs.binding;
 
-public class B {
+public class ExampleBean {
 
 	public String name;
 	public int age;
