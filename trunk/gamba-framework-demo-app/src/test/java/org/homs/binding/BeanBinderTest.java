@@ -25,9 +25,9 @@ public class BeanBinderTest {
 
 		final IBeanBinder bm = new BeanBinder();
 
-		final B[] bl = new B[3];
+		final ExampleBean[] bl = new ExampleBean[3];
 		for (int i = 0; i < 3; i++) {
-			bl[i] = (B) bm.doBind(B.class, attr);
+			bl[i] = (ExampleBean) bm.doBind(ExampleBean.class, attr);
 		}
 
 		Assert.assertTrue(bl[0].toString().equals(bl[1].toString()));
@@ -37,7 +37,7 @@ public class BeanBinderTest {
 		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
 		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
 
-		final B b = bl[0];
+		final ExampleBean b = bl[0];
 		Assert.assertEquals("mhc", b.getName());
 		Assert.assertEquals(Integer.valueOf(27), Integer.valueOf(b.getAge()));
 		Assert.assertEquals(Float.valueOf(27), b.getMembers()[0]);
@@ -56,9 +56,9 @@ public class BeanBinderTest {
 
 		final IBeanBinder bm = new BeanBinder();
 
-		final B[] bl = new B[3];
+		final ExampleBean[] bl = new ExampleBean[3];
 		for (int i = 0; i < 3; i++) {
-			bl[i] = (B) bm.doBind(B.class, attr);
+			bl[i] = (ExampleBean) bm.doBind(ExampleBean.class, attr);
 		}
 
 		Assert.assertTrue(bl[0].toString().equals(bl[1].toString()));
@@ -68,7 +68,7 @@ public class BeanBinderTest {
 		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
 		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
 
-		final B b = bl[0];
+		final ExampleBean b = bl[0];
 		Assert.assertEquals("mhc", b.getName());
 		Assert.assertEquals(Integer.valueOf(27), Integer.valueOf(b.getAge()));
 		Assert.assertEquals(Float.valueOf(27), b.getMembers()[0]);
@@ -88,9 +88,9 @@ public class BeanBinderTest {
 
 		final IBeanBinder bm = new BeanBinder();
 
-		final B[] bl = new B[3];
+		final ExampleBean[] bl = new ExampleBean[3];
 		for (int i = 0; i < 3; i++) {
-			bl[i] = (B) bm.doBind(B.class, attr);
+			bl[i] = (ExampleBean) bm.doBind(ExampleBean.class, attr);
 		}
 
 		Assert.assertTrue(bl[0].toString().equals(bl[1].toString()));
@@ -100,7 +100,7 @@ public class BeanBinderTest {
 		Assert.assertFalse(bl[1].hashCode() == bl[2].hashCode());
 		Assert.assertFalse(bl[2].hashCode() == bl[0].hashCode());
 
-		final B b = bl[0];
+		final ExampleBean b = bl[0];
 		Assert.assertEquals("mhc", b.getName());
 		Assert.assertEquals(0, b.getAge());
 		Assert.assertArrayEquals(null, b.getMembers());
@@ -120,7 +120,7 @@ public class BeanBinderTest {
 		final IBeanBinder bm = new BeanBinder();
 
 		@SuppressWarnings("unused")
-		final B b = (B) bm.doBind(B.class, attr);
+		final ExampleBean b = (ExampleBean) bm.doBind(ExampleBean.class, attr);
 	}
 
 }

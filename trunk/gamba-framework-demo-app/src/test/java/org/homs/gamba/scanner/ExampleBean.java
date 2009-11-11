@@ -1,6 +1,6 @@
 package org.homs.gamba.scanner;
 
-public class SearchBean {
+public class ExampleBean {
 
 	private String wordToSearch;
 	private Integer dept;

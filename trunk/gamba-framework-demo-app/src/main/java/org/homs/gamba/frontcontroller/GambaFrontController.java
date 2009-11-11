@@ -23,6 +23,7 @@ public class GambaFrontController extends HttpServlet {
 	private static final long serialVersionUID = 8918658103855642986L;
 
 	private static final String ACTIONS_BASE_PACKAGE = "actions-base-package";
+	private static final String ACTION_EXTENSION = ".do";
 
 	private final IBeanBinder httpBinder;
 	private Map<String, DeclaredAction> definedActions;
@@ -77,7 +78,9 @@ public class GambaFrontController extends HttpServlet {
 			throws ServletException, IOException {
 
 		final String requestServletPath = request.getServletPath();
-		final String actionName = requestServletPath.substring(1, requestServletPath.length() - 3);
+		// /jou.do ==> jou
+		final String actionName = requestServletPath.substring(1, requestServletPath.length()
+				- ACTION_EXTENSION.length());
 
 		final DeclaredAction declaredAction = this.definedActions.get(actionName);
 		if (declaredAction == null) {
@@ -91,11 +94,14 @@ public class GambaFrontController extends HttpServlet {
 		final RequestContext requestContext = new RequestContext(request, response);
 		String redirectResource = actionInvoker(declaredAction, actionForm, action, requestContext);
 
+		// variables predefinides a accedir desde JSP en requestScope
 		request.setAttribute("requestContext", requestContext);
 		request.setAttribute("contextName", request.getContextPath());
 
+		// resol la vista a la que redireccionar
 		redirectResource = this.viewResolver.resolve(redirectResource);
 
+		// redirecciona a vista
 		getServletConfig().getServletContext().getRequestDispatcher(redirectResource).forward(request,
 				response);
 

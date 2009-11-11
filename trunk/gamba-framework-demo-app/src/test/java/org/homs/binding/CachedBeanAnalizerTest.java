@@ -22,11 +22,11 @@ public class CachedBeanAnalizerTest {
 
 	@Test
 	public void test2() {
-		final BeanInfo bi = CachedBeanAnalizer.getInstance().analize(B.class);
+		final BeanInfo bi = CachedBeanAnalizer.getInstance().analize(ExampleBean.class);
 
 		final Map<String, BeanPropInfo> props = bi.getBeanProps();
 
-		Assert.assertEquals(B.class, bi.getBeanClass());
+		Assert.assertEquals(ExampleBean.class, bi.getBeanClass());
 
 		final BeanPropInfo nameInfo = props.get("NAME");
 		Assert.assertEquals(false, nameInfo.argIsArray);

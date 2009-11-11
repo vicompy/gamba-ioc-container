@@ -124,14 +124,13 @@
 		</plugins>
 	</build>
 
-	<!--	<repositories>--> 
-<!---->
-	<!--		<repository>-->
-	<!--			<id>mvn2</id>-->
-	<!--			<name>Maven2 Public Repository</name>-->
+		<repositories>
+			<repository>
+				<id>mvn2</id>
+				<name>Maven2 Public Repository</name>
+					<url>http://mvnrepository.com/artifact/</url>
 	<!--			<url>http://repo1.maven.org/maven2/</url>-->
-	<!--		</repository>-->
-<!---->
-	<!--	</repositories>-->
+			</repository>
+		</repositories>
 
 </project>
