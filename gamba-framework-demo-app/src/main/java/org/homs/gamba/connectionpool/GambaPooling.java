@@ -62,7 +62,7 @@ public class GambaPooling {
 
 		if (pool.isEmpty()) {
 			// no queden conexions disponibles, crear una nova
-			System.out.println("-" + poolCurrentSize() + "-");
+			System.out.println("-1" + poolCurrentSize() + "-");
 			try {
 				return DriverManager.getConnection(connectionUrl, userName, passWord);
 			} catch (final Exception exc) {
@@ -74,7 +74,7 @@ public class GambaPooling {
 				conn = pool.get(0);
 				pool.remove(0);
 			}
-//			System.out.println("-" + poolCurrentSize() + "-");
+			System.out.println("-2" + poolCurrentSize() + "-");
 			return conn;
 		}
 	}
@@ -91,7 +91,7 @@ public class GambaPooling {
 					}
 				}
 			}
-			System.out.println("-" + poolCurrentSize() + "-");
+			System.out.println("-r" + poolCurrentSize() + "-");
 		} catch (final Exception exc) {
 			throw new GambaPoolingException(exc);
 		}

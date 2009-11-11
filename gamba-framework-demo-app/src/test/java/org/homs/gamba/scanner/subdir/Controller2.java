@@ -1,9 +1,9 @@
 package org.homs.gamba.scanner.subdir;
 
-import org.homs.demo.formbeans.SearchBean;
 import org.homs.gamba.extras.EmptyFormBean;
 import org.homs.gamba.frontcontroller.RequestContext;
 import org.homs.gamba.scanner.Action;
+import org.homs.gamba.scanner.SearchBean;
 
 public class Controller2 {
 
