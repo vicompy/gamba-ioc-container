@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.homs.gamba.dao.Query;
-import org.homs.gamba.dao.QueryCount;
 
 public class ArtifactDaoImpl implements IArtifactDao {
 
@@ -26,6 +25,6 @@ public class ArtifactDaoImpl implements IArtifactDao {
 	}
 
 	public Long artifactsCount() {
-		return Long.valueOf(new QueryCount().integerCount("SELECT COUNT(*) FROM ARTIFACTS"));
+		return Long.valueOf(Query.integerCount("SELECT COUNT(*) FROM ARTIFACTS"));
 	}
 }

@@ -15,15 +15,18 @@ public class BeanBinder implements IBeanBinder {
 		}
 
 		for (final String atrName : atr.keySet()) {
-			System.out.println("asking for prop: "+atrName.toUpperCase());
+//			System.out.println("asking for prop: "+atrName.toUpperCase());
 			final BeanPropInfo beanProp = cachedBean.getBeanProps().get(atrName.toUpperCase());
 			// TODO i si beanProp==null?
 			if (beanProp == null) {
 				throw new BindingException("l'atribut no coincideix amb cap propietat: " + atrName);
 			}
+
+//			System.out.println("igual? "+atrName+" == "+beanProp.propertyName);
 			if (atrName.toUpperCase().equals(beanProp.propertyName/*.toUpperCase()*/)) {
 				// ei, propietat coincident amb atribut!
 				try {
+//					System.out.println("set: " + beanProp.setterMethod.getName() + " := " + atrName);
 					beanProp.setterMethod.invoke(bean, convert((String[]) atr.get(atrName), beanProp.argType));
 				} catch (final Exception exc) {
 					throw new BindingException("error injectant al bean: "

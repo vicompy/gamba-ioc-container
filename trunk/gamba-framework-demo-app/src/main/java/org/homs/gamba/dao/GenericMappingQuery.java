@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.homs.gamba.binding.BindingException;
 
-public class GenericMappingQuery {
+abstract class GenericMappingQuery {
 
 	protected Map<String, String[]> getValueMap(final ResultSet rs) {
 		final Map<String, String[]> r = new HashMap<String, String[]>();
