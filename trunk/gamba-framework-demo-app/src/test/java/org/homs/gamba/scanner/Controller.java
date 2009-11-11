@@ -1,6 +1,5 @@
 package org.homs.gamba.scanner;
 
-import org.homs.demo.formbeans.SearchBean;
 import org.homs.gamba.extras.EmptyFormBean;
 import org.homs.gamba.frontcontroller.RequestContext;
 

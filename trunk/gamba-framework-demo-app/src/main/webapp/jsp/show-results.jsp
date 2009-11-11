@@ -25,6 +25,7 @@
     <table>
 		<thead>
 			<tr>
+			    <th>Id</th>
 			    <th>groupId</th>
 			    <th>artifactId</th>
 			    <th>version</th>
@@ -35,6 +36,7 @@
 		<tbody>
 		<c:forEach var="artifact" items="${artifactlist}">
 			<tr>
+			 	<td>${artifact.id}</td>
 			 	<td>${artifact.groupId}</td>
 				<td>${artifact.artifactId}</td>
 				<td>${artifact.version}</td>
