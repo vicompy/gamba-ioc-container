@@ -62,4 +62,15 @@ public class PersonBO extends GambaGenericBO implements IPersonBO {
 		}
 	}
 
+	// TODO for test ONLY
+	public void insertTwice(final Person person1, final Person person2) {
+		try {
+			final PersonDAO personDao = new PersonDAO(getConnection());
+			personDao.insert(person1);
+			personDao.insert(person2);
+		} catch (final Exception exc) {
+			throw new RuntimeException(exc);
+		}
+	}
+
 }

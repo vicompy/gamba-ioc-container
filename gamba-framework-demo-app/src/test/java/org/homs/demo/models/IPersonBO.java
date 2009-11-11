@@ -17,4 +17,7 @@ public interface IPersonBO {
 
 	public void update(final Person person);
 
+	// TODO for test ONLY
+	public void insertTwice(final Person person1, final Person person2);
+
 }

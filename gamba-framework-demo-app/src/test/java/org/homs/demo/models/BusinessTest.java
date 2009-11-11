@@ -51,6 +51,11 @@ public class BusinessTest {
 
 	}
 
+	/**
+	 * verifica la transaccionalitat d'una crida a negoci
+	 *
+	 * @throws SQLException
+	 */
 	@Test
 	public void test2() throws SQLException {
 
@@ -63,13 +68,14 @@ public class BusinessTest {
 		final Person person1 = new Person(1L, "mhc", 27);
 		final Person person2 = new Person(2L, "sob", 25);
 		final Person person3 = new Person(1L, "dgc", 32);
-		final Person person4 = new Person(3L, "jos", 26);
 
 		try {
-    		personBO.insert(person1);
-    		personBO.insert(person2);
-    		personBO.insert(person3);
-    		personBO.insert(person4);
+			// executa el servei, doncs no falla
+    		personBO.insertTwice(person1, person2);
+
+			// dóna error en insertar la persona repetida, fent rollback de la
+			// primera
+    		personBO.insertTwice(person3, person3);
 		} catch (final Exception e) {
 			// it's expected
 		}
