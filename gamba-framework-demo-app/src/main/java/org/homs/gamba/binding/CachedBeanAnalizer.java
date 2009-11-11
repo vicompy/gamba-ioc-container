@@ -47,7 +47,7 @@ public class CachedBeanAnalizer {
 					gm.getName(),
 					gm,
 					sm.getParameterTypes()[0]);
-			System.out.println("** " + bp);
+//			System.out.println("** " + bp);
 			cb.addBeanProp(bp);
 		}
 
@@ -72,7 +72,7 @@ public class CachedBeanAnalizer {
 	public Method findForSetterOf(final Class<?> beanClass, final String propertyName) {
 		for (final Method m : beanClass.getMethods()) {
 			if (isMethodSetter(m) && m.getName().equals(setterOf(propertyName))) {
-				System.out.println("trobat setter de " + propertyName + ": " + m.getName());
+//				System.out.println("trobat setter de " + propertyName + ": " + m.getName());
 				return m;
 			}
 		}
@@ -82,7 +82,7 @@ public class CachedBeanAnalizer {
 	public Method findForGetterOf(final Class<?> beanClass, final String propertyName) {
 		for (final Method m : beanClass.getMethods()) {
 			if (isMethodGetter(m) && m.getName().equals(getterOf(propertyName))) {
-				System.out.println("trobat getter de " + propertyName + ": " + m.getName());
+//				System.out.println("trobat getter de " + propertyName + ": " + m.getName());
 				return m;
 			}
 		}

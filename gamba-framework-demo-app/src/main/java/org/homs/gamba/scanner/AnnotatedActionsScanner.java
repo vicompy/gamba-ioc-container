@@ -49,7 +49,7 @@ public class AnnotatedActionsScanner {
 							actionAnnotation.formBean());
 					declaredActions.put(da.actionName, da);
 
-					System.out.println("action found: " + da.toString());
+//					System.out.println("action found: " + da.toString());
 				}
 			}
 		}
