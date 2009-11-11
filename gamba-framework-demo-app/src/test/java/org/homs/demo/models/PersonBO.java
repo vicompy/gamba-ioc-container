@@ -62,6 +62,12 @@ public class PersonBO extends GambaGenericBO implements IPersonBO {
 		}
 	}
 
+	public void deletePersons(final Person...persons) {
+		for (final Person p : persons) {
+			delete(p);
+		}
+	}
+
 	// TODO for test ONLY
 	public void insertTwice(final Person person1, final Person person2) {
 		try {
