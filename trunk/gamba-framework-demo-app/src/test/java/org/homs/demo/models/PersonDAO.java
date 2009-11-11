@@ -17,7 +17,6 @@ public class PersonDAO {
 		this.conn = conn;
 	}
 
-
 	public void deleteAll() throws SQLException {
 		conn.createStatement().execute(
 			"DELETE FROM PERSON"

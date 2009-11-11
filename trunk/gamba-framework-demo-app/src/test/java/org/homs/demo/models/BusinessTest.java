@@ -1,7 +1,6 @@
 package org.homs.demo.models;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import junit.framework.Assert;
 
@@ -14,8 +13,8 @@ public class BusinessTest {
 
 	@Test
 	public void test1() throws SQLException {
-		final IPersonBO personBO = (IPersonBO) GambaBOLoader
-				.newInstance(PersonBO.class);
+
+		final IPersonBO personBO = (IPersonBO) GambaBOLoader.newInstance(PersonBO.class);
 
 		personBO.deleteAll();
 		Assert.assertEquals("[]", personBO.findAll().toString());
