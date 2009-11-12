@@ -23,9 +23,9 @@ public class PersonDAO {
 		);
 	}
 
-	public void delete(final Person person) throws SQLException {
+	public void delete(final Long id) throws SQLException {
 		conn.createStatement().execute(
-			"DELETE FROM PERSON WHERE ID="+person.getId()
+			"DELETE FROM PERSON WHERE ID=" + id
 		);
 	}
 

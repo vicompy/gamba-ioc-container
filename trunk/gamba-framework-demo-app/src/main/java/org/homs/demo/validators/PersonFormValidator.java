@@ -8,6 +8,7 @@ import org.homs.gamba.validation.SetTargetSyntax;
 public class PersonFormValidator implements IGambaValidator {
 
 	public Map<String, String> validate(final SetTargetSyntax setTargetSyntax) {
+
 		return setTargetSyntax
             .forParamName("name")
             	.rejectIfEmpty()
@@ -19,6 +20,7 @@ public class PersonFormValidator implements IGambaValidator {
             	.rejectIfGreaterThan(100.0)
             .validate("age field must be an integer ranged by 0..100")
         .getRejectionsMap();
+
 	}
 
 }

@@ -33,7 +33,7 @@ public class BusinessTest {
 		Person sob = personBO.findById(2L);
 		Assert.assertEquals("sob", sob.getName());
 
-		personBO.delete(sob);
+		personBO.delete(sob.getId());
 
 		sob = personBO.findById(2L);
 		Assert.assertEquals(null, sob);
