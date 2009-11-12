@@ -26,12 +26,12 @@
 		</dependency>
 
 
-		<!--		<dependency>-->
-		<!--			<groupId>org.homs</groupId>-->
-		<!--			<artifactId>gamba-framework</artifactId>-->
-		<!--			<version>0.0.1-SNAPSHOT</version>-->
-		<!--			<scope>provided</scope>-->
-		<!--		</dependency>-->
+				<dependency>
+					<groupId>org.homs</groupId>
+					<artifactId>gamba-framework</artifactId>
+					<version>0.0.1-SNAPSHOT</version>
+					<scope>compile</scope>
+				</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -44,6 +44,13 @@
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.homs</groupId>
+			<artifactId>gamba-logging</artifactId>
+			<version>0.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 
