@@ -6,16 +6,20 @@ import java.util.List;
 import org.homs.gamba.logging.handlers.DummyHandler;
 import org.homs.gamba.logging.interfaces.IConfigLoader;
 import org.homs.gamba.logging.interfaces.ILogHandler;
-import org.homs.gamba.stub.syntax.IStubber;
-import org.homs.gamba.stub.syntax.Stubber;
 import org.homs.gamba.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import static org.homs.gamba.stub.bsyntax.Stubber.*;
 
 public class LoggerTest {
 
 	@Test
 	public void test1() {
+
+//		final IAdder adderStub = (IAdder) createStub(IAdder.class);
+//		thenReturn(3).when(adderStub).add(1, 2);
+//		thenReturn(5).when(adderStub).add(2, 3);
+//		play(adderStub);
 
 		/*
 		 * stub behavior definition
@@ -23,19 +27,28 @@ public class LoggerTest {
 		final List<ILogHandler> handlerList = new ArrayList<ILogHandler>();
 		handlerList.add(new DummyHandler());
 
-		final IStubber<IConfigLoader> lcStubber = Stubber.createStub(IConfigLoader.class);
-		lcStubber.doReturn(false).when().disableLogging();
-		lcStubber.doReturn(ILogger.INFO).when().getLogLevel();
-		lcStubber.doReturn(false).when().enableDateTime();
-		lcStubber.doReturn("").when().getDateTimeFormat();
-		lcStubber.doReturn(handlerList).when().getHandlerList();
-		lcStubber.doReturn(false).when().isConfigFileNotFound();
-		final IConfigLoader configLoaderStub = lcStubber.play();
+//		final IStubber<IConfigLoader> lcStubber = Stubber.createStub(IConfigLoader.class);
+//		lcStubber.doReturn(false).when().disableLogging();
+//		lcStubber.doReturn(ILogger.INFO).when().getLogLevel();
+//		lcStubber.doReturn(false).when().enableDateTime();
+//		lcStubber.doReturn("").when().getDateTimeFormat();
+//		lcStubber.doReturn(handlerList).when().getHandlerList();
+//		lcStubber.doReturn(false).when().isConfigFileNotFound();
+//		final IConfigLoader configLoaderStub = lcStubber.play();
+
+		final IConfigLoader configLoader = (IConfigLoader) createStub(IConfigLoader.class);
+		thenReturn(false).when(configLoader).disableLogging();
+		thenReturn(ILogger.INFO).when(configLoader).getLogLevel();
+		thenReturn(false).when(configLoader).enableDateTime();
+		thenReturn("").when(configLoader).getDateTimeFormat();
+		thenReturn(handlerList).when(configLoader).getHandlerList();
+		thenReturn(false).when(configLoader).isConfigFileNotFound();
+		play(configLoader);
 
 		/*
 		 * hacked singleton instance
 		 */
-		final Logger logger = (Logger) TestUtils.newHackedInstance(Logger.class, configLoaderStub);
+		final Logger logger = (Logger) TestUtils.newHackedInstance(Logger.class, configLoader);
 
 		/*
 		 * run testing code
