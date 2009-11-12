@@ -63,4 +63,29 @@ public class PersonController {
 	}
 
 
+	@Action(name = "update-form", formBean=PersonIdForm.class)
+	public String toUpdateForm(final RequestContext req, final PersonIdForm form) {
+
+		final IPersonBO personBO = (IPersonBO) GambaBOLoader.newInstance(PersonBO.class);
+
+		final Person person = personBO.findById(form.getId());
+		req.getRequest().setAttribute("person", person);
+		return "update-form";
+	}
+
+	@Action(name = "update", formBean=PersonForm.class, validator=PersonFormValidator.class, onValidationError="update-form")
+	public String updatePerson(final RequestContext req, final PersonForm form) {
+
+		final IPersonBO personBO = (IPersonBO) GambaBOLoader.newInstance(PersonBO.class);
+
+		final Person person = new Person();
+		person.setId(form.getId());
+		person.setName(form.getName());
+		person.setAge(form.getAge());
+
+		personBO.update(person);
+
+		return toListView(req, form);
+	}
+
 }

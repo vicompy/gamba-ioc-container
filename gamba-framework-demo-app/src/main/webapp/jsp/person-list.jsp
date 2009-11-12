@@ -26,6 +26,7 @@
 				    <th>Id</th>
 				    <th>name</th>
 				    <th>age</th>
+				    <th></th>
 			   	</tr>
 			</thead>
 			<tbody>
@@ -34,6 +35,7 @@
 				 	<td><input type="radio" name="id" value="${person.id}">${person.id}</td>
 				 	<td>${person.name}</td>
 					<td>${person.age}</td>
+					<td><a href="${contextName}/update-form.do?id=${person.id}">edit</a></td>
 				</tr>
 			</c:forEach>
 			</tbody>
