@@ -68,69 +68,111 @@ public class ValidationDSL implements SetTargetSyntax, RejectSyntax  {
 		return this;
 	}
 	public RejectSyntax rejectIfNull() {
-		currentStateFailed = new RejectIfNull().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNull().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 	public RejectSyntax rejectIfNotNull() {
-		currentStateFailed = new RejectIfNotNull().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotNull().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 
 	public RejectSyntax rejectIfEmpty() {
-		currentStateFailed = new RejectIfEmpty().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfEmpty().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 	public RejectSyntax rejectIfNotEmpty() {
-		currentStateFailed = new RejectIfNotEmpty().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotEmpty().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 	public RejectSyntax rejectIfNotInteger() {
-		currentStateFailed = new RejectIfNotInteger().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotInteger().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 	public RejectSyntax rejectIfNotLong() {
-		currentStateFailed = new RejectIfNotLong().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotLong().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 	public RejectSyntax rejectIfNotDouble() {
-		currentStateFailed = new RejectIfNotDouble().mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotDouble().mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 
 	public RejectSyntax rejectIfGreaterThan(final Double value) {
-		currentStateFailed = new RejectIfGreaterThan(value).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfGreaterThan(value).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 	public RejectSyntax rejectIfLessThan(final Double value) {
-		currentStateFailed = new RejectIfLessThan(value).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfLessThan(value).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 	public RejectSyntax rejectIfEqualsThan(final Double value) {
-		currentStateFailed = new RejectIfEqualsThan(value).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfEqualsThan(value).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 	public RejectSyntax rejectIfNotEqualsThan(final Double value) {
-		currentStateFailed = new RejectIfNotEqualsThan(value).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotEqualsThan(value).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 	public RejectSyntax rejectIfEquals(final String value) {
-		currentStateFailed = new RejectIfEquals(value).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfEquals(value).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 	public RejectSyntax rejectIfNotEquals(final String value) {
-		currentStateFailed = new RejectIfNotEquals(value).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfNotEquals(value).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 
 	public RejectSyntax rejectIfLengthIsOutOfRange(final Integer min, final Integer max) {
-		currentStateFailed = new RejectIfLengthIsOutOfRange(min, max).mustBeReject(currentParamValue);
+		if (!currentStateFailed)
+		if (true == new RejectIfLengthIsOutOfRange(min, max).mustBeReject(currentParamValue)) {
+			currentStateFailed = true;
+		}
 		return this;
 	}
 

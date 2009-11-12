@@ -38,12 +38,19 @@ public class ValidationDSLTest {
 		.throwErrors();
 
 	}
-//		ValidationDSL.getInstance(paramsMap)
-//			.forParamName("name").rejectIfNotInteger().validate("invalid name")
-//			.forParamName("age").rejectIfNotInteger().validate("invalid age")
-//			.forParamName("age","age2").rejectIfNotInteger().validate("invalid age2")
-//		.throwErrors();
 
 
+
+	@Test(expected=ValidationException.class)
+	public void test3() {
+
+		ValidationDSL.getInstance(paramsMap)
+        .forParamName("empty")
+    	.rejectIfEmpty()
+    	.rejectIfLengthIsOutOfRange(3, 10)
+		.validate("hey, its empty!")
+		.throwErrors();
+
+	}
 
 }

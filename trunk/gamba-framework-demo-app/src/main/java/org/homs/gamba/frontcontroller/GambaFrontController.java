@@ -1,6 +1,7 @@
 package org.homs.gamba.frontcontroller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,6 +15,10 @@ import org.homs.gamba.binding.IBeanBinder;
 import org.homs.gamba.connectionpool.GambaPooling;
 import org.homs.gamba.scanner.AnnotatedActionsScanner;
 import org.homs.gamba.scanner.DeclaredAction;
+import org.homs.gamba.validation.IGambaValidator;
+import org.homs.gamba.validation.ValidationDSL;
+
+// TODO incloure gamba-logging i ficar logs arreu
 
 /**
  * Servlet implementation class GambaFrontController
@@ -50,6 +55,10 @@ public class GambaFrontController extends HttpServlet {
 
 	@Override
 	public void destroy() {
+		try {
+			GambaPooling.getInstance().getConnection().createStatement().executeUpdate("SHUTDOWN");
+		} catch (final SQLException exc) {
+		}
 		GambaPooling.getInstance().destroyAllConnections();
 	}
 
@@ -77,22 +86,58 @@ public class GambaFrontController extends HttpServlet {
 	protected void doAction(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
 
-		final String requestServletPath = request.getServletPath();
+		// determina el nom identificador d'action demanada
 		// /jou.do ==> jou
+		final String requestServletPath = request.getServletPath();
 		final String actionName = requestServletPath.substring(1, requestServletPath.length()
 				- ACTION_EXTENSION.length());
 
+		// obté la configuració definida de la action demanada
 		final DeclaredAction declaredAction = this.definedActions.get(actionName);
 		if (declaredAction == null) {
 			throw new BindingException("error d'action no trobada per la request: " + actionName);
 		}
 
-		final Object actionForm = this.httpBinder
-				.doBind(declaredAction.actionForm, request.getParameterMap());
-		final Object action = obtainActionInstance(declaredAction);
+		IGambaValidator validatorObject = null;
+		try {
+			validatorObject = (IGambaValidator) declaredAction.validatorClass.newInstance();
+		} catch (final InstantiationException exc) {
+			// TODO Auto-generated catch block
+			exc.printStackTrace();
+		} catch (final IllegalAccessException exc) {
+			// TODO Auto-generated catch block
+			exc.printStackTrace();
+		}
 
+		String redirectResource;
+
+		final Map<String, String> validationErrorMap = validatorObject.validate(ValidationDSL
+				.getInstance(request.getParameterMap()));
 		final RequestContext requestContext = new RequestContext(request, response);
-		String redirectResource = actionInvoker(declaredAction, actionForm, action, requestContext);
+
+		System.out.println(">>>>>>>> " + declaredAction.validatorClass);
+		System.out.println(">>>>>>>> " + validationErrorMap.toString());
+
+		if (!validationErrorMap.isEmpty()) {
+			System.out.println(">>>>>>>> invalid form");
+			redirectResource = declaredAction.resourceIfInvalidForm;
+			request.setAttribute("validationErrorMap", validationErrorMap);
+			// TODO cal retornar els paràmetres, però la vista necessitarà
+			// mostrar els membres del bean, al que no es pot bindar, ja que els
+			// valors són invàlids. Si això no es pot fer, en fallar una
+			// validació el form queda tot en blanc!!
+		} else {
+			System.out.println(">>>>>>>> valid form");
+
+			// obté el BeanForm i el binda amb els paràmetres HTTP
+			final Object actionForm = this.httpBinder.doBind(declaredAction.actionForm, request
+					.getParameterMap());
+			final Object action = obtainActionInstance(declaredAction);
+
+			// invoca la ACtion
+			redirectResource = actionInvoker(declaredAction, actionForm, action, requestContext);
+
+		}
 
 		// variables predefinides a accedir desde JSP en requestScope
 		request.setAttribute("requestContext", requestContext);
