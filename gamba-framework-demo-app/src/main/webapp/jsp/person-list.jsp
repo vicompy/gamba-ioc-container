@@ -17,26 +17,31 @@
 	<br />
 	<br />
 
-	<small>
-    <table>
-		<thead>
-			<tr>
-			    <th>Id</th>
-			    <th>name</th>
-			    <th>age</th>
-		   	</tr>
-		</thead>
-		<tbody>
-		<c:forEach var="person" items="${personList}">
-			<tr>
-			 	<td>${person.id}</td>
-			 	<td>${person.name}</td>
-				<td>${person.age}</td>
-			</tr>
-		</c:forEach>
-		</tbody>
-    </table>
-    </small>
+	<form action="${contextName}/delete.do" method="get">
+
+		<small>
+	    <table>
+			<thead>
+				<tr>
+				    <th>Id</th>
+				    <th>name</th>
+				    <th>age</th>
+			   	</tr>
+			</thead>
+			<tbody>
+			<c:forEach var="person" items="${personList}">
+				<tr>
+				 	<td><input type="radio" name="id" value="${person.id}">${person.id}</td>
+				 	<td>${person.name}</td>
+					<td>${person.age}</td>
+				</tr>
+			</c:forEach>
+			</tbody>
+	    </table>
+	    </small>
+	
+		<input type='submit' value="delete">
+	</form>
     
 	<br />
 	<br />

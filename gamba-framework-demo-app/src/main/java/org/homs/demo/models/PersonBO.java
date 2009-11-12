@@ -38,9 +38,9 @@ public class PersonBO extends GambaGenericBO implements IPersonBO {
 		}
 	}
 
-	public void delete(final Person person) {
+	public void delete(final Long id) {
 		try {
-			new PersonDAO(getConnection()).delete(person);
+			new PersonDAO(getConnection()).delete(id);
 		} catch (final Exception exc) {
 			throw new RuntimeException(exc);
 		}
@@ -62,9 +62,9 @@ public class PersonBO extends GambaGenericBO implements IPersonBO {
 		}
 	}
 
-	public void deletePersons(final Person...persons) {
-		for (final Person p : persons) {
-			delete(p);
+	public void deletePersons(final Long...ids) {
+		for (final Long id : ids) {
+			delete(id);
 		}
 	}
 

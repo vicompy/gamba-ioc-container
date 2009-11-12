@@ -3,6 +3,7 @@ package org.homs.demo.controllers;
 import java.util.List;
 
 import org.homs.demo.formbeans.PersonForm;
+import org.homs.demo.formbeans.PersonIdForm;
 import org.homs.demo.models.IPersonBO;
 import org.homs.demo.models.Person;
 import org.homs.demo.models.PersonBO;
@@ -44,6 +45,19 @@ public class PersonController {
 		person.setAge(form.getAge());
 
 		personBO.insert(person);
+
+		return toListView(req, form);
+	}
+
+	@Action(name = "delete", formBean=PersonIdForm.class)
+	public String delete(final RequestContext req, final PersonIdForm form) {
+
+		final IPersonBO personBO = (IPersonBO) GambaBOLoader.newInstance(PersonBO.class);
+
+		System.out.println("deleting: "+form.getId());
+		if (form.getId() != null) {
+			personBO.delete(form.getId());
+		}
 
 		return toListView(req, form);
 	}
