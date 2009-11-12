@@ -46,7 +46,7 @@ public class AnnotatedActionsScanner {
 				if (actionAnnotation != null) {
 
 					final DeclaredAction da = new DeclaredAction(actionAnnotation.name(), c, m,
-							actionAnnotation.formBean());
+							actionAnnotation.formBean(), actionAnnotation.validator(), actionAnnotation.onValidationError());
 					declaredActions.put(da.actionName, da);
 
 //					System.out.println("action found: " + da.toString());

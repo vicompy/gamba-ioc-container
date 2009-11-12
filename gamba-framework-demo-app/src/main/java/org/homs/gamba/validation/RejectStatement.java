@@ -6,7 +6,7 @@ public abstract class RejectStatement {
 
 	public boolean mustBeReject(final String[] values) {
 		for (final String s : values) {
-			if (s == null) {
+			if (reject(s)) {
 				return true;
 			}
 		}
