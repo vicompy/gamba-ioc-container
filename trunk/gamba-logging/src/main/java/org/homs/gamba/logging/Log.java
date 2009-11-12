@@ -104,7 +104,7 @@ public class Log implements ILog {
 
 	// TODO nou, preveu el renderitzat innecessari de missatges,
 	// quan el logger està desactivat!!
-	// TODO testar
+	// TODO ok, és dabuty!!!
 	public void fatal(final Object... os) {
 		LOGGER.sendMessage(ILogger.FATAL, messageLabel, os);
 	}
