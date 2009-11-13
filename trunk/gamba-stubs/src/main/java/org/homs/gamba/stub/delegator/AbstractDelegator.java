@@ -19,10 +19,19 @@ public abstract class AbstractDelegator implements IDelegator {
 		strb.append(this.getClass().getSimpleName());
 		strb.append(" [");
 		for (int i = 0; i < sequence.length; i++) {
+			if (i == index) {
+				strb.append('(');
+			}
 			strb.append(sequence[i].toString());
+			if (i == index) {
+				strb.append(')');
+			}
 			if (i < sequence.length - 1) {
 				strb.append(',');
 			}
+		}
+		if (index == sequence.length) {
+			strb.append("()");
 		}
 		strb.append(']');
 		return strb.toString();
