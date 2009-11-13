@@ -15,13 +15,17 @@ import org.homs.gamba.utils.Seq;
  */
 public final class StubProxy implements InvocationHandler {
 
+	private static final String STOP_RECORDING_PROXY_CALL = "stopRecording";
+	private static final String SET_DELEGATOR_PROXY_CALL = "setDelegator";
+	private static final String OBTAIN_CALL_REPORT_PROXY_CALL = "obtainCallReport";
+
 	private final List<CallActionConfig> callsConfig;
-	private final List<CalledRegister> callsReport;
+	private final List<CallLogEntry> callsLog;
 	private boolean proxyIsRecording;
 
 	private StubProxy() {
 		callsConfig = new ArrayList<CallActionConfig>();
-		callsReport = new ArrayList<CalledRegister>();
+		callsLog = new ArrayList<CallLogEntry>();
 		proxyIsRecording = true;
 	}
 
@@ -45,8 +49,7 @@ public final class StubProxy implements InvocationHandler {
 		}
 		interfaces[stubableInterfaces.length] = IStubable.class;
 
-		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces,
-				new StubProxy());
+		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces, new StubProxy());
 	}
 
 	/**
@@ -59,6 +62,7 @@ public final class StubProxy implements InvocationHandler {
 	 * <li>3. repetir (2).</li>
 	 * <li>4. cridar stopRecording.</li>
 	 * </ul>
+	 *
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
 	 */
@@ -79,10 +83,9 @@ public final class StubProxy implements InvocationHandler {
 
 	private Object playing(final Method method, final Object[] args) throws Throwable {
 
-		if (method.getName().equals("obtainReport")) {
-			return callsReport;
+		if (method.getName().equals(OBTAIN_CALL_REPORT_PROXY_CALL)) {
+			return callsLog;
 		}
-		callsReport.add(new CalledRegister(method, args));
 
 		// TODO cerca de la crida lenta?
 		for (final CallActionConfig ce : callsConfig) {
@@ -98,7 +101,9 @@ public final class StubProxy implements InvocationHandler {
 				}
 
 				if (argsOK) {
-					return ce.getDelegator().delegates(args);
+					final Object returnValue = ce.getDelegator().delegates(args);
+					callsLog.add(new CallLogEntry(method, args, returnValue));
+					return returnValue;
 				}
 			}
 		}
@@ -112,7 +117,7 @@ public final class StubProxy implements InvocationHandler {
 		// es prepara per a una nova crida a registrar (s'està en estat de
 		// gravació)
 		// i hi desa el delegator
-		if (method.getName().equals("setDelegator")) {
+		if (method.getName().equals(SET_DELEGATOR_PROXY_CALL)) {
 			if (!(args[0] instanceof IDelegator)) {
 				throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
 			}
@@ -121,7 +126,7 @@ public final class StubProxy implements InvocationHandler {
 		}
 
 		// atura el mode de gravació i passa al de reproducció
-		if (method.getName().equals("stopRecording")) {
+		if (method.getName().equals(STOP_RECORDING_PROXY_CALL)) {
 			proxyIsRecording = false;
 			checkRegisteredCalls();
 			return null;
