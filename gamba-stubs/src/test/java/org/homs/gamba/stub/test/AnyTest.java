@@ -31,5 +31,4 @@ public class AnyTest {
 		System.out.println(obtainCallReport(adderStub));
 	}
 
-
 }
