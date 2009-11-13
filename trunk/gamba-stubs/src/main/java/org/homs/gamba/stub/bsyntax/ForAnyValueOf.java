@@ -1,6 +1,6 @@
 package org.homs.gamba.stub.bsyntax;
 
-public class ForAnyValueOf {
+public final class ForAnyValueOf {
 
 	private final int aniedArgNumber;
 

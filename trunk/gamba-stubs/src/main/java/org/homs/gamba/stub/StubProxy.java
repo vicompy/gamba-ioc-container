@@ -121,11 +121,10 @@ public final class StubProxy implements InvocationHandler {
 	private String obtainCallConfig() {
 		final StringBuffer strb = new StringBuffer();
 
-		strb.append("");
 		for (final CallActionConfig cac : this.callsConfig) {
 			strb.append(cac.toString());
+			strb.append('\n');
 		}
-		strb.append("");
 
 		return strb.toString();
 	}

@@ -27,7 +27,7 @@ class CallActionConfig {
 	 */
 	public CallActionConfig(final IDelegator delegator, final ForAnyValueOf[] forAnies) {
 		this.delegator = delegator;
-		this.forAnies = forAnies;
+		this.forAnies = forAnies.clone();
 	}
 
 	public void setCall(final Method method, final Object[] callingArgsArray) {
@@ -62,7 +62,7 @@ class CallActionConfig {
 	}
 
 	public boolean[] getIsAnied() {
-		return isAnied;
+		return isAnied.clone();
 	}
 
 	/**
