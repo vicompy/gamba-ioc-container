@@ -2,15 +2,16 @@ package org.homs.gamba.stub.bsyntax;
 
 import java.util.List;
 
-import org.homs.gamba.stub.CalledRegister;
+import org.homs.gamba.stub.CallLogEntry;
 import org.homs.gamba.stub.IStubable;
 import org.homs.gamba.stub.StubProxy;
+import org.homs.gamba.stub.delegator.CheckedSinglePassSequence;
 import org.homs.gamba.stub.delegator.ConstantValue;
 import org.homs.gamba.stub.delegator.CyclicSequence;
 import org.homs.gamba.stub.delegator.ExceptionTrigger;
 import org.homs.gamba.stub.delegator.IDelegator;
-import org.homs.gamba.stub.delegator.OnePassSequence;
 import org.homs.gamba.stub.delegator.PingPongSequence;
+import org.homs.gamba.stub.delegator.SinglePassSequence;
 
 public final class Stubber implements IWhen {
 
@@ -33,7 +34,11 @@ public final class Stubber implements IWhen {
 	}
 
 	public static IWhen thenReturn(final Object... objs) {
-		return new Stubber(new OnePassSequence(objs));
+		return new Stubber(new CheckedSinglePassSequence(objs));
+	}
+
+	public static IWhen thenUncheckedReturn(final Object... objs) {
+		return new Stubber(new SinglePassSequence(objs));
 	}
 
 	public static IWhen thenLoop(final Object... objs) {
@@ -61,12 +66,15 @@ public final class Stubber implements IWhen {
 		((IStubable) proxy).stopRecording();
 	}
 
-	public static List<CalledRegister> obtainReport(final Object proxy) {
-		return ((IStubable) proxy).obtainReport();
+	public static List<CallLogEntry> obtainCallReport(final Object proxy) {
+		return ((IStubable) proxy).obtainCallReport();
 	}
 
 //	public static Integer anyInt() {
 //		return
 //	} TODO
+
+
+
 
 }

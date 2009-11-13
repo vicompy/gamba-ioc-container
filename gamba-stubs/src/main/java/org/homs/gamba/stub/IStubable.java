@@ -20,6 +20,6 @@ public interface IStubable {
 	 */
 	void stopRecording();
 
-	List<CalledRegister> obtainReport();
+	List<CallLogEntry> obtainCallReport();
 
 }

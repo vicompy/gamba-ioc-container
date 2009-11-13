@@ -1,6 +1,11 @@
 package org.homs.gamba.stub.test;
 
-import static org.homs.gamba.stub.bsyntax.Stubber.*;
+import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
+import static org.homs.gamba.stub.bsyntax.Stubber.obtainCallReport;
+import static org.homs.gamba.stub.bsyntax.Stubber.play;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenDelegate;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenReturn;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenThrow;
 
 import org.homs.gamba.stub.delegator.IDelegator;
 import org.homs.gamba.stub.ents.IAdder;
@@ -18,13 +23,8 @@ public class StubTest {
 		thenReturn(3).when(adderStub).add(1, 2);
 		thenReturn(5).when(adderStub).add(2, 3);
 
-
-		// TODO i la sintaxi: when(adderStub.add(1, 2)).thenReturn(3); ... és insegura?
-
-
-
 		play(adderStub);
-		System.out.println(obtainReport(adderStub));
+		System.out.println(obtainCallReport(adderStub));
 
 		Assert.assertEquals(Integer.valueOf(3), adderStub.add(1, 2));
 		Assert.assertEquals(Integer.valueOf(5), adderStub.add(2, 3));
@@ -59,7 +59,7 @@ public class StubTest {
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", "world"));
-		System.out.println(obtainReport(c));
+		System.out.println(obtainCallReport(c));
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -112,7 +112,7 @@ public class StubTest {
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", "world"));
-		System.out.println(obtainReport(c));
+		System.out.println(obtainCallReport(c));
 	}
 
 }

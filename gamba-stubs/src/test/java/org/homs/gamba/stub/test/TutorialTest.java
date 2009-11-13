@@ -1,6 +1,12 @@
 package org.homs.gamba.stub.test;
 
-import static org.homs.gamba.stub.bsyntax.Stubber.*;
+import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
+import static org.homs.gamba.stub.bsyntax.Stubber.obtainCallReport;
+import static org.homs.gamba.stub.bsyntax.Stubber.play;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenLoop;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenPingPongLoop;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenReturn;
+import static org.homs.gamba.stub.bsyntax.Stubber.thenUncheckedReturn;
 
 import java.util.List;
 
@@ -22,7 +28,7 @@ public class TutorialTest {
 		Assert.assertEquals(5, l.get(0));
 		Assert.assertEquals(5, l.get(0));
 
-		System.out.println(obtainReport(l));
+		System.out.println(obtainCallReport(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +44,7 @@ public class TutorialTest {
 		Assert.assertEquals(0, l.get(0));
 		Assert.assertEquals(1, l.get(0));
 
-		System.out.println(obtainReport(l));
+		System.out.println(obtainCallReport(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -46,7 +52,7 @@ public class TutorialTest {
 	public void test3() {
 
 		final List l = (List) createStub(List.class);
-		thenReturn(0, 1).when(l).get(0);
+		thenUncheckedReturn(0, 1).when(l).get(0);
 		play(l);
 
 
@@ -59,7 +65,7 @@ public class TutorialTest {
 		Assert.assertEquals(1, l.get(0));
 		Assert.assertEquals(1, l.get(0));
 
-		System.out.println(obtainReport(l));
+		System.out.println(obtainCallReport(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -80,7 +86,7 @@ public class TutorialTest {
 		Assert.assertEquals(1, l.get(0));
 		Assert.assertEquals(0, l.get(0));
 
-		System.out.println(obtainReport(l));
+		System.out.println(obtainCallReport(l));
 	}
 
 }

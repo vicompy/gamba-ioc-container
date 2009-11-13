@@ -2,14 +2,16 @@ package org.homs.gamba.stub;
 
 import java.lang.reflect.Method;
 
-public class CalledRegister {
+public class CallLogEntry {
 
 	public final Method method;
 	public final Object[] arguments;
+	public final Object returnValue;
 
-	public CalledRegister(final Method method, final Object[] args) {
+	public CallLogEntry(final Method method, final Object[] args, final Object returnValue) {
 		super();
 		this.method = method;
+		this.returnValue = returnValue;
 		if (args == null) {
 			this.arguments = null;
 		} else {
@@ -30,7 +32,8 @@ public class CalledRegister {
 				}
 			}
 		}
-		strb.append(')');
+		strb.append(") ==> ");
+		strb.append(returnValue);
 		return strb.toString();
 	}
 }
