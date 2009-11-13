@@ -2,7 +2,6 @@ package org.homs.gamba.stub.test;
 
 import static org.homs.gamba.stub.bsyntax.Stubber.*;
 
-import org.homs.gamba.stub.bsyntax.ForAnyValueOf;
 import org.homs.gamba.stub.ents.IAdder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,8 +13,8 @@ public class AnyTest {
 
 		final IAdder adderStub = createStub(IAdder.class);
 
-		thenReturn(1,2,3).when(adderStub, ForAnyValueOf.firstArg()).add(0, 2);
-		thenReturn(4,5,6).when(adderStub, ForAnyValueOf.secondArg()).add(2, 0);
+		thenReturn(1,2,3).when(adderStub, maskBy(true, false)).add(0, 2);
+		thenReturn(4,5,6).when(adderStub, maskBy(false, true)).add(2, 0);
 
 		play(adderStub);
 

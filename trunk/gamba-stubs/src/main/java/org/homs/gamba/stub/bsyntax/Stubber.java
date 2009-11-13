@@ -58,8 +58,13 @@ public final class Stubber implements IWhen {
 		return new Stubber(delegator);
 	}
 
-	public <T> T when(final T proxy, final ForAnyValueOf...forAnies) {
-		((IStubable) proxy).setDelegator(delegator, forAnies);
+	public <T> T when(final T proxy, final Mask mask) {
+		((IStubable) proxy).setDelegator(delegator, mask);
+		return proxy;
+	}
+
+	public <T> T when(final T proxy) {
+		((IStubable) proxy).setDelegator(delegator, Mask.mask());
 		return proxy;
 	}
 
@@ -73,6 +78,10 @@ public final class Stubber implements IWhen {
 
 	public static String obtainCallConfig(final Object proxy) {
 		return ((IStubable) proxy).obtainCallConfig();
+	}
+
+	public static Mask maskBy(final boolean...bs) {
+		return Mask.mask(bs);
 	}
 
 }

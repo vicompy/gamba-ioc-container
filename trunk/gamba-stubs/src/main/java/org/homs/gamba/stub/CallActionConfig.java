@@ -1,8 +1,8 @@
 package org.homs.gamba.stub;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
-import org.homs.gamba.stub.bsyntax.ForAnyValueOf;
 import org.homs.gamba.stub.delegator.IDelegator;
 
 /**
@@ -14,8 +14,7 @@ class CallActionConfig {
 
 	private Method method;
 	private Object[] callingArgs;
-	private final ForAnyValueOf[] forAnies;
-	private boolean[] isAnied;
+	private boolean[] anyMask;
 
 	private final IDelegator delegator;
 
@@ -25,9 +24,9 @@ class CallActionConfig {
 	 *
 	 * @param delegator
 	 */
-	public CallActionConfig(final IDelegator delegator, final ForAnyValueOf[] forAnies) {
+	public CallActionConfig(final IDelegator delegator, final boolean[] anyMask) {
 		this.delegator = delegator;
-		this.forAnies = forAnies.clone();
+		this.anyMask = anyMask.clone();
 	}
 
 	public void setCall(final Method method, final Object[] callingArgsArray) {
@@ -37,16 +36,10 @@ class CallActionConfig {
 		} else {
 			this.callingArgs = callingArgsArray.clone();
 		}
-		this.isAnied = new boolean[this.callingArgs.length];
 
-		for(int i = 0; i < this.isAnied.length; i++) {
-			isAnied[i] = false;
-			for (int j = 0; j < this.forAnies.length; j++) {
-				if (i == forAnies[j].getAniedArgNumber()) {
-					isAnied[i] = true;
-				}
-			}
-		}
+		// coneixen el nombre d'arguments, fer un resize de la màscara pq
+		// concideixin les mides
+		anyMask = Arrays.copyOf(anyMask, callingArgs.length);
 	}
 
 	public Object[] getCallingArgsValues() {
@@ -62,7 +55,7 @@ class CallActionConfig {
 	}
 
 	public boolean[] getIsAnied() {
-		return isAnied.clone();
+		return anyMask.clone();
 	}
 
 	/**
@@ -77,12 +70,12 @@ class CallActionConfig {
 		strb.append(getMethod().getName());
 		strb.append('(');
 		for (int i = 0; i < callingArgs.length; i++) {
-			if (isAnied[i]) {
+			if (anyMask[i]) {
 				strb.append('*');
 			} else {
 				strb.append(callingArgs[i].toString());
 			}
-			if (i < callingArgs.length -1) {
+			if (i < callingArgs.length - 1) {
 				strb.append(',');
 			}
 		}

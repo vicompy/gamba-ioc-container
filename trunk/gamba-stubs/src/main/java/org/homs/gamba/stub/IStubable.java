@@ -2,7 +2,7 @@ package org.homs.gamba.stub;
 
 import java.util.List;
 
-import org.homs.gamba.stub.bsyntax.ForAnyValueOf;
+import org.homs.gamba.stub.bsyntax.Mask;
 import org.homs.gamba.stub.delegator.IDelegator;
 
 /**
@@ -13,7 +13,7 @@ import org.homs.gamba.stub.delegator.IDelegator;
  */
 public interface IStubable {
 
-	void setDelegator(IDelegator delegator, ForAnyValueOf...forAnies);
+	void setDelegator(IDelegator delegator, Mask mask);
 	String obtainCallConfig();
 
 	/**
