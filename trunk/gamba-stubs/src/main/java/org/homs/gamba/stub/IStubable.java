@@ -2,6 +2,7 @@ package org.homs.gamba.stub;
 
 import java.util.List;
 
+import org.homs.gamba.stub.bsyntax.ForAny;
 import org.homs.gamba.stub.delegator.IDelegator;
 
 /**
@@ -12,7 +13,8 @@ import org.homs.gamba.stub.delegator.IDelegator;
  */
 public interface IStubable {
 
-	void setDelegator(IDelegator delegator);
+	void setDelegator(IDelegator delegator, ForAny...forAnies);
+	String obtainCallConfig();
 
 	/**
 	 * deixa de registrar les crides, i passa a actuar com a stub que és;
