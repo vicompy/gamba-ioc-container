@@ -12,7 +12,7 @@ public class InheritanceTest {
 	@Test
 	public void test1() {
 
-		final IB b = (IB) createStub(IB.class);
+		final IB b = createStub(IB.class);
 		thenReturn(27).when(b).getAge();
 		thenReturn(54).when(b).getDoubledAge(27);
 		thenReturn("mhc").when(b).getName();

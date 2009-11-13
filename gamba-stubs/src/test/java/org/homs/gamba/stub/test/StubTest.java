@@ -19,7 +19,7 @@ public class StubTest {
 	@Test
 	public void test1() {
 
-		final IAdder adderStub = (IAdder) createStub(IAdder.class);
+		final IAdder adderStub = createStub(IAdder.class);
 		thenReturn(3).when(adderStub).add(1, 2);
 		thenReturn(5).when(adderStub).add(2, 3);
 
@@ -34,7 +34,7 @@ public class StubTest {
 	@Test(expected = GambaStubsException.class)
 	public void test2() {
 
-		final IAdder adderStub = (IAdder) createStub(IAdder.class);
+		final IAdder adderStub = createStub(IAdder.class);
 		thenReturn(3).when(adderStub).add(1, 2);
 		thenReturn(5).when(adderStub).add(2, 3);
 		play(adderStub);
@@ -45,7 +45,7 @@ public class StubTest {
 	@Test(expected = GambaStubsException.class)
 	public void test3() {
 
-		final IAdder adderStub = (IAdder) createStub(IAdder.class);
+		final IAdder adderStub = createStub(IAdder.class);
 		thenReturn(3).when(adderStub); //.add(1, 2);
 		play(adderStub);
 		adderStub.add(1, 2);
@@ -54,7 +54,7 @@ public class StubTest {
 	@Test
 	public void test4() {
 
-		final IConcater c = (IConcater) createStub(IConcater.class);
+		final IConcater c = createStub(IConcater.class);
 		thenReturn("hello world").when(c).concat("hello ", "world");
 		play(c);
 
@@ -65,7 +65,7 @@ public class StubTest {
 	@Test(expected = NullPointerException.class)
 	public void test5() {
 
-		final IConcater c = (IConcater) createStub(IConcater.class);
+		final IConcater c = createStub(IConcater.class);
 		thenThrow(new NullPointerException("jou")).when(c).concat("hello ", null);
 		play(c);
 
@@ -87,7 +87,7 @@ public class StubTest {
 	@Test(expected = NullPointerException.class)
 	public void test7() {
 
-		final IConcater c = (IConcater) createStub(IConcater.class);
+		final IConcater c = createStub(IConcater.class);
 		thenThrow(new NullPointerException("jou")).when(c).getMessage();
 		play(c);
 
@@ -97,7 +97,7 @@ public class StubTest {
 	@Test
 	public void test8() {
 
-		final IConcater c = (IConcater) createStub(IConcater.class);
+		final IConcater c = createStub(IConcater.class);
 		thenReturn("jou").when(c).getMessage();
 		play(c);
 
@@ -107,7 +107,7 @@ public class StubTest {
 	@Test
 	public void test9() {
 
-		final IConcater c = (IConcater) createStub(IConcater.class);
+		final IConcater c = createStub(IConcater.class);
 		thenDelegate(new DelegatorConcat()).when(c).concat("hello ", "world");
 		play(c);
 

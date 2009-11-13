@@ -21,8 +21,9 @@ public final class Stubber implements IWhen {
 		this.delegator = delegator;
 	}
 
-	public static Object createStub(final Class<?> interfaceToStub) {
-		return StubProxy.newInstance(interfaceToStub);
+	@SuppressWarnings("unchecked")
+	public static <T> T createStub(final Class<T> interfaceToStub) {
+		return (T) StubProxy.newInstance(interfaceToStub);
 	}
 
 	public static Object createStub(final Class<?>... interfacesToStub) {
@@ -57,7 +58,7 @@ public final class Stubber implements IWhen {
 		return new Stubber(delegator);
 	}
 
-	public <T> T when(final T proxy, final ForAny...forAnies) {
+	public <T> T when(final T proxy, final ForAnyValueOf...forAnies) {
 		((IStubable) proxy).setDelegator(delegator, forAnies);
 		return proxy;
 	}
