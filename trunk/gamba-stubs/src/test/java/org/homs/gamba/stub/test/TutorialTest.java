@@ -19,7 +19,7 @@ public class TutorialTest {
 	@Test
 	public void test1() {
 
-		final List l = (List) createStub(List.class);
+		final List l = createStub(List.class);
 		thenReturn(5).when(l).get(0);
 		play(l);
 
@@ -35,7 +35,7 @@ public class TutorialTest {
 	@Test
 	public void test2() {
 
-		final List l = (List) createStub(List.class);
+		final List l = createStub(List.class);
 		thenLoop(0, 1).when(l).get(0);
 		play(l);
 
@@ -51,7 +51,7 @@ public class TutorialTest {
 	@Test
 	public void test3() {
 
-		final List l = (List) createStub(List.class);
+		final List l = createStub(List.class);
 		thenUncheckedReturn(0, 1).when(l).get(0);
 		play(l);
 
@@ -67,7 +67,7 @@ public class TutorialTest {
 	@Test
 	public void test4() {
 
-		final List l = (List) createStub(List.class);
+		final List l = createStub(List.class);
 		thenPingPongLoop(0, 1, 2).when(l).get(0);
 		play(l);
 

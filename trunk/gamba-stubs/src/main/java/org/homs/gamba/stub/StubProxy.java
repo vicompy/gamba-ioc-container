@@ -6,7 +6,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.homs.gamba.stub.bsyntax.ForAny;
+import org.homs.gamba.stub.bsyntax.ForAnyValueOf;
 import org.homs.gamba.stub.delegator.IDelegator;
 import org.homs.gamba.stub.exception.GambaStubsException;
 import org.homs.gamba.utils.Seq;
@@ -124,7 +124,6 @@ public final class StubProxy implements InvocationHandler {
 		strb.append("");
 		for (final CallActionConfig cac : this.callsConfig) {
 			strb.append(cac.toString());
-//			strb.append("\n");
 		}
 		strb.append("");
 
@@ -162,7 +161,7 @@ public final class StubProxy implements InvocationHandler {
 			throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
 																				  // cal?
 		}
-		callsConfig.add(new CallActionConfig((IDelegator) args[0], (ForAny[]) args[1]));
+		callsConfig.add(new CallActionConfig((IDelegator) args[0], (ForAnyValueOf[]) args[1]));
 		return null;
 	}
 

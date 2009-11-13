@@ -2,7 +2,7 @@ package org.homs.gamba.stub;
 
 import java.lang.reflect.Method;
 
-import org.homs.gamba.stub.bsyntax.ForAny;
+import org.homs.gamba.stub.bsyntax.ForAnyValueOf;
 import org.homs.gamba.stub.delegator.IDelegator;
 
 /**
@@ -14,7 +14,7 @@ class CallActionConfig {
 
 	private Method method;
 	private Object[] callingArgs;
-	private final ForAny[] forAnies;
+	private final ForAnyValueOf[] forAnies;
 	private boolean[] isAnied;
 
 	private final IDelegator delegator;
@@ -25,7 +25,7 @@ class CallActionConfig {
 	 *
 	 * @param delegator
 	 */
-	public CallActionConfig(final IDelegator delegator, final ForAny[] forAnies) {
+	public CallActionConfig(final IDelegator delegator, final ForAnyValueOf[] forAnies) {
 		this.delegator = delegator;
 		this.forAnies = forAnies;
 	}
