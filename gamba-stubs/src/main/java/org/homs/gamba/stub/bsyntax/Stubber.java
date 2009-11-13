@@ -57,8 +57,8 @@ public final class Stubber implements IWhen {
 		return new Stubber(delegator);
 	}
 
-	public <T> T when(final T proxy) {
-		((IStubable) proxy).setDelegator(delegator);
+	public <T> T when(final T proxy, final ForAny...forAnies) {
+		((IStubable) proxy).setDelegator(delegator, forAnies);
 		return proxy;
 	}
 
@@ -70,11 +70,8 @@ public final class Stubber implements IWhen {
 		return ((IStubable) proxy).obtainCallReport();
 	}
 
-//	public static Integer anyInt() {
-//		return
-//	} TODO
-
-
-
+	public static String obtainCallConfig(final Object proxy) {
+		return ((IStubable) proxy).obtainCallConfig();
+	}
 
 }

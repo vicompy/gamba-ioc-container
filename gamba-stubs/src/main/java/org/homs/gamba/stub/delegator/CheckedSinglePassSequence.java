@@ -10,7 +10,6 @@ public class CheckedSinglePassSequence extends AbstractDelegator {
 
 	public Object delegates(final Object... args) {
 		if (index >= sequence.length) {
-//			index--;
 			throw new GambaStubsException("OnePassSequence: end of return list reached.");
 		}
 		return sequence[index++];

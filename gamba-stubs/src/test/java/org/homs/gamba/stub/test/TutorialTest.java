@@ -55,11 +55,6 @@ public class TutorialTest {
 		thenUncheckedReturn(0, 1).when(l).get(0);
 		play(l);
 
-
-
-		// TODO fer comodins:
-		// willReturn(0, 1).when(l).get(All(Integer.class));
-
 		Assert.assertEquals(0, l.get(0));
 		Assert.assertEquals(1, l.get(0));
 		Assert.assertEquals(1, l.get(0));
