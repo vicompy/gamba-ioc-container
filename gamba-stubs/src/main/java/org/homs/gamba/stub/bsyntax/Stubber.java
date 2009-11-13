@@ -15,6 +15,9 @@ import org.homs.gamba.stub.delegator.SinglePassSequence;
 
 public final class Stubber implements IWhen {
 
+	public static final boolean ANY = true;
+	public static final boolean SPEC = false;
+
 	private final IDelegator delegator;
 
 	private Stubber(final IDelegator delegator) {
