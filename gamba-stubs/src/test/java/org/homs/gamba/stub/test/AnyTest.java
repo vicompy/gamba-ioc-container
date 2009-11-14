@@ -18,16 +18,20 @@ public class AnyTest {
 
 		play(adderStub);
 
-		Assert.assertEquals(Integer.valueOf(1), adderStub.add(9, 2));
-		Assert.assertEquals(Integer.valueOf(2), adderStub.add(9, 2));
+		Assert.assertEquals(Integer.valueOf(1), adderStub.add(7, 2));
+		Assert.assertEquals(Integer.valueOf(2), adderStub.add(8, 2));
 		Assert.assertEquals(Integer.valueOf(3), adderStub.add(9, 2));
 
-		Assert.assertEquals(Integer.valueOf(4), adderStub.add(2, 9));
-		Assert.assertEquals(Integer.valueOf(5), adderStub.add(2, 9));
+		Assert.assertEquals(Integer.valueOf(4), adderStub.add(2, 7));
+		Assert.assertEquals(Integer.valueOf(5), adderStub.add(2, 8));
 		Assert.assertEquals(Integer.valueOf(6), adderStub.add(2, 9));
 
 		System.out.println(obtainCallConfig(adderStub));
 		System.out.println(obtainCallingLog(adderStub));
+
+		System.out.println(obtainCallingLog(adderStub).countGroupingBy("add"));
+		System.out.println(obtainCallingLog(adderStub).countGroupingBy("add", 2, 9));
+		System.out.println(obtainCallingLog(adderStub).countGroupingBy(maskBy(_, ANY), "add", 2, 9));
 	}
 
 }
