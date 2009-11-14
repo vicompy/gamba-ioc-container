@@ -59,8 +59,6 @@ class CallActionConfig {
 	}
 
 	/**
-	 * TODO retorna una representació en String de l'estat d'aquest objecte
-	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

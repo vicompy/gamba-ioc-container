@@ -86,4 +86,16 @@ public final class Stubber implements IWhen {
 		return Mask.mask(bs);
 	}
 
+	public static Mask maskBy(final String mask) {
+		final boolean[] bmask = new boolean[mask.length()];
+		for (int i = 0; i < mask.length(); i++) {
+			if (mask.charAt(i) == '*') {
+				bmask[i] = true;
+			} else {
+				bmask[i] = false;
+			}
+		}
+		return Mask.mask(bmask);
+	}
+
 }

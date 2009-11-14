@@ -13,8 +13,8 @@ public class AnyTest {
 
 		final IAdder adderStub = createStub(IAdder.class);
 
-		thenReturn(1,2,3).when(adderStub, maskBy(ANY, _)).add(0, 2);
-		thenReturn(4,5,6).when(adderStub, maskBy(_, ANY)).add(2, 0);
+		thenReturn(1,2,3).when(adderStub, maskBy("*-")).add(0, 2);
+		thenReturn(4,5,6).when(adderStub, maskBy("-*")).add(2, 0);
 
 		play(adderStub);
 
@@ -29,9 +29,9 @@ public class AnyTest {
 		System.out.println(obtainCallConfig(adderStub));
 		System.out.println(obtainCallingLog(adderStub));
 
-		System.out.println(obtainCallingLog(adderStub).countGroupingBy("add"));
-		System.out.println(obtainCallingLog(adderStub).countGroupingBy("add", 2, 9));
-		System.out.println(obtainCallingLog(adderStub).countGroupingBy(maskBy(_, ANY), "add", 2, 9));
+		Assert.assertEquals(6, obtainCallingLog(adderStub).countGroupingBy("add"));
+		Assert.assertEquals(1, obtainCallingLog(adderStub).countGroupingBy("add", 2, 9));
+		Assert.assertEquals(3, obtainCallingLog(adderStub).countGroupingBy(maskBy("-*"), "add", 2, 9));
 	}
 
 }
