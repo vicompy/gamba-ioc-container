@@ -1,8 +1,8 @@
 package org.homs.gamba.stub.delegator;
 
-public class SinglePassSequence extends AbstractDelegator {
+public class UncheckedSinglePassSequence extends AbstractDelegator {
 
-	public SinglePassSequence(final Object... sequence) {
+	public UncheckedSinglePassSequence(final Object... sequence) {
 		super(sequence);
 	}
 

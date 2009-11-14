@@ -13,8 +13,8 @@ public class AnyTest {
 
 		final IAdder adderStub = createStub(IAdder.class);
 
-		thenReturn(1,2,3).when(adderStub, maskBy(ANY, SPEC)).add(0, 2);
-		thenReturn(4,5,6).when(adderStub, maskBy(SPEC, ANY)).add(2, 0);
+		thenReturn(1,2,3).when(adderStub, maskBy(ANY, _)).add(0, 2);
+		thenReturn(4,5,6).when(adderStub, maskBy(_, ANY)).add(2, 0);
 
 		play(adderStub);
 

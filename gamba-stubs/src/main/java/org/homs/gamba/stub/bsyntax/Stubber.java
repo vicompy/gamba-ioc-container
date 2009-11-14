@@ -11,12 +11,13 @@ import org.homs.gamba.stub.delegator.CyclicSequence;
 import org.homs.gamba.stub.delegator.ExceptionTrigger;
 import org.homs.gamba.stub.delegator.IDelegator;
 import org.homs.gamba.stub.delegator.PingPongSequence;
-import org.homs.gamba.stub.delegator.SinglePassSequence;
+import org.homs.gamba.stub.delegator.UncheckedSinglePassSequence;
 
 public final class Stubber implements IWhen {
 
 	public static final boolean ANY = true;
 	public static final boolean SPEC = false;
+	public static final boolean _ = false;
 
 	private final IDelegator delegator;
 
@@ -42,7 +43,7 @@ public final class Stubber implements IWhen {
 	}
 
 	public static IWhen thenUncheckedReturn(final Object... objs) {
-		return new Stubber(new SinglePassSequence(objs));
+		return new Stubber(new UncheckedSinglePassSequence(objs));
 	}
 
 	public static IWhen thenLoop(final Object... objs) {
