@@ -1,8 +1,6 @@
 package org.homs.gamba.stub.bsyntax;
 
-import java.util.List;
-
-import org.homs.gamba.stub.CallLogEntry;
+import org.homs.gamba.stub.CallingLog;
 import org.homs.gamba.stub.IStubable;
 import org.homs.gamba.stub.StubProxy;
 import org.homs.gamba.stub.delegator.CheckedSinglePassSequence;
@@ -76,8 +74,8 @@ public final class Stubber implements IWhen {
 		((IStubable) proxy).stopRecording();
 	}
 
-	public static List<CallLogEntry> obtainCallReport(final Object proxy) {
-		return ((IStubable) proxy).obtainCallReport();
+	public static CallingLog obtainCallingLog(final Object proxy) {
+		return ((IStubable) proxy).obtainCallingLog();
 	}
 
 	public static String obtainCallConfig(final Object proxy) {

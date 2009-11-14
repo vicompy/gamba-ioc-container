@@ -1,7 +1,7 @@
 package org.homs.gamba.stub.test;
 
 import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
-import static org.homs.gamba.stub.bsyntax.Stubber.obtainCallReport;
+import static org.homs.gamba.stub.bsyntax.Stubber.obtainCallingLog;
 import static org.homs.gamba.stub.bsyntax.Stubber.play;
 import static org.homs.gamba.stub.bsyntax.Stubber.thenDelegate;
 import static org.homs.gamba.stub.bsyntax.Stubber.thenReturn;
@@ -24,7 +24,7 @@ public class StubTest {
 		thenReturn(5).when(adderStub).add(2, 3);
 
 		play(adderStub);
-		System.out.println(obtainCallReport(adderStub));
+		System.out.println(obtainCallingLog(adderStub));
 
 		Assert.assertEquals(Integer.valueOf(3), adderStub.add(1, 2));
 		Assert.assertEquals(Integer.valueOf(5), adderStub.add(2, 3));
@@ -59,7 +59,7 @@ public class StubTest {
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", "world"));
-		System.out.println(obtainCallReport(c));
+		System.out.println(obtainCallingLog(c));
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -112,7 +112,7 @@ public class StubTest {
 		play(c);
 
 		Assert.assertEquals("hello world", c.concat("hello ", "world"));
-		System.out.println(obtainCallReport(c));
+		System.out.println(obtainCallingLog(c));
 	}
 
 }
