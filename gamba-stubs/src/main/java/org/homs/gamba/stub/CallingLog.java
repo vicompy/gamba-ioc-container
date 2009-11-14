@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CallingLog {
+
 	private final List<CallLogEntry> callLogEntry;
 
 	public CallingLog() {
