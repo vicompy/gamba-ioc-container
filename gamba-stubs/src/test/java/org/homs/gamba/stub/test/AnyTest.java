@@ -27,7 +27,7 @@ public class AnyTest {
 		Assert.assertEquals(Integer.valueOf(6), adderStub.add(2, 9));
 
 		System.out.println(obtainCallConfig(adderStub));
-		System.out.println(obtainCallReport(adderStub));
+		System.out.println(obtainCallingLog(adderStub));
 	}
 
 }

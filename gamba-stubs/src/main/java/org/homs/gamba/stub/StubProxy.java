@@ -3,8 +3,6 @@ package org.homs.gamba.stub;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.homs.gamba.stub.bsyntax.Mask;
 import org.homs.gamba.stub.delegator.IDelegator;
@@ -18,15 +16,17 @@ public final class StubProxy implements InvocationHandler {
 
 	private static final String STOP_RECORDING_PROXY_CALL = "stopRecording";
 	private static final String SET_DELEGATOR_PROXY_CALL = "setDelegator";
-	private static final String OBTAIN_CALL_REPORT_PROXY_CALL = "obtainCallReport";
+	private static final String OBTAIN_CALL_REPORT_PROXY_CALL = "obtainCallingLog";
 
-	private final List<CallActionConfig> callsConfig;
-	private final List<CallLogEntry> callsLog;
+	private final CallDefinitions callDefinitions;
+//	private final List<CallLogEntry> callsLog;
+	private final CallingLog callingLog;
 	private boolean proxyIsRecording;
 
 	private StubProxy() {
-		callsConfig = new ArrayList<CallActionConfig>();
-		callsLog = new ArrayList<CallLogEntry>();
+		callDefinitions = new CallDefinitions();
+//		callsLog = new ArrayList<CallLogEntry>();
+		callingLog = new CallingLog();
 		proxyIsRecording = true;
 	}
 
@@ -90,11 +90,12 @@ public final class StubProxy implements InvocationHandler {
 	private Object playing(final Method method, final Object[] args) throws Throwable {
 
 		if (method.getName().equals(OBTAIN_CALL_REPORT_PROXY_CALL)) {
-			return obtainCallReport();
+			return obtainCallingLog();
 		}
 
 		// TODO cerca de la crida lenta?
-		for (final CallActionConfig ce : callsConfig) {
+		for (final CallActionConfig ce : callDefinitions.getCallsConfig()) {
+
 			if (ce.getMethod().equals(method)) {
 
 				boolean argsOK = true;
@@ -108,7 +109,7 @@ public final class StubProxy implements InvocationHandler {
 
 				if (argsOK) {
 					final Object returnValue = ce.getDelegator().delegates(args);
-					callsLog.add(new CallLogEntry(method, args, returnValue));
+					callingLog.add(new CallLogEntry(method, args, returnValue));
 					return returnValue;
 				}
 			}
@@ -121,7 +122,7 @@ public final class StubProxy implements InvocationHandler {
 	private String obtainCallConfig() {
 		final StringBuffer strb = new StringBuffer();
 
-		for (final CallActionConfig cac : this.callsConfig) {
+		for (final CallActionConfig cac : callDefinitions.getCallsConfig()) {
 			strb.append(cac.toString());
 			strb.append('\n');
 		}
@@ -129,8 +130,8 @@ public final class StubProxy implements InvocationHandler {
 		return strb.toString();
 	}
 
-	private Object obtainCallReport() {
-		return callsLog;
+	private CallingLog obtainCallingLog() {
+		return callingLog;
 	}
 
 	private Object recording(final Method method, final Object[] args) {
@@ -150,7 +151,7 @@ public final class StubProxy implements InvocationHandler {
 		// 2n pas: no s'ha cridat a cap mètode de IStubable, per tant és una
 		// crida a la interfície proxejada
 		// i s'ha de guardar la crida
-		callsConfig.get(callsConfig.size() - 1).setCall(method, args);
+		callDefinitions.getLast().setCall(method, args);
 
 		return computeRecordingReturn(method);
 	}
@@ -160,13 +161,13 @@ public final class StubProxy implements InvocationHandler {
 			throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
 																				  // cal?
 		}
-		callsConfig.add(new CallActionConfig((IDelegator) args[0], ((Mask) args[1]).getMask()));
+		callDefinitions.add(new CallActionConfig((IDelegator) args[0], ((Mask) args[1]).getMask()));
 		return null;
 	}
 
 	private Object stopRecording() {
 		proxyIsRecording = false;
-		checkRegisteredCalls();
+		callDefinitions.checkRegisteredCalls();
 		return null;
 	}
 
@@ -196,19 +197,6 @@ public final class StubProxy implements InvocationHandler {
 		return null;
 	}
 
-	/**
-	 * verifica que no s'hagi registrat un delegator de retorn sense haver
-	 * registrat la crida
-	 */
-	private void checkRegisteredCalls() {
-		for (final CallActionConfig ce : callsConfig) {
-			if (ce.getMethod() == null) {
-				throw new GambaStubsException("method call partially defined found, with returning value: "
-						+ ce.getDelegator());
-			}
-		}
 
-		// TODO comprovar també que no hi hagin definicions de crides repetides
-	}
 
 }

@@ -1,12 +1,6 @@
 package org.homs.gamba.stub.test;
 
-import static org.homs.gamba.stub.bsyntax.Stubber.createStub;
-import static org.homs.gamba.stub.bsyntax.Stubber.obtainCallReport;
-import static org.homs.gamba.stub.bsyntax.Stubber.play;
-import static org.homs.gamba.stub.bsyntax.Stubber.thenLoop;
-import static org.homs.gamba.stub.bsyntax.Stubber.thenPingPongLoop;
-import static org.homs.gamba.stub.bsyntax.Stubber.thenReturn;
-import static org.homs.gamba.stub.bsyntax.Stubber.thenUncheckedReturn;
+import static org.homs.gamba.stub.bsyntax.Stubber.*;
 
 import java.util.List;
 
@@ -29,7 +23,7 @@ public class TutorialTest {
 		Assert.assertEquals(5, l.get(0));
 		Assert.assertEquals(5, l.get(0));
 
-		System.out.println(obtainCallReport(l));
+		System.out.println(obtainCallingLog(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -45,7 +39,7 @@ public class TutorialTest {
 		Assert.assertEquals(3, l.get(0));
 		Assert.assertEquals(4, l.get(0));
 
-		System.out.println(obtainCallReport(l));
+		System.out.println(obtainCallingLog(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -61,7 +55,7 @@ public class TutorialTest {
 		Assert.assertEquals(0, l.get(0));
 		Assert.assertEquals(1, l.get(0));
 
-		System.out.println(obtainCallReport(l));
+		System.out.println(obtainCallingLog(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,7 +71,7 @@ public class TutorialTest {
 		Assert.assertEquals(1, l.get(0));
 		Assert.assertEquals(1, l.get(0));
 
-		System.out.println(obtainCallReport(l));
+		System.out.println(obtainCallingLog(l));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -98,7 +92,7 @@ public class TutorialTest {
 		Assert.assertEquals(1, l.get(0));
 		Assert.assertEquals(0, l.get(0));
 
-		System.out.println(obtainCallReport(l));
+		System.out.println(obtainCallingLog(l));
 	}
 
 }

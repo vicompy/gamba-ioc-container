@@ -36,4 +36,5 @@ public class CallLogEntry {
 		strb.append(returnValue);
 		return strb.toString();
 	}
+
 }
