@@ -19,13 +19,13 @@ public final class StubProxy implements InvocationHandler {
 	private static final String OBTAIN_CALL_REPORT_PROXY_CALL = "obtainCallingLog";
 
 	private final CallDefinitions callDefinitions;
-//	private final List<CallLogEntry> callsLog;
+	// private final List<CallLogEntry> callsLog;
 	private final CallingLog callingLog;
 	private boolean proxyIsRecording;
 
 	private StubProxy() {
 		callDefinitions = new CallDefinitions();
-//		callsLog = new ArrayList<CallLogEntry>();
+		// callsLog = new ArrayList<CallLogEntry>();
 		callingLog = new CallingLog();
 		proxyIsRecording = true;
 	}
@@ -158,8 +158,7 @@ public final class StubProxy implements InvocationHandler {
 
 	private Object setDelegator(final Object[] args) {
 		if (!(args[0] instanceof IDelegator)) {
-			throw new GambaStubsException("this is not an IDelegator object \n"); // TODO
-																				  // cal?
+			throw new GambaStubsException("this is not an IDelegator object \n");
 		}
 		callDefinitions.add(new CallActionConfig((IDelegator) args[0], ((Mask) args[1]).getMask()));
 		return null;
@@ -196,7 +195,5 @@ public final class StubProxy implements InvocationHandler {
 		}
 		return null;
 	}
-
-
 
 }
