@@ -46,10 +46,6 @@ public class ObjectTest {
 		assertEquals("[hashCode() ==> 1, hashCode() ==> 2, hashCode() ==> 3]", Mocker.obtainCallingLog(i).toString());
 	}
 
-	// @Override
-	// public int hashCode() {
-	// return 1;
-	// }
 }
 
 interface I {
