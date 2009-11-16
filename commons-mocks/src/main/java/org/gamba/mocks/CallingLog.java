@@ -6,6 +6,12 @@ import java.util.List;
 
 import org.gamba.mocks.fluent.Mask;
 
+/**
+ * entitat que recull el registre de crides efectuades sobre el mock,
+ * extraient-ne estadístiques i tal.
+ *
+ * @author mhoms
+ */
 public class CallingLog {
 
 	private final List<CallLogEntry> callLogEntry;
@@ -14,6 +20,11 @@ public class CallingLog {
 		callLogEntry = new ArrayList<CallLogEntry>();
 	}
 
+	/**
+	 * registra una crida feta.
+	 *
+	 * @param callLogEntry
+	 */
 	public void add(final CallLogEntry callLogEntry) {
 		this.callLogEntry.add(callLogEntry);
 	}

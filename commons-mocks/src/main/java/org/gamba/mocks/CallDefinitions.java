@@ -5,6 +5,12 @@ import java.util.List;
 
 import org.gamba.mocks.exception.GambaMockException;
 
+/**
+ * entitat que encapsula i gestiona la llista d'objectes {@see CallActionConfig}
+ * que configuren les expectacions d'un mock
+ *
+ * @author mhoms
+ */
 class CallDefinitions {
 
 	private final List<CallActionConfig> callsConfig;
@@ -13,10 +19,21 @@ class CallDefinitions {
 		callsConfig = new ArrayList<CallActionConfig>();
 	}
 
+	/**
+	 * afegeix la definició del comportament d'una crida
+	 *
+	 * @param cac
+	 */
 	public void add(final CallActionConfig cac) {
 		callsConfig.add(cac);
 	}
 
+	/**
+	 * agafa l'últim element definit, per tal de settejar-li les propietats que
+	 * falten per tal de completar-lo.
+	 *
+	 * @return
+	 */
 	public CallActionConfig getLast() {
 		return callsConfig.get(callsConfig.size() - 1);
 	}

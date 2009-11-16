@@ -4,7 +4,7 @@ import org.gamba.mocks.fluent.Mask;
 import org.gamba.mocks.sequences.ISequence;
 
 /**
- * defineix mètodes addicionals al proxy de qualsevol stub, dedicats a la
+ * defineix mètodes addicionals al proxy de qualsevol mock, dedicats a la
  * configuració del mateix.
  *
  * @author mhoms

@@ -2,6 +2,10 @@ package org.gamba.mocks;
 
 import java.lang.reflect.Method;
 
+/**
+ * entitat que registra una crida efectuada sobre el mock que la conté.
+ * @author mhoms
+ */
 public class CallLogEntry {
 
 	public final Method method;

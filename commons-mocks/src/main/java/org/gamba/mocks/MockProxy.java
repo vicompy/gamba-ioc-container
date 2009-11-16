@@ -9,6 +9,8 @@ import org.gamba.mocks.fluent.Mask;
 import org.gamba.mocks.sequences.ISequence;
 
 /**
+ * Java Dynamic proxy que simula l'objecte mock.
+ *
  * @author mhoms
  */
 public final class MockProxy implements InvocationHandler {
@@ -18,8 +20,17 @@ public final class MockProxy implements InvocationHandler {
 	private static final String SET_SEQUENCE_PROXY_CALL = "setSequence";
 	private static final String OBTAIN_CALL_REPORT_PROXY_CALL = "obtainCallingLog";
 
+	/**
+	 * conté la lògica i l'estat del mock
+	 */
 	private final MockProxyLogic logic = new MockProxyLogic();
 
+	/**
+	 * obté el mock que simula la interfície passada.
+	 *
+	 * @param mockableInterface
+	 * @return
+	 */
 	public static Object newInstance(final Class<?> mockableInterface) {
 		if (mockableInterface.isInterface()) {
 			return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] {
@@ -29,6 +40,12 @@ public final class MockProxy implements InvocationHandler {
 		throw new GambaMockException("cannot mock a class, just have to be interface(s)");
 	}
 
+	/**
+	 * obté el mock que simula cadascuna de les interfícies passades.
+	 *
+	 * @param mockableInterfaces
+	 * @return
+	 */
 	public static Object newInstance(final Class<?>... mockableInterfaces) {
 
 		final Class<?>[] interfaces = new Class<?>[mockableInterfaces.length + 1];
@@ -40,7 +57,8 @@ public final class MockProxy implements InvocationHandler {
 		}
 		interfaces[mockableInterfaces.length] = IMockable.class;
 
-		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces, new MockProxy());
+		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces,
+				new MockProxy());
 	}
 
 	/**
@@ -74,7 +92,6 @@ public final class MockProxy implements InvocationHandler {
 			logic.stopRecording();
 			return null;
 		}
-
 
 		if (logic.isProxyIsRecording()) {
 			// es prepara per a una nova crida a registrar (s'està en estat de

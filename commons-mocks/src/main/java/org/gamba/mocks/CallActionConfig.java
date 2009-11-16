@@ -6,7 +6,7 @@ import java.util.Arrays;
 import org.gamba.mocks.sequences.ISequence;
 
 /**
- * entitat que registra una crida a l'objecte stub.
+ * entitat que registra una crida a l'objecte mock.
  *
  * @author mhoms
  */
@@ -15,20 +15,28 @@ class CallActionConfig {
 	private Method method;
 	private Object[] callingArgs;
 	private boolean[] anyMask;
-
 	private final ISequence sequence;
 
 	/**
 	 * constructor que especifica, anticipadament, el comportament de la crida a
-	 * stubbar
+	 * mockar. L'objecte es construeix amb la seqüència i la màscara de
+	 * paràmetres a aplicar; més tard es setteja el mètode i els valors
+	 * d'argument.
 	 *
 	 * @param sequence
+	 * @param anyMask
 	 */
 	public CallActionConfig(final ISequence sequence, final boolean[] anyMask) {
 		this.sequence = sequence;
 		this.anyMask = anyMask.clone();
 	}
 
+	/**
+	 * setter que acaba de definir l'objecte, completant-lo.
+	 *
+	 * @param method
+	 * @param callingArgsArray
+	 */
 	public void setCall(final Method method, final Object[] callingArgsArray) {
 		this.method = method;
 		if (callingArgsArray == null) {
@@ -38,7 +46,8 @@ class CallActionConfig {
 		}
 
 		// coneixent el nombre d'arguments, fer un resize de la màscara pq
-		// coincideixin les mides.
+		// coincideixin les mides. Això permet aplicar màscares de mides
+		// diferents al nombre d'arguments de la crida.
 		anyMask = Arrays.copyOf(anyMask, callingArgs.length);
 	}
 
