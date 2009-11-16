@@ -26,7 +26,7 @@ public final class MockProxy implements InvocationHandler {
 					mockableInterface, IMockable.class }, new MockProxy());
 		}
 
-		throw new GambaMockException("cannot stub a class, just have to be interface(s)");
+		throw new GambaMockException("cannot mock a class, just have to be interface(s)");
 	}
 
 	public static Object newInstance(final Class<?>... mockableInterfaces) {
@@ -34,7 +34,7 @@ public final class MockProxy implements InvocationHandler {
 		final Class<?>[] interfaces = new Class<?>[mockableInterfaces.length + 1];
 		for (int i = 0; i < mockableInterfaces.length; i++) {
 			if (!mockableInterfaces[i].isInterface()) {
-				throw new GambaMockException("cannot stub a class, just have to be interface(s)");
+				throw new GambaMockException("cannot mock a class, just have to be interface(s)");
 			}
 			interfaces[i] = mockableInterfaces[i];
 		}

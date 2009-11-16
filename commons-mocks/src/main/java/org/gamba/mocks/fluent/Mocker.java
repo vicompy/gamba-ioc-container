@@ -25,11 +25,10 @@ public final class Mocker implements IWhen {
 		return MockProxy.newInstance(interfacesToMock);
 	}
 
-	// TODO testar retorns void!!
 	public static IWhen thenReturnVoid() {
 		return thenReturn(null, 1);
 	}
-	// TODO es fa igual retornar null que void??
+
 	public static IWhen thenReturnNull() {
 		return thenReturn(null, 1);
 	}
@@ -37,9 +36,11 @@ public final class Mocker implements IWhen {
 	public static IWhen thenReturn(final Object obj) {
 		return thenReturn(obj, 1);
 	}
+
 	public static IWhen thenReturn(final Object obj, final int times) {
 		return new Mocker(new ObjectSequence(Seq.rep(times, obj)));
 	}
+
 	public static IWhen thenReturnList(final Object... objs) {
 		return new Mocker(new ObjectSequence(objs));
 	}
@@ -47,14 +48,16 @@ public final class Mocker implements IWhen {
 	public static IWhen thenThrow(final Throwable throwable) {
 		return new Mocker(new ExceptionSequence(throwable));
 	}
+
 	public static IWhen thenThrow(final Throwable throwable, final int times) {
 		return new Mocker(new ExceptionSequence(Seq.rep(times, throwable)));
 	}
+
 	public static IWhen thenThrowList(final Throwable... throwables) {
 		return new Mocker(new ExceptionSequence((Object[]) throwables));
 	}
 
-	// TODO mantenir com a extension point?
+	// mantingut com a extension point
 	public static IWhen thenDelegate(final ISequence sequence) {
 		return new Mocker(sequence);
 	}

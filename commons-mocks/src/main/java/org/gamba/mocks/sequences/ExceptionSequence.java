@@ -10,7 +10,7 @@ public class ExceptionSequence extends AbstractSequence {
 
 	public Object getNext(final Object... args) throws Throwable {
 		if (index >= sequence.length) {
-			throw new GambaMockException("OnePassSequence: end of return list reached.");
+			throw new GambaMockException("unsatisfied expectation: end of return list reached; " + this.toString());
 		}
 		throw (Throwable) super.sequence[index++];
 	}

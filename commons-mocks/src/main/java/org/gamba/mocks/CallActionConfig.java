@@ -29,7 +29,6 @@ class CallActionConfig {
 		this.anyMask = anyMask.clone();
 	}
 
-	// TODO testar el control d'errors posant màscares que no quadrin amb els arguments
 	public void setCall(final Method method, final Object[] callingArgsArray) {
 		this.method = method;
 		if (callingArgsArray == null) {

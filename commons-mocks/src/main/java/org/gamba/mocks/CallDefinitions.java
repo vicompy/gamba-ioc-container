@@ -33,7 +33,7 @@ class CallDefinitions {
 		for (final CallActionConfig ce : callsConfig) {
 			if (ce.getMethod() == null) {
 				throw new GambaMockException("method call partially defined found, with returning value: "
-						+ ce.getDelegator());
+						+ ce.getDelegator().toString());
 			}
 		}
 

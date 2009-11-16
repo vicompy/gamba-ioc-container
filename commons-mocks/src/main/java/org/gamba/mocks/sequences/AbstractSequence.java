@@ -1,6 +1,6 @@
 package org.gamba.mocks.sequences;
 
-public abstract class AbstractSequence implements ISequence {
+abstract class AbstractSequence implements ISequence {
 
 	protected int index = 0;
 	protected final Object[] sequence;

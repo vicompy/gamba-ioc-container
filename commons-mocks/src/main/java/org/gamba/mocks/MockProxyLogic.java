@@ -7,7 +7,7 @@ import org.gamba.mocks.fluent.Mask;
 import org.gamba.mocks.sequences.ISequence;
 import org.gamba.mocks.utils.Seq;
 
-public class MockProxyLogic implements IMockable {
+class MockProxyLogic implements IMockable {
 
 	private final CallDefinitions callDefinitions;
 	private final CallingLog callingLog;
@@ -35,7 +35,6 @@ public class MockProxyLogic implements IMockable {
 
 	private Object playing(final Method method, final Object[] args) throws Throwable {
 
-		// TODO cerca de la crida lenta?
 		for (final CallActionConfig ce : callDefinitions.getCallsConfig()) {
 
 			if (ce.getMethod().equals(method)) {
@@ -57,8 +56,8 @@ public class MockProxyLogic implements IMockable {
 			}
 		}
 
-		throw new GambaMockException("method call not registered: " + method.getName() + "("
-				+ (args!=null?Seq.enList(args).toString():"") + ")");
+		throw new GambaMockException("method call not defined: " + method.getName() + "("
+				+ (args != null ? Seq.enList(args).toString() : "") + ")");
 	}
 
 	public String obtainCallConfig() {
@@ -161,7 +160,7 @@ public class MockProxyLogic implements IMockable {
 	public void verify() {
 		for (final CallActionConfig cac : callDefinitions.getCallsConfig()) {
 			if (!cac.getDelegator().testIsFinished()) {
-				throw new GambaMockException("!!!!!!!!!!!!!"); // TODO posar missatge
+				throw new GambaMockException("unsatisfied expectation: " + cac.getDelegator().toString());
 			}
 		}
 	}
