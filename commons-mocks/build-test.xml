@@ -1,24 +1,20 @@
 <?xml version="1.0"?>
-<project name="gamba-stubs-ant-build" default="build" basedir=".">
+<project name="gamba-stubs-ant-build" default="test" basedir=".">
 
 	<property name="artifact" value="gamba-stubs" />
 	<property name="version" value="0.0.1" />
-	
-	
+
+
 	<property name="src-dir" value="src/main/java" />
 	<property name="test-dir" value="src/test/java" />
 	<property name="tmp-dir" value="temp" />
 
-<!--
+	<!--
 	<property name="jar-dir" value="target" />
 	<property name="build-dir" value="target/classes" />
 -->
-	<property name="jar-dir" value="ant-builds" />
-	<property name="build-dir" value="ant-builds" />
-
-	<property name="jar-name" value="${artifact}-${version}.jar" />
-	<property name="jar-src-name" value="${artifact}-sources-${version}.jar" />
-
+	<property name="jar-dir" value="ant-builds/test" />
+	<property name="build-dir" value="ant-builds/test" />
 
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- goal: clean               -->
@@ -33,19 +29,21 @@
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<target name="compile" depends="clean">
 		<javac srcdir="${src-dir}" destdir="${build-dir}" />
-		<!--<javac srcdir="${test-dir}" destdir="${build-dir}" />-->
+		<javac srcdir="${test-dir}" destdir="${build-dir}" />
 	</target>
 
-	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	<!-- goal: build               -->
-	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-	<target name="jars" depends="compile">
-		<jar basedir="${build-dir}" destfile="${jar-dir}/${jar-name}" />
-		<jar basedir="${src-dir}" destfile="${jar-dir}/${jar-src-name}" />
-	</target>
 
-	<target name="build" depends="jars">
-		<echo level="info" message="build OK" />
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- goal: test                -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="test" depends="compile">
+		<junit>
+			<classpath refid="classpath.test" />
+			<formatter type="brief" usefile="false" />
+			<batchtest>
+				<fileset dir="${build-dir}" includes="org/*/Test*.class" />
+			</batchtest>
+		</junit>
 	</target>
 
 </project>

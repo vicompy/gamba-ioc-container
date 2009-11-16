@@ -1,12 +1,6 @@
 package org.gamba.mocks.test;
 
-import static org.gamba.mocks.fluent.Mocker.createMock;
-import static org.gamba.mocks.fluent.Mocker.maskBy;
-import static org.gamba.mocks.fluent.Mocker.obtainCallConfig;
-import static org.gamba.mocks.fluent.Mocker.obtainCallingLog;
-import static org.gamba.mocks.fluent.Mocker.replay;
-import static org.gamba.mocks.fluent.Mocker.thenReturnList;
-import static org.gamba.mocks.fluent.Mocker.verify;
+import static org.gamba.mocks.fluent.Mocker.*;
 
 import org.gamba.mocks.ents.IAdder;
 import org.junit.Test;

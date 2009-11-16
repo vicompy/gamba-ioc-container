@@ -1,9 +1,6 @@
 package org.gamba.mocks.test;
 
-import static org.gamba.mocks.fluent.Mocker.createMock;
-import static org.gamba.mocks.fluent.Mocker.obtainCallingLog;
-import static org.gamba.mocks.fluent.Mocker.replay;
-import static org.gamba.mocks.fluent.Mocker.thenReturnList;
+import static org.gamba.mocks.fluent.Mocker.*;
 import static org.junit.Assert.assertEquals;
 
 import org.gamba.mocks.ents.IAdder;
