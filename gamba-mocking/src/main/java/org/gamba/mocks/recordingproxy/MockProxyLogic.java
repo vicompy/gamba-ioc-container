@@ -37,8 +37,6 @@ class MockProxyLogic implements IMockProxyLogic {
 	public void commit(final Method method, final Object[] arguments) {
 		final MethodConfig mc = new MethodConfig(sequence, argMask.toArray(new Boolean[argMask.size()]), method,
 				arguments);
-
-//		System.out.print("committed: " + mc);
 		this.methodList.add(mc);
 	}
 

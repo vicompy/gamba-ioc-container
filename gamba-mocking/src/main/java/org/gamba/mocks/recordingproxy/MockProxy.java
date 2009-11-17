@@ -45,8 +45,6 @@ public final class MockProxy implements InvocationHandler {
 
 	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 
-//		System.out.println("===> invoking: " + method.getName());
-
 		if (method.getName().equals("getCallConfig")) {
 			return proxyLogic.getCallConfig();
 		}
@@ -86,11 +84,8 @@ public final class MockProxy implements InvocationHandler {
 	}
 
 	public void replay() {
-//		System.out.println("===> replay");
 		inRecordingMode = false;
-		// TODO replay de totes les sequences
 		proxyLogic.replay();
-		// TODO replay de log de crides
 	}
 
 	private Object recording(final Method method, final Object[] args) {
