@@ -59,6 +59,12 @@ public final class MockProxy implements InvocationHandler {
 		if (inRecordingMode) {
 			return recording(method, args);
 		} else {
+
+			if (method.getName().equals("verify")) {
+				recControl.verify();
+				return null;
+			}
+
 			final List<MethodConfig> mcl = this.recControl.getCallConfig();
 			for (final MethodConfig mc : mcl) {
 				if (method.equals(mc.getMethod())) {

@@ -137,13 +137,19 @@ public final class Mocky implements IWhen {
 		}
 	}
 
-//	public static void verify(final Object proxy) {
-//		((IRecordingControl) proxy).verify();
-//	}
-//
-//	public static CallingLog obtainCallingLog(final Object proxy) {
-//		return ((IRecordingControl) proxy).obtainCallingLog();
-//	}
+	public static void verify(final Object proxy) {
+		((IRecordingControl) proxy).verify();
+	}
+
+	public static void verify(final Object... proxies) {
+		for (final Object proxy : proxies) {
+			((IRecordingControl) proxy).verify();
+		}
+	}
+
+	// public static CallingLog obtainCallingLog(final Object proxy) {
+	// return ((IRecordingControl) proxy).obtainCallingLog();
+	// }
 
 	public static List<MethodConfig> obtainCallConfig(final Object proxy) {
 		return ((IRecordingControl) proxy).getCallConfig();

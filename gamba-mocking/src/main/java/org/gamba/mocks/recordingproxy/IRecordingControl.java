@@ -21,4 +21,6 @@ public interface IRecordingControl {
 	List<MethodConfig> getCallConfig(); // retorna les configuracions commitejades
 
 	void replay();
+	void verify();
+
 }

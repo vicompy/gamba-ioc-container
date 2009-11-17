@@ -24,6 +24,16 @@ public class Mock2Test {
     		replay(i);
 
     		assertEquals(1, i.mitjana(5, 10L));
+
+    		try {
+    			verify(i);
+    		} catch (final GambaMockException e) {
+    			assertEquals(
+    				"unsatisfied expectation: ObjectSequence [1,(2),3]",
+    				e.getMessage().replaceAll("\\n", "")
+    			);
+    		}
+
     		assertEquals(2, i.mitjana(6, 10L));
     		assertEquals(3, i.mitjana(7, 10L));
 
@@ -46,6 +56,8 @@ public class Mock2Test {
     				e.getMessage().replaceAll("\\n", "")
     			);
     		}
+
+    		verify(i);
 		}
 
 		System.out.println(Mocky.obtainCallConfig(i).toString());

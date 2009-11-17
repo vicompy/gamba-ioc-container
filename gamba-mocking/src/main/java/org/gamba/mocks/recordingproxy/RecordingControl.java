@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.gamba.mocks.exception.GambaMockException;
 import org.gamba.mocks.sequences.ISequence;
 
 /**
@@ -48,6 +49,14 @@ class RecordingControl implements IRecordingControl {
 	public void replay() {
 		for (final MethodConfig mc : methodList) {
 			mc.getSequence().reset();
+		}
+	}
+
+	public void verify() {
+		for (final MethodConfig mc :  methodList) {
+			if (!mc.getSequence().checkIfFinished()) {
+				throw new GambaMockException("unsatisfied expectation: " + mc.getSequence().toString());
+			}
 		}
 	}
 
