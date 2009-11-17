@@ -2,7 +2,7 @@ package org.gamba.mocks;
 
 import java.util.List;
 
-import org.gamba.mocks.recordingproxy.IRecordingControl;
+import org.gamba.mocks.recordingproxy.IMockProxyLogic;
 import org.gamba.mocks.recordingproxy.MethodConfig;
 import org.gamba.mocks.recordingproxy.MockProxy;
 import org.gamba.mocks.sequences.ExceptionSequence;
@@ -13,7 +13,7 @@ import org.gamba.mocks.utils.Seq;
 public final class Mocky implements IWhen {
 
 	private static ISequence seq;
-	private static IRecordingControl proxy;
+	private static IMockProxyLogic proxy;
 
 	@SuppressWarnings("unchecked")
 	public static <T> T createMock(final Class<T> interfaceToMock) {
@@ -33,18 +33,18 @@ public final class Mocky implements IWhen {
 	}
 
 	public static IWhen thenReturnNull() {
-		return thenReturnSeq(null, 1);
+		return thenReturn(null, 1);
 	}
 
 	public static IWhen thenReturnVoid() {
-		return thenReturnSeq(null, 1);
+		return thenReturn(null, 1);
 	}
 
 	public static IWhen thenReturn(final Object o) {
-		return thenReturnSeq(o, 1);
+		return thenReturn(o, 1);
 	}
 
-	public static IWhen thenReturnSeq(final Object o, final int times) {
+	public static IWhen thenReturn(final Object o, final int times) {
 		return new Mocky(new ObjectSequence(Seq.rep(times, o)));
 	}
 
@@ -70,7 +70,7 @@ public final class Mocky implements IWhen {
 	}
 
 	public <T> T when(final T proxy) {
-		Mocky.proxy = (IRecordingControl) proxy;
+		Mocky.proxy = (IMockProxyLogic) proxy;
 		Mocky.proxy.setSeq(seq); // obrint transacció
 		return proxy;
 	}
@@ -118,6 +118,11 @@ public final class Mocky implements IWhen {
 		return t;
 	}
 
+	public static Object anyObject() {
+		addMask(true);
+		return new Object();
+	}
+
 	public static <T> T eq(final T t) {
 		addMask(false);
 		return t;
@@ -128,22 +133,22 @@ public final class Mocky implements IWhen {
 	 *******************************************************/
 
 	public static void replay(final Object proxy) {
-		((IRecordingControl) proxy).replay();
+		((IMockProxyLogic) proxy).replay();
 	}
 
 	public static void replay(final Object... proxies) {
 		for (final Object proxy : proxies) {
-			((IRecordingControl) proxy).replay();
+			((IMockProxyLogic) proxy).replay();
 		}
 	}
 
 	public static void verify(final Object proxy) {
-		((IRecordingControl) proxy).verify();
+		((IMockProxyLogic) proxy).verify();
 	}
 
 	public static void verify(final Object... proxies) {
 		for (final Object proxy : proxies) {
-			((IRecordingControl) proxy).verify();
+			((IMockProxyLogic) proxy).verify();
 		}
 	}
 
@@ -152,7 +157,7 @@ public final class Mocky implements IWhen {
 	// }
 
 	public static List<MethodConfig> obtainCallConfig(final Object proxy) {
-		return ((IRecordingControl) proxy).getCallConfig();
+		return ((IMockProxyLogic) proxy).getCallConfig();
 	}
 
 }

@@ -12,7 +12,7 @@ import org.gamba.mocks.sequences.ISequence;
  *
  * @author mhoms
  */
-class RecordingControl implements IRecordingControl {
+class MockProxyLogic implements IMockProxyLogic {
 
 	private final List<MethodConfig> methodList;
 
@@ -20,7 +20,7 @@ class RecordingControl implements IRecordingControl {
 	private ISequence sequence;
 	private final List<Boolean> argMask;
 
-	public RecordingControl() {
+	public MockProxyLogic() {
 		this.methodList = new ArrayList<MethodConfig>();
 		this.argMask = new ArrayList<Boolean>();
 	}

@@ -3,7 +3,6 @@ package mock2;
 import static org.gamba.mocks.Mocky.*;
 import static junit.framework.Assert.*;
 
-import org.gamba.mocks.Mocky;
 import org.gamba.mocks.exception.GambaMockException;
 import org.junit.Test;
 
@@ -11,6 +10,7 @@ public class Mock2Test {
 
 	@Test
 	public void test1() {
+
 		final I i = createMock(I.class);
 
 		thenReturnSeq(1, 2, 3);			// no fa re, ja que no es commiteja
@@ -60,7 +60,7 @@ public class Mock2Test {
     		verify(i);
 		}
 
-		System.out.println(Mocky.obtainCallConfig(i).toString());
+		System.out.println(obtainCallConfig(i).toString());
 	}
 
 

@@ -12,7 +12,7 @@ import org.gamba.mocks.sequences.ISequence;
  *
  * @author mhoms
  */
-public interface IRecordingControl {
+public interface IMockProxyLogic {
 	// thenReturn(1,2,3).when(p).mul(anyInt());
 
 	void setSeq(ISequence sequence); // obre transacció i setteja la sequencia

@@ -17,12 +17,12 @@ import org.gamba.mocks.utils.Seq;
 public final class MockProxy implements InvocationHandler {
 
 	private boolean inRecordingMode = true;
-	private final IRecordingControl recControl = new RecordingControl();
+	private final IMockProxyLogic proxyLogic = new MockProxyLogic();
 
 	public static Object newInstance(final Class<?> mockableInterface) {
 		if (mockableInterface.isInterface()) {
 			return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), new Class<?>[] {
-					mockableInterface, IRecordingControl.class }, new MockProxy());
+					mockableInterface, IMockProxyLogic.class }, new MockProxy());
 		}
 
 		throw new GambaMockException("cannot mock a class, just have to be interface(s)");
@@ -37,7 +37,7 @@ public final class MockProxy implements InvocationHandler {
 			}
 			interfaces[i] = mockableInterfaces[i];
 		}
-		interfaces[mockableInterfaces.length] = IRecordingControl.class;
+		interfaces[mockableInterfaces.length] = IMockProxyLogic.class;
 
 		return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(), interfaces,
 				new MockProxy());
@@ -48,7 +48,7 @@ public final class MockProxy implements InvocationHandler {
 //		System.out.println("===> invoking: " + method.getName());
 
 		if (method.getName().equals("getCallConfig")) {
-			return recControl.getCallConfig();
+			return proxyLogic.getCallConfig();
 		}
 
 		if (method.getName().equals("replay")) {
@@ -61,11 +61,11 @@ public final class MockProxy implements InvocationHandler {
 		} else {
 
 			if (method.getName().equals("verify")) {
-				recControl.verify();
+				proxyLogic.verify();
 				return null;
 			}
 
-			final List<MethodConfig> mcl = this.recControl.getCallConfig();
+			final List<MethodConfig> mcl = this.proxyLogic.getCallConfig();
 			for (final MethodConfig mc : mcl) {
 				if (method.equals(mc.getMethod())) {
 					boolean methodFound = true;
@@ -89,22 +89,22 @@ public final class MockProxy implements InvocationHandler {
 //		System.out.println("===> replay");
 		inRecordingMode = false;
 		// TODO replay de totes les sequences
-		recControl.replay();
+		proxyLogic.replay();
 		// TODO replay de log de crides
 	}
 
 	private Object recording(final Method method, final Object[] args) {
 		if (method.getName().equals("setSeq")) {
-			recControl.setSeq((AbstractSequence) args[0]);
+			proxyLogic.setSeq((AbstractSequence) args[0]);
 			return null;
 		}
 		if (method.getName().equals("addMaskValue")) {
-			recControl.addMaskValue((Boolean) args[0]);
+			proxyLogic.addMaskValue((Boolean) args[0]);
 			return null;
 		}
 
 		// commit de definició!!! (es fa la crida)
-		recControl.commit(method, args);
+		proxyLogic.commit(method, args);
 		return computeRecordingReturn(method);
 	}
 
