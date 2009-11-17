@@ -18,7 +18,7 @@ package org.gamba.mocks.exception;
 
 /**
  * An exception type for <tt>Gamba Mocks</tt>
- *
+ * 
  * @author mhoms
  * @since Ago-2009
  */

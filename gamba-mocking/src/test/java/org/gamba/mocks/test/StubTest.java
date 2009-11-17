@@ -1,6 +1,5 @@
 package org.gamba.mocks.test;
 
-
 import org.gamba.mocks.ents.IAdder;
 import org.gamba.mocks.ents.IConcater;
 import org.gamba.mocks.exception.GambaMockException;
@@ -19,7 +18,7 @@ public class StubTest {
 		thenReturn(5).when(adderStub).add(2, 3);
 
 		replay(adderStub);
-//		System.out.println(obtainCallConfig(adderStub));
+		// System.out.println(obtainCallConfig(adderStub));
 
 		assertEquals(Integer.valueOf(5), adderStub.add(2, 3));
 		assertEquals(Integer.valueOf(3), adderStub.add(1, 2));
@@ -54,7 +53,7 @@ public class StubTest {
 		replay(c);
 
 		assertEquals("hello world", c.concat("hello ", "world"));
-//		System.out.println(obtainCallingLog(c));
+		// System.out.println(obtainCallingLog(c));
 	}
 
 	@Test(expected = NullPointerException.class)
@@ -109,7 +108,7 @@ public class StubTest {
 		replay(c);
 
 		assertEquals("hello world", c.concat("hello ", "world"));
-//		System.out.println(obtainCallingLog(c));
+		// System.out.println(obtainCallingLog(c));
 	}
 
 }

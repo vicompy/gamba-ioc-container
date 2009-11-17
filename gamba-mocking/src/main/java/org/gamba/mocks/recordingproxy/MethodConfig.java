@@ -19,8 +19,8 @@ public class MethodConfig {
 
 		this.method = method;
 		if (arguments == null) {
-			this.arguments = new Object[]{};
-			this.argMask = new Boolean[]{};
+			this.arguments = new Object[] {};
+			this.argMask = new Boolean[] {};
 		} else {
 			this.arguments = arguments.clone();
 			this.argMask = Arrays.copyOf(argMask, arguments.length);

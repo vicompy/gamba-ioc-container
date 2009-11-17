@@ -11,7 +11,7 @@ import org.gamba.mocks.utils.Seq;
 
 /**
  * Java Dynamic proxy que simula l'objecte mock.
- *
+ * 
  * @author mhoms
  */
 public final class MockProxy implements InvocationHandler {

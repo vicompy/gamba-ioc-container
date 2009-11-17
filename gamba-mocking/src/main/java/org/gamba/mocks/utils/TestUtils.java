@@ -7,6 +7,7 @@ import org.gamba.mocks.exception.GambaMockException;
 
 /**
  * Utilitats estàtiques de testing
+ * 
  * @author mhoms
  */
 public final class TestUtils {
@@ -19,8 +20,11 @@ public final class TestUtils {
 	 * invoca a un constructor per defecte privat, i en retorna una nova
 	 * instància. A utilitzar especialment en testos unitaris de patrons
 	 * Singleton.
-	 * @param <T> tipus del Singleton
-	 * @param singletonClass classe de Singleton
+	 * 
+	 * @param <T>
+	 *            tipus del Singleton
+	 * @param singletonClass
+	 *            classe de Singleton
 	 * @return la nova instància
 	 */
 	public static Object newHackedInstance(final Class<?> singletonClass, final Object... args) {
@@ -42,6 +46,7 @@ public final class TestUtils {
 
 	/**
 	 * invoca a un mètode privat
+	 * 
 	 * @param targetClass
 	 * @param method
 	 * @param args
@@ -61,10 +66,14 @@ public final class TestUtils {
 
 	/**
 	 * Cerca el constructor adient, donada la llista dels tipus dels arguments
-	 * @param targetClass classe a on buscar el constructor
-	 * @param classArgsList llista de tipus d'arguments de constructor
+	 * 
+	 * @param targetClass
+	 *            classe a on buscar el constructor
+	 * @param classArgsList
+	 *            llista de tipus d'arguments de constructor
 	 * @return el constructor;
-	 * @throws GambaException si constructor no trobat
+	 * @throws GambaException
+	 *             si constructor no trobat
 	 */
 	private static Constructor<?> findConstructor(final Class<?> targetClass, final Class<?>[] classArgsList)
 			throws GambaMockException {
@@ -112,8 +121,11 @@ public final class TestUtils {
 	 * doncs aquest mètode aplica la corresponent conversió de tipus primitius a
 	 * classe Wrapper primitiva, per tal re reconsiderar
 	 * <tt>isAssignableFrom</tt>.
-	 * @param dst tipus destí de l'assignació
-	 * @param org tipus origen de l'assignació
+	 * 
+	 * @param dst
+	 *            tipus destí de l'assignació
+	 * @param org
+	 *            tipus origen de l'assignació
 	 * @return si tal assignació és possible
 	 */
 	private static boolean areAssignable(final Class<?> dst, final Class<?> org) {

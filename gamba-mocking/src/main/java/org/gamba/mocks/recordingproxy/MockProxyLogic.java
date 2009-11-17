@@ -9,7 +9,7 @@ import org.gamba.mocks.sequences.ISequence;
 
 /**
  * gestiona les transaccions de configuració de crides
- *
+ * 
  * @author mhoms
  */
 class MockProxyLogic implements IMockProxyLogic {
@@ -35,8 +35,8 @@ class MockProxyLogic implements IMockProxyLogic {
 	}
 
 	public void commit(final Method method, final Object[] arguments) {
-		final MethodConfig mc = new MethodConfig(sequence, argMask.toArray(new Boolean[argMask.size()]), method,
-				arguments);
+		final MethodConfig mc = new MethodConfig(sequence, argMask.toArray(new Boolean[argMask.size()]),
+				method, arguments);
 		this.methodList.add(mc);
 	}
 
@@ -51,7 +51,7 @@ class MockProxyLogic implements IMockProxyLogic {
 	}
 
 	public void verify() {
-		for (final MethodConfig mc :  methodList) {
+		for (final MethodConfig mc : methodList) {
 			if (!mc.getSequence().checkIfFinished()) {
 				throw new GambaMockException("unsatisfied expectation: " + mc.getSequence().toString());
 			}

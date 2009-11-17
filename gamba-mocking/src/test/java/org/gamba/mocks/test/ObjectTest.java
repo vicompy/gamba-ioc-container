@@ -1,6 +1,5 @@
 package org.gamba.mocks.test;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +41,8 @@ public class ObjectTest {
 			}
 		}
 		assertEquals("[KO:0 , KO:1 , OK:2 , KO:3 , KO:4 ]", l.toString());
-//		assertEquals("[hashCode() ==> 1, hashCode() ==> 2, hashCode() ==> 3]", obtainCallingLog(i).toString());
+		// assertEquals("[hashCode() ==> 1, hashCode() ==> 2, hashCode() ==> 3]",
+		// obtainCallingLog(i).toString());
 	}
 
 }
@@ -50,4 +50,3 @@ public class ObjectTest {
 interface I {
 	public int hashCode();
 }
-

@@ -20,9 +20,8 @@ public final class Mocky implements IWhen {
 		return (T) MockProxy.newInstance(interfaceToMock);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T createMock(final Class<T>... interfacesToMock) {
-		return (T) MockProxy.newInstance(interfacesToMock);
+	public static Object createMock(final Class<?>... interfacesToMock) {
+		return MockProxy.newInstance(interfacesToMock);
 	}
 
 	/*******************************************************
