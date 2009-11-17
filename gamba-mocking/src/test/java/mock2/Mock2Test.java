@@ -3,6 +3,7 @@ package mock2;
 import static org.gamba.mocks.Mocky.*;
 import static junit.framework.Assert.*;
 
+import org.gamba.mocks.Mocky;
 import org.gamba.mocks.exception.GambaMockException;
 import org.junit.Test;
 
@@ -12,16 +13,10 @@ public class Mock2Test {
 	public void test1() {
 		final I i = createMock(I.class);
 
-		// Mocky.thenReturn(3).when(i).getHashValue(100);
-
-		// ===> invoking: setSeq
-		// ===> invoking: addMaskValue
-		// ===> invoking: addMaskValue
-		// ===> invoking: mitjana
-
 		thenReturnSeq(1, 2, 3).when(i).mitjana(anyInt(), eq(10L));
 
 		for (int k = 0; k < 3; k++) {
+
     		replay(i);
 
     		assertEquals(1, i.mitjana(5, 10L));
@@ -49,9 +44,10 @@ public class Mock2Test {
     		}
 		}
 
-
-
+		System.out.println(Mocky.obtainCallConfig(i).toString());
 	}
+
+
 }
 
 interface I {

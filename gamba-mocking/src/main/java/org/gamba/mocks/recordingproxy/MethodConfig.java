@@ -2,16 +2,16 @@ package org.gamba.mocks.recordingproxy;
 
 import java.lang.reflect.Method;
 
-import org.gamba.mocks.sequences.AbstractSequence;
+import org.gamba.mocks.sequences.ISequence;
 
 public class MethodConfig {
 
-	private final AbstractSequence sequence;
+	private final ISequence sequence;
 	private final Boolean[] argMask;
 	private final Method method;
 	private final Object[] arguments;
 
-	public MethodConfig(final AbstractSequence sequence, final Boolean[] argMask, final Method method,
+	public MethodConfig(final ISequence sequence, final Boolean[] argMask, final Method method,
 			final Object[] arguments) {
 		super();
 		this.sequence = sequence;
@@ -20,7 +20,7 @@ public class MethodConfig {
 		this.arguments = arguments.clone();
 	}
 
-	public AbstractSequence getSequence() {
+	public ISequence getSequence() {
 		return sequence;
 	}
 
