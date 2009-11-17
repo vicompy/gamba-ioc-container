@@ -8,6 +8,7 @@ import static org.gamba.sm4j.Mocky.*;
 
 import org.junit.Test;
 
+// TODO es poden mockar els mètodes static??
 public class NullTest {
 
 	@Test
