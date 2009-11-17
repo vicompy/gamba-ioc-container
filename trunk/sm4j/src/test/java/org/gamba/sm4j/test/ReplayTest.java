@@ -1,12 +1,10 @@
-package org.gamba.sm4j.test;
-//package org.gamba.mocks.test;
+//package org.gamba.sm4j.test;
 //
-//import static org.junit.Assert.assertEquals;
-//
-//import org.gamba.mocks.ents.IAdder;
-//import org.junit.Test;
-//import static org.gamba.mocks.Mocky.*;
+//import static org.gamba.sm4j.Mocky.*;
 //import static junit.framework.Assert.*;
+//
+//import org.gamba.sm4j.ents.IAdder;
+//import org.junit.Test;
 //
 //public class ReplayTest {
 //

@@ -28,13 +28,6 @@ public class MaskTest {
 		assertEquals(Integer.valueOf(5), adderStub.add(2, 8));
 		assertEquals(Integer.valueOf(6), adderStub.add(2, 9));
 
-//		System.out.println(obtainCallConfig(adderStub));
-//		System.out.println(obtainCallingLog(adderStub));
-
-//		assertEquals(6, obtainCallingLog(adderStub).countGroupingBy("add"));
-//		assertEquals(1, obtainCallingLog(adderStub).countGroupingBy("add", 2, 9));
-//		assertEquals(3, obtainCallingLog(adderStub).countGroupingBy(maskBy("-*"), "add", 2, 9));
-
 		verify(adderStub);
 	}
 

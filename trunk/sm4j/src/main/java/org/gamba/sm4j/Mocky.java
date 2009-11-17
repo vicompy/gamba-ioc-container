@@ -122,6 +122,11 @@ public final class Mocky implements IWhen {
 		return new Object();
 	}
 
+	public static String anyString() {
+		addMask(true);
+		return "";
+	}
+
 	public static <T> T eq(final T t) {
 		addMask(false);
 		return t;
