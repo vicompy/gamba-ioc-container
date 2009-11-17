@@ -13,7 +13,6 @@ import org.gamba.mocks.sequences.ISequence;
  * @author mhoms
  */
 public interface IMockProxyLogic {
-	// thenReturn(1,2,3).when(p).mul(anyInt());
 
 	void setSeq(ISequence sequence); // obre transacció i setteja la sequencia
 	void addMaskValue(Boolean value); // opcional; valors de màscara d'arguments
@@ -22,5 +21,4 @@ public interface IMockProxyLogic {
 
 	void replay();
 	void verify();
-
 }
