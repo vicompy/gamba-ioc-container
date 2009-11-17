@@ -13,6 +13,10 @@ public class Mock2Test {
 	public void test1() {
 		final I i = createMock(I.class);
 
+		thenReturnSeq(1, 2, 3);			// no fa re, ja que no es commiteja
+		thenReturnSeq(1, 2, 3).when(i); // no fa re, ja que no es commiteja
+
+
 		thenReturnSeq(1, 2, 3).when(i).mitjana(anyInt(), eq(10L));
 
 		for (int k = 0; k < 3; k++) {
