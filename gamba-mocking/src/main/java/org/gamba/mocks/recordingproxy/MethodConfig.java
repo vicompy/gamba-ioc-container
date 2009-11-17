@@ -15,11 +15,7 @@ public class MethodConfig {
 			final Object[] arguments) {
 		super();
 		this.sequence = sequence;
-		if (argMask == null) {
-			this.argMask = new Boolean[]{};
-		} else {
-			this.argMask = argMask.clone();
-		}
+		this.argMask = argMask.clone();
 		this.method = method;
 		if (arguments == null) {
 			this.arguments = new Object[]{};

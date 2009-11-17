@@ -43,8 +43,7 @@ public class AbstractHandlerTest {
 //		replay(mockedRequestContext);
 //		replay(mockedFlowScope);
 
-		replay(mockedRequestContext);
-		replay(mockedFlowScope);
+		replay(mockedRequestContext, mockedFlowScope);
 
 		// executa la simulació
 		final ExempleHandler exempleHandler = new ExempleHandler();
@@ -57,9 +56,7 @@ public class AbstractHandlerTest {
 //		verify(mockedRequestContext);
 //		verify(mockedFlowScope);
 
-		verify(mockedRequestContext);
-		verify(mockedFlowScope);
-
+		verify(mockedRequestContext, mockedFlowScope);
 	}
 
 	/**
@@ -82,8 +79,10 @@ public class AbstractHandlerTest {
 		thenReturn(new ExempleBB(), 2).when(mockedFlowScope).get("exempleBB");
 
 		// prepara per a simulació
-		replay(mockedRequestContext);
-		replay(mockedFlowScope);
+//		replay(mockedRequestContext);
+//		replay(mockedFlowScope);
+
+		replay(mockedRequestContext, mockedFlowScope);
 
 		// executa la simulació
 		final ExempleHandler exempleHandler = new ExempleHandler();
@@ -93,8 +92,8 @@ public class AbstractHandlerTest {
 		assertTrue(exempleBB instanceof ExempleBB);
 
 		// verifica el comportament
-		verify(mockedRequestContext);
-		verify(mockedFlowScope);
+		verify(mockedRequestContext, mockedFlowScope);
+//
 	}
 
 }
