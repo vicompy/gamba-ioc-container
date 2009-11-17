@@ -1,6 +1,7 @@
 package org.gamba.mocks.recordingproxy;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.gamba.mocks.sequences.ISequence;
 
@@ -15,12 +16,21 @@ public class MethodConfig {
 			final Object[] arguments) {
 		super();
 		this.sequence = sequence;
-		this.argMask = argMask.clone();
+
 		this.method = method;
 		if (arguments == null) {
 			this.arguments = new Object[]{};
+			this.argMask = new Boolean[]{};
 		} else {
 			this.arguments = arguments.clone();
+			this.argMask = Arrays.copyOf(argMask, arguments.length);
+		}
+
+		// TODO
+		for (int i = 0; i < this.argMask.length; i++) {
+			if (this.argMask[i] == null) {
+				this.argMask[i] = false;
+			}
 		}
 	}
 

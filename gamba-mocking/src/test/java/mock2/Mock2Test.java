@@ -63,7 +63,19 @@ public class Mock2Test {
 		System.out.println(obtainCallConfig(i).toString());
 	}
 
+	@Test
+	public void test2() {
 
+		final I i = createMock(I.class);
+
+		thenReturnSeq(1, 2, 3).when(i).mitjana(anyInt(), eq(10L));
+		thenReturnSeq(1, 2, 3).when(i).mitjana(10, 5L);
+
+		replay(i);
+
+		i.mitjana(10, 5L);
+		i.mitjana(10, 10L);
+	}
 }
 
 interface I {
