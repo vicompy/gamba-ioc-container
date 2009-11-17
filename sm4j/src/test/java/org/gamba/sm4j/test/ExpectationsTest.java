@@ -2,6 +2,8 @@ package org.gamba.sm4j.test;
 
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.gamba.sm4j.exception.GambaMockingException;
 import org.junit.Test;
 
@@ -25,17 +27,27 @@ public class ExpectationsTest {
 
 	@Test
 	public void testReturns1() {
-		testThrows(5, 5);
+		testReturns(5, 5);
 	}
 
 	@Test(expected = GambaMockingException.class)
 	public void testReturns2() {
-		testThrows(4, 5);
+		try {
+			testReturns(4, 5);
+		} catch (final GambaMockingException e) {
+			Assert.assertEquals("\nunsatisfied expectation: end of return list reached; ObjectSequence [5,5,5,5()]\n", e.getMessage());
+			throw e;
+		}
 	}
 
 	@Test(expected = GambaMockingException.class)
 	public void testReturns3() {
-		testThrows(6, 5);
+		try {
+    		testReturns(6, 5);
+    	} catch (final GambaMockingException e) {
+    		Assert.assertEquals("\nunsatisfied expectation: ObjectSequence [5,5,5,5,5,(5)]\n", e.getMessage());
+    		throw e;
+    	}
 	}
 
 	public void testThrows(final int expected, final int real) {
@@ -70,3 +82,5 @@ public class ExpectationsTest {
 	}
 
 }
+
+

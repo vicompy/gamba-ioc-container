@@ -37,7 +37,7 @@ public class AbstractHandlerTest {
 
 		thenReturn(mockedFlowScope, 2).when(mockedRequestContext).getFlowScope();
 		thenReturnNull().when(mockedFlowScope).get("exempleBB");
-		thenReturnNull().when(mockedFlowScope).put(anyObject(""), anyObject());
+		thenReturnNull().when(mockedFlowScope).put(anyString(), anyObject());
 
 //		// prepara per a simulació
 //		replay(mockedRequestContext);
