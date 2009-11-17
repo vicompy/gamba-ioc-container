@@ -112,19 +112,20 @@ public final class Mocky implements IWhen {
 		return true;
 	}
 
+	// retorns null arriscats: testat per NullTest.java?
 	public static <T> T anyObject(final T t) {
 		addMask(true);
-		return t;
+		return null; // TODO  t?
 	}
 
 	public static Object anyObject() {
 		addMask(true);
-		return new Object();
+		return null; //TODO new Object();?
 	}
 
 	public static String anyString() {
 		addMask(true);
-		return "";
+		return null; // TODO ""?
 	}
 
 	public static <T> T eq(final T t) {

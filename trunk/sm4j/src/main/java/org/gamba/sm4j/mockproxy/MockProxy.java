@@ -75,10 +75,20 @@ public final class MockProxy implements InvocationHandler {
 				if (method.equals(mc.getMethod())) {
 					boolean methodFound = true;
 					for (int i = 0; i < mc.getArguments().length; i++) {
-						if (!mc.getArguments()[i].equals(args[i]) && !mc.getArgMask()[i]) {
-							methodFound = false;
-							break;
-						}
+//						if (!args[i].equals(mc.getArguments()[i]) && !mc.getArgMask()[i]) {
+//							methodFound = false;
+//							break;
+//						}
+					if (mc.getArgMask()[i] || // TODO algo sobra??
+						args[i] == null && mc.getArguments()[i] == null ||
+						args[i] != null && args[i].equals(mc.getArguments()[i]) ||
+						mc.getArguments()[i] != null && mc.getArguments()[i].equals(args[i]) ||
+						args[i].equals(mc.getArguments()[i])) {
+
+					} else {
+						methodFound = false;
+						break;
+					}
 					}
 					if (methodFound) {
 						return mc.getSequence().getNext(args);
