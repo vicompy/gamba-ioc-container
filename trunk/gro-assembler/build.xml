@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<project name="gro-framework-releaser" default="build" basedir=".">
+
+	<property name="artifact" value="gro-framework" />
+	<property name="version" value="0.2.1" />
+
+	<property name="src-dir" value="./assembly/" />
+	<property name="class-dir" value="./packaging" />
+	<property name="jar-dir" value="./jars" />
+
+
+	<target name="clean">
+		<delete dir="${src-dir}" />
+		<mkdir dir="${src-dir}" />
+		<delete dir="${class-dir}" />
+		<mkdir dir="${class-dir}" />
+		<delete dir="${jar-dir}" />
+		<mkdir dir="${jar-dir}" />
+	</target>
+
+	<target name="copy" depends="clean">
+		<copy todir="${src-dir}/">
+			<fileset dir="../gro-anno-scan/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="../gro-binder/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="../gro-connection-pool/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="../gro-logging/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="../gro-validation/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+			<fileset dir="../gro-mvc/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- goal: compile             -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="compile" depends="copy">
+		<javac destdir="${class-dir}">
+			<src path="${src-dir}" />
+			<classpath>
+				<fileset dir="./">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- goal: build               -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="jars" depends="compile">
+		<jar basedir="${class-dir}/" destfile="${jar-dir}/${artifact}-${version}.jar" />
+		<jar basedir="${src-dir}/" destfile="${jar-dir}/${artifact}-${version}-sources.jar" />
+	</target>
+
+	<target name="build" depends="jars">
+		<copy todir="../gro-demo-webapp/webapp/WEB-INF/lib/" file="${jar-dir}/${artifact}-${version}.jar" />
+		<echo level="info" message="build OK" />
+	</target>
+
+</project>
+
