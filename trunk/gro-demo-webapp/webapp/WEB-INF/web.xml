@@ -8,9 +8,9 @@
 	<display-name>gro-demo-webapp</display-name>
 	
 	
-	<welcome-file-list>
-		<welcome-file>/jsp/question-form.jsp</welcome-file>
-	</welcome-file-list>
+<!--	<welcome-file-list>-->
+<!--		<welcome-file>/start.do</welcome-file>-->
+<!--	</welcome-file-list>-->
 	
 	
 	<servlet>
