@@ -1,7 +1,6 @@
 package org.gro.frontcontroller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.gro.binding.BeanBinder;
 import org.gro.binding.BindingException;
 import org.gro.binding.IBeanBinder;
-import org.gro.connectionpool.GroPooling;
 import org.gro.frontcontroller.actions.ActionScanner;
 import org.gro.frontcontroller.actions.DeclaredAction;
 import org.gro.validation.IGroValidator;
@@ -53,7 +51,6 @@ public class GambaFrontController extends HttpServlet {
 		viewResolver = new ViewResolver(this);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void destroy() {
 //		try {
