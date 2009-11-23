@@ -13,17 +13,10 @@
 	<br />
 	<br />
 	<br />
-	<h4>Create Person</h4>
+	<h4>Hi, I'm ${form.name} and my age is ${form.age}.</h4>
 	<br />
 	<br />
-	<form action="${contextName}/sayHello.do" method="get">
-		name: <input type="text" name="name" size="30" value="" />${validationErrorMap['name']}<br />
-		age:  <input type="text" name="age"  size="5"  value="" />${validationErrorMap['age']}<br />
-		<br />
-		<br />
-		<input type='submit' value="create"><br />
-	</form>
-
+	
 	<br />
 	<br />
 
