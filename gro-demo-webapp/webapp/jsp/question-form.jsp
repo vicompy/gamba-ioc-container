@@ -17,8 +17,8 @@
 	<br />
 	<br />
 	<form action="${contextName}/sayHello.do" method="get">
-		name: <input type="text" name="name" size="30" value="" />${validationErrorMap['name']}<br />
-		age:  <input type="text" name="age"  size="5"  value="" />${validationErrorMap['age']}<br />
+		name: <input type="text" name="name" size="30" value="${name}" />${validationErrorMap['name']}<br />
+		age:  <input type="text" name="age"  size="5"  value="${age}" />${validationErrorMap['age']}<br />
 		<br />
 		<br />
 		<input type='submit' value="create"><br />
