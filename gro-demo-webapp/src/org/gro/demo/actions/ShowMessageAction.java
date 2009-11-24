@@ -2,9 +2,9 @@ package org.gro.demo.actions;
 
 import org.gro.demo.forms.PersonForm;
 import org.gro.demo.validators.PersonValidator;
-import org.gro.frontcontroller.RequestContext;
-import org.gro.frontcontroller.actions.Action;
-import org.gro.frontcontroller.forms.EmptyFormBean;
+import org.gro.mvc.RequestContext;
+import org.gro.mvc.actions.Action;
+import org.gro.mvc.forms.EmptyFormBean;
 
 
 public class ShowMessageAction {

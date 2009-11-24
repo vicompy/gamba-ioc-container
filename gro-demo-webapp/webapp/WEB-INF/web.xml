@@ -14,8 +14,8 @@
 	
 	
 	<servlet>
-		<servlet-name>GambaFrontController</servlet-name>
-		<servlet-class>org.gro.frontcontroller.GambaFrontController</servlet-class>
+		<servlet-name>GroController</servlet-name>
+		<servlet-class>org.gro.mvc.GroController</servlet-class>
 		<init-param>
 			<param-name>actions-base-package</param-name>
 			<param-value>org.gro.demo.actions</param-value>
@@ -31,7 +31,7 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>GambaFrontController</servlet-name>
+		<servlet-name>GroController</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	
