@@ -14,7 +14,8 @@ public class ShowMessageAction {
 		return "question-form";
 	}
 
-	@Action(name = "sayHello", formBean = PersonForm.class, validator = PersonValidator.class, onValidationError = "question-form")
+	@Action(name = "sayHello", formBean = PersonForm.class,
+			validator = PersonValidator.class, onValidationError = "question-form")
 	public String salute(final RequestContext req, final PersonForm form) {
 
 		System.out.println("Hello, I'm " + form.getName() + " and my age is " + form.getAge());
