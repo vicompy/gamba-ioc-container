@@ -71,7 +71,7 @@ public class GroPooling {
 			final Connection conn;
 			synchronized (this) {
 				conn = pool.get(0);
-				pool.remove(0);
+				pool.remove(0); // TODO nooo! remove() i add() estàn sincronittzats, però en diferents blocs!
 			}
 			return conn;
 		}
@@ -85,7 +85,7 @@ public class GroPooling {
 					conn.close();
 				} else {
 					synchronized (this) {
-						pool.add(conn);
+						pool.add(conn); // TODO nooo! remove() i add() estàn sincronittzats, però en diferents blocs!
 					}
 				}
 			}
