@@ -12,12 +12,12 @@ public class ActionScanner {
 	public Map<String, DeclaredAction> doScan(final String basePackage) {
 
 		final Map<String, DeclaredAction> da = new HashMap<String, DeclaredAction>();
-		final List<AnnotatedMethod> l = new AnnoScanner().doMethodScan(basePackage, Action.class);
+		final List<AnnotatedMethod> annotatedMethods = new AnnoScanner().doMethodScan(basePackage, Action.class);
 
-		for (final AnnotatedMethod am : l) {
-			final Action a = (Action) am.annotation;
-			da.put(a.name(), new DeclaredAction(a.name(), am.annotatedClass, am.annotatedMethod,
-					a.formBean(), a.validator(), a.onValidationError()));
+		for (final AnnotatedMethod am : annotatedMethods) {
+			final Action annoAction = (Action) am.annotation;
+			da.put(annoAction.name(), new DeclaredAction(annoAction.name(), am.annotatedClass, am.annotatedMethod,
+					annoAction.formBean(), annoAction.validator(), annoAction.onValidationError()));
 		}
 
 		return da;
