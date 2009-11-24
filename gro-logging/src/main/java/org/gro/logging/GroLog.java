@@ -67,6 +67,42 @@ public final class GroLog {
 		}
 	}
 
+	public void severe(final Object... msg) {
+		this.log(Level.SEVERE, msg);
+	}
+
+	public void warning(final Object... msg) {
+		this.log(Level.WARNING, msg);
+	}
+
+	public void info(final Object... msg) {
+		this.log(Level.INFO, msg);
+	}
+
+	public void config(final Object... msg) {
+		this.log(Level.CONFIG, msg);
+	}
+
+	public void fine(final Object... msg) {
+		this.log(Level.FINE, msg);
+	}
+
+	public void finer(final Object... msg) {
+		this.log(Level.FINER, msg);
+	}
+
+	public void finest(final Object... msg) {
+		this.log(Level.FINEST, msg);
+	}
+
+	public void log(final Level level, final Object... msgs) {
+		final StringBuffer strb = new StringBuffer();
+		for (final Object msg : msgs) {
+			strb.append(msg.toString());
+		}
+		logger.log(level, strb.toString());
+	}
+
 	private String logException(final Throwable throwable) {
 		final StringBuffer strb = new StringBuffer();
 
