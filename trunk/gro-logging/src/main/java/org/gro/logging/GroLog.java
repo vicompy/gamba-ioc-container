@@ -21,7 +21,10 @@ public final class GroLog {
 	public static GroLog getGroLogger(final Class<?> classScope, final Level level) {
 		final Logger logger = Logger.getLogger(classScope.getName());
 
+		// local logging config
 		logger.setLevel(level);
+
+		// TODO global logging config
 		final Handler[] handlers = Logger.getLogger("").getHandlers();
 		for (int index = 0; index < handlers.length; index++) {
 			handlers[index].setLevel(GLOBAL_FILTERING_LEVEL);
