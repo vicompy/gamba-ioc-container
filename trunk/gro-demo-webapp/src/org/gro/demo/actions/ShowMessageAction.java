@@ -4,7 +4,8 @@ import org.gro.demo.forms.PersonForm;
 import org.gro.demo.validators.PersonValidator;
 import org.gro.frontcontroller.RequestContext;
 import org.gro.frontcontroller.actions.Action;
-import org.gro.frontcontroller.actions.EmptyFormBean;
+import org.gro.frontcontroller.forms.EmptyFormBean;
+
 
 public class ShowMessageAction {
 
