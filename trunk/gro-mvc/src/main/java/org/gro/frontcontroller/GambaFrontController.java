@@ -53,11 +53,11 @@ public class GambaFrontController extends HttpServlet {
 
 	@Override
 	public void destroy() {
-//		try {
-//			GambaPooling.getInstance().getConnection().createStatement().executeUpdate("SHUTDOWN");
-//		} catch (final SQLException exc) {
-//		}
-//		GambaPooling.getInstance().destroyAllConnections();
+		// try {
+		// GambaPooling.getInstance().getConnection().createStatement().executeUpdate("SHUTDOWN");
+		// } catch (final SQLException exc) {
+		// }
+		// GambaPooling.getInstance().destroyAllConnections();
 	}
 
 	/**
@@ -120,6 +120,7 @@ public class GambaFrontController extends HttpServlet {
 			System.out.println(">>>>>>>> invalid form");
 			redirectResource = declaredAction.resourceIfInvalidForm;
 			request.setAttribute("validationErrorMap", validationErrorMap);
+			putParamsAsAttributes(request);
 			// TODO cal retornar els paràmetres, però la vista necessitarà
 			// mostrar els membres del bean, al que no es pot bindar, ja que els
 			// valors són invàlids. Si això no es pot fer, en fallar una
@@ -132,7 +133,7 @@ public class GambaFrontController extends HttpServlet {
 					.getParameterMap());
 			final Object action = obtainActionInstance(declaredAction);
 
-			// invoca la ACtion
+			// invoca la Action
 			redirectResource = actionInvoker(declaredAction, actionForm, action, requestContext);
 
 		}
@@ -172,6 +173,20 @@ public class GambaFrontController extends HttpServlet {
 					+ declaredAction.actionMethod.getName(), exc);
 		}
 		return redirectResource;
+	}
+
+	// TODO
+	@SuppressWarnings("unchecked")
+	private void putParamsAsAttributes(final HttpServletRequest request) {
+		final Map<String, String[]> paramsMap = request.getParameterMap();
+		for (final String paramName : paramsMap.keySet()) {
+			final String[] value = paramsMap.get(paramName);
+			if (value.length == 1) {
+				request.setAttribute(paramName, paramsMap.get(paramName)[0]);
+			} else {
+				request.setAttribute(paramName, paramsMap.get(paramName));
+			}
+		}
 	}
 
 }
