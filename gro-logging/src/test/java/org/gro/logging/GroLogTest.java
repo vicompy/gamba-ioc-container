@@ -10,10 +10,6 @@ public class GroLogTest {
 
 	private final static GroLog GROLOG = GroLog.getGroLogger(GroLogTest.class, Level.FINEST);
 
-//	public static void main(final String[] args) throws SecurityException, IOException {
-//		new GroLogTest().run();
-//	}
-
 	@Test
 	public void run() throws SecurityException, IOException {
 
