@@ -1,5 +1,6 @@
 package org.gro.logging;
 
+import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +26,11 @@ public final class GroLog {
 		logger.setLevel(level);
 
 		// TODO global logging config
+		final Formatter formatter = new GroFormatter();
 		final Handler[] handlers = Logger.getLogger("").getHandlers();
 		for (int index = 0; index < handlers.length; index++) {
 			handlers[index].setLevel(GLOBAL_FILTERING_LEVEL);
-			handlers[index].setFormatter(new GroFormatter());
+			handlers[index].setFormatter(formatter);
 		}
 
 		return new GroLog(logger);
