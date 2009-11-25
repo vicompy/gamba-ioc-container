@@ -9,6 +9,7 @@ public class PersonValidator implements IGroValidator {
 
 	@Override
 	public Map<String, String> validate(final SetTargetSyntax target) {
+
 		return target
     		.forParamName("name")
     			.rejectIfLengthIsOutOfRange(3, 10)
