@@ -10,11 +10,15 @@
 
 
 	<target name="clean">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="cleaning..." />
+		<echo level="info" message="***********************************" />
+
 		<delete dir="${src-dir}" />
-		<mkdir dir="${src-dir}" />
 		<delete dir="${class-dir}" />
-		<mkdir dir="${class-dir}" />
 		<delete dir="${jar-dir}" />
+		<mkdir dir="${src-dir}" />
+		<mkdir dir="${class-dir}" />
 		<mkdir dir="${jar-dir}" />
 	</target>
 
@@ -46,6 +50,9 @@
 	<!-- goal: compile             -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<target name="compile" depends="copy">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="compiling..." />
+		<echo level="info" message="***********************************" />
 		<javac destdir="${class-dir}">
 			<src path="${src-dir}" />
 			<classpath>
@@ -60,13 +67,18 @@
 	<!-- goal: build               -->
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<target name="jars" depends="compile">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="packing..." />
+		<echo level="info" message="***********************************" />
 		<jar basedir="${class-dir}/" destfile="${jar-dir}/${artifact}-${version}.jar" />
 		<jar basedir="${src-dir}/" destfile="${jar-dir}/${artifact}-${version}-sources.jar" />
 	</target>
 
 	<target name="build" depends="jars">
 		<copy todir="../gro-demo-webapp/webapp/WEB-INF/lib/" file="${jar-dir}/${artifact}-${version}.jar" />
-		<echo level="info" message="build OK" />
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="${artifact}-${version}.jar build OK" />
+		<echo level="info" message="***********************************" />
 	</target>
 
 </project>
