@@ -1,5 +1,6 @@
 package org.gro.logging;
 
+import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -7,8 +8,7 @@ import java.util.logging.Logger;
 
 public final class GroLog {
 
-	private final static Level GLOBAL_FILTERING_LEVEL = Level.ALL;
-
+	private static final String CONFIG_PROPERTIES_FILE_NAME = "gro-logging-config.properties";
 	private final Logger logger;
 
 	private GroLog(final Logger logger) {
@@ -21,19 +21,55 @@ public final class GroLog {
 
 	public static GroLog getGroLogger(final Class<?> classScope, final Level level) {
 		final Logger logger = Logger.getLogger(classScope.getName());
-
-		// local logging config
 		logger.setLevel(level);
+		return new GroLog(logger);
+	}
+
+//	public GroLog config(final IGroConfig config) {
+//		return config("", config);
+//	}
+
+	/**
+	 * aquesta configuració és aplicada de forma global, a tota la jerarquia de
+	 * loggers
+	 *
+	 * @param baseLoggerTarget
+	 * @param config
+	 * @return
+	 */
+	public GroLog config() {
+		return config(new ConfigLoader(CONFIG_PROPERTIES_FILE_NAME));
+	}
+
+	private GroLog config(final IGroConfig config) {
 
 		// TODO global logging config
-		final Formatter formatter = new GroFormatter();
+		final Formatter formatter = new GroFormatter(config.getTimeFormat());
+
+		// el handler de fitxer és aplicat a tota la jerarquia
+		if (config.getOutputFileName() != null) {
+			try {
+				Logger.getLogger("").addHandler(new FileHandler(config.getOutputFileName()));
+			} catch (final Exception e) {
+				throw new GroLoggingException("error adding output handler", e);
+			}
+		}
+
+		// el formatter és aplicat a tots els handlers de tota la jerarquia
 		final Handler[] handlers = Logger.getLogger("").getHandlers();
 		for (int index = 0; index < handlers.length; index++) {
-			handlers[index].setLevel(GLOBAL_FILTERING_LEVEL);
+			handlers[index].setLevel(config.getMainLevel());
 			handlers[index].setFormatter(formatter);
 		}
 
-		return new GroLog(logger);
+		final String propNotFound = config.warningMessageIfConfigFileNotFound();
+		if (propNotFound != null) {
+			warning(propNotFound);
+		} else {
+			info("gro-logging properly configured with a global level: " + config.getMainLevel().toString());
+		}
+
+		return this;
 	}
 
 	public void severe(final Object msg) {
@@ -125,7 +161,6 @@ public final class GroLog {
 				strb.append(traceElement.toString());
 				strb.append('\n');
 			}
-			// tracaError.append("\n\n");
 
 			// recupera la causa de l'excepció (una altra excepció)
 			currentThrowable = currentThrowable.getCause();
@@ -133,6 +168,14 @@ public final class GroLog {
 		} while (currentThrowable != null);
 
 		return strb.toString();
+	}
+
+	public Logger getWrappedJdkApiLogger() {
+		return logger;
+	}
+
+	public static GroLog getBaseGroLogger() {
+		return new GroLog(Logger.getLogger(""));
 	}
 
 }
