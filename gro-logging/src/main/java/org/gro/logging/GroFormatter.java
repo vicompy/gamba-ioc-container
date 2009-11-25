@@ -9,7 +9,7 @@ import java.util.logging.LogRecord;
 //This custom formatter formats parts of a log record to a single line
 class GroFormatter extends Formatter {
 
-//	private static final String DATE_FORMAT = "HH:mm:SSS";
+	// private static final String DATE_FORMAT = "HH:mm:SSS";
 
 	private final String timeFormat;
 
@@ -17,15 +17,21 @@ class GroFormatter extends Formatter {
 		this.timeFormat = timeFormat;
 	}
 
-
 	@Override
 	public String format(final LogRecord rec) {
 
 		final StringBuffer buf = new StringBuffer(1000);
 
+		final String[] packageParts = rec.getLoggerName().split("\\.");
+		final String classSimpleName = packageParts[packageParts.length - 1];
+
 		buf.append("[");
 		buf.append(rec.getLevel());
 		buf.append("] ");
+
+		buf.append(classSimpleName);
+		buf.append(" ");
+
 		buf.append(calcDate(rec.getMillis()));
 		buf.append(" ");
 

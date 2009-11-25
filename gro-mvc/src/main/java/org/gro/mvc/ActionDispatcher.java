@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.gro.binding.BeanBinder;
 import org.gro.binding.BindingException;
 import org.gro.binding.IBeanBinder;
+import org.gro.logging.GroLog;
 import org.gro.mvc.actions.DeclaredAction;
 import org.gro.validation.IGroValidator;
 import org.gro.validation.ValidationDSL;
 
 public class ActionDispatcher implements IActionDispatcher {
+
+	private static final GroLog log = GroLog.getGroLogger(ActionDispatcher.class);
 
 	/**
 	 * objecte mapejador de paràmetres HTTP a beans de formulari.
@@ -30,12 +33,17 @@ public class ActionDispatcher implements IActionDispatcher {
 		httpBinder = new BeanBinder();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.gro.mvc.IActionDispatcher#dispatcher(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.gro.mvc.IActionDispatcher#dispatcher(javax.servlet.http.
+	 * HttpServletRequest, javax.servlet.http.HttpServletResponse,
+	 * java.lang.String)
 	 */
 	@SuppressWarnings("unchecked")
 	public String dispatcher(final HttpServletRequest request, final HttpServletResponse response,
 			final String actionName) {
+
 		// obté la configuració definida de la action demanada
 		final DeclaredAction declaredAction = this.definedActions.get(actionName);
 		if (declaredAction == null) {
@@ -64,18 +72,26 @@ public class ActionDispatcher implements IActionDispatcher {
 
 		if (validationErrorMap.isEmpty()) {
 
-			System.out.println(">>>>>>>> valid form");
+			// System.out.println(">>>>>>>> valid form");
+			log.fine("parameters are accepted by validator: ", declaredAction.validatorClass.getName());
 
 			// obté el BeanForm i el binda amb els paràmetres HTTP
 			final Object actionForm = this.httpBinder.doBind(declaredAction.actionForm, request
 					.getParameterMap());
 
+			request.setAttribute("form", actionForm);
+			// putParamsAsAttributes(request); // TODO cal? cuidao duplicat en
+			// el condicional
+
 			// invoca la Action
+			log.fine("invoking action: ", declaredAction.actionClass.getName(), ".",
+					declaredAction.actionMethod.getName(), "()");
 			redirectResource = actionInvoker(declaredAction, actionForm, requestContext);
 
 		} else {
 
-			System.out.println(">>>>>>>> invalid form");
+			// System.out.println(">>>>>>>> invalid form");
+			log.fine("parameters are rejected by validator: ", declaredAction.validatorClass.getName());
 
 			request.setAttribute("validationErrorMap", validationErrorMap);
 			putParamsAsAttributes(request);
@@ -87,12 +103,14 @@ public class ActionDispatcher implements IActionDispatcher {
 		// variables predefinides a accedir desde JSP en requestScope
 		request.setAttribute("requestContext", requestContext);
 		request.setAttribute("contextName", request.getContextPath());
+
+		log.fine("redirecting to: ", redirectResource);
 		return redirectResource;
 	}
 
 	/**
 	 * invoca la Action especificada
-	 *
+	 * 
 	 * @param declaredAction
 	 * @param actionForm
 	 * @param action
@@ -117,7 +135,7 @@ public class ActionDispatcher implements IActionDispatcher {
 	 * donada una <tt>DeclaredAction</tt> del <tt>Map</tt> d'accions detectades
 	 * per scanner, n'obté la <tt>Class</tt> de l'objecte Action, i en retorna
 	 * una instància.
-	 *
+	 * 
 	 * @param declaredAction
 	 * @return
 	 */
@@ -137,7 +155,7 @@ public class ActionDispatcher implements IActionDispatcher {
 	 * aquesta necessita mostrar els paràmetres HTTP que tenia entrats i han
 	 * sigut rebutjats. Per satisfer això en aquest cas, els valors rebuts per
 	 * HTTP es reenvien a la vista en forma d'atributs.
-	 *
+	 * 
 	 * @param request
 	 */
 	// TODO

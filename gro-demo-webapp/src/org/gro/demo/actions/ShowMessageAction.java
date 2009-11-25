@@ -9,6 +9,11 @@ import org.gro.mvc.forms.EmptyFormBean;
 
 public class ShowMessageAction {
 
+	@Action(name = "begin")
+	public String begin(final RequestContext req, final EmptyFormBean form) {
+		return "/start.do";
+	}
+
 	@Action(name = "start")
 	public String start(final RequestContext req, final EmptyFormBean form) {
 		return "question-form";
@@ -20,7 +25,7 @@ public class ShowMessageAction {
 
 		System.out.println("Hello, I'm " + form.getName() + " and my age is " + form.getAge());
 
-		req.getRequest().setAttribute("form", form);
+//		req.getRequest().setAttribute("form", form);
 
 		return "salute";
 	}

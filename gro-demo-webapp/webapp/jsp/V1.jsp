@@ -13,10 +13,17 @@
 	<br />
 	<br />
 	<br />
-	<h4>Hi, I'm ${form.name} and my age is ${form.age}.</h4>
+	<h4>V1</h4>
 	<br />
 	<br />
-	${param.name} ${param.age}
+	<form action="${contextName}/S1.do" method="get">
+		name: <input type="text" name="name" size="30" value="${name}" />${validationErrorMap['name']}<br />
+		age:  <input type="text" name="age"  size="5"  value="${age}" />${validationErrorMap['age']}<br />
+		<br />
+		<br />
+		<input type='submit' value="create"><br />
+	</form>
+
 	<br />
 	<br />
 
