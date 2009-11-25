@@ -16,7 +16,7 @@ public final class GroLog {
 	}
 
 	public static GroLog getGroLogger(final Class<?> classScope) {
-		return getGroLogger(classScope, Level.INFO);
+		return getGroLogger(classScope, Level.ALL);
 	}
 
 	public static GroLog getGroLogger(final Class<?> classScope, final Level level) {

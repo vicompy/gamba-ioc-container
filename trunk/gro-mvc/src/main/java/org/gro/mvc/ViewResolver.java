@@ -2,7 +2,12 @@ package org.gro.mvc;
 
 import javax.servlet.ServletConfig;
 
+import org.gro.logging.GroLog;
+
 class ViewResolver implements IViewResolver {
+
+	private static final GroLog log = GroLog.getGroLogger(ViewResolver.class);
+
 	private final String viewResourcePrefix;
 	private final String viewResourcePostfix;
 
@@ -15,7 +20,9 @@ class ViewResolver implements IViewResolver {
 	 * @see org.gro.mvc.IViewResolver#resolve(java.lang.String)
 	 */
 	public String resolve(final String resourceName) {
-		return viewResourcePrefix + resourceName + viewResourcePostfix;
+		final String viewRequest = viewResourcePrefix + resourceName + viewResourcePostfix;
+		log.fine("redirecting to view: ", viewRequest);
+		return viewRequest;
 	}
 
 }

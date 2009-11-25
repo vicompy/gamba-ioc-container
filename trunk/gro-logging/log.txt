@@ -1,8 +1,8 @@
-[INFO] 16:47:091 25/Nov/09  gro-logging properly configured with a global level: ALL
-[INFO] 16:47:136 25/Nov/09  le info (Gro100) message as possible
-[FINEST] 16:47:139 25/Nov/09  le finest
-[SEVERE] 16:47:140 25/Nov/09  le severe
-[SEVERE] 16:47:141 25/Nov/09  
+[INFO] 17:04:507 25/Nov/09  gro-logging properly configured with a global level: ALL
+[INFO] 17:04:536 25/Nov/09  le info (Gro100) message as possible
+[FINEST] 17:04:541 25/Nov/09  le finest
+[SEVERE] 17:04:542 25/Nov/09  le severe
+[SEVERE] 17:04:543 25/Nov/09  
 java.lang.RuntimeException: jou q paixa?
   org.gro.logging.GroLogTest.run(GroLogTest.java:19)
   sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -30,4 +30,4 @@ java.lang.RuntimeException: jou q paixa?
   org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
   org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
 
-[SEVERE] 16:47:143 25/Nov/09  org.gro.logging.GroLogTest
+[SEVERE] 17:04:544 25/Nov/09  org.gro.logging.GroLogTest
