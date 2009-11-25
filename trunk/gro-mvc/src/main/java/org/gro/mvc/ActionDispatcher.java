@@ -35,7 +35,7 @@ public class ActionDispatcher implements IActionDispatcher {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @seeorg.gro.mvc.IActionDispatcher#dispatcher(javax.servlet.http.
 	 * HttpServletRequest, javax.servlet.http.HttpServletResponse,
 	 * java.lang.String)
@@ -67,12 +67,8 @@ public class ActionDispatcher implements IActionDispatcher {
 				.getInstance(request.getParameterMap()));
 		final RequestContext requestContext = new RequestContext(request, response);
 
-		System.out.println(">>>>>>>> " + declaredAction.validatorClass);
-		System.out.println(">>>>>>>> " + validationErrorMap.toString());
-
 		if (validationErrorMap.isEmpty()) {
 
-			// System.out.println(">>>>>>>> valid form");
 			log.fine("parameters are accepted by validator: ", declaredAction.validatorClass.getName());
 
 			// obté el BeanForm i el binda amb els paràmetres HTTP
@@ -80,8 +76,6 @@ public class ActionDispatcher implements IActionDispatcher {
 					.getParameterMap());
 
 			request.setAttribute("form", actionForm);
-			// putParamsAsAttributes(request); // TODO cal? cuidao duplicat en
-			// el condicional
 
 			// invoca la Action
 			log.fine("invoking action: ", declaredAction.actionClass.getName(), ".",
@@ -110,7 +104,7 @@ public class ActionDispatcher implements IActionDispatcher {
 
 	/**
 	 * invoca la Action especificada
-	 * 
+	 *
 	 * @param declaredAction
 	 * @param actionForm
 	 * @param action
@@ -135,7 +129,7 @@ public class ActionDispatcher implements IActionDispatcher {
 	 * donada una <tt>DeclaredAction</tt> del <tt>Map</tt> d'accions detectades
 	 * per scanner, n'obté la <tt>Class</tt> de l'objecte Action, i en retorna
 	 * una instància.
-	 * 
+	 *
 	 * @param declaredAction
 	 * @return
 	 */
@@ -155,7 +149,7 @@ public class ActionDispatcher implements IActionDispatcher {
 	 * aquesta necessita mostrar els paràmetres HTTP que tenia entrats i han
 	 * sigut rebutjats. Per satisfer això en aquest cas, els valors rebuts per
 	 * HTTP es reenvien a la vista en forma d'atributs.
-	 * 
+	 *
 	 * @param request
 	 */
 	// TODO
