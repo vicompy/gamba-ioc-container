@@ -1,2 +1,33 @@
-[INFO] 16:46:667 25/Nov/09  gro-logging properly configured with a global level: ALL
-[INFO] 16:46:710 25/Nov/09  le info (Gro100) message as possible
+[INFO] 16:47:091 25/Nov/09  gro-logging properly configured with a global level: ALL
+[INFO] 16:47:136 25/Nov/09  le info (Gro100) message as possible
+[FINEST] 16:47:139 25/Nov/09  le finest
+[SEVERE] 16:47:140 25/Nov/09  le severe
+[SEVERE] 16:47:141 25/Nov/09  
+java.lang.RuntimeException: jou q paixa?
+  org.gro.logging.GroLogTest.run(GroLogTest.java:19)
+  sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+  sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+  java.lang.reflect.Method.invoke(Method.java:616)
+  org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
+  org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+  org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
+  org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+  org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+  org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:31)
+  org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:73)
+  org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:46)
+  org.junit.runners.ParentRunner.runChildren(ParentRunner.java:180)
+  org.junit.runners.ParentRunner.access$000(ParentRunner.java:41)
+  org.junit.runners.ParentRunner$1.evaluate(ParentRunner.java:173)
+  org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+  org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:31)
+  org.junit.runners.ParentRunner.run(ParentRunner.java:220)
+  org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+  org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+
+[SEVERE] 16:47:143 25/Nov/09  org.gro.logging.GroLogTest
