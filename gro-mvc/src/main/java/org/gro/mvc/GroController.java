@@ -43,13 +43,6 @@ public class GroController extends HttpServlet {
 	// TODO
 	private IActionDispatcher actionDispatcher;
 
-	// /**
-	// * @see HttpServlet#HttpServlet()
-	// */
-	// public GroController() {
-	// super();
-	// }
-
 	/**
 	 * @see javax.servlet.GenericServlet#init()
 	 */
@@ -64,7 +57,7 @@ public class GroController extends HttpServlet {
 
 		log.info("scanning actions package: " + actionBasePackage);
 		for (final String key : definedActions.keySet()) {
-			log.fine("  /", key, ".do as ", definedActions.get(key).actionClass, ".",
+			log.fine("  /", key, ".do ==> ", definedActions.get(key).actionClass, ".",
 					definedActions.get(key).actionMethod.getName(), "(...)");
 		}
 		log.info("found ", definedActions.size(), " defined actions.");

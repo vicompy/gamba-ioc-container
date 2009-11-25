@@ -18,8 +18,6 @@ public class SS {
 
 		System.out.println("Hello, I'm " + form.getName() + " and my age is " + form.getAge());
 
-		// req.getRequest().setAttribute("form", form);
-
 		return "/S2.do";
 	}
 
@@ -27,8 +25,6 @@ public class SS {
 	public String s2(final RequestContext req, final PersonForm form) {
 
 		System.out.println("Hello, I'm " + form.getName() + " and my age is " + form.getAge());
-
-		// req.getRequest().setAttribute("form", form);
 
 		return "salute";
 	}
