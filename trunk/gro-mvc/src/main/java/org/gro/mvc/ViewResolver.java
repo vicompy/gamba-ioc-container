@@ -20,7 +20,15 @@ class ViewResolver implements IViewResolver {
 	 * @see org.gro.mvc.IViewResolver#resolve(java.lang.String)
 	 */
 	public String resolve(final String resourceName) {
-		final String viewRequest = viewResourcePrefix + resourceName + viewResourcePostfix;
+
+		String viewRequest = null;
+		if (resourceName.startsWith("/") && resourceName.contains(".do")) {
+			viewRequest = resourceName;
+		} else {
+			viewRequest = viewResourcePrefix + resourceName + viewResourcePostfix;
+		}
+		// final String viewRequest = viewResourcePrefix + resourceName +
+		// viewResourcePostfix;
 		log.fine("redirecting to view: ", viewRequest);
 		return viewRequest;
 	}

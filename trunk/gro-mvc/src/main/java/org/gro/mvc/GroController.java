@@ -130,6 +130,7 @@ public class GroController extends HttpServlet {
 		// redirecciona a vista
 		getServletConfig().getServletContext().getRequestDispatcher(redirectResource).forward(request,
 				response);
+		// response.sendRedirect(request.getContextPath() + redirectResource);
 	}
 
 }
