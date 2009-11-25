@@ -1,7 +1,6 @@
 package org.gro.logging;
 
 import java.io.IOException;
-import java.util.logging.Level;
 
 import org.junit.Test;
 
@@ -10,7 +9,7 @@ public class GroLogTest {
 	@Test
 	public void run() throws SecurityException, IOException {
 
-		final GroLog groLog = GroLog.getGroLogger(GroLogTest.class, Level.FINEST);
+		final GroLog groLog = GroLog.getGroLogger(GroLogTest.class);
 
 		groLog.finest("le finest");
 		groLog.severe("le severe");

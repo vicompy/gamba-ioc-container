@@ -19,15 +19,16 @@ public final class GroLog {
 		return getGroLogger(classScope, Level.ALL);
 	}
 
-	public static GroLog getGroLogger(final Class<?> classScope, final Level level) {
+	// TODO cal?
+	private static GroLog getGroLogger(final Class<?> classScope, final Level level) {
 		final Logger logger = Logger.getLogger(classScope.getName());
 		logger.setLevel(level);
 		return new GroLog(logger);
 	}
 
-//	public GroLog config(final IGroConfig config) {
-//		return config("", config);
-//	}
+	// public GroLog config(final IGroConfig config) {
+	// return config("", config);
+	// }
 
 	/**
 	 * aquesta configuració és aplicada de forma global, a tota la jerarquia de

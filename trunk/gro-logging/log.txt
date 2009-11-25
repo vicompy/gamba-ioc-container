@@ -1,9 +1,9 @@
-[INFO] GroLogTest 23:01:965 25/Nov/09  gro-logging properly configured with a global level: ALL
-[FINEST] GroLogTest 23:01:983 25/Nov/09  le finest (Gro100) message as possible
-[INFO] GroLogTest 23:01:986 25/Nov/09  le info (Gro100) message as possible
-[FINEST] GroLogTest 23:01:997 25/Nov/09  le finest
-[SEVERE] GroLogTest 23:01:999 25/Nov/09  le severe
-[SEVERE] GroLogTest 23:01:001 25/Nov/09  
+[INFO] GroLogTest 23:35:722 25/Nov/09  gro-logging properly configured with a global level: ALL
+[FINEST] GroLogTest 23:35:764 25/Nov/09  le finest (Gro100) message as possible
+[INFO] GroLogTest 23:35:766 25/Nov/09  le info (Gro100) message as possible
+[FINEST] GroLogTest 23:35:770 25/Nov/09  le finest
+[SEVERE] GroLogTest 23:35:771 25/Nov/09  le severe
+[SEVERE] GroLogTest 23:35:772 25/Nov/09  
 java.lang.RuntimeException: jou q paixa?
   org.gro.logging.GroLogTest.run(GroLogTest.java:19)
   sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -24,15 +24,11 @@ java.lang.RuntimeException: jou q paixa?
   org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
   org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:31)
   org.junit.runners.ParentRunner.run(ParentRunner.java:220)
-  org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:62)
-  org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.executeTestSet(AbstractDirectoryTestSuite.java:140)
-  org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.execute(AbstractDirectoryTestSuite.java:127)
-  org.apache.maven.surefire.Surefire.run(Surefire.java:177)
-  sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-  sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-  sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-  java.lang.reflect.Method.invoke(Method.java:616)
-  org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:338)
-  org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)
+  org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:46)
+  org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+  org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
 
-[SEVERE] GroLogTest 23:01:004 25/Nov/09  org.gro.logging.GroLogTest
+[SEVERE] GroLogTest 23:35:774 25/Nov/09  org.gro.logging.GroLogTest
