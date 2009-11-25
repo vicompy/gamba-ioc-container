@@ -9,6 +9,15 @@ import java.util.logging.LogRecord;
 //This custom formatter formats parts of a log record to a single line
 class GroFormatter extends Formatter {
 
+//	private static final String DATE_FORMAT = "HH:mm:SSS";
+
+	private final String timeFormat;
+
+	public GroFormatter(final String timeFormat) {
+		this.timeFormat = timeFormat;
+	}
+
+
 	@Override
 	public String format(final LogRecord rec) {
 
@@ -18,7 +27,7 @@ class GroFormatter extends Formatter {
 		buf.append(rec.getLevel());
 		buf.append("] ");
 		buf.append(calcDate(rec.getMillis()));
-		buf.append("  ");
+		buf.append(" ");
 
 		buf.append(formatMessage(rec));
 		buf.append('\n');
@@ -27,7 +36,7 @@ class GroFormatter extends Formatter {
 	}
 
 	private String calcDate(final long millisecs) {
-		final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:SSS");
+		final SimpleDateFormat dateFormat = new SimpleDateFormat(timeFormat);
 		final Date resultdate = new Date(millisecs);
 		return dateFormat.format(resultdate);
 	}
