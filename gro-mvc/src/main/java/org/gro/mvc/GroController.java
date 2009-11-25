@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.gro.logging.GroLog;
 import org.gro.mvc.actions.ActionScanner;
 import org.gro.mvc.actions.DeclaredAction;
 
@@ -20,6 +21,8 @@ public class GroController extends HttpServlet {
 
 	private static final long serialVersionUID = 8918658103855642986L;
 
+	private static final GroLog log = GroLog.getGroLogger(GroController.class).config();
+
 	/**
 	 * nom del paràmetre de servlet definit en <tt>web.xml</tt>, que servirà per
 	 * scannejar el package que conté les accions de l'aplicació.
@@ -27,8 +30,8 @@ public class GroController extends HttpServlet {
 	private static final String ACTIONS_BASE_PACKAGE = "actions-base-package";
 
 	/**
-	 * la llargada en caràcters de l'extensió de les crides a Action, ha de concordar en longitud amb el
-	 * mapping de servlet fet en <tt>web.xml</tt>.
+	 * la llargada en caràcters de l'extensió de les crides a Action, ha de
+	 * concordar en longitud amb el mapping de servlet fet en <tt>web.xml</tt>.
 	 */
 	private static final int ACTION_EXTENSION_LENGTH = ".do".length();
 
@@ -40,12 +43,12 @@ public class GroController extends HttpServlet {
 	// TODO
 	private IActionDispatcher actionDispatcher;
 
-//	/**
-//	 * @see HttpServlet#HttpServlet()
-//	 */
-//	public GroController() {
-//		super();
-//	}
+	// /**
+	// * @see HttpServlet#HttpServlet()
+	// */
+	// public GroController() {
+	// super();
+	// }
 
 	/**
 	 * @see javax.servlet.GenericServlet#init()
@@ -59,12 +62,21 @@ public class GroController extends HttpServlet {
 		final String actionBasePackage = getInitParameter(ACTIONS_BASE_PACKAGE);
 		final Map<String, DeclaredAction> definedActions = new ActionScanner().doScan(actionBasePackage);
 
+		log.info("scanning actions package: " + actionBasePackage);
+		for (final String key : definedActions.keySet()) {
+			log.fine("  /", key, ".do as ", definedActions.get(key).actionClass, ".",
+					definedActions.get(key).actionMethod.getName(), "(...)");
+		}
+		log.info("found ", definedActions.size(), " defined actions.");
+
 		this.actionDispatcher = new ActionDispatcher(definedActions);
 
 		/*
 		 * carrega el resolutor de vistes
 		 */
 		viewResolver = new ViewResolver(this);
+
+		log.info("GroController servlet dispatcher initialized OK");
 	}
 
 	/**
@@ -105,6 +117,8 @@ public class GroController extends HttpServlet {
 		// determina el nom identificador d'action demanada
 		// /jou.do ==> jou
 		final String requestServletPath = request.getServletPath();
+		log.fine("dispatching action request: ", requestServletPath);
+
 		final String actionName = requestServletPath.substring(1, requestServletPath.length()
 				- ACTION_EXTENSION_LENGTH);
 
