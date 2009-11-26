@@ -18,7 +18,7 @@ public class SolverTest {
 		"\n";
 
 		System.out.println(new Mapa(l).toString());
-		final SolutionResult sr = new Solver(l, new DummyMapHashImpl()).solve(18);
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(18);
 		System.out.println(sr.toString());
 		Assert.assertEquals(9, sr.getLevel());
 	}
@@ -35,7 +35,7 @@ public class SolverTest {
 		"####\n"+
 		"\n";
 
-		final SolutionResult sr = new Solver(l, new DummyMapHashImpl()).solve(18);
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(18);
 		System.out.println(sr.toString());
 		Assert.assertEquals(12, sr.getLevel());
 	}
