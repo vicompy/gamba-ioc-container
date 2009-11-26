@@ -6,18 +6,17 @@ public class SolutionResult {
 	private final Mapa mapa;
 	private int nodes;
 
-	public int getNodes() {
-		return nodes;
-	}
-
-	public void setNodes(final int nodes) {
-		this.nodes = nodes;
-	}
-
 	public SolutionResult(final int level, final Mapa mapa) {
 		super();
 		this.level = level;
 		this.mapa = mapa;
+	}
+
+	public boolean isWorseThan(final SolutionResult sr) {
+		if (sr == null) {
+			return false;
+		}
+		return this.level > sr.level;
 	}
 
 	public int getLevel() {
@@ -28,11 +27,12 @@ public class SolutionResult {
 		return mapa;
 	}
 
-	public boolean isWorseThan(final SolutionResult sr) {
-		if (sr == null) {
-			return false;
-		}
-		return this.level > sr.level;
+	public int getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(final int nodes) {
+		this.nodes = nodes;
 	}
 
 	@Override
