@@ -64,8 +64,8 @@ public class Solver {
 		return bestSolutionResult;
 	}
 
-	public int getNodes() {
-		return nodes;
-	}
+//	public int getNodes() {
+//		return nodes;
+//	}
 
 }

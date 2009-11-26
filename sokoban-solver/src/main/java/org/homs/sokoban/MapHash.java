@@ -103,9 +103,9 @@ class MapaW {
 		this.level = level;
 	}
 
-	@Override
-	public String toString() {
-		return this.mapa.toString();
-	}
+//	@Override
+//	public String toString() {
+//		return this.mapa.toString();
+//	}
 
 }

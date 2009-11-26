@@ -48,7 +48,7 @@ public class Mapa {
 		 */
 		this.accMap = computeAccessMap();
 
-		checkMap();
+//		checkMap();
 	}
 
 	protected Mapa(final Mapa mapa, final int indexOrgBox, final int indexDstBox) {
@@ -91,7 +91,7 @@ public class Mapa {
 		}
 
 		this.accMap = computeAccessMap();
-		checkMap();
+//		checkMap();
 	}
 
 	private char[] encodeMap(final String l) {
@@ -279,28 +279,28 @@ public class Mapa {
 		return true;
 	}
 
-	@Deprecated
-	// TODO for test only
-	protected void checkMap() {
-		int ngoals = 0;
-		for (int i = 0; i < map.length; i++) {
-			if (map[i] == '.' || map[i] == '*' || map[i] == '+') {
-				ngoals++;
-			}
-		}
-		if (ngoals != this.boxList.length) {
-			throw new NullPointerException();
-		}
-
-		for (final int boxPos : boxList) {
-			if (map[boxPos] != '$' && map[boxPos] != '*') {
-				throw new NullPointerException();
-			}
-		}
-
-		if (map[playerIndex] != '@' && map[playerIndex] != '+') {
-			throw new NullPointerException("" + map[playerIndex]);
-		}
-	}
+//	@Deprecated
+//	// TODO for test only
+//	protected void checkMap() {
+//		int ngoals = 0;
+//		for (int i = 0; i < map.length; i++) {
+//			if (map[i] == '.' || map[i] == '*' || map[i] == '+') {
+//				ngoals++;
+//			}
+//		}
+//		if (ngoals != this.boxList.length) {
+//			throw new NullPointerException();
+//		}
+//
+//		for (final int boxPos : boxList) {
+//			if (map[boxPos] != '$' && map[boxPos] != '*') {
+//				throw new NullPointerException();
+//			}
+//		}
+//
+//		if (map[playerIndex] != '@' && map[playerIndex] != '+') {
+//			throw new NullPointerException("" + map[playerIndex]);
+//		}
+//	}
 
 }
