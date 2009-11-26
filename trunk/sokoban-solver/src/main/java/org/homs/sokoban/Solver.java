@@ -8,10 +8,12 @@ public class Solver {
 	private int maxLevel;
 	private int nodes;
 	private final IMapHash mapHash;
+	private final LockDetector lockDetector;
 
-	public Solver(final String l, final IMapHash mapHash) {
-		this.mapaGen = new MapaGen(l);
+	public Solver(final String textLevel, final IMapHash mapHash) {
+		this.mapaGen = new MapaGen(textLevel);
 		this.mapHash = mapHash;
+		this.lockDetector = new LockDetector(this.mapaGen);
 	}
 
 	public SolutionResult solve(final int maxLevel) {
@@ -38,6 +40,12 @@ public class Solver {
 
 		if (mapHash.cuttable(mapaGen, level)) {
 			return null;
+		}
+
+		for(final int boxPos : mapaGen.boxList) {
+			if (lockDetector.getIsLockedPos()[boxPos]) {
+				return null;
+			}
 		}
 
 		final List<MapaGen> mapaGenList = mapaGen.moveGen();
