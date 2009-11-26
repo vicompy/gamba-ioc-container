@@ -5,8 +5,8 @@ import java.util.List;
 
 public class MapaGen extends Mapa {
 
-	public MapaGen(final String l) {
-		super(l);
+	public MapaGen(final String textLevel) {
+		super(textLevel);
 	}
 
 	protected MapaGen(final MapaGen mapaGen, final int indexOrgBox, final int indexDstBox) {

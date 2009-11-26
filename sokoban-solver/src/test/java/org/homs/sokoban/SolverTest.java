@@ -17,6 +17,7 @@ public class SolverTest {
 		"#####\n"+
 		"\n";
 
+		System.out.println(new Mapa(l).toString());
 		final SolutionResult sr = new Solver(l, new DummyMapHashImpl()).solve(18);
 		System.out.println(sr.toString());
 		Assert.assertEquals(9, sr.getLevel());
@@ -112,6 +113,23 @@ public class SolverTest {
 		Assert.assertEquals(34, sr.getLevel());
 	}
 
+	@Test
+	public void test5Hash() {
+		final String l = "" +
+		" ####\n"+
+		" #  ####\n"+
+		" #$    #\n"+
+		"##@.#  #\n"+
+		"#  #. ##\n"+
+		"#    $#\n"+
+		"####  #\n"+
+		"   ####\n"+
+		"\n";
+
+		System.out.println(new Mapa(l).toString());
+		final SolutionResult sr = new Solver(l, new MapHash()).solve(26);
+		System.out.println(sr.toString());
+		Assert.assertEquals(24, sr.getLevel());
+	}
+
 }
-
-
