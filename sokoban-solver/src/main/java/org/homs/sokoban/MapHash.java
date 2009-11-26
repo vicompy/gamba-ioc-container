@@ -44,7 +44,7 @@ public class MapHash implements IMapHash {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.homs.sokoban.IMapHash#cut(org.homs.sokoban.MapaGen, int)
 	 */
 	public boolean cuttable(final MapaGen mapaGen, final int level) {
@@ -103,9 +103,9 @@ class MapaW {
 		this.level = level;
 	}
 
-//	@Override
-//	public String toString() {
-//		return this.mapa.toString();
-//	}
+	// @Override
+	// public String toString() {
+	// return this.mapa.toString();
+	// }
 
 }
