@@ -42,7 +42,7 @@ public class Solver {
 			return null;
 		}
 
-		for(final int boxPos : mapaGen.boxList) {
+		for (final int boxPos : mapaGen.boxList) {
 			if (lockDetector.getIsLockedPos()[boxPos]) {
 				return null;
 			}
@@ -64,8 +64,8 @@ public class Solver {
 		return bestSolutionResult;
 	}
 
-//	public int getNodes() {
-//		return nodes;
-//	}
+	// public int getNodes() {
+	// return nodes;
+	// }
 
 }
