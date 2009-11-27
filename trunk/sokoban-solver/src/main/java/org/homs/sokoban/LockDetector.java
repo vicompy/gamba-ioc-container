@@ -1,5 +1,7 @@
 package org.homs.sokoban;
 
+import java.util.Arrays;
+
 public class LockDetector {
 
 	private final Mapa mapa;
@@ -19,12 +21,13 @@ public class LockDetector {
 
 	private void compute() {
 
-		for (int f = 0; f < mapa.ROWS; f++) {
-			for (int c = 0; c < mapa.COLS; c++) {
-				final int index = c + f * mapa.COLS;
-				isLockedPos[index] = true;
-			}
-		}
+		Arrays.fill(isLockedPos, true);
+//		for (int f = 0; f < mapa.ROWS; f++) {
+//			for (int c = 0; c < mapa.COLS; c++) {
+//				final int index = c + f * mapa.COLS;
+//				isLockedPos[index] = true;
+//			}
+//		}
 
 		for (int f = 1; f < mapa.ROWS - 1; f++) {
 			for (int c = 1; c < mapa.COLS - 1; c++) {

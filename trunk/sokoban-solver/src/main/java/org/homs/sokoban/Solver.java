@@ -49,6 +49,7 @@ public class Solver {
 		}
 
 		final List<MapaGen> mapaGenList = mapaGen.moveGen();
+
 		SolutionResult bestSolutionResult = null;
 		for (final MapaGen m : mapaGenList) {
 			final SolutionResult sr = solve(level + 1, m);

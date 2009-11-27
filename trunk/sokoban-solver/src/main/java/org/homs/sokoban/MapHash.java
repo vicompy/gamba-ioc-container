@@ -34,34 +34,36 @@ public class MapHash implements IMapHash {
 			return null;
 		}
 
-		for (final MapaW m : mapaList) {
-			if (m.equals(mapa)) {
-				return m;
-			}
+//		for (final MapaW m : mapaList) {
+//			if (m.equals(mapa)) {
+//				return m;
+//			}
+//		}
+		final int index = mapaList.indexOf(mapa);
+		if (index != -1) {
+			return mapaList.get(index);
 		}
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
 	 * @see org.homs.sokoban.IMapHash#cut(org.homs.sokoban.MapaGen, int)
 	 */
 	public boolean cuttable(final MapaGen mapaGen, final int level) {
 
 		final MapaW exist = exists(mapaGen, level);
 		if (exist == null) {
-			// no trobat
+			// no trobat, desar mapa i seguir
 			put(mapaGen, level);
 			return false;
 		} else {
 			// trobat
 			if (exist.getLevel() > level) {
-				// updatar mapa per level
+				// updatar mapa per level, i seguir
 				exist.setLevel(level);
 				return false;
 			} else {
-				// es pot tallar
+				// es talla la recursió
 				return true;
 			}
 		}
@@ -86,9 +88,8 @@ class MapaW {
 	public boolean equals(final Object obj) {
 		if (obj instanceof MapaW) {
 			return this.getMapa().equals(((MapaW) obj).getMapa());
-		} else {
-			throw new NullPointerException();
 		}
+		throw new NullPointerException();
 	}
 
 	public MapaGen getMapa() {
