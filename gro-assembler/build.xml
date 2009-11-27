@@ -22,6 +22,7 @@
 		<mkdir dir="${jar-dir}" />
 	</target>
 
+	
 	<target name="copy" depends="clean">
 		<copy todir="${src-dir}/">
 			<fileset dir="../gro-anno-scan/src/main/java/">
@@ -30,9 +31,11 @@
 			<fileset dir="../gro-binder/src/main/java/">
 				<include name="**/*.java" />
 			</fileset>
+			<!--
 			<fileset dir="../gro-connection-pool/src/main/java/">
 				<include name="**/*.java" />
 			</fileset>
+			-->
 			<fileset dir="../gro-logging/src/main/java/">
 				<include name="**/*.java" />
 			</fileset>
@@ -42,6 +45,11 @@
 			<fileset dir="../gro-mvc/src/main/java/">
 				<include name="**/*.java" />
 			</fileset>
+			<!--
+			<fileset dir="../gro-transaction/src/main/java/">
+				<include name="**/*.java" />
+			</fileset>
+			-->
 		</copy>
 	</target>
 
@@ -62,6 +70,7 @@
 			</classpath>
 		</javac>
 	</target>
+	
 
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 	<!-- goal: build               -->

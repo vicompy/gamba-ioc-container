@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface IActionDispatcher {
 
 	String dispatcher(final HttpServletRequest request, final HttpServletResponse response,
-			final String actionName);
+			final String requestServletPath);
 
 }

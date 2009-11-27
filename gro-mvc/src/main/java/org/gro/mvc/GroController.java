@@ -30,12 +30,6 @@ public class GroController extends HttpServlet {
 	private static final String ACTIONS_BASE_PACKAGE = "actions-base-package";
 
 	/**
-	 * la llargada en caràcters de l'extensió de les crides a Action, ha de
-	 * concordar en longitud amb el mapping de servlet fet en <tt>web.xml</tt>.
-	 */
-	private static final int ACTION_EXTENSION_LENGTH = ".do".length();
-
-	/**
 	 * resolutor de vistes TODO
 	 */
 	private IViewResolver viewResolver;
@@ -112,10 +106,11 @@ public class GroController extends HttpServlet {
 		final String requestServletPath = request.getServletPath();
 		log.fine("dispatching action request: ", requestServletPath);
 
-		final String actionName = requestServletPath.substring(1, requestServletPath.length()
-				- ACTION_EXTENSION_LENGTH);
+//		final String actionName = requestServletPath.substring(1, requestServletPath.length()
+//				- ACTION_EXTENSION_LENGTH);
+//		String redirectResource = actionDispatcher.dispatcher(request, response, actionName);
 
-		String redirectResource = actionDispatcher.dispatcher(request, response, actionName);
+		String redirectResource = actionDispatcher.dispatcher(request, response, requestServletPath);
 
 		// resol la vista a la que redireccionar
 		redirectResource = this.viewResolver.resolve(redirectResource);

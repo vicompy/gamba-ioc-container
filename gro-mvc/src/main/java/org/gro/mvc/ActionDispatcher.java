@@ -18,6 +18,12 @@ public class ActionDispatcher implements IActionDispatcher {
 	private static final GroLog log = GroLog.getGroLogger(ActionDispatcher.class);
 
 	/**
+	 * la llargada en caràcters de l'extensió de les crides a Action, ha de
+	 * concordar en longitud amb el mapping de servlet fet en <tt>web.xml</tt>.
+	 */
+	private static final int ACTION_EXTENSION_LENGTH = ".do".length();
+
+	/**
 	 * objecte mapejador de paràmetres HTTP a beans de formulari.
 	 */
 	private final IBeanBinder httpBinder;
@@ -42,7 +48,10 @@ public class ActionDispatcher implements IActionDispatcher {
 	 */
 	@SuppressWarnings("unchecked")
 	public String dispatcher(final HttpServletRequest request, final HttpServletResponse response,
-			final String actionName) {
+			final String requestServletPath) {
+
+		final String actionName = requestServletPath.substring(1, requestServletPath.length()
+				- ACTION_EXTENSION_LENGTH);
 
 		// obté la configuració definida de la action demanada
 		final DeclaredAction declaredAction = this.definedActions.get(actionName);
