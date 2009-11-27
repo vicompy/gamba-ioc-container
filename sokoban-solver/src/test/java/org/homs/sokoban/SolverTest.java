@@ -90,28 +90,28 @@ public class SolverTest {
 		Assert.assertEquals(18, sr.getLevel());
 	}
 
-	@Test
-	public void test4Hash() {
-		final String l = "" +
-		"#####\n"+
-		"#   #\n"+
-		"#   #\n"+
-		"#  .#\n"+
-		"##$ #\n"+
-		" # +#\n"+
-		" #$ #\n"+
-		" # .#\n"+
-		" #$ #\n"+
-		" # .#\n"+
-		" #$ #\n"+
-		" #  #\n"+
-		" ####\n"+
-		"\n";
-
-		final SolutionResult sr = new Solver(l, new MapHash()).solve(34);
-		System.out.println(sr.toString());
-		Assert.assertEquals(34, sr.getLevel());
-	}
+//	@Test
+//	public void test4Hash() {
+//		final String l = "" +
+//		"#####\n"+
+//		"#   #\n"+
+//		"#   #\n"+
+//		"#  .#\n"+
+//		"##$ #\n"+
+//		" # +#\n"+
+//		" #$ #\n"+
+//		" # .#\n"+
+//		" #$ #\n"+
+//		" # .#\n"+
+//		" #$ #\n"+
+//		" #  #\n"+
+//		" ####\n"+
+//		"\n";
+//
+//		final SolutionResult sr = new Solver(l, new MapHash()).solve(34);
+//		System.out.println(sr.toString());
+//		Assert.assertEquals(34, sr.getLevel());
+//	}
 
 	@Test
 	public void test5Hash() {
