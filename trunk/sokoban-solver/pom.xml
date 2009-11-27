@@ -4,7 +4,7 @@
 
 	<groupId>org.homs</groupId>
 	<artifactId>sokoban-solver</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 
 	<dependencies>
