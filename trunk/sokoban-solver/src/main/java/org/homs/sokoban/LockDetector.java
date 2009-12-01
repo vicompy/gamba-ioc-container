@@ -11,7 +11,7 @@ public class LockDetector {
 		super();
 		this.mapa = mapa;
 
-		isLockedPos = new boolean[mapa.ROWS * mapa.COLS];
+		isLockedPos = new boolean[mapa.rows * mapa.cols];
 		compute();
 	}
 
@@ -29,10 +29,10 @@ public class LockDetector {
 //			}
 //		}
 
-		for (int f = 1; f < mapa.ROWS - 1; f++) {
-			for (int c = 1; c < mapa.COLS - 1; c++) {
+		for (int f = 1; f < mapa.rows - 1; f++) {
+			for (int c = 1; c < mapa.cols - 1; c++) {
 
-				final int index = c + f * mapa.COLS;
+				final int index = c + f * mapa.cols;
 				isLockedPos[index] = posIsLockedOrder2(f, c) || posIsLockedOrder1(f, c);
 			}
 		}
@@ -85,7 +85,7 @@ public class LockDetector {
 				break;
 			}
 		}
-		for (int cc = c; cc < mapa.COLS; cc++) {
+		for (int cc = c; cc < mapa.cols; cc++) {
 			if (isWall(f, cc)) {
 				break;
 			}
@@ -104,7 +104,7 @@ public class LockDetector {
 				break;
 			}
 		}
-		for (int ff = f; ff < mapa.COLS; ff++) {
+		for (int ff = f; ff < mapa.cols; ff++) {
 			if (isWall(ff, c)) {
 				break;
 			}
@@ -118,14 +118,14 @@ public class LockDetector {
 	}
 
 	private boolean isWall(final int f, final int c) {
-		if (mapa.map[c + f * mapa.COLS] == '#') {
+		if (mapa.map[c + f * mapa.cols] == '#') {
 			return true;
 		}
 		return false;
 	}
 
 	private boolean isGoal(final int f, final int c) {
-		final char cell = mapa.map[c + f * mapa.COLS];
+		final char cell = mapa.map[c + f * mapa.cols];
 		if (cell == '.' || cell == '*' || cell == '+') {
 			return true;
 		}
@@ -136,9 +136,9 @@ public class LockDetector {
 	public String toString() {
 		final StringBuffer strb = new StringBuffer();
 
-		for (int i = 0; i < mapa.ROWS; i++) {
-			for (int j = 0; j < mapa.COLS; j++) {
-				if (this.isLockedPos[j + i * mapa.COLS]) {
+		for (int i = 0; i < mapa.rows; i++) {
+			for (int j = 0; j < mapa.cols; j++) {
+				if (this.isLockedPos[j + i * mapa.cols]) {
 					strb.append('#');
 				} else {
 					strb.append(' ');

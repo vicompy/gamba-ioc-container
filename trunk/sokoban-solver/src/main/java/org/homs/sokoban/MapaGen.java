@@ -9,6 +9,10 @@ public class MapaGen extends Mapa {
 		super(textLevel);
 	}
 
+	public MapaGen(final Mapa mapa) {
+		super(mapa);
+	}
+
 	protected MapaGen(final MapaGen mapaGen, final int indexOrgBox, final int indexDstBox) {
 		super(mapaGen, indexOrgBox, indexDstBox);
 	}
@@ -17,7 +21,7 @@ public class MapaGen extends Mapa {
 		return new MapaGen(this, indexOrgBox, indexDstBox);
 	}
 
-	private final int[] dirs = new int[] { -1, 1, super.COLS, -super.COLS };
+	private final int[] dirs = new int[] { -1, 1, super.cols, -super.cols };
 
 	public List<MapaGen> moveGen() {
 

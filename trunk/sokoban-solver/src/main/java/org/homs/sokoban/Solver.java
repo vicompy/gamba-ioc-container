@@ -16,11 +16,19 @@ public class Solver {
 		this.lockDetector = new LockDetector(this.mapaGen);
 	}
 
+	public Solver(final Mapa mapa, final IMapHash mapHash) {
+		this.mapaGen = new MapaGen(mapa);
+		this.mapHash = mapHash;
+		this.lockDetector = new LockDetector(this.mapaGen);
+	}
+
 	public SolutionResult solve(final int maxLevel) {
 		this.nodes = 0;
 		this.maxLevel = maxLevel;
 		final SolutionResult sr = solve(0, this.mapaGen);
-		sr.setNodes(nodes);
+		if (sr != null) {
+			sr.setNodes(nodes);
+		}
 		return sr;
 	}
 
@@ -29,7 +37,7 @@ public class Solver {
 		this.nodes++;
 
 		if (mapaGen.isSolved()) {
-			System.out.println("solved at level=" + level);
+//			System.out.println("solved at level=" + level);
 			this.maxLevel = level - 1;
 			return new SolutionResult(level, mapaGen);
 		}

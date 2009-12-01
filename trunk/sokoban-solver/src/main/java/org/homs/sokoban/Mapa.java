@@ -15,13 +15,23 @@ public class Mapa {
 	public final static char GOAL_PLAY = '+';
 	public final static char GOAL_BOX = '*';
 
-	protected final int ROWS;
-	protected final int COLS;
+	protected final int rows;
+	protected final int cols;
 
 	protected final char[] map;
 	protected final boolean[] accMap;
 	protected final int playerIndex;
 	protected final Integer[] boxList;
+
+	public Mapa(final Mapa copia) {
+		this.rows = copia.rows;
+		this.cols = copia.cols;
+		this.map = copia.map.clone();
+//		this.accMap = copia.accMap.clone();
+		this.playerIndex = copia.playerIndex;
+		this.boxList = copia.boxList.clone();
+		this.accMap = computeAccessMap();
+	}
 
 	public Mapa(final String l) {
 
@@ -29,8 +39,8 @@ public class Mapa {
 		 * calcula les dimensions del mapa
 		 */
 		final Dimension d = computeLevelSize(l);
-		this.COLS = d.width;
-		this.ROWS = d.height;
+		this.cols = d.width;
+		this.rows = d.height;
 
 		/*
 		 * carrega el mapa
@@ -53,8 +63,8 @@ public class Mapa {
 
 	protected Mapa(final Mapa mapa, final int indexOrgBox, final int indexDstBox) {
 
-		this.ROWS = mapa.ROWS;
-		this.COLS = mapa.COLS;
+		this.rows = mapa.rows;
+		this.cols = mapa.cols;
 
 		this.map = mapa.map.clone();
 
@@ -99,7 +109,7 @@ public class Mapa {
 		int index = 0;
 		int mi = 0;
 
-		final char[] map = new char[ROWS * COLS];
+		final char[] map = new char[rows * cols];
 
 		do {
 			int c = 0;
@@ -108,7 +118,7 @@ public class Mapa {
 				c++;
 				index++;
 			}
-			for (int i = c; i < this.COLS; i++) {
+			for (int i = c; i < this.cols; i++) {
 				map[mi++] = WALL;
 			}
 			index++;
@@ -162,7 +172,7 @@ public class Mapa {
 
 	protected boolean[] computeAccessMap() {
 
-		final boolean[] ac = new boolean[ROWS * COLS];
+		final boolean[] ac = new boolean[rows * cols];
 		for (int i = 0; i < ac.length; i++) {
 			ac[i] = false;
 		}
@@ -185,11 +195,11 @@ public class Mapa {
 		if (!ac2[index - 1]) {
 			ac2 = computeAccessMap(ac2, index - 1);
 		}
-		if (!ac2[index - COLS]) {
-			ac2 = computeAccessMap(ac2, index - COLS);
+		if (!ac2[index - cols]) {
+			ac2 = computeAccessMap(ac2, index - cols);
 		}
-		if (!ac2[index + COLS]) {
-			ac2 = computeAccessMap(ac2, index + COLS);
+		if (!ac2[index + cols]) {
+			ac2 = computeAccessMap(ac2, index + cols);
 		}
 
 		return ac2;
@@ -199,32 +209,32 @@ public class Mapa {
 	public String toString2() {
 		final StringBuffer strb = new StringBuffer();
 
-		strb.append(ROWS);
+		strb.append(rows);
 		strb.append(',');
-		strb.append(COLS);
+		strb.append(cols);
 		strb.append(',');
 		strb.append(this.boxList.length);
 		strb.append('\n');
 
-		for (int i = 0; i < playerIndex % COLS; i++) {
+		for (int i = 0; i < playerIndex % cols; i++) {
 			strb.append(' ');
 		}
 		strb.append("|\n");
 
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLS; j++) {
-				strb.append(map[j + i * COLS]);
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				strb.append(map[j + i * cols]);
 			}
-			if (i == playerIndex / COLS) {
+			if (i == playerIndex / cols) {
 				strb.append('-');
 			}
 			strb.append('\n');
 		}
 		strb.append('\n');
 
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLS; j++) {
-				strb.append(accMap[j + i * COLS] ? ' ' : '#');
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				strb.append(accMap[j + i * cols] ? ' ' : '#');
 			}
 			strb.append('\n');
 		}
@@ -238,9 +248,9 @@ public class Mapa {
 		final StringBuffer strb = new StringBuffer();
 
 		strb.append('\n');
-		for (int i = 0; i < ROWS; i++) {
-			for (int j = 0; j < COLS; j++) {
-				strb.append(map[j + i * COLS]);
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				strb.append(map[j + i * cols]);
 			}
 			strb.append('\n');
 		}
@@ -302,5 +312,18 @@ public class Mapa {
 	// throw new NullPointerException("" + map[playerIndex]);
 	// }
 	// }
+
+
+	public int getRows() {
+		return rows;
+	}
+
+	public int getCols() {
+		return cols;
+	}
+
+	public char[] getMap() {
+		return map;
+	}
 
 }
