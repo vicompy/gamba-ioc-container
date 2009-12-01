@@ -6,14 +6,14 @@ import org.gro.logging.GroLog;
 
 class ViewResolver implements IViewResolver {
 
-	private static final GroLog log = GroLog.getGroLogger(ViewResolver.class);
+	private static final GroLog LOG = GroLog.getGroLogger(ViewResolver.class);
 
 	private final String viewResourcePrefix;
 	private final String viewResourcePostfix;
 
 	public ViewResolver(final ServletConfig httpServlet) {
-		viewResourcePrefix = httpServlet.getInitParameter("view-resource-prefix");
-		viewResourcePostfix = httpServlet.getInitParameter("view-resource-postfix");
+		viewResourcePrefix = httpServlet.getInitParameter(ConfigConstants.VIEW_RESOURCE_PREFIX_SERVLET_PARAMETER);
+		viewResourcePostfix = httpServlet.getInitParameter(ConfigConstants.VIEW_RESOURCE_POSTFIX_SERVLET_PARAMETER);
 	}
 
 	/**
@@ -25,12 +25,13 @@ class ViewResolver implements IViewResolver {
 		// cual, sino li empalma el prefix i postfix definit per a completar el
 		// nom de vista.
 		String viewRequest = null;
-		if (resourceName.startsWith("/") && resourceName.contains(".do")) {
+		if (resourceName.startsWith(ConfigConstants.ACTION_SERVLET_PREFIX) &&
+			resourceName.contains(ConfigConstants.ACTION_SERVLET_EXTENSION)) {
 			viewRequest = resourceName;
-			log.fine("redirecting to servlet: ", viewRequest);
+			LOG.finest("redirecting to servlet: ", viewRequest);
 		} else {
 			viewRequest = viewResourcePrefix + resourceName + viewResourcePostfix;
-			log.fine("redirecting to view: ", viewRequest);
+			LOG.finest("redirecting to view: ", viewRequest);
 		}
 
 		return viewRequest;

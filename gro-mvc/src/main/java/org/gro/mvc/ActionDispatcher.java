@@ -15,13 +15,7 @@ import org.gro.validation.ValidationDSL;
 
 public class ActionDispatcher implements IActionDispatcher {
 
-	private static final GroLog log = GroLog.getGroLogger(ActionDispatcher.class);
-
-	/**
-	 * la llargada en caràcters de l'extensió de les crides a Action, ha de
-	 * concordar en longitud amb el mapping de servlet fet en <tt>web.xml</tt>.
-	 */
-	private static final int ACTION_EXTENSION_LENGTH = ".do".length();
+	private static final GroLog LOG = GroLog.getGroLogger(ActionDispatcher.class);
 
 	/**
 	 * objecte mapejador de paràmetres HTTP a beans de formulari.
@@ -51,7 +45,7 @@ public class ActionDispatcher implements IActionDispatcher {
 			final String requestServletPath) {
 
 		final String actionName = requestServletPath.substring(1, requestServletPath.length()
-				- ACTION_EXTENSION_LENGTH);
+				- ConfigConstants.ACTION_EXTENSION_LENGTH);
 
 		// obté la configuració definida de la action demanada
 		final DeclaredAction declaredAction = this.definedActions.get(actionName);
@@ -78,36 +72,36 @@ public class ActionDispatcher implements IActionDispatcher {
 
 		if (validationErrorMap.isEmpty()) {
 
-			log.fine("parameters are accepted by validator: ", declaredAction.validatorClass.getName());
+			LOG.finest("parameters are accepted by validator: ", declaredAction.validatorClass.getName());
 
 			// obté el BeanForm i el binda amb els paràmetres HTTP
 			final Object actionForm = this.httpBinder.doBind(declaredAction.actionForm, request
 					.getParameterMap());
 
-			request.setAttribute("form", actionForm);
+			request.setAttribute(ConfigConstants.FORMBEAN_ATTRIBUTE_NAME, actionForm);
 
 			// invoca la Action
-			log.fine("invoking action: ", declaredAction.actionClass.getName(), ".",
+			LOG.finest("invoking action: ", declaredAction.actionClass.getName(), ".",
 					declaredAction.actionMethod.getName(), "()");
 			redirectResource = actionInvoker(declaredAction, actionForm, requestContext);
 
 		} else {
 
 			// System.out.println(">>>>>>>> invalid form");
-			log.fine("parameters are rejected by validator: ", declaredAction.validatorClass.getName());
+			LOG.finest("parameters are rejected by validator: ", declaredAction.validatorClass.getName());
 
-			request.setAttribute("validationErrorMap", validationErrorMap);
-			putParamsAsAttributes(request);
+			request.setAttribute(ConfigConstants.VALIDATION_ERROR_MAP_ATTRIBUTE_NAME, validationErrorMap);
 
 			redirectResource = declaredAction.resourceIfInvalidForm;
 
 		}
 
 		// variables predefinides a accedir desde JSP en requestScope
-		request.setAttribute("requestContext", requestContext);
-		request.setAttribute("contextName", request.getContextPath());
+		putParamsAsAttributes(request);
+		request.setAttribute(ConfigConstants.REQUEST_CONTEXT_ATTRIBUTE_NAME, requestContext);
+		request.setAttribute(ConfigConstants.CONTEXT_NAME_ATTRIBUTE_NAME, request.getContextPath());
 
-		log.fine("redirecting to: ", redirectResource);
+		LOG.finest("redirecting to: ", redirectResource);
 		return redirectResource;
 	}
 

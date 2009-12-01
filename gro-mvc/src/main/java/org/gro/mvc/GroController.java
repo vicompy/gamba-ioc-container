@@ -21,13 +21,7 @@ public class GroController extends HttpServlet {
 
 	private static final long serialVersionUID = 8918658103855642986L;
 
-	private static final GroLog log = GroLog.getGroLogger(GroController.class).config();
-
-	/**
-	 * nom del paràmetre de servlet definit en <tt>web.xml</tt>, que servirà per
-	 * scannejar el package que conté les accions de l'aplicació.
-	 */
-	private static final String ACTIONS_BASE_PACKAGE = "actions-base-package";
+	private static final GroLog LOG = GroLog.getGroLogger(GroController.class).config();
 
 	/**
 	 * resolutor de vistes TODO
@@ -46,15 +40,15 @@ public class GroController extends HttpServlet {
 		/*
 		 * obté el package de actions i executa l'scanner de mètodes anotats
 		 */
-		final String actionBasePackage = getInitParameter(ACTIONS_BASE_PACKAGE);
+		final String actionBasePackage = getInitParameter(ConfigConstants.ACTIONS_BASE_PACKAGE_SERVLET_PARAMETER);
 		final Map<String, DeclaredAction> definedActions = new ActionScanner().doScan(actionBasePackage);
 
-		log.info("scanning actions package: " + actionBasePackage);
+		LOG.info("scanning actions package: " + actionBasePackage);
 		for (final String key : definedActions.keySet()) {
-			log.fine("  /", key, ".do ==> ", definedActions.get(key).actionClass, ".",
+			LOG.finest("  /", key, ".do ==> ", definedActions.get(key).actionClass, ".",
 					definedActions.get(key).actionMethod.getName(), "(...)");
 		}
-		log.info("found ", definedActions.size(), " defined actions.");
+		LOG.info("found ", definedActions.size(), " defined actions.");
 
 		this.actionDispatcher = new ActionDispatcher(definedActions);
 
@@ -63,7 +57,7 @@ public class GroController extends HttpServlet {
 		 */
 		viewResolver = new ViewResolver(this);
 
-		log.info("GroController servlet dispatcher initialized OK");
+		LOG.info("GroController servlet dispatcher initialized OK");
 	}
 
 	/**
@@ -104,11 +98,7 @@ public class GroController extends HttpServlet {
 		// determina el nom identificador d'action demanada
 		// /jou.do ==> jou
 		final String requestServletPath = request.getServletPath();
-		log.fine("dispatching action request: ", requestServletPath);
-
-//		final String actionName = requestServletPath.substring(1, requestServletPath.length()
-//				- ACTION_EXTENSION_LENGTH);
-//		String redirectResource = actionDispatcher.dispatcher(request, response, actionName);
+		LOG.finest("dispatching action request: ", requestServletPath);
 
 		String redirectResource = actionDispatcher.dispatcher(request, response, requestServletPath);
 
