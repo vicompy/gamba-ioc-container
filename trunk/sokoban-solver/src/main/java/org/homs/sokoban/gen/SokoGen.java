@@ -23,6 +23,8 @@ public class SokoGen {
 //		this.m = new Mapa(l);
 	}
 
+	SolutionResult best = null;
+
 	public void generate(final Mapa mapa) {
 		final int cols = mapa.getCols();
 		final int rows = mapa.getRows();
@@ -36,14 +38,20 @@ public class SokoGen {
 			return;
 		}
 
+		if (best == null || !best.isWorseThan(sr)) {
+			this.best = sr;
+			System.out.println(sr.toString());
+			System.out.println(mapa.toString());
+		}
+
 //		if (mapa.equals(this.m)) {
 //			System.out.println("***************************************************");
 //		}
 
-		if (sr.getLevel() > 8) {
-			System.out.println(sr.toString());
-			System.out.println(mapa.toString());
-		}
+//		if (sr.getLevel() > 8) {
+//			System.out.println(sr.toString());
+//			System.out.println(mapa.toString());
+//		}
 
 		for (int f = 1; f < rows - 1; f++) {
 			for (int c = 1; c < cols - 1; c++) {
