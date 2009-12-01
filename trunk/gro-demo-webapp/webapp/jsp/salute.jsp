@@ -16,7 +16,8 @@
 	<h4>Hi, I'm ${form.name} and my age is ${form.age}.</h4>
 	<br />
 	<br />
-	${param.name} ${param.age}
+	${param.name} ${param.age}<br />
+	${name} ${age}<br />
 	<br />
 	<br />
 
