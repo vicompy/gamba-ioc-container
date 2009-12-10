@@ -12,7 +12,6 @@ public class Def extends Rare {
 
 	private final ScopedSymbolTable<Node> scope;
 
-
 	public Def(final ScopedSymbolTable<Node> scope) {
 		super();
 		this.scope = scope;
@@ -26,7 +25,7 @@ public class Def extends Rare {
 	// (def sum (+ 2 3))
 	@Override
 	public boolean[] getEvalDefined() {
-		return new boolean[]{false, true};
+		return new boolean[] { false, true };
 	}
 
 	@Override

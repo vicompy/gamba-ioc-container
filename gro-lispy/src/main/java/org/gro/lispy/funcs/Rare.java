@@ -14,6 +14,7 @@ public abstract class Rare implements Function {
 
 	/**
 	 * un <tt>true</tt> fa que s'evalui l'argument
+	 * 
 	 * @return
 	 */
 	abstract public boolean[] getEvalDefined();
