@@ -1,6 +1,6 @@
 package org.gro.lispy.funcs.impl;
 
-import org.gro.lispy.funcs.Evaluable;
+import org.gro.lispy.funcs.Function;
 import org.gro.lispy.funcs.NumericAggregates;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.tokenizer.Node;
@@ -8,17 +8,17 @@ import org.gro.lispy.tokenizer.Node;
 public class Add extends Rare {
 
 	@Override
-	protected boolean[] getEvalDefined() {
+	public boolean[] getEvalDefined() {
 		return null;
 	}
 
 	@Override
-	protected ArgEvalMode getEvaluateMode() {
+	public ArgEvalMode getEvaluateMode() {
 		return Rare.ArgEvalMode.ALL;
 	}
 
 	@Override
-	protected Evaluable getEvaluator() {
+	public Function getEvaluator() {
 		return new NumericAggregates() {
 			@Override
 			protected Node getNeutre() {
@@ -36,6 +36,11 @@ public class Add extends Rare {
 				}
 			}
 		};
+	}
+
+	@Override
+	protected Integer getRequiredNumArgs() {
+		return null;
 	}
 
 }

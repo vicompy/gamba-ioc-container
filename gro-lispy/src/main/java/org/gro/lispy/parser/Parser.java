@@ -5,9 +5,12 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.gro.lispy.funcs.Evaluable;
+import org.gro.lispy.funcs.Function;
+import org.gro.lispy.funcs.Rare;
+import org.gro.lispy.funcs.Rare.ArgEvalMode;
 import org.gro.lispy.funcs.impl.Add;
 import org.gro.lispy.funcs.impl.Concat;
+import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.tokenizer.Node;
@@ -30,6 +33,7 @@ public class Parser {
 		scope.define("ZERO", new Node("0", -1));
 		scope.define("T", new Node("1", -1));
 		scope.define("version", new Node("1.0", -1));
+		scope.define("=>", new Node(-1, "=>"));
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
@@ -101,36 +105,83 @@ public class Parser {
 		{
 
 			// obté els arguments evaluats
-			final List<Node> args = new LinkedList<Node>();
-			while (iter.hasNext()) {
-				final Node arg = iter.next();
-				args.add(parseExpression(arg));
-			}
+			// final List<Node> args = new LinkedList<Node>();
+			// while (iter.hasNext()) {
+			// final Node arg = iter.next();
+			// args.add(parseExpression(arg));
+			// }
 
 			// opera la funció amb els arguments
+			// if ("lambda".equals(funName)) {
+			// return new Lambda().eval(funNode, args);
+			// }
+			// if ("+".equals(funName)) {
+			// return new Add().eval(funNode, args);
+			// }
+			// if ("*".equals(funName)) {
+			// return new Mul().eval(funNode, args);
+			// }
+			// if ("concat".equals(funName)) {
+			// return new Concat().eval(funNode, args);
+			// }
+
+			Rare evaluator = null;
+			if ("lambda".equals(funName)) {
+				evaluator = new Lambda();
+			}
 			if ("+".equals(funName)) {
-				return new Add().eval(funNode, args);
+				evaluator = new Add();
 			}
 			if ("*".equals(funName)) {
-				return new Mul().eval(funNode, args);
+				evaluator = new Mul();
 			}
 			if ("concat".equals(funName)) {
-				return new Concat().eval(funNode, args);
+				evaluator = new Concat();
 			}
-			if ("and".equals(funName)) {
-				return and(funNode, args);
+
+			// evalua els arguments segons indica evaluator
+			final List<Node> args = new LinkedList<Node>();
+			// while (iter.hasNext()) {
+			// final Node arg = iter.next();
+			// args.add(parseExpression(arg));
+			// }
+
+			if (evaluator != null) {
+				final ArgEvalMode argEvalMode = evaluator.getEvaluateMode();
+				if (argEvalMode == ArgEvalMode.ALL) {
+					for (int i = 0; iter.hasNext(); i++) {
+						args.add(parseExpression(iter.next()));
+					}
+				} else if (argEvalMode == ArgEvalMode.NONE) {
+					for (int i = 0; iter.hasNext(); i++) {
+						args.add(iter.next());
+					}
+				} else if (argEvalMode == ArgEvalMode.DEFINED) {
+					for (int i = 0; iter.hasNext(); i++) {
+						if (evaluator.getEvalDefined()[i]) {
+							args.add(parseExpression(iter.next()));
+						} else {
+							args.add(iter.next());
+						}
+					}
+
+				}
+				return evaluator.eval(funNode, args);
 			}
-			if ("disp".equals(funName)) {
-				return disp(funNode, args);
-			}
+
+
+			// if ("and".equals(funName)) {
+			// return and(funNode, args);
+			// }
+			// if ("disp".equals(funName)) {
+			// return disp(funNode, args);
+			// }
 
 		}
 
 		throw new RuntimeException("undefined function: " + ((String) funNode.value) + " at line "
 				+ funNode.line);
 	}
-
-
 
 	private Node and(final Node funNode, final List<Node> args) {
 
@@ -169,18 +220,4 @@ public class Parser {
 		return new Node(r, funNode.line);
 	}
 
-}
-
-abstract class Rare implements Evaluable {
-
-	public enum ArgEvalMode {
-		ALL, NONE, DEFINED
-	}
-	abstract protected ArgEvalMode getEvaluateMode();
-	abstract protected boolean[] getEvalDefined();
-	abstract protected Evaluable getEvaluator();
-
-	public Node eval(final Node funNode, final List<Node> args) {
-		return getEvaluator().eval(funNode, args);
-	}
 }

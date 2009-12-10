@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.gro.lispy.tokenizer.Node;
 
-public abstract class AggregateFunction implements Evaluable {
+public abstract class AggregateFunction implements Function {
 
 	abstract protected Node getNeutre();
 

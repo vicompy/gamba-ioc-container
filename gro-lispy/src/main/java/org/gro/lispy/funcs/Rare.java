@@ -4,19 +4,29 @@ import java.util.List;
 
 import org.gro.lispy.tokenizer.Node;
 
-public abstract class Rare implements Evaluable {
+public abstract class Rare implements Function {
 
 	public enum ArgEvalMode {
 		ALL, NONE, DEFINED
 	}
 
-	abstract protected ArgEvalMode getEvaluateMode();
+	abstract public ArgEvalMode getEvaluateMode();
 
-	abstract protected boolean[] getEvalDefined();
+	/**
+	 * un <tt>true</tt> fa que s'evalui l'argument
+	 * @return
+	 */
+	abstract public boolean[] getEvalDefined();
 
-	abstract protected Evaluable getEvaluator();
+	abstract public Function getEvaluator();
+
+	abstract protected Integer getRequiredNumArgs();
 
 	public Node eval(final Node funNode, final List<Node> args) {
+		if (getRequiredNumArgs() != null && getRequiredNumArgs() != args.size()) {
+			throw new RuntimeException("function " + funNode.value + " requires " + getRequiredNumArgs()
+					+ ", but there are " + args.size() + ", at line " + funNode.line);
+		}
 		return getEvaluator().eval(funNode, args);
 	}
 }
