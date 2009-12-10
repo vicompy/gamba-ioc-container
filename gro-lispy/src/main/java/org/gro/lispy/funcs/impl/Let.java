@@ -4,38 +4,45 @@ import java.util.List;
 
 import org.gro.lispy.funcs.Function;
 import org.gro.lispy.funcs.Rare;
+import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.tokenizer.Node;
 import org.gro.lispy.tokenizer.Node.NodeType;
 
-public class Cdr extends Rare {
+public class Let extends Rare {
+
+	private final ScopedSymbolTable<Node> scope;
+
+	public Let(final ScopedSymbolTable<Node> scope) {
+		super();
+		this.scope = scope;
+	}
 
 	@Override
 	protected Integer getRequiredNumArgs() {
-		return 1;
+		return 2;
 	}
 
-	// (cdr (quote 1 2 3))
+	// (let sum (+ sum 1))
 	@Override
 	public boolean[] getEvalDefined() {
-		return null;
+		return new boolean[] { false, true };
 	}
 
 	@Override
 	public ArgEvalMode getEvaluateMode() {
-		return Rare.ArgEvalMode.ALL;
+		return Rare.ArgEvalMode.DEFINED;
 	}
 
 	@Override
 	public Function getEvaluator() {
 		return new Function() {
-			@SuppressWarnings("unchecked")
 			public Node eval(final Node funNode, final List<Node> args) {
-
-				if (args.get(0).nodeType != NodeType.LIST) {
-					throw new RuntimeException("cdr requires a list as a unique argument");
+				if (args.get(0).nodeType != NodeType.SYMBOL) {
+					throw new RuntimeException(""); // TODO
 				}
-				final List<Node> list = ((List<Node>) args.get(0).value);
-				return new Node(list.subList(1, list.size()));
+
+				scope.let((String) args.get(0).value, args.get(1));
+				return args.get(1);
 			}
 		};
 	}

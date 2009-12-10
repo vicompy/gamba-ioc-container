@@ -16,6 +16,10 @@ public class ParserTest {
 		assertEquals("[1]", parse("( (+ 1) )"));
 		assertEquals("[0]", parse("( (+) )"));
 
+		assertEquals("[0]", parse("( (-) )"));
+		assertEquals("[5]", parse("( (- 5) )"));
+		assertEquals("[5]", parse("( (- 6 1) )"));
+
 		assertEquals("[1, 2, 6]", parse("((*)(* 2)(* 1 2 3))"));
 		assertEquals("[hello world]", parse("((concat \"hello \" \"world\" ))"));
 		assertEquals("[hello world 6.28318]", parse("((concat \"hello \" \"world \" (* 3.14159 2)))"));
@@ -28,6 +32,8 @@ public class ParserTest {
 		// quotes
 		assertEquals("[[1, 2, 3]]", parse("((quote (1 2 3)))"));
 		assertEquals("[[1, 2, 3]]", parse("((' (1 2 3)))"));
+		assertEquals("[jou]", parse("( (quote jou))"));
+		assertEquals("[[+, 1, 2]]", parse("( (quote (+ 1 2)))"));
 
 		// assertEquals("", parse("()"));
 	}
@@ -48,10 +54,10 @@ public class ParserTest {
 		assertEquals("[14]", parse("( ((lambda (x y z => (+ x (* y z)))) 2 3 4) )"));
 	}
 
+	// TODO falta testar let!
 	@Test
 	public void testDef() {
 
-		// testa el retorn d'una expressió lambda
 		assertEquals("[5, 10]", parse("( (def chorras 5) (* 2 chorras) )"));
 		assertEquals("[100, 200]", parse(
 			"( 						\n" +
@@ -73,10 +79,10 @@ public class ParserTest {
 			"( 									\n" +
 			"	(def double 					\n" +
 			"		(lambda (x => (* x 2)))) 	\n" +
-			"	(def inc 						\n" +
+			"	(def ince 						\n" +
 			"		(lambda (x => (+ x 1)))) 	\n" +
 			"	 								\n" +
-			"	(inc (double 2)) 				\n" +
+			"	(ince (double 2)) 				\n" +
 			")"
 		));
 
@@ -110,10 +116,24 @@ public class ParserTest {
 		));
 	}
 
+	@Test
+	public void testEvalIncDec() {
+
+		assertEquals("[[+, 1, 2, 3]]", parse("( (quote (+ 1 2 3))  )"));
+		assertEquals("[6]", parse("( (eval (quote (+ 1 2 3)))  )"));
+		assertEquals("[6]", parse("( (eval 6) )"));
+		assertEquals("[6]", parse("( (eval (+ 2 4)) )"));
+
+		assertEquals("[4]", parse("( (inc 3) )"));
+		assertEquals("[4]", parse("( (dec 5)  )"));
+	}
+
+
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);
 		return parser.parseProgram().toString();
 	}
+
 
 }
 
