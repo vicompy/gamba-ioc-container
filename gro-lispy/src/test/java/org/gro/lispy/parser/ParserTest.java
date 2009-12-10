@@ -128,6 +128,12 @@ public class ParserTest {
 		assertEquals("[4]", parse("( (dec 5)  )"));
 	}
 
+	@Test
+	public void testIf() {
+
+		assertEquals("[0]", parse("( (if (+ 1) (+ 0 )(+ 1))  )"));
+		assertEquals("[1]", parse("( (if (+ 0) (+ 0 )(+ 1))  )"));
+	}
 
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);

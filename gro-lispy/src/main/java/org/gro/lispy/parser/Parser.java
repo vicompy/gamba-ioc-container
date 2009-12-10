@@ -12,6 +12,7 @@ import org.gro.lispy.funcs.impl.Cdr;
 import org.gro.lispy.funcs.impl.Concat;
 import org.gro.lispy.funcs.impl.Cons;
 import org.gro.lispy.funcs.impl.Def;
+import org.gro.lispy.funcs.impl.If;
 import org.gro.lispy.funcs.impl.LList;
 import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Let;
@@ -33,14 +34,13 @@ public class Parser {
 	public Parser(final String program) {
 		this.program = new Tokenizer(program).tokenize();
 		this.scope = new ScopedSymbolTable<Node>();
-//		System.out.println(program);
+		// System.out.println(program);
 	}
 
 	private Node define(final String program) {
 		final List<Node> p = new Parser(program).program;
 		return parseExpression(new Node(p));
 	}
-
 
 	public List<Object> parseProgram() {
 		scope.createLevel();
@@ -51,7 +51,6 @@ public class Parser {
 		scope.define("PI", new Node(-1, "3.14159"));
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
-
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
@@ -67,7 +66,8 @@ public class Parser {
 		if (expression.nodeType == Node.NodeType.LIST) {
 
 			final Node result = parseFunc(expression);
-//			System.out.println("** func result: " + expression.toString() + " => " + result.toString());
+			// System.out.println("** func result: " + expression.toString() +
+			// " => " + result.toString());
 			return result;
 		} else {
 
@@ -82,7 +82,8 @@ public class Parser {
 				result = expression;
 			}
 
-//			System.out.println("** expression: " + expression.toString() + " => " + result.toString());
+			// System.out.println("** expression: " + expression.toString() +
+			// " => " + result.toString());
 			return result;
 		}
 
@@ -90,7 +91,7 @@ public class Parser {
 
 	// <program> ::= ( { <expression> } )
 	// <expression> ::= <func> | IDENT
-	// deprecated::::  <func> ::= (IDENT {<expression>})
+	// deprecated:::: <func> ::= (IDENT {<expression>})
 	//
 	// correcció!!
 	// <func> ::= (expression {<expression>})
@@ -133,7 +134,8 @@ public class Parser {
 					break;
 				}
 				scope.define((String) n.value, args.get(i));
-//				System.out.println("defined "+((String) n.value)+":="+ args.get(i).toString()+" in level "+scope.getCurrentLevel());
+				// System.out.println("defined "+((String) n.value)+":="+
+				// args.get(i).toString()+" in level "+scope.getCurrentLevel());
 				i++;
 			} while (true);
 
@@ -142,10 +144,10 @@ public class Parser {
 			// els corresponents valors.
 			final List<Node> lambdaExpTokens = new ArrayList<Node>();
 			for (final Node n : (List<Node>) iterLambdaDef.next().value) {
-//				System.out.println("==> deixat: " + n);
+				// System.out.println("==> deixat: " + n);
 				lambdaExpTokens.add(n);
 			}
-//			System.out.println(lambdaExpTokens.toString());
+			// System.out.println(lambdaExpTokens.toString());
 
 			// finalment, evalua el cos de la lambda; els arguments seràn
 			// substituits per els seus valors, ja que aquests han sigut
@@ -164,6 +166,11 @@ public class Parser {
 		Rare evaluator = null;
 
 		// identifica la funció
+		if ("if".equals(funName)) {
+			evaluator = new If();
+		}
+		// TODO implementar funció lispy: multi-eval, i així poder anidar blocs
+		// de sentències!!
 		if ("eval".equals(funName)) {
 			final List<Node> args = new LinkedList<Node>();
 			while (iter.hasNext()) {
@@ -238,7 +245,11 @@ public class Parser {
 			}
 		}
 
-		return evaluator.eval(funNode, args);
+		if ("if".equals(funName)) {
+			return parseExpression(evaluator.eval(funNode, args));
+		} else {
+			return evaluator.eval(funNode, args);
+		}
 	}
 
 }
