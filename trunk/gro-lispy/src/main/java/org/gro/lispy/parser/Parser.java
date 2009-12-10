@@ -104,8 +104,8 @@ public class Parser {
 
 			// és una funció definida per lambda!!!
 			// cal aplicar la substitució
-//			final List<String> lambdaArgs = new ArrayList<String>();
-//			final List<String> lambdaExpTokens = new ArrayList<String>();
+			// final List<String> lambdaArgs = new ArrayList<String>();
+			// final List<String> lambdaExpTokens = new ArrayList<String>();
 			// per aplicar, falta obtenir la llista d'arguments, evaluats com a
 			// expressió
 			final List<Node> args = new LinkedList<Node>();
@@ -124,26 +124,32 @@ public class Parser {
 				if (n.value.equals("=>")) {
 					break;
 				}
-				argMap.put((String)n.value, args.get(i));
+				try {
+					argMap.put((String) n.value, args.get(i));
+				} catch (final IndexOutOfBoundsException e) {
+					throw new RuntimeException("el nombre d'arguments a aplicació amb lambda no concorda");
+				}
 				i++;
 			} while (true);
 			System.out.println(argMap.toString());
-//			System.exit(1);
+			// System.exit(1);
 
-			// aplica la substitució; la llista de tokens substituïts queda en <tt>lambdaExpTokens</tt>.
+			// aplica la substitució; la llista de tokens substituïts queda en
+			// <tt>lambdaExpTokens</tt>.
 			final List<Node> lambdaExpTokens = new ArrayList<Node>();
 
 			final List<Node> lambdaBody = (List<Node>) iterLambdaDef.next().value;
-//			while (iterLambdaDef.hasNext()) {
+			// while (iterLambdaDef.hasNext()) {
 			for (final Node n : lambdaBody) {
-//				final Node n = iterLambdaDef.next();
+				// final Node n = iterLambdaDef.next();
 				if (argMap.get(n.value.toString()) != null) {
-					// token trobat com a argument d'expressió lambda; substituir
-					System.out.println("==> substituit: "+n+" per "+argMap.get(n.value.toString()));
+					// token trobat com a argument d'expressió lambda;
+					// substituir
+					System.out.println("==> substituit: " + n + " per " + argMap.get(n.value.toString()));
 					lambdaExpTokens.add(argMap.get(n.value.toString()));
 				} else {
 					// token qualsevol; no substituir
-					System.out.println("==> deixat: "+n);
+					System.out.println("==> deixat: " + n);
 					lambdaExpTokens.add(n);
 				}
 			}
