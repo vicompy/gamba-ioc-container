@@ -9,6 +9,7 @@ import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
 import org.gro.lispy.funcs.impl.Add;
 import org.gro.lispy.funcs.impl.Concat;
+import org.gro.lispy.funcs.impl.Def;
 import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.funcs.impl.Quote;
@@ -116,6 +117,7 @@ public class Parser {
 					break;
 				}
 				scope.define((String) n.value, args.get(i));
+//				System.out.println("defined "+((String) n.value)+":="+ args.get(i).toString()+" in level "+scope.getCurrentLevel());
 				i++;
 			} while (true);
 
@@ -160,6 +162,9 @@ public class Parser {
 		}
 		if ("concat".equals(funName)) {
 			evaluator = new Concat();
+		}
+		if ("def".equals(funName)) {
+			evaluator = new Def(scope);
 		}
 
 		if (evaluator == null) {
