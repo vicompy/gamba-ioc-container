@@ -79,6 +79,12 @@ public class Node {
 		this.line = null; //TODO
 	}
 
+	public Node(final int unusedIsALiteral, final String literal) {
+		this.nodeType = NodeType.LITERAL;
+		this.value = literal;
+		this.line = null; //TODO
+	}
+
 	/**
 	 * constructor de node que cont� qualsevol tipus d'<b>�tom</b>.
 	 *
