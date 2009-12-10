@@ -131,8 +131,11 @@ public class ParserTest {
 	@Test
 	public void testIf() {
 
-		assertEquals("[0]", parse("( (if (+ 1) (+ 0 )(+ 1))  )"));
-		assertEquals("[1]", parse("( (if (+ 0) (+ 0 )(+ 1))  )"));
+		assertEquals("[0]", parse("( (if (quote 1) (quote 0)(quote 1))  )"));
+		assertEquals("[1]", parse("( (if (quote 0) (quote 0)(quote 1))  )"));
+
+		assertEquals("[0]", parse("( (if (true) (quote 0)(quote 1))  )"));
+		assertEquals("[1]", parse("( (if (false) (quote 0)(quote 1))  )"));
 	}
 
 	private String parse(final String program) {
