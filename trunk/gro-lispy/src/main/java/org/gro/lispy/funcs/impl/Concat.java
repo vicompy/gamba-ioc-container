@@ -17,6 +17,6 @@ public class Concat extends AggregateFunction {
 	}
 
 	@Override
-	protected void checkTypes(final List<Node> args) {
+	protected void checkTypes(final Node funNode, final List<Node> args) {
 	}
 }
