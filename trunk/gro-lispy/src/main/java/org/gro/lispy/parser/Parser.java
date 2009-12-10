@@ -96,7 +96,9 @@ public class Parser {
    				return arg;
    			}
 
-		} else {
+		}
+//		else
+		{
 
 
     		// obté els arguments evaluats

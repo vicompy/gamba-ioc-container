@@ -36,6 +36,8 @@ public class ParserTest {
 
 }
 
+// TODO testar errors i línies en missatges
+
 /*
 	(def inc
 		(lambda (x => (+ x 1))))
