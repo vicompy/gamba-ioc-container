@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.gro.lispy.funcs.Function;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
 import org.gro.lispy.funcs.impl.Add;
@@ -26,7 +25,7 @@ public class Parser {
 	public Parser(final String program) {
 		this.program = new Tokenizer(program).tokenize();
 		this.scope = new ScopedSymbolTable<Node>();
-		System.out.println(program.toString());
+		System.out.println(program);
 	}
 
 	public List<Object> parseProgram() {
@@ -86,143 +85,93 @@ public class Parser {
 		}
 		final String funName = (String) funNode.value;
 
-//		if ("'".equals(funName) || "quote".equals(funName)) {
-//
-//			// obté l'únic argument sense evaluar
-//			final Node arg = iter.next();
-//
-//			if (iter.hasNext()) {
-//				throw new RuntimeException("quote ha de tenir un únic argument");
-//			}
-//
-//			if (arg.nodeType == NodeType.LIST) {
-//				return new Node((List<Node>) arg.value);
-//			} else {
-//				return arg;
-//			}
-//
-//		}
-		// else
-//		{
+		Rare evaluator = null;
 
-			// obté els arguments evaluats
-			// final List<Node> args = new LinkedList<Node>();
-			// while (iter.hasNext()) {
-			// final Node arg = iter.next();
-			// args.add(parseExpression(arg));
-			// }
+		// identifica la funció
+		if ("quote".equals(funName) ||
+			"'".equals(funName)) {
+			evaluator = new Quote();
+		}
+		if ("lambda".equals(funName)) {
+			evaluator = new Lambda();
+		}
+		if ("+".equals(funName)) {
+			evaluator = new Add();
+		}
+		if ("*".equals(funName)) {
+			evaluator = new Mul();
+		}
+		if ("concat".equals(funName)) {
+			evaluator = new Concat();
+		}
 
-			// opera la funció amb els arguments
-			// if ("lambda".equals(funName)) {
-			// return new Lambda().eval(funNode, args);
-			// }
-			// if ("+".equals(funName)) {
-			// return new Add().eval(funNode, args);
-			// }
-			// if ("*".equals(funName)) {
-			// return new Mul().eval(funNode, args);
-			// }
-			// if ("concat".equals(funName)) {
-			// return new Concat().eval(funNode, args);
-			// }
+		if (evaluator == null) {
+			throw new RuntimeException("undefined function: " + ((String) funNode.value) + " at line "
+					+ funNode.line);
+		}
 
-			Rare evaluator = null;
+		// evalua els arguments segons indica l'evaluator
+		final List<Node> args = new LinkedList<Node>();
 
-			if ("quote".equals(funName) || "'".equals(funName)) {
-				evaluator = new Quote();
+		final ArgEvalMode argEvalMode = evaluator.getEvaluateMode();
+		if (argEvalMode == ArgEvalMode.ALL) {
+			while(iter.hasNext()) {
+				args.add(parseExpression(iter.next()));
 			}
-			if ("lambda".equals(funName)) {
-				evaluator = new Lambda();
+		} else if (argEvalMode == ArgEvalMode.NONE) {
+			while(iter.hasNext()) {
+				args.add(iter.next());
 			}
-			if ("+".equals(funName)) {
-				evaluator = new Add();
-			}
-			if ("*".equals(funName)) {
-				evaluator = new Mul();
-			}
-			if ("concat".equals(funName)) {
-				evaluator = new Concat();
-			}
-
-			// evalua els arguments segons indica evaluator
-			final List<Node> args = new LinkedList<Node>();
-			// while (iter.hasNext()) {
-			// final Node arg = iter.next();
-			// args.add(parseExpression(arg));
-			// }
-
-			if (evaluator != null) {
-				final ArgEvalMode argEvalMode = evaluator.getEvaluateMode();
-				if (argEvalMode == ArgEvalMode.ALL) {
-					for (int i = 0; iter.hasNext(); i++) {
-						args.add(parseExpression(iter.next()));
-					}
-				} else if (argEvalMode == ArgEvalMode.NONE) {
-					for (int i = 0; iter.hasNext(); i++) {
-						args.add(iter.next());
-					}
-				} else if (argEvalMode == ArgEvalMode.DEFINED) {
-					for (int i = 0; iter.hasNext(); i++) {
-						if (evaluator.getEvalDefined()[i]) {
-							args.add(parseExpression(iter.next()));
-						} else {
-							args.add(iter.next());
-						}
-					}
-
+		} else if (argEvalMode == ArgEvalMode.DEFINED) {
+			for (int i = 0; iter.hasNext(); i++) {
+				if (evaluator.getEvalDefined()[i]) {
+					args.add(parseExpression(iter.next()));
+				} else {
+					args.add(iter.next());
 				}
-				return evaluator.eval(funNode, args);
 			}
 
+		}
 
-			// if ("and".equals(funName)) {
-			// return and(funNode, args);
-			// }
-			// if ("disp".equals(funName)) {
-			// return disp(funNode, args);
-			// }
-
-//		}
-
-		throw new RuntimeException("undefined function: " + ((String) funNode.value) + " at line "
-				+ funNode.line);
+		return evaluator.eval(funNode, args);
 	}
 
-//	private Node and(final Node funNode, final List<Node> args) {
-//
-//		for (final Node arg : args) {
-//			if (arg.nodeType != NodeType.NUMBER) {
-//				throw new RuntimeException("argument is not a NUMERIC for function 'and'");
-//			}
-//		}
-//
-//		boolean condition = true;
-//		for (final Node arg : args) {
-//			condition = condition && (((Number) arg.value).longValue() != 0);
-//		}
-//		if (condition) {
-//			return new Node("1", funNode.line);
-//		} else {
-//			return new Node("0", funNode.line);
-//		}
-//
-//	}
-//
-//	private Node disp(final Node funNode, final List<Node> args) {
-//
-//		// for (final Node arg : args) {
-//		// if (arg.nodeType != NodeType.NUMBER) {
-//		// throw new
-//		// RuntimeException("argument is not a NUMERIC for function 'and'");
-//		// }
-//		// }
-//
-//		String r = "";
-//		for (final Node arg : args) {
-//			r += arg.value.toString();
-//		}
-//		System.out.println(r);
-//		return new Node(r, funNode.line);
-//	}
+	// private Node and(final Node funNode, final List<Node> args) {
+	//
+	// for (final Node arg : args) {
+	// if (arg.nodeType != NodeType.NUMBER) {
+	// throw new
+	// RuntimeException("argument is not a NUMERIC for function 'and'");
+	// }
+	// }
+	//
+	// boolean condition = true;
+	// for (final Node arg : args) {
+	// condition = condition && (((Number) arg.value).longValue() != 0);
+	// }
+	// if (condition) {
+	// return new Node("1", funNode.line);
+	// } else {
+	// return new Node("0", funNode.line);
+	// }
+	//
+	// }
+	//
+	// private Node disp(final Node funNode, final List<Node> args) {
+	//
+	// // for (final Node arg : args) {
+	// // if (arg.nodeType != NodeType.NUMBER) {
+	// // throw new
+	// // RuntimeException("argument is not a NUMERIC for function 'and'");
+	// // }
+	// // }
+	//
+	// String r = "";
+	// for (final Node arg : args) {
+	// r += arg.value.toString();
+	// }
+	// System.out.println(r);
+	// return new Node(r, funNode.line);
+	// }
 
 }
