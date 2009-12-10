@@ -44,12 +44,32 @@ public class NodeTest {
 	public void testSubList() throws ScopedSymbolTableException {
 
 		final List<Node> nodeList = new LinkedList<Node>();
+		nodeList.add(new Node("1", 0));
+		nodeList.add(new Node("2", 0));
+		nodeList.add(new Node("3", 0));
 		final Node nSublist = new Node(nodeList);
 
 		assertEquals(Node.NodeType.LIST, nSublist.nodeType);
 		assertEquals(nodeList, nSublist.value);
+		assertEquals("[1, 2, 3]", nSublist.value.toString());
 	}
 
 	// TODO falta FUNC
+	@Test
+	public void testLambda() throws ScopedSymbolTableException {
+
+		final List<Node> nodeList = new LinkedList<Node>();
+		nodeList.add(new Node("x", 0));
+		nodeList.add(new Node("\"=>\"", 0));
+		nodeList.add(new Node("+", 0));
+		nodeList.add(new Node("x", 0));
+		nodeList.add(new Node("x", 0));
+		final Node nFunc = new Node(1, nodeList);
+
+		assertEquals(Node.NodeType.FUNC, nFunc.nodeType);
+		assertEquals(nodeList, nFunc.value);
+		assertEquals("[x, =>, +, x, x]", nFunc.value.toString());
+	}
+
 
 }

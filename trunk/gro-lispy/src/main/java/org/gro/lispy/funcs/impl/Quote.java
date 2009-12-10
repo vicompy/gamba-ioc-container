@@ -26,7 +26,6 @@ public class Quote extends Rare {
 	@Override
 	public Function getEvaluator() {
 		return new Function() {
-
 			@SuppressWarnings("unchecked")
 			public Node eval(final Node funNode, final List<Node> args) {
 				if (!(args.get(0).value instanceof List<?>)) {
