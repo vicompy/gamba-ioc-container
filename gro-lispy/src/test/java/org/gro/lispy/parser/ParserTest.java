@@ -40,7 +40,8 @@ public class ParserTest {
 		assertEquals("[1, [x, =>, +, x, x], 1]", parse("( (*) (lambda (x => + x x)) (*) )"));
 
 		// testa l'aplicació d'una funció lambda
-		assertEquals("[1, [x, =>, +, x, x], 1]", parse("( ((lambda (x => + x x)) 3) )"));
+		assertEquals("[6]", parse("( ((lambda (x => (+ x x))) 3) )"));
+		assertEquals("[5]", parse("( ((lambda (x y => (+ x y))) 3 2) )"));
 	}
 
 	private String parse(final String program) {
