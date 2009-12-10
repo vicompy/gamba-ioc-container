@@ -45,10 +45,12 @@ public class Parser {
 	public List<Object> parseProgram() {
 		scope.createLevel();
 		scope.define("ZERO", new Node("0", -1));
-		scope.define("T", new Node("1", -1));
+//		scope.define("T", new Node("1", -1));
 		scope.define("version", new Node("1.0", -1));
 		scope.define("=>", new Node(-1, "=>"));
 		scope.define("PI", new Node(-1, "3.14159"));
+		scope.define("true", define("(lambda (=> (+ 1)))"));
+		scope.define("false", define("(lambda (=> (+ 0)))"));
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
 
@@ -246,6 +248,7 @@ public class Parser {
 		}
 
 		if ("if".equals(funName)) {
+			// if necessita d'evaluar el seu resultat, així s'evita evaluar l'expressió falsa
 			return parseExpression(evaluator.eval(funNode, args));
 		} else {
 			return evaluator.eval(funNode, args);
