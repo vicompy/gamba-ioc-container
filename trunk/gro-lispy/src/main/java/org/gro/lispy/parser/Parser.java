@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.gro.lispy.funcs.Evaluable;
 import org.gro.lispy.funcs.impl.Add;
 import org.gro.lispy.funcs.impl.Concat;
 import org.gro.lispy.funcs.impl.Mul;
@@ -129,6 +130,8 @@ public class Parser {
 				+ funNode.line);
 	}
 
+
+
 	private Node and(final Node funNode, final List<Node> args) {
 
 		for (final Node arg : args) {
@@ -168,17 +171,16 @@ public class Parser {
 
 }
 
-/*
+abstract class Rare implements Evaluable {
 
+	public enum ArgEvalMode {
+		ALL, NONE, DEFINED
+	}
+	abstract protected ArgEvalMode getEvaluateMode();
+	abstract protected boolean[] getEvalDefined();
+	abstract protected Evaluable getEvaluator();
 
-
-
-
-
-
-
-
-
-
-*/
-
+	public Node eval(final Node funNode, final List<Node> args) {
+		return getEvaluator().eval(funNode, args);
+	}
+}
