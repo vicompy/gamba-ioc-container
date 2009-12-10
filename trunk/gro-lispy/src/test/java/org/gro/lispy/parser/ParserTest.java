@@ -6,7 +6,7 @@ import org.junit.Test;
 public class ParserTest {
 
 	@Test
-	public void test1() {
+	public void testBasics() {
 
 		// aggregates basics: nested, vars, stupid expressions
 		assertEquals("[12]", parse("( (+ 1 2 3 (+ 1 2 3)) )"));
@@ -29,11 +29,19 @@ public class ParserTest {
 		assertEquals("[[1, 2, 3]]", parse("((quote (1 2 3)))"));
 		assertEquals("[[1, 2, 3]]", parse("((' (1 2 3)))"));
 
-		assertEquals("[1, [x, =>, +, x, x], 1]", parse("( (*) (lambda (x => + x x)) (*) )"));
 
 //		assertEquals("", parse("()"));
 	}
 
+	@Test
+	public void testLambda() {
+
+		// testa el retorn d'una expressió lambda
+		assertEquals("[1, [x, =>, +, x, x], 1]", parse("( (*) (lambda (x => + x x)) (*) )"));
+
+		// testa l'aplicació d'una funció lambda
+		assertEquals("[1, [x, =>, +, x, x], 1]", parse("( ((lambda (x => + x x)) 3) )"));
+	}
 
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);
