@@ -13,6 +13,7 @@ import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.funcs.impl.Quote;
 import org.gro.lispy.scope.ScopedSymbolTable;
+import org.gro.lispy.scope.ScopedSymbolTableException;
 import org.gro.lispy.tokenizer.Node;
 import org.gro.lispy.tokenizer.Tokenizer;
 import org.gro.lispy.tokenizer.Node.NodeType;
@@ -55,7 +56,11 @@ public class Parser {
 
 			final Node result;
 			if (expression.nodeType == NodeType.SYMBOL) {
+				try {
 				result = scope.obtain((String) expression.value);
+				} catch(final ScopedSymbolTableException e) {
+					return expression;
+				}
 			} else {
 				result = expression;
 			}
@@ -69,6 +74,9 @@ public class Parser {
 	// <program> ::= ( { <expression> } )
 	// <expression> ::= <func> | IDENT
 	// <func> ::= (IDENT {<expression>})
+	//
+	// correcció!!
+	// <func> ::= (expression {<expression>})
 
 	@SuppressWarnings("unchecked")
 	private Node parseFunc(final Node funcList) {
@@ -78,11 +86,21 @@ public class Parser {
 		final Iterator<Node> iter = exp.iterator();
 
 		// obté el node de nom de funció
-		final Node funNode = iter.next();
-		if (funNode.nodeType != Node.NodeType.SYMBOL) {
-			throw new RuntimeException("expected a valid symbol, but obtained: " + funNode.value
-					+ " at line " + funNode.line);
+		final Node funNode = parseExpression(iter.next());
+
+//		if (funNode.nodeType != Node.NodeType.SYMBOL &&
+//			funNode.nodeType != Node.NodeType.FUNC) {
+//			throw new RuntimeException("expected a valid symbol, but obtained: " + funNode.value
+//					+ " at line " + funNode.line);
+//		}
+
+
+		if (funNode.nodeType == Node.NodeType.FUNC) {
+			// és una funció definida per lambda!!!
+			// cal aplicar la substitució
+			return null;
 		}
+
 		final String funName = (String) funNode.value;
 
 		Rare evaluator = null;
@@ -130,48 +148,9 @@ public class Parser {
 					args.add(iter.next());
 				}
 			}
-
 		}
 
 		return evaluator.eval(funNode, args);
 	}
-
-	// private Node and(final Node funNode, final List<Node> args) {
-	//
-	// for (final Node arg : args) {
-	// if (arg.nodeType != NodeType.NUMBER) {
-	// throw new
-	// RuntimeException("argument is not a NUMERIC for function 'and'");
-	// }
-	// }
-	//
-	// boolean condition = true;
-	// for (final Node arg : args) {
-	// condition = condition && (((Number) arg.value).longValue() != 0);
-	// }
-	// if (condition) {
-	// return new Node("1", funNode.line);
-	// } else {
-	// return new Node("0", funNode.line);
-	// }
-	//
-	// }
-	//
-	// private Node disp(final Node funNode, final List<Node> args) {
-	//
-	// // for (final Node arg : args) {
-	// // if (arg.nodeType != NodeType.NUMBER) {
-	// // throw new
-	// // RuntimeException("argument is not a NUMERIC for function 'and'");
-	// // }
-	// // }
-	//
-	// String r = "";
-	// for (final Node arg : args) {
-	// r += arg.value.toString();
-	// }
-	// System.out.println(r);
-	// return new Node(r, funNode.line);
-	// }
 
 }
