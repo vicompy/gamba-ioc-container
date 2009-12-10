@@ -75,18 +75,19 @@ public class Tokenizer {
 		return tokens;
 	}
 
-	private int chupaWhiteSpaces(int line) {
+	private int chupaWhiteSpaces(final int line) {
+		int i = line;
 		while (Character.isWhitespace(program.charAt(programIndex))) {
 			// captura un \n com a una nova línia de programa
 			if (program.charAt(programIndex) == '\n') {
-				line++;
+				i++;
 			}
 			programIndex++;
 			// if (programIndex >= program.length()) {
 			// break;
 			// }
 		}
-		return line;
+		return i;
 	}
 
 }
