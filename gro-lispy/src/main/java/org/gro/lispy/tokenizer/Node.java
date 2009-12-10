@@ -58,7 +58,8 @@ public class Node {
 		 * El valor del node ser� un {@link java.utils.List}&lt;{@link Node}
 		 * &gt;.
 		 */
-		LIST
+		LIST,
+		FUNC
 	}
 
 	/**
@@ -69,7 +70,13 @@ public class Node {
 	public Node(final List<Node> list) {
 		this.nodeType = NodeType.LIST;
 		this.value = list;
-		this.line = null;
+		this.line = null; //TODO
+	}
+
+	public Node(final int unusedIsAFunc, final List<Node> list) {
+		this.nodeType = NodeType.FUNC;
+		this.value = list;
+		this.line = null; //TODO
 	}
 
 	/**
