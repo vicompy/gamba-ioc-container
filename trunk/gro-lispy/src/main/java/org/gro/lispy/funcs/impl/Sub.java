@@ -22,6 +22,7 @@ public class Sub extends Rare {
 		return new NumericAggregates() {
 
 			private int c = 0;
+
 			@Override
 			protected Node getNeutre() {
 				return new Node(0L, -1);
