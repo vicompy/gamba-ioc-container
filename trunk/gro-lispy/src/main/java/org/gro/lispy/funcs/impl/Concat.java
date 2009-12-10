@@ -7,7 +7,7 @@ import org.gro.lispy.funcs.Function;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.tokenizer.Node;
 
-public class Concat extends Rare { // TODO s'ha d'extendre de LiteralAggregates???
+public class Concat extends Rare {
 
 	@Override
 	public boolean[] getEvalDefined() {
@@ -21,6 +21,9 @@ public class Concat extends Rare { // TODO s'ha d'extendre de LiteralAggregates?
 
 	@Override
 	public Function getEvaluator() {
+		// no extén de LiteralAggregates, degut a que un concate, tb pot
+		// treballar amb numèrics, ja que concatena qualsevol cosa, amb
+		// toString()
 		return new AggregateFunction() {
 
 			@Override
