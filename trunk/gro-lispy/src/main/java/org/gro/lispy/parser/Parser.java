@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.gro.lispy.funcs.impl.Add;
+import org.gro.lispy.funcs.impl.Concat;
+import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.tokenizer.Node;
 import org.gro.lispy.tokenizer.Tokenizer;
@@ -125,129 +128,6 @@ public class Parser {
 		throw new RuntimeException("undefined function: " + ((String) funNode.value) + " at line "
 				+ funNode.line);
 	}
-
-	interface Evaluable {
-		Node eval(Node funNode, List<Node> args);
-	}
-
-	abstract class AggregateFunction implements Evaluable {
-
-		abstract protected Node getNeutre();
-
-		abstract protected void checkTypes(List<Node> args);
-
-		abstract protected Node evalPair(final Node current, final Node next);
-
-		public Node eval(final Node funNode, final List<Node> args) {
-			checkTypes(args);
-			Node current = getNeutre();
-			for (final Node n : args) {
-				current = evalPair(current, n);
-			}
-
-			return current;
-		}
-	}
-
-	abstract class NumericAggregates extends AggregateFunction {
-		@Override
-		protected void checkTypes(final List<Node> args) {
-			for (final Node arg : args) {
-				if (arg.nodeType != NodeType.NUMBER) {
-					throw new RuntimeException("all atoms must be NUMERIC. invalid atom: "
-							+ arg.value.toString() + " at line " + arg.line);
-				}
-			}
-		}
-	}
-
-	abstract class LiteralAggregates extends AggregateFunction {
-		@Override
-		protected void checkTypes(final List<Node> args) {
-			for (final Node arg : args) {
-				if (arg.nodeType != NodeType.LITERAL) {
-					throw new RuntimeException("all atoms must be LITERAL. invalid atom: "
-							+ arg.value.toString() + " at line " + arg.line);
-				}
-			}
-		}
-	}
-
-	class Add extends NumericAggregates {
-		@Override
-		protected Node getNeutre() {
-			return new Node(0L, -1);
-		}
-
-		@Override
-		protected Node evalPair(final Node current, final Node next) {
-			if (current.value instanceof Double || next.value instanceof Double) {
-				return new Node(((Number) current.value).doubleValue() + ((Number) next.value).doubleValue(),
-						next.line);
-			} else {
-				return new Node(((Number) current.value).longValue() + ((Number) next.value).longValue(),
-						next.line);
-			}
-		}
-	}
-
-	class Mul extends NumericAggregates {
-		@Override
-		protected Node getNeutre() {
-			return new Node(1L, -1);
-		}
-
-		@Override
-		protected Node evalPair(final Node current, final Node next) {
-			if (current.value instanceof Double || next.value instanceof Double) {
-				return new Node(((Number) current.value).doubleValue() * ((Number) next.value).doubleValue(),
-						next.line);
-			} else {
-				return new Node(((Number) current.value).longValue() * ((Number) next.value).longValue(),
-						next.line);
-			}
-		}
-	}
-
-	class Concat extends AggregateFunction {
-		@Override
-		protected Node getNeutre() {
-			return new Node(-1, "");
-		}
-
-		@Override
-		protected Node evalPair(final Node current, final Node next) {
-			return new Node(current.value.toString() + next.value.toString(), next.line);
-		}
-
-		@Override
-		protected void checkTypes(final List<Node> args) {
-		}
-	}
-
-	// private Node add(final Node funNode, final List<Node> args) {
-	// boolean anyDoubleTyped = false;
-	// for (final Node arg : args) {
-	// if (arg.value instanceof Double) {
-	// anyDoubleTyped = true;
-	// break;
-	// }
-	// }
-	//
-	// if (anyDoubleTyped) {
-	// Double r = 0.0;
-	// for (final Node arg : args) {
-	// r += ((Number) arg.value).doubleValue();
-	// }
-	// return new Node(r.toString(), funNode.line);
-	// } else {
-	// Long r = 0L;
-	// for (final Node arg : args) {
-	// r += ((Number) arg.value).longValue();
-	// }
-	// return new Node(r.toString(), funNode.line);
-	// }
-	// }
 
 	private Node and(final Node funNode, final List<Node> args) {
 
