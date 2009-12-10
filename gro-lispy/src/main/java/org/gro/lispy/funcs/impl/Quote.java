@@ -6,14 +6,13 @@ import org.gro.lispy.funcs.Function;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.tokenizer.Node;
 
-public class Lambda extends Rare {
+public class Quote extends Rare {
 
 	@Override
 	protected Integer getRequiredNumArgs() {
 		return 1;
 	}
 
-	// (lambda (x => + x x))
 	@Override
 	public boolean[] getEvalDefined() {
 		return null;
@@ -33,7 +32,7 @@ public class Lambda extends Rare {
 				if (!(args.get(0).value instanceof List<?>)) {
 					throw new RuntimeException(""); // TODO
 				}
-				return new Node(-1, (List<Node>) args.get(0).value);
+				return new Node((List<Node>) args.get(0).value);
 			}
 		};
 	}

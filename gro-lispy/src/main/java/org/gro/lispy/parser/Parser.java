@@ -12,6 +12,7 @@ import org.gro.lispy.funcs.impl.Add;
 import org.gro.lispy.funcs.impl.Concat;
 import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Mul;
+import org.gro.lispy.funcs.impl.Quote;
 import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.tokenizer.Node;
 import org.gro.lispy.tokenizer.Tokenizer;
@@ -85,24 +86,24 @@ public class Parser {
 		}
 		final String funName = (String) funNode.value;
 
-		if ("'".equals(funName) || "quote".equals(funName)) {
-
-			// obté l'únic argument sense evaluar
-			final Node arg = iter.next();
-
-			if (iter.hasNext()) {
-				throw new RuntimeException("quote ha de tenir un únic argument");
-			}
-
-			if (arg.nodeType == NodeType.LIST) {
-				return new Node((List<Node>) arg.value);
-			} else {
-				return arg;
-			}
-
-		}
+//		if ("'".equals(funName) || "quote".equals(funName)) {
+//
+//			// obté l'únic argument sense evaluar
+//			final Node arg = iter.next();
+//
+//			if (iter.hasNext()) {
+//				throw new RuntimeException("quote ha de tenir un únic argument");
+//			}
+//
+//			if (arg.nodeType == NodeType.LIST) {
+//				return new Node((List<Node>) arg.value);
+//			} else {
+//				return arg;
+//			}
+//
+//		}
 		// else
-		{
+//		{
 
 			// obté els arguments evaluats
 			// final List<Node> args = new LinkedList<Node>();
@@ -126,6 +127,10 @@ public class Parser {
 			// }
 
 			Rare evaluator = null;
+
+			if ("quote".equals(funName) || "'".equals(funName)) {
+				evaluator = new Quote();
+			}
 			if ("lambda".equals(funName)) {
 				evaluator = new Lambda();
 			}
@@ -177,47 +182,47 @@ public class Parser {
 			// return disp(funNode, args);
 			// }
 
-		}
+//		}
 
 		throw new RuntimeException("undefined function: " + ((String) funNode.value) + " at line "
 				+ funNode.line);
 	}
 
-	private Node and(final Node funNode, final List<Node> args) {
-
-		for (final Node arg : args) {
-			if (arg.nodeType != NodeType.NUMBER) {
-				throw new RuntimeException("argument is not a NUMERIC for function 'and'");
-			}
-		}
-
-		boolean condition = true;
-		for (final Node arg : args) {
-			condition = condition && (((Number) arg.value).longValue() != 0);
-		}
-		if (condition) {
-			return new Node("1", funNode.line);
-		} else {
-			return new Node("0", funNode.line);
-		}
-
-	}
-
-	private Node disp(final Node funNode, final List<Node> args) {
-
-		// for (final Node arg : args) {
-		// if (arg.nodeType != NodeType.NUMBER) {
-		// throw new
-		// RuntimeException("argument is not a NUMERIC for function 'and'");
-		// }
-		// }
-
-		String r = "";
-		for (final Node arg : args) {
-			r += arg.value.toString();
-		}
-		System.out.println(r);
-		return new Node(r, funNode.line);
-	}
+//	private Node and(final Node funNode, final List<Node> args) {
+//
+//		for (final Node arg : args) {
+//			if (arg.nodeType != NodeType.NUMBER) {
+//				throw new RuntimeException("argument is not a NUMERIC for function 'and'");
+//			}
+//		}
+//
+//		boolean condition = true;
+//		for (final Node arg : args) {
+//			condition = condition && (((Number) arg.value).longValue() != 0);
+//		}
+//		if (condition) {
+//			return new Node("1", funNode.line);
+//		} else {
+//			return new Node("0", funNode.line);
+//		}
+//
+//	}
+//
+//	private Node disp(final Node funNode, final List<Node> args) {
+//
+//		// for (final Node arg : args) {
+//		// if (arg.nodeType != NodeType.NUMBER) {
+//		// throw new
+//		// RuntimeException("argument is not a NUMERIC for function 'and'");
+//		// }
+//		// }
+//
+//		String r = "";
+//		for (final Node arg : args) {
+//			r += arg.value.toString();
+//		}
+//		System.out.println(r);
+//		return new Node(r, funNode.line);
+//	}
 
 }
