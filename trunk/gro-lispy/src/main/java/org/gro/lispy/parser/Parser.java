@@ -73,7 +73,7 @@ public class Parser {
 
 	// <program> ::= ( { <expression> } )
 	// <expression> ::= <func> | IDENT
-	// <func> ::= (IDENT {<expression>})
+	// deprecated::::  <func> ::= (IDENT {<expression>})
 	//
 	// correcció!!
 	// <func> ::= (expression {<expression>})

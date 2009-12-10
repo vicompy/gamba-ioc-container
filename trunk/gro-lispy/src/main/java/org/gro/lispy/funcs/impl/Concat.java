@@ -33,7 +33,8 @@ public class Concat extends Rare {
 
 			@Override
 			protected Node evalPair(final Node current, final Node next) {
-				return new Node(current.value.toString() + next.value.toString(), next.line);
+//				return new Node(current.value.toString() + next.value.toString(), next.line);
+				return new Node(-1, current.value.toString() + next.value.toString());
 			}
 
 			@Override
