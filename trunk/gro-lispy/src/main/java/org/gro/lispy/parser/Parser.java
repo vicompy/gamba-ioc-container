@@ -29,10 +29,7 @@ public class Parser {
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
-			returning.add(
-    			parseExpression(expression)
-    			.value
-			);
+			returning.add(parseExpression(expression).value);
 		}
 		scope.removeLevel();
 
@@ -65,7 +62,6 @@ public class Parser {
 	// <expression> ::= <func> | IDENT
 	// <func> ::= (IDENT {<expression>})
 
-
 	@SuppressWarnings("unchecked")
 	private Node parseFunc(final Node funcList) {
 
@@ -84,40 +80,40 @@ public class Parser {
 		if ("'".equals(funName) || "quote".equals(funName)) {
 
 			// obté l'únic argument sense evaluar
-    		final Node arg = iter.next();
+			final Node arg = iter.next();
 
-   			if (iter.hasNext()) {
-   				throw new RuntimeException("quote ha de tenir un únic argument");
-   			}
+			if (iter.hasNext()) {
+				throw new RuntimeException("quote ha de tenir un únic argument");
+			}
 
-   			if (arg.nodeType == NodeType.LIST) {
-   				return new Node((List<Node>) arg.value);
-   			} else {
-   				return arg;
-   			}
+			if (arg.nodeType == NodeType.LIST) {
+				return new Node((List<Node>) arg.value);
+			} else {
+				return arg;
+			}
 
 		}
-//		else
+		// else
 		{
 
+			// obté els arguments evaluats
+			final List<Node> args = new LinkedList<Node>();
+			while (iter.hasNext()) {
+				final Node arg = iter.next();
+				args.add(parseExpression(arg));
+			}
 
-    		// obté els arguments evaluats
-    		final List<Node> args = new LinkedList<Node>();
-    		while (iter.hasNext()) {
-    			final Node arg = iter.next();
-    			args.add(parseExpression(arg));
-    		}
-
-    		// opera la funció amb els arguments
-    		if ("+".equals(funName)) {
-    			return add(funNode, args);
-    		}
-    		if ("and".equals(funName)) {
-    			return and(funNode, args);
-    		}
-    		if ("disp".equals(funName)) {
-    			return disp(funNode, args);
-    		}
+			// opera la funció amb els arguments
+			if ("+".equals(funName)) {
+				// return add(funNode, args);
+				return new Add().eval(funNode, args);
+			}
+			if ("and".equals(funName)) {
+				return and(funNode, args);
+			}
+			if ("disp".equals(funName)) {
+				return disp(funNode, args);
+			}
 
 		}
 
@@ -125,36 +121,88 @@ public class Parser {
 				+ funNode.line);
 	}
 
+	interface Evaluable {
+		Node eval(Node funNode, List<Node> args);
+	}
 
+	abstract class AggregateFunction implements Evaluable {
 
+		abstract protected Node getNeutre();
 
+		abstract protected void checkTypes(List<Node> args);
 
+		abstract protected Node evalPair(final Node current, final Node next);
 
-
-
-	private Node add(final Node funNode, final List<Node> args) {
-		boolean anyDoubleTyped = false;
-		for (final Node arg : args) {
-			if (arg.value instanceof Double) {
-				anyDoubleTyped = true;
-				break;
+		public Node eval(final Node funNode, final List<Node> args) {
+			checkTypes(args);
+			Node current = getNeutre();
+			for (final Node n : args) {
+				current = evalPair(current, n);
 			}
-		}
 
-		if (anyDoubleTyped) {
-			Double r = 0.0;
-			for (final Node arg : args) {
-				r += ((Number) arg.value).doubleValue();
-			}
-			return new Node(r.toString(), funNode.line);
-		} else {
-			Long r = 0L;
-			for (final Node arg : args) {
-				r += ((Number) arg.value).longValue();
-			}
-			return new Node(r.toString(), funNode.line);
+			return current;
 		}
 	}
+
+	class Add extends AggregateFunction {
+
+		@Override
+		protected Node getNeutre() {
+			return new Node(0L, -1);
+		}
+
+		@Override
+		protected Node evalPair(final Node current, final Node next) {
+
+			if (/* current.nodeType != NodeType.NUMBER || */next.nodeType != NodeType.NUMBER) {
+				throw new RuntimeException("function +: all atoms must be NUMERIC");
+			}
+
+			if (current.value instanceof Double || next.value instanceof Double) {
+				return new Node(((Number) current.value).doubleValue() + ((Number) next.value).doubleValue(),
+						next.line);
+			} else {
+				return new Node(((Number) current.value).longValue() + ((Number) next.value).longValue(),
+						next.line);
+			}
+
+		}
+
+		@Override
+		protected void checkTypes(final List<Node> args) {
+			for (final Node arg : args) {
+				if (arg.nodeType != NodeType.NUMBER) {
+					throw new RuntimeException("type invalid for atom: " + arg.value.toString() + " at line "
+							+ arg.line);
+				}
+			}
+		}
+
+	}
+
+	// private Node add(final Node funNode, final List<Node> args) {
+	// boolean anyDoubleTyped = false;
+	// for (final Node arg : args) {
+	// if (arg.value instanceof Double) {
+	// anyDoubleTyped = true;
+	// break;
+	// }
+	// }
+	//
+	// if (anyDoubleTyped) {
+	// Double r = 0.0;
+	// for (final Node arg : args) {
+	// r += ((Number) arg.value).doubleValue();
+	// }
+	// return new Node(r.toString(), funNode.line);
+	// } else {
+	// Long r = 0L;
+	// for (final Node arg : args) {
+	// r += ((Number) arg.value).longValue();
+	// }
+	// return new Node(r.toString(), funNode.line);
+	// }
+	// }
 
 	private Node and(final Node funNode, final List<Node> args) {
 
@@ -178,11 +226,12 @@ public class Parser {
 
 	private Node disp(final Node funNode, final List<Node> args) {
 
-//		for (final Node arg : args) {
-//			if (arg.nodeType != NodeType.NUMBER) {
-//				throw new RuntimeException("argument is not a NUMERIC for function 'and'");
-//			}
-//		}
+		// for (final Node arg : args) {
+		// if (arg.nodeType != NodeType.NUMBER) {
+		// throw new
+		// RuntimeException("argument is not a NUMERIC for function 'and'");
+		// }
+		// }
 
 		String r = "";
 		for (final Node arg : args) {
@@ -193,7 +242,6 @@ public class Parser {
 	}
 
 }
-
 
 /*
 

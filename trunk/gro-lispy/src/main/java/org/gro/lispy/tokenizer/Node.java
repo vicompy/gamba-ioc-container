@@ -103,6 +103,17 @@ public class Node {
 		}
 	}
 
+	public Node(final Long value, final int line) {
+		this.nodeType = NodeType.NUMBER;
+		this.value = value;
+		this.line = line;
+	}
+	public Node(final Double value, final int line) {
+		this.nodeType = NodeType.NUMBER;
+		this.value = value;
+		this.line = line;
+	}
+
 	private static Long parseIfLongInteger(final String number) {
 		try {
 			return Long.valueOf(number);
