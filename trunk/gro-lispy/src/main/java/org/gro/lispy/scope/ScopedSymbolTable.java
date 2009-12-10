@@ -44,72 +44,6 @@ public class ScopedSymbolTable<T> {
 		throw new ScopedSymbolTableException("symbol not found: " + name);
 	}
 
-	/*
-	(def add
-	   (lambda x
-	      (lambda y
-	         (+ x y))))
-
-	((add 2) 3)
-
-	(def add
-	   (lambda (x y)
-	      (+ x y)))
-
-	(add 2 3)
-
-	;;; number
-	(+ 2 3)
-	;;; literal
-	(concat "hello " "world")
-	;;; boolean
-	(< 2 3)
-	;;; function
-	(lambda a (+ a a))
-	;;; object
-	(new java.awt.Color)
-
-
-
-	(define count (* 2 3))
-	Function[define](Literal["count"], Function[*](Number[2], Number[3]))
-	Function[define](Literal["count"], Number[6])
-
-	<program> ::= { <expression> }
-	<expression> ::= <func> | IDENT
-	<func> ::= (IDENT {<expression>})
-
-
-	(lambda x (+ x x))
-
-	lambda -> x -> +
-	               |
-	               +--> + -> x -> x
-
-	;;; (let color-list (news java.awt.Color 10))
-	(mapcar
-		(lambda x (set x.green 64))
-		(news java.awt.Color 10))
-
-	(mapcar
-		(lambda x (+ x x))
-		(list 1 2 3 4 5))
-
-	(length
-		(list 1 (list 2 3) 4 5))
-
-	(car '(1 2 3))  ===  (car (quote (1 2 3))) ha de funcionar!!
-		--> quote evalua com a dada
-		--> altrament com a expressi� sint�ctica
-		==> l'operador quote retorna una el tipus de dades amb qu� l'int�rpret representa les dades:
-		    (quote (1 2 3)) --> [1,2,3]
-		    (quote jou)   --> jou
-
-
-	(def double
-		(lambda x (+ x x)))
-
-	*/
 	public void let(final String name, final T value) throws ScopedSymbolTableException {
 		for (int i = this.currentLevel; i >= 0; i--) {
 			if (this.symbolTable.get(i).keySet().contains(name)) {
@@ -119,5 +53,10 @@ public class ScopedSymbolTable<T> {
 		}
 		throw new ScopedSymbolTableException("symbol not found: " + name);
 	}
+
+	public int getCurrentLevel() {
+		return currentLevel;
+	}
+
 
 }

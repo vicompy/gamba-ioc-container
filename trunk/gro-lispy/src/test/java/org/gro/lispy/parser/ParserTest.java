@@ -48,6 +48,51 @@ public class ParserTest {
 		assertEquals("[14]", parse("( ((lambda (x y z => (+ x (* y z)))) 2 3 4) )"));
 	}
 
+	@Test
+	public void testDef() {
+
+		// testa el retorn d'una expressió lambda
+		assertEquals("[5, 10]", parse("( (def chorras 5) (* 2 chorras) )"));
+		assertEquals("[100, 200]", parse(
+				"( 						\n" +
+				"	(def chorras 		\n" +
+				"		(* 10 10)) 		\n" +
+				"	(* 2 chorras) 		\n" +
+				")"
+			));
+		// TODO i pq no es pot??
+//		assertEquals("[100, 200]", parse(
+//				"( 						\n" +
+//				"	(def chorras 		\n" +
+//				"		(' (* 10 10))) 		\n" +
+//				"	(* 2 chorras) 		\n" +
+//				")"
+//			));
+
+
+
+		assertEquals("[[x, =>, [*, x, x]], 4761]", parse(
+				"( 									\n" +
+				"	(def double 					\n" +
+				"		(lambda (x => (* x x)))) 	\n" +
+				"	(double 69) 					\n" +
+				")"
+			));
+
+		assertEquals("[[x, =>, [*, x, 2]], [x, =>, [+, x, 1]], 5]", parse(
+				"( 									\n" +
+				"	(def double 					\n" +
+				"		(lambda (x => (* x 2)))) 	\n" +
+				"	(def inc 						\n" +
+				"		(lambda (x => (+ x 1)))) 	\n" +
+				"	 								\n" +
+				"	(inc (double 2)) 				\n" +
+				")"
+			));
+
+	}
+
+
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);
 		return parser.parseProgram().toString();
@@ -57,8 +102,3 @@ public class ParserTest {
 
 // TODO testar errors i línies en missatges
 
-/*
- * (def inc (lambda (x => (+ x 1)))) (inc 10)
- *
- * ((lambda (x => (+ x 1))) 10) (+ 10 1) 11
- */
