@@ -28,8 +28,8 @@ public class Add extends Rare {
 			@Override
 			protected Node evalPair(final Node current, final Node next) {
 				if (current.value instanceof Double || next.value instanceof Double) {
-					return new Node(((Number) current.value).doubleValue() + ((Number) next.value).doubleValue(),
-							next.line);
+					return new Node(((Number) current.value).doubleValue()
+							+ ((Number) next.value).doubleValue(), next.line);
 				} else {
 					return new Node(((Number) current.value).longValue() + ((Number) next.value).longValue(),
 							next.line);
