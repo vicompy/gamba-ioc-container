@@ -82,6 +82,33 @@ public class ParserTest {
 
 	}
 
+	@Test
+	public void testHeadsAndTails() {
+
+		assertEquals("[1]", parse(
+			"( (car (quote (1 2 3))) )"
+		));
+		assertEquals("[[2, 3]]", parse(
+			"( (cdr (quote (1 2 3))) )"
+		));
+		assertEquals("[[1, 2, 3]]", parse(
+			"( (cons 1 (quote (2 3))) )"
+		));
+
+		assertEquals("[[1, 2, 3]]", parse(
+			"( (list 1 2 3) )"
+		));
+
+		assertEquals("[1]", parse(
+			"( (car (list 1 2 3)) )"
+		));
+		assertEquals("[[2, 3]]", parse(
+			"( (cdr (list 1 2 3)) )"
+		));
+		assertEquals("[[1, 2, 3]]", parse(
+			"( (cons 1 (list 2 3)) )"
+		));
+	}
 
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);

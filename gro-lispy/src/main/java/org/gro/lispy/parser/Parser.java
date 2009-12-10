@@ -8,11 +8,15 @@ import java.util.List;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
 import org.gro.lispy.funcs.impl.Add;
+import org.gro.lispy.funcs.impl.Cdr;
 import org.gro.lispy.funcs.impl.Concat;
+import org.gro.lispy.funcs.impl.Cons;
 import org.gro.lispy.funcs.impl.Def;
+import org.gro.lispy.funcs.impl.LList;
 import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.funcs.impl.Quote;
+import org.gro.lispy.funcs.impl.Car;
 import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.scope.ScopedSymbolTableException;
 import org.gro.lispy.tokenizer.Node;
@@ -167,6 +171,18 @@ public class Parser {
 		}
 		if ("def".equals(funName)) {
 			evaluator = new Def(scope);
+		}
+		if ("car".equals(funName)) {
+			evaluator = new Car();
+		}
+		if ("cdr".equals(funName)) {
+			evaluator = new Cdr();
+		}
+		if ("cons".equals(funName)) {
+			evaluator = new Cons();
+		}
+		if ("list".equals(funName)) {
+			evaluator = new LList();
 		}
 
 		if (evaluator == null) {
