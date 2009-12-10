@@ -144,8 +144,19 @@ public class Parser {
 		}
 	}
 
-	class Add extends AggregateFunction {
+	abstract class NumericAggregates extends AggregateFunction {
+		@Override
+		protected void checkTypes(final List<Node> args) {
+			for (final Node arg : args) {
+				if (arg.nodeType != NodeType.NUMBER) {
+					throw new RuntimeException("all atoms must be NUMERIC. invalid atom: "
+							+ arg.value.toString() + " at line " + arg.line);
+				}
+			}
+		}
+	}
 
+	class Add extends NumericAggregates {
 		@Override
 		protected Node getNeutre() {
 			return new Node(0L, -1);
@@ -153,11 +164,6 @@ public class Parser {
 
 		@Override
 		protected Node evalPair(final Node current, final Node next) {
-
-			if (/* current.nodeType != NodeType.NUMBER || */next.nodeType != NodeType.NUMBER) {
-				throw new RuntimeException("function +: all atoms must be NUMERIC");
-			}
-
 			if (current.value instanceof Double || next.value instanceof Double) {
 				return new Node(((Number) current.value).doubleValue() + ((Number) next.value).doubleValue(),
 						next.line);
@@ -165,19 +171,7 @@ public class Parser {
 				return new Node(((Number) current.value).longValue() + ((Number) next.value).longValue(),
 						next.line);
 			}
-
 		}
-
-		@Override
-		protected void checkTypes(final List<Node> args) {
-			for (final Node arg : args) {
-				if (arg.nodeType != NodeType.NUMBER) {
-					throw new RuntimeException("type invalid for atom: " + arg.value.toString() + " at line "
-							+ arg.line);
-				}
-			}
-		}
-
 	}
 
 	// private Node add(final Node funNode, final List<Node> args) {
