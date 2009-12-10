@@ -1,5 +1,6 @@
 package org.gro.lispy.parser;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,16 +21,22 @@ public class Parser {
 		System.out.println(program.toString());
 	}
 
-	public void parseProgram() {
+	public List<Object> parseProgram() {
 		scope.createLevel();
 		scope.define("ZERO", new Node("0", -1));
 		scope.define("T", new Node("1", -1));
 		scope.define("version", new Node("1.0", -1));
 
+		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
-			parseExpression(expression);
+			returning.add(
+    			parseExpression(expression)
+    			.value
+			);
 		}
 		scope.removeLevel();
+
+		return returning;
 	}
 
 	private Node parseExpression(final Node expression) {
@@ -117,20 +124,6 @@ public class Parser {
 	}
 
 
-//	@SuppressWarnings("unchecked")
-//	private Node parseQuotedList(final Node atomList) {
-//		final List<Node> list = (List<Node>) atomList.value;
-//
-//		final Iterator<Node> iter = list.iterator();
-//		final List<Node> args = new LinkedList<Node>();
-//
-//		// obté els arguments sense evaluar
-//		while (iter.hasNext()) {
-//			args.add(iter.next());
-//		}
-//
-//		return new Node(args);
-//	}
 
 
 
@@ -198,3 +191,19 @@ public class Parser {
 	}
 
 }
+
+
+/*
+
+
+
+
+
+
+
+
+
+
+
+*/
+
