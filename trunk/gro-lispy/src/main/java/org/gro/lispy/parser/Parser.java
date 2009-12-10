@@ -1,9 +1,11 @@
 package org.gro.lispy.parser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
@@ -57,8 +59,8 @@ public class Parser {
 			final Node result;
 			if (expression.nodeType == NodeType.SYMBOL) {
 				try {
-				result = scope.obtain((String) expression.value);
-				} catch(final ScopedSymbolTableException e) {
+					result = scope.obtain((String) expression.value);
+				} catch (final ScopedSymbolTableException e) {
 					return expression;
 				}
 			} else {
@@ -77,6 +79,8 @@ public class Parser {
 	//
 	// correcció!!
 	// <func> ::= (expression {<expression>})
+	// aleshores lambda queda com a:
+	// ((LAMBDA <expression-def>) {<expression-args>})
 
 	@SuppressWarnings("unchecked")
 	private Node parseFunc(final Node funcList) {
@@ -88,17 +92,64 @@ public class Parser {
 		// obté el node de nom de funció
 		final Node funNode = parseExpression(iter.next());
 
-//		if (funNode.nodeType != Node.NodeType.SYMBOL &&
-//			funNode.nodeType != Node.NodeType.FUNC) {
-//			throw new RuntimeException("expected a valid symbol, but obtained: " + funNode.value
-//					+ " at line " + funNode.line);
-//		}
-
+		// if (funNode.nodeType != Node.NodeType.SYMBOL &&
+		// funNode.nodeType != Node.NodeType.FUNC) {
+		// throw new RuntimeException("expected a valid symbol, but obtained: "
+		// + funNode.value
+		// + " at line " + funNode.line);
+		// }
 
 		if (funNode.nodeType == Node.NodeType.FUNC) {
+			// TODO polir un montón
+
 			// és una funció definida per lambda!!!
 			// cal aplicar la substitució
-			return null;
+//			final List<String> lambdaArgs = new ArrayList<String>();
+//			final List<String> lambdaExpTokens = new ArrayList<String>();
+			// per aplicar, falta obtenir la llista d'arguments, evaluats com a
+			// expressió
+			final List<Node> args = new LinkedList<Node>();
+			while (iter.hasNext()) {
+				args.add(parseExpression(iter.next()));
+			}
+
+			// captura noms d'arguments en lambda en un Map: nom==>valor
+
+			final Map<String, Node> argMap = new HashMap<String, Node>();
+
+			final Iterator<Node> iterLambdaDef = ((List<Node>) funNode.value).iterator();
+			int i = 0;
+			do {
+				final Node n = iterLambdaDef.next();
+				if (n.value.equals("=>")) {
+					break;
+				}
+				argMap.put((String)n.value, args.get(i));
+				i++;
+			} while (true);
+			System.out.println(argMap.toString());
+//			System.exit(1);
+
+			// aplica la substitució; la llista de tokens substituïts queda en <tt>lambdaExpTokens</tt>.
+			final List<Node> lambdaExpTokens = new ArrayList<Node>();
+
+			final List<Node> lambdaBody = (List<Node>) iterLambdaDef.next().value;
+//			while (iterLambdaDef.hasNext()) {
+			for (final Node n : lambdaBody) {
+//				final Node n = iterLambdaDef.next();
+				if (argMap.get(n.value.toString()) != null) {
+					// token trobat com a argument d'expressió lambda; substituir
+					System.out.println("==> substituit: "+n+" per "+argMap.get(n.value.toString()));
+					lambdaExpTokens.add(argMap.get(n.value.toString()));
+				} else {
+					// token qualsevol; no substituir
+					System.out.println("==> deixat: "+n);
+					lambdaExpTokens.add(n);
+				}
+			}
+
+			System.out.println(lambdaExpTokens.toString());
+			return parseFunc(new Node(lambdaExpTokens));
 		}
 
 		final String funName = (String) funNode.value;
@@ -106,8 +157,7 @@ public class Parser {
 		Rare evaluator = null;
 
 		// identifica la funció
-		if ("quote".equals(funName) ||
-			"'".equals(funName)) {
+		if ("quote".equals(funName) || "'".equals(funName)) {
 			evaluator = new Quote();
 		}
 		if ("lambda".equals(funName)) {
@@ -133,11 +183,11 @@ public class Parser {
 
 		final ArgEvalMode argEvalMode = evaluator.getEvaluateMode();
 		if (argEvalMode == ArgEvalMode.ALL) {
-			while(iter.hasNext()) {
+			while (iter.hasNext()) {
 				args.add(parseExpression(iter.next()));
 			}
 		} else if (argEvalMode == ArgEvalMode.NONE) {
-			while(iter.hasNext()) {
+			while (iter.hasNext()) {
 				args.add(iter.next());
 			}
 		} else if (argEvalMode == ArgEvalMode.DEFINED) {
