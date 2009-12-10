@@ -29,6 +29,8 @@ public class ParserTest {
 		assertEquals("[[1, 2, 3]]", parse("((quote (1 2 3)))"));
 		assertEquals("[[1, 2, 3]]", parse("((' (1 2 3)))"));
 
+		assertEquals("[1, [[x, =>, +, x, x]], 1]", parse("( (*) (lambda (x => + x x)) (*) )"));
+
 //		assertEquals("", parse("()"));
 	}
 

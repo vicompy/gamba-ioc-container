@@ -3,24 +3,24 @@ package org.gro.lispy.funcs.impl;
 import java.util.List;
 
 import org.gro.lispy.funcs.AggregateFunction;
-import org.gro.lispy.funcs.Evaluable;
+import org.gro.lispy.funcs.Function;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.tokenizer.Node;
 
 public class Concat extends Rare {
 
 	@Override
-	protected boolean[] getEvalDefined() {
+	public boolean[] getEvalDefined() {
 		return null;
 	}
 
 	@Override
-	protected ArgEvalMode getEvaluateMode() {
+	public ArgEvalMode getEvaluateMode() {
 		return Rare.ArgEvalMode.ALL;
 	}
 
 	@Override
-	protected Evaluable getEvaluator() {
+	public Function getEvaluator() {
 		return new AggregateFunction() {
 
 			@Override
@@ -37,5 +37,10 @@ public class Concat extends Rare {
 			protected void checkTypes(final Node funNode, final List<Node> args) {
 			}
 		};
+	}
+
+	@Override
+	protected Integer getRequiredNumArgs() {
+		return null;
 	}
 }
