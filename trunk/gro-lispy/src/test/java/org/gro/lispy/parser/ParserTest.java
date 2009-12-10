@@ -86,6 +86,13 @@ public class ParserTest {
 			")"
 		));
 
+		assertEquals("[[x, =>, [*, x, x]], 25]", parse(
+				"( 									\n" +
+				"	(def sqr 						\n" +
+				"		(lambda (x => (* x x)))) 	\n" +
+				"	(sqr 5) 						\n" +
+				")"
+			));
 	}
 
 	@Test
@@ -136,6 +143,15 @@ public class ParserTest {
 
 		assertEquals("[0]", parse("( (if (true) (quote 0)(quote 1))  )"));
 		assertEquals("[1]", parse("( (if (false) (quote 0)(quote 1))  )"));
+
+
+		assertEquals("[1]", parse("( (true) )"));
+		try {
+			// la definició lambda de true i false impedeixen que aquest tipus
+			// booleà es pugui operar
+			assertEquals("[1]", parse("( (+ true 1) )"));
+			fail();
+		} catch (final RuntimeException e) {}
 	}
 
 	private String parse(final String program) {
