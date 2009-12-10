@@ -16,6 +16,10 @@ public class ParserTest {
 		assertEquals("[1]", parse("( (+ 1) )"));
 		assertEquals("[0]", parse("( (+) )"));
 
+		assertEquals("[1, 2, 6]", parse("((*)(* 2)(* 1 2 3))"));
+		assertEquals("[hello world]", parse("((concat \"hello \" \"world\" ))"));
+		assertEquals("[hello world 6.28318]", parse("((concat \"hello \" \"world \" (* 3.14159 2)))"));
+
 		// longints vs. doubles
 		assertEquals("[3]", parse("( (+ 1 2) )"));
 		assertEquals("[3.0]", parse("( (+ 1.0 2) )"));

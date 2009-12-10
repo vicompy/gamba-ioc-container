@@ -105,8 +105,13 @@ public class Parser {
 
 			// opera la funció amb els arguments
 			if ("+".equals(funName)) {
-				// return add(funNode, args);
 				return new Add().eval(funNode, args);
+			}
+			if ("*".equals(funName)) {
+				return new Mul().eval(funNode, args);
+			}
+			if ("concat".equals(funName)) {
+				return new Concat().eval(funNode, args);
 			}
 			if ("and".equals(funName)) {
 				return and(funNode, args);
@@ -156,6 +161,18 @@ public class Parser {
 		}
 	}
 
+	abstract class LiteralAggregates extends AggregateFunction {
+		@Override
+		protected void checkTypes(final List<Node> args) {
+			for (final Node arg : args) {
+				if (arg.nodeType != NodeType.LITERAL) {
+					throw new RuntimeException("all atoms must be LITERAL. invalid atom: "
+							+ arg.value.toString() + " at line " + arg.line);
+				}
+			}
+		}
+	}
+
 	class Add extends NumericAggregates {
 		@Override
 		protected Node getNeutre() {
@@ -171,6 +188,40 @@ public class Parser {
 				return new Node(((Number) current.value).longValue() + ((Number) next.value).longValue(),
 						next.line);
 			}
+		}
+	}
+
+	class Mul extends NumericAggregates {
+		@Override
+		protected Node getNeutre() {
+			return new Node(1L, -1);
+		}
+
+		@Override
+		protected Node evalPair(final Node current, final Node next) {
+			if (current.value instanceof Double || next.value instanceof Double) {
+				return new Node(((Number) current.value).doubleValue() * ((Number) next.value).doubleValue(),
+						next.line);
+			} else {
+				return new Node(((Number) current.value).longValue() * ((Number) next.value).longValue(),
+						next.line);
+			}
+		}
+	}
+
+	class Concat extends AggregateFunction {
+		@Override
+		protected Node getNeutre() {
+			return new Node(-1, "");
+		}
+
+		@Override
+		protected Node evalPair(final Node current, final Node next) {
+			return new Node(current.value.toString() + next.value.toString(), next.line);
+		}
+
+		@Override
+		protected void checkTypes(final List<Node> args) {
 		}
 	}
 
