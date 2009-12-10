@@ -1,11 +1,9 @@
 package org.gro.lispy.parser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
@@ -28,7 +26,7 @@ public class Parser {
 	public Parser(final String program) {
 		this.program = new Tokenizer(program).tokenize();
 		this.scope = new ScopedSymbolTable<Node>();
-		System.out.println(program);
+//		System.out.println(program);
 	}
 
 	public List<Object> parseProgram() {
@@ -52,7 +50,7 @@ public class Parser {
 		if (expression.nodeType == Node.NodeType.LIST) {
 
 			final Node result = parseFunc(expression);
-			System.out.println("** func result: " + expression.toString() + " => " + result.toString());
+//			System.out.println("** func result: " + expression.toString() + " => " + result.toString());
 			return result;
 		} else {
 
@@ -67,7 +65,7 @@ public class Parser {
 				result = expression;
 			}
 
-			System.out.println("** expression: " + expression.toString() + " => " + result.toString());
+//			System.out.println("** expression: " + expression.toString() + " => " + result.toString());
 			return result;
 		}
 
@@ -92,31 +90,24 @@ public class Parser {
 		// obté el node de nom de funció
 		final Node funNode = parseExpression(iter.next());
 
-		// if (funNode.nodeType != Node.NodeType.SYMBOL &&
-		// funNode.nodeType != Node.NodeType.FUNC) {
-		// throw new RuntimeException("expected a valid symbol, but obtained: "
-		// + funNode.value
-		// + " at line " + funNode.line);
-		// }
-
 		if (funNode.nodeType == Node.NodeType.FUNC) {
-			// TODO polir un montón
 
 			// és una funció definida per lambda!!!
 			// cal aplicar la substitució
-			// final List<String> lambdaArgs = new ArrayList<String>();
-			// final List<String> lambdaExpTokens = new ArrayList<String>();
-			// per aplicar, falta obtenir la llista d'arguments, evaluats com a
+
+			// per aplicar, falta obtenir la llista d'arguments que seràn
+			// aplicats contra la lambda, evaluats com a
 			// expressió
 			final List<Node> args = new LinkedList<Node>();
 			while (iter.hasNext()) {
 				args.add(parseExpression(iter.next()));
 			}
 
-			// captura noms d'arguments en lambda en un Map: nom==>valor
+			scope.createLevel();
 
-			final Map<String, Node> argMap = new HashMap<String, Node>();
-
+			// captura, de la definició de lambda, els noms dels arguments, i
+			// els defineix en l'scope amb el valor extret de la llista
+			// d'arguments ja evaluats a aplicar contra la lambda
 			final Iterator<Node> iterLambdaDef = ((List<Node>) funNode.value).iterator();
 			int i = 0;
 			do {
@@ -124,38 +115,30 @@ public class Parser {
 				if (n.value.equals("=>")) {
 					break;
 				}
-				try {
-					argMap.put((String) n.value, args.get(i));
-				} catch (final IndexOutOfBoundsException e) {
-					throw new RuntimeException("el nombre d'arguments a aplicació amb lambda no concorda");
-				}
+				scope.define((String) n.value, args.get(i));
 				i++;
 			} while (true);
-			System.out.println(argMap.toString());
-			// System.exit(1);
 
-			// aplica la substitució; la llista de tokens substituïts queda en
-			// <tt>lambdaExpTokens</tt>.
+			// extreu aquí l'expressió del cos de la definició de lambda, tal
+			// qual; en ser evaluada ja s'aniràn substituint els arguments per
+			// els corresponents valors.
 			final List<Node> lambdaExpTokens = new ArrayList<Node>();
-
-			final List<Node> lambdaBody = (List<Node>) iterLambdaDef.next().value;
-			// while (iterLambdaDef.hasNext()) {
-			for (final Node n : lambdaBody) {
-				// final Node n = iterLambdaDef.next();
-				if (argMap.get(n.value.toString()) != null) {
-					// token trobat com a argument d'expressió lambda;
-					// substituir
-					System.out.println("==> substituit: " + n + " per " + argMap.get(n.value.toString()));
-					lambdaExpTokens.add(argMap.get(n.value.toString()));
-				} else {
-					// token qualsevol; no substituir
-					System.out.println("==> deixat: " + n);
-					lambdaExpTokens.add(n);
-				}
+			for (final Node n : (List<Node>) iterLambdaDef.next().value) {
+//				System.out.println("==> deixat: " + n);
+				lambdaExpTokens.add(n);
 			}
+//			System.out.println(lambdaExpTokens.toString());
 
-			System.out.println(lambdaExpTokens.toString());
-			return parseFunc(new Node(lambdaExpTokens));
+			// finalment, evalua el cos de la lambda; els arguments seràn
+			// substituits per els seus valors, ja que aquests han sigut
+			// definits en scope com a variables.
+			final Node r = parseFunc(new Node(lambdaExpTokens));
+
+			// tanca l'scope de lambda i així esborra els arguments-valors.
+			scope.removeLevel();
+
+			return r;
+
 		}
 
 		final String funName = (String) funNode.value;
