@@ -36,6 +36,8 @@ public class Parser {
 		scope.define("T", new Node("1", -1));
 		scope.define("version", new Node("1.0", -1));
 		scope.define("=>", new Node(-1, "=>"));
+		scope.define("PI", new Node(-1, "3.14159"));
+
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
