@@ -29,7 +29,8 @@ public class Quote extends Rare {
 			@SuppressWarnings("unchecked")
 			public Node eval(final Node funNode, final List<Node> args) {
 				if (!(args.get(0).value instanceof List<?>)) {
-					throw new RuntimeException(""); // TODO
+//					throw new RuntimeException(""); // TODO
+					return args.get(0);
 				}
 				return new Node((List<Node>) args.get(0).value);
 			}

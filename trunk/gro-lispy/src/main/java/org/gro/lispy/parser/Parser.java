@@ -14,9 +14,11 @@ import org.gro.lispy.funcs.impl.Cons;
 import org.gro.lispy.funcs.impl.Def;
 import org.gro.lispy.funcs.impl.LList;
 import org.gro.lispy.funcs.impl.Lambda;
+import org.gro.lispy.funcs.impl.Let;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.funcs.impl.Quote;
 import org.gro.lispy.funcs.impl.Car;
+import org.gro.lispy.funcs.impl.Sub;
 import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.scope.ScopedSymbolTableException;
 import org.gro.lispy.tokenizer.Node;
@@ -34,6 +36,12 @@ public class Parser {
 //		System.out.println(program);
 	}
 
+	private Node define(final String program) {
+		final List<Node> p = new Parser(program).program;
+		return parseExpression(new Node(p));
+	}
+
+
 	public List<Object> parseProgram() {
 		scope.createLevel();
 		scope.define("ZERO", new Node("0", -1));
@@ -41,6 +49,8 @@ public class Parser {
 		scope.define("version", new Node("1.0", -1));
 		scope.define("=>", new Node(-1, "=>"));
 		scope.define("PI", new Node(-1, "3.14159"));
+		scope.define("inc", define("(lambda (x => (+ x 1)))"));
+		scope.define("dec", define("(lambda (x => (- x 1)))"));
 
 
 		final List<Object> returning = new ArrayList<Object>();
@@ -154,6 +164,16 @@ public class Parser {
 		Rare evaluator = null;
 
 		// identifica la funció
+		if ("eval".equals(funName)) {
+			final List<Node> args = new LinkedList<Node>();
+			while (iter.hasNext()) {
+				args.add(parseExpression(iter.next()));
+			}
+			if (args.size() != 1) {
+				throw new RuntimeException("missing unique argument for eval");
+			}
+			return parseExpression(args.get(0));
+		}
 		if ("quote".equals(funName) || "'".equals(funName)) {
 			evaluator = new Quote();
 		}
@@ -163,6 +183,9 @@ public class Parser {
 		if ("+".equals(funName)) {
 			evaluator = new Add();
 		}
+		if ("-".equals(funName)) {
+			evaluator = new Sub();
+		}
 		if ("*".equals(funName)) {
 			evaluator = new Mul();
 		}
@@ -171,6 +194,9 @@ public class Parser {
 		}
 		if ("def".equals(funName)) {
 			evaluator = new Def(scope);
+		}
+		if ("let".equals(funName)) {
+			evaluator = new Let(scope);
 		}
 		if ("car".equals(funName)) {
 			evaluator = new Car();
