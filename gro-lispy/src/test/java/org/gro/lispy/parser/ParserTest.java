@@ -29,8 +29,7 @@ public class ParserTest {
 		assertEquals("[[1, 2, 3]]", parse("((quote (1 2 3)))"));
 		assertEquals("[[1, 2, 3]]", parse("((' (1 2 3)))"));
 
-
-//		assertEquals("", parse("()"));
+		// assertEquals("", parse("()"));
 	}
 
 	@Test
@@ -39,7 +38,10 @@ public class ParserTest {
 		// testa el retorn d'una expressió lambda
 		assertEquals("[1, [x, =>, +, x, x], 1]", parse("( (*) (lambda (x => + x x)) (*) )"));
 
-		// testa l'aplicació d'una funció lambda
+		// testa l'aplicació d'una funció lambda, amb diferent nombre
+		// d'arguments:
+		// de 0 a 4, i amb definicions composades.
+		assertEquals("[6]", parse("( ((lambda (=> (+ 4 2)))) )"));
 		assertEquals("[6]", parse("( ((lambda (x => (+ x x))) 3) )"));
 		assertEquals("[5]", parse("( ((lambda (x y => (+ x y))) 3 2) )"));
 		assertEquals("[9]", parse("( ((lambda (x y z => (+ x y z))) 2 3 4) )"));
@@ -56,12 +58,7 @@ public class ParserTest {
 // TODO testar errors i línies en missatges
 
 /*
-	(def inc
-		(lambda (x => (+ x 1))))
-	(inc 10)
-
-	((lambda (x => (+ x 1))) 10)
-	(+ 10 1)
-	11
-
-*/
+ * (def inc (lambda (x => (+ x 1)))) (inc 10)
+ *
+ * ((lambda (x => (+ x 1))) 10) (+ 10 1) 11
+ */
