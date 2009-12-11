@@ -87,12 +87,12 @@ public class ParserTest {
 		));
 
 		assertEquals("[[x, =>, [*, x, x]], 25]", parse(
-				"( 									\n" +
-				"	(def sqr 						\n" +
-				"		(lambda (x => (* x x)))) 	\n" +
-				"	(sqr 5) 						\n" +
-				")"
-			));
+			"( 									\n" +
+			"	(def sqr 						\n" +
+			"		(lambda (x => (* x x)))) 	\n" +
+			"	(sqr 5) 						\n" +
+			")"
+		));
 	}
 
 	@Test
@@ -120,6 +120,10 @@ public class ParserTest {
 		));
 		assertEquals("[[1, 2, 3]]", parse(
 			"( (cons 1 (list 2 3)) )"
+		));
+
+		assertEquals("[3]", parse(
+			"( (length (quote (1 2 3))) )"
 		));
 	}
 
@@ -167,8 +171,8 @@ public class ParserTest {
             "         		(# 1)							\n"+
             "      		)									\n"+
             "  		))										\n"+
-            "	)											\n" +
-            "	 											\n" +
+            "	)											\n"+
+            "	 											\n"+
             "	(fact 5)									\n"+
             ")												\n"
 		));
