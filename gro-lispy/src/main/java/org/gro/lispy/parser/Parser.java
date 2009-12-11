@@ -53,6 +53,7 @@ public class Parser {
 		scope.define("false", define("(lambda (=> (+ 0)))"));
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
+		scope.define("#", define("(lambda (x => (+ x)))"));
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {

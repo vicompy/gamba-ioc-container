@@ -154,6 +154,27 @@ public class ParserTest {
 		} catch (final RuntimeException e) {}
 	}
 
+
+	@Test
+	public void testFact() {
+
+		assertEquals("[[N, =>, [if, [#, N], [*, N, [fact, [-, N, 1]]], [#, 1]]], 120]", parse(
+            "(												\n" +
+            "	(def fact									\n"+
+            "  		(lambda (N =>							\n"+
+            "		    (if (# N)							\n"+
+            "       		(* N (fact (- N 1)))			\n"+
+            "         		(# 1)							\n"+
+            "      		)									\n"+
+            "  		))										\n"+
+            "	)											\n" +
+            "	 											\n" +
+            "	(fact 5)									\n"+
+            ")												\n"
+		));
+
+	}
+
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);
 		return parser.parseProgram().toString();
