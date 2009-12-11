@@ -1,5 +1,6 @@
 package org.gro.lispy.funcs.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gro.lispy.funcs.Function;
@@ -34,7 +35,11 @@ public class Car extends Rare {
 				if (args.get(0).nodeType != NodeType.LIST) {
 					throw new RuntimeException("car requires a list as a unique argument");
 				}
+
 				final List<Node> list = ((List<Node>) args.get(0).value);
+				if (list.size() < 1) {
+					return new Node(new ArrayList<Node>());
+				}
 				return list.get(0);
 			}
 		};

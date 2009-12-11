@@ -57,6 +57,7 @@ public class Parser {
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
 		scope.define("#", define("(lambda (x => (+ x)))"));
+		scope.define("nil", define("(quote ())"));
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
@@ -176,7 +177,7 @@ public class Parser {
 			evaluator = new If();
 		}
 		// TODO implementar funció lispy: multi-eval, i així poder anidar blocs
-		// de sentències!!
+		// de sentències!! i en diferents nivells d'scope!!!
 		if ("eval".equals(funName)) {
 			final List<Node> args = new LinkedList<Node>();
 			while (iter.hasNext()) {
@@ -229,7 +230,7 @@ public class Parser {
 		if ("assert".equals(funName)) {
 			evaluator = new Assert();
 		}
-		if ("equals".equals(funName)) {
+		if ("=".equals(funName)) {
 			evaluator = new Equals();
 		}
 
