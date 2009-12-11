@@ -1,5 +1,6 @@
 package org.gro.lispy.funcs.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.gro.lispy.funcs.Function;
@@ -35,6 +36,9 @@ public class Cdr extends Rare {
 					throw new RuntimeException("cdr requires a list as a unique argument");
 				}
 				final List<Node> list = ((List<Node>) args.get(0).value);
+				if (list.size() < 2) {
+					return new Node(new ArrayList<Node>());
+				}
 				return new Node(list.subList(1, list.size()));
 			}
 		};

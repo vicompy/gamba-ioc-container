@@ -125,6 +125,34 @@ public class ParserTest {
 		assertEquals("[3]", parse(
 			"( (length (quote (1 2 3))) )"
 		));
+		assertEquals("[0]", parse(
+			"( (length (quote ())) )"
+		));
+
+
+
+
+		assertEquals("[[]]", parse(
+			"( (list) )"
+		));
+		assertEquals("[[]]", parse(
+			"( (car (list)) )"
+		));
+		assertEquals("[1]", parse(
+			"( (car (list 1)) )"
+		));
+
+		assertEquals("[[]]", parse(
+			"( (cdr (list)) )"
+		));
+		assertEquals("[[]]", parse(
+			"( (cdr (list 1)) )"
+		));
+
+		assertEquals("[1]", parse(
+			"( (assert nil (cdr (list 1))) )"
+		));
+
 	}
 
 	@Test
@@ -163,19 +191,34 @@ public class ParserTest {
 	public void testFact() {
 
 		assertEquals("[[N, =>, [if, [#, N], [*, N, [fact, [-, N, 1]]], [#, 1]]], 120]", parse(
-            "(												\n" +
-            "	(def fact									\n"+
-            "  		(lambda (N =>							\n"+
-            "		    (if (# N)							\n"+
-            "       		(* N (fact (- N 1)))			\n"+
-            "         		(# 1)							\n"+
-            "      		)									\n"+
-            "  		))										\n"+
-            "	)											\n"+
-            "	 											\n"+
-            "	(fact 5)									\n"+
-            ")												\n"
-		));
+	            "(												\n" +
+	            "	(def fact									\n"+
+	            "  		(lambda (N =>							\n"+
+	            "		    (if (# N)							\n"+
+	            "       		(* N (fact (- N 1)))			\n"+
+	            "         		(# 1)							\n"+
+	            "      		)									\n"+
+	            "  		))										\n"+
+	            "	)											\n"+
+	            "	 											\n"+
+	            "	(fact 5)									\n"+
+	            ")												\n"
+			));
+
+		assertEquals("[[n, =>, [if, [=, n, 0], [', 1], [*, n, [fact, [-, n, 1]]]]], 120]", parse(
+	            "(												\n" +
+	            "	(def fact									\n"+
+	            "  		(lambda (n =>							\n"+
+	            "		    (if (= n 0)							\n"+
+	            "         		(' 1)							\n"+
+	            "       		(* n (fact (- n 1)))			\n"+
+	            "      		)									\n"+
+	            "  		))										\n"+
+	            "	)											\n"+
+	            "	 											\n"+
+	            "	(fact 5)									\n"+
+	            ")												\n"
+			));
 
 	}
 
