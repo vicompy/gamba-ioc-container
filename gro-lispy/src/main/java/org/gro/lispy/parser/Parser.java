@@ -8,10 +8,13 @@ import java.util.List;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
 import org.gro.lispy.funcs.impl.Add;
+import org.gro.lispy.funcs.impl.Assert;
+import org.gro.lispy.funcs.impl.Car;
 import org.gro.lispy.funcs.impl.Cdr;
 import org.gro.lispy.funcs.impl.Concat;
 import org.gro.lispy.funcs.impl.Cons;
 import org.gro.lispy.funcs.impl.Def;
+import org.gro.lispy.funcs.impl.Equals;
 import org.gro.lispy.funcs.impl.If;
 import org.gro.lispy.funcs.impl.LList;
 import org.gro.lispy.funcs.impl.Lambda;
@@ -19,7 +22,6 @@ import org.gro.lispy.funcs.impl.Length;
 import org.gro.lispy.funcs.impl.Let;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.funcs.impl.Quote;
-import org.gro.lispy.funcs.impl.Car;
 import org.gro.lispy.funcs.impl.Sub;
 import org.gro.lispy.scope.ScopedSymbolTable;
 import org.gro.lispy.scope.ScopedSymbolTableException;
@@ -223,6 +225,12 @@ public class Parser {
 		}
 		if ("length".equals(funName)) {
 			evaluator = new Length();
+		}
+		if ("assert".equals(funName)) {
+			evaluator = new Assert();
+		}
+		if ("equals".equals(funName)) {
+			evaluator = new Equals();
 		}
 
 		if (evaluator == null) {

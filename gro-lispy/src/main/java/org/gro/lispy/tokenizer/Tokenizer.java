@@ -13,6 +13,7 @@ public class Tokenizer {
 		super();
 		this.program = program;
 		this.programIndex = 0;
+		this.lineNum = 1;
 	}
 
 	public List<Node> tokenize() {
