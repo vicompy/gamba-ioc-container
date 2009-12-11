@@ -141,4 +141,37 @@ public class Node {
 		return this.value.toString();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nodeType == null) ? 0 : nodeType.hashCode());
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		System.out.println(getClass() +" vs. "+obj.getClass());
+		if (getClass() != obj.getClass())
+			return false;
+		final Node other = (Node) obj;
+		if (nodeType == null) {
+			if (other.nodeType != null)
+				return false;
+		} else if (!nodeType.equals(other.nodeType))
+			return false;
+		if (value == null) {
+			if (other.value != null)
+				return false;
+		} else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
+
+
 }

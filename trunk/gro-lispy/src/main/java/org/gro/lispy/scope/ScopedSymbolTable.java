@@ -45,7 +45,7 @@ public class ScopedSymbolTable<T> {
 	}
 
 	public void let(final String name, final T value) throws ScopedSymbolTableException {
-		System.out.println("let:"+name+":="+value.toString());
+//		System.out.println("let:"+name+":="+value.toString());
 		for (int i = this.currentLevel; i >= 0; i--) {
 			if (this.symbolTable.get(i).keySet().contains(name)) {
 				this.symbolTable.get(i).put(name, value);

@@ -179,6 +179,49 @@ public class ParserTest {
 
 	}
 
+//	@Test
+//	public void test() {
+//
+//		assertEquals("[]", parse(
+//            "(												\n" +
+//            "	 											\n"+
+//            "	 											\n"+
+//            "	 											\n"+
+//            "	 											\n"+
+//            "	 											\n"+
+//            ")												\n"
+//		));
+//
+//	}
+
+	@Test
+	public void testSequence() {
+
+		assertEquals("[1]", parse(
+            "(												\n" +
+            "	(assert (# 5) (+ 2 3))						\n"+
+            "	 											\n"+
+            ")												\n"
+		));
+		assertEquals("[1]", parse(
+            "(												\n" +
+            "	(assert (- 7 2) (+ 2 3))					\n"+
+            "	 											\n"+
+            ")												\n"
+		));
+
+		try {
+    		assertEquals("[0]", parse(
+                "(												\n" +
+                "	(assert (- 5 2) (+ 2 3))					\n"+
+                "	 											\n"+
+                ")												\n"
+    		));
+			fail();
+		} catch(final RuntimeException e) {}
+
+	}
+
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);
 		return parser.parseProgram().toString();
