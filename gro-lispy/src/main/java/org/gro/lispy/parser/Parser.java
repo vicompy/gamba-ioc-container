@@ -15,6 +15,7 @@ import org.gro.lispy.funcs.impl.Def;
 import org.gro.lispy.funcs.impl.If;
 import org.gro.lispy.funcs.impl.LList;
 import org.gro.lispy.funcs.impl.Lambda;
+import org.gro.lispy.funcs.impl.Length;
 import org.gro.lispy.funcs.impl.Let;
 import org.gro.lispy.funcs.impl.Mul;
 import org.gro.lispy.funcs.impl.Quote;
@@ -219,6 +220,9 @@ public class Parser {
 		}
 		if ("list".equals(funName)) {
 			evaluator = new LList();
+		}
+		if ("length".equals(funName)) {
+			evaluator = new Length();
 		}
 
 		if (evaluator == null) {
