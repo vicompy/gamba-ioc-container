@@ -50,18 +50,13 @@ public class Parser {
 
 	public List<Object> parseProgram() {
 		scope.createLevel();
-		scope.define("ZERO", new Node("0", -1));
-		// scope.define("T", new Node("1", -1));
-		scope.define("version", new Node("1.0", -1));
+
 		scope.define("=>", new Node(-1, "=>"));
-		scope.define("PI", new Node(-1, "3.14159"));
-		scope.define("true", define("(lambda (=> (+ 1)))"));
-		scope.define("false", define("(lambda (=> (+ 0)))"));
+		scope.define("true", define("(lambda (=> 1))"));
+		scope.define("false", define("(lambda (=> 0))"));
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
-//		scope.define("#", define("(lambda (x => (+ x)))"));
 		scope.define("nil", define("(quote ())"));
-		// scope.define("newline", define("\n"));
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
@@ -153,17 +148,25 @@ public class Parser {
 			// extreu aquí l'expressió del cos de la definició de lambda, tal
 			// qual; en ser evaluada ja s'aniràn substituint els arguments per
 			// els corresponents valors.
-			final List<Node> lambdaExpTokens = new ArrayList<Node>();
-			for (final Node n : (List<Node>) iterLambdaDef.next().value) {
-				// System.out.println("==> deixat: " + n);
-				lambdaExpTokens.add(n);
+			final Node value = iterLambdaDef.next();
+			final Node r ;
+			if (value.value instanceof List) {
+				final List<Node> lambdaExpTokens = new ArrayList<Node>();
+    			for (final Node n : (List<Node>) value.value) {
+    				lambdaExpTokens.add(n);
+    			}
+    			r = parseExpression(new Node(lambdaExpTokens));
+			} else {
+//				lambdaExpTokens.add(value);
+				r = parseExpression(value);
 			}
 			// System.out.println(lambdaExpTokens.toString());
 
 			// finalment, evalua el cos de la lambda; els arguments seràn
 			// substituits per els seus valors, ja que aquests han sigut
 			// definits en scope com a variables.
-			final Node r = parseFunc(new Node(lambdaExpTokens));
+//			final Node
+//			r = parseExpression(new Node(lambdaExpTokens));
 
 			// tanca l'scope de lambda i així esborra els arguments-valors.
 			scope.removeLevel();
