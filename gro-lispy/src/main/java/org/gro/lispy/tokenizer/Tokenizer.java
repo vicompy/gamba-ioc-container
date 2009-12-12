@@ -46,6 +46,11 @@ public class Tokenizer {
 				continue;
 			}
 
+			if (program.charAt(programIndex) == ';') {
+				chupaLinia(lineNum);
+				continue;
+			}
+
 			if (program.charAt(programIndex) == '"') {
 
 				// captura un String, delimitat per '"'
@@ -89,6 +94,14 @@ public class Tokenizer {
 			// }
 		}
 		return i;
+	}
+
+	private int chupaLinia(final int line) {
+		while (program.charAt(programIndex) != '\n') {
+			programIndex++;
+		}
+		programIndex++; // chupa \n
+		return line + 1;
 	}
 
 }
