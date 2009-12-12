@@ -30,7 +30,7 @@ public class ScopedSymbolTable<T> {
 
 	public void define(final String name, final T value) throws ScopedSymbolTableException {
 		if (this.symbolTable.get(this.currentLevel).keySet().contains(name)) {
-			throw new ScopedSymbolTableException("symbol already defined");
+			throw new ScopedSymbolTableException("symbol already defined: "+ name);
 		}
 		this.symbolTable.get(this.currentLevel).put(name, value);
 	}

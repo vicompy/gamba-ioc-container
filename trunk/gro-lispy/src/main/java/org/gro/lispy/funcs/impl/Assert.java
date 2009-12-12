@@ -30,7 +30,10 @@ public class Assert extends Rare {
 			public Node eval(final Node funNode, final List<Node> args) {
 
 				if (args.get(0).nodeType != args.get(1).nodeType || !args.get(0).equals(args.get(1))) {
-					throw new RuntimeException("assertion failed, at line " + funNode.line);
+					throw new RuntimeException("assertion failed, at line " + funNode.line+
+							"\nexpected:"+args.get(0).value+
+							"\nobtained:"+args.get(1).value
+							);
 				}
 				return new Node(1L, funNode.line);
 			}
