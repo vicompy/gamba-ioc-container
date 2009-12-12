@@ -56,8 +56,8 @@ public class Parser {
 		scope.define("=>", new Node(-1, "=>"));
 		scope.define("true", define("(quote 1)"));
 		scope.define("false", define("(quote 0)"));
-		scope.define("inc", define("(lambda (x => (+ x 1)))"));
-		scope.define("dec", define("(lambda (x => (- x 1)))"));
+//		scope.define("inc", define("(lambda (x => (+ x 1)))"));
+//		scope.define("dec", define("(lambda (x => (- x 1)))"));
 		scope.define("nil", define("(quote ())"));
 
 		final List<Object> returning = new ArrayList<Object>();
