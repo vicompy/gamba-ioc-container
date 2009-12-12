@@ -32,16 +32,29 @@ public class Cons extends Rare {
 			@SuppressWarnings("unchecked")
 			public Node eval(final Node funNode, final List<Node> args) {
 
-				if (args.get(0).nodeType != NodeType.LITERAL && args.get(0).nodeType != NodeType.NUMBER) {
-					throw new RuntimeException("cons requires an atom as a first argument");
+				if ((args.get(0).nodeType == NodeType.LITERAL || args.get(0).nodeType == NodeType.NUMBER)
+						&& args.get(1).nodeType == NodeType.LIST) {
+
+					final List<Node> list = new ArrayList<Node>();
+					list.add(args.get(0));
+					list.addAll((List<Node>) args.get(1).value);
+					return new Node(list);
+
 				}
-				if (args.get(1).nodeType != NodeType.LIST) {
-					throw new RuntimeException("cons requires a list as a second argument");
+				if ((args.get(1).nodeType == NodeType.LITERAL || args.get(1).nodeType == NodeType.NUMBER)
+						&& args.get(0).nodeType == NodeType.LIST) {
+
+					final List<Node> list = new ArrayList<Node>();
+					list.addAll((List<Node>) args.get(0).value);
+					list.add(args.get(1));
+					return new Node(list);
+
 				}
-				final List<Node> list = new ArrayList<Node>();
-				list.add(args.get(0));
-				list.addAll((List<Node>) args.get(1).value);
-				return new Node(list);
+				throw new RuntimeException("(cons atom list) | (cons list atom)");
+//				final List<Node> list = new ArrayList<Node>();
+//				list.add(args.get(0));
+//				list.addAll((List<Node>) args.get(1).value);
+//				return new Node(list);
 			}
 		};
 	}

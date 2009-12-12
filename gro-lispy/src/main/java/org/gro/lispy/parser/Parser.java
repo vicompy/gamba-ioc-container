@@ -51,7 +51,7 @@ public class Parser {
 	public List<Object> parseProgram() {
 		scope.createLevel();
 		scope.define("ZERO", new Node("0", -1));
-//		scope.define("T", new Node("1", -1));
+		// scope.define("T", new Node("1", -1));
 		scope.define("version", new Node("1.0", -1));
 		scope.define("=>", new Node(-1, "=>"));
 		scope.define("PI", new Node(-1, "3.14159"));
@@ -59,9 +59,9 @@ public class Parser {
 		scope.define("false", define("(lambda (=> (+ 0)))"));
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
-		scope.define("#", define("(lambda (x => (+ x)))"));
+//		scope.define("#", define("(lambda (x => (+ x)))"));
 		scope.define("nil", define("(quote ())"));
-//		scope.define("newline", define("\n"));
+		// scope.define("newline", define("\n"));
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
@@ -235,7 +235,9 @@ public class Parser {
 			evaluator = new Assert();
 		}
 		if ("multi".equals(funName)) {
+			scope.createLevel();
 			evaluator = new Multi();
+			scope.removeLevel();
 		}
 		if ("disp".equals(funName)) {
 			evaluator = new Disp();
@@ -275,7 +277,8 @@ public class Parser {
 		}
 
 		if ("if".equals(funName)) {
-			// if necessita d'evaluar el seu resultat, així s'evita evaluar l'expressió falsa
+			// if necessita d'evaluar el seu resultat, així s'evita evaluar
+			// l'expressió falsa
 			return parseExpression(evaluator.eval(funNode, args));
 		} else {
 			return evaluator.eval(funNode, args);
