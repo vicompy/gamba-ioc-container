@@ -334,33 +334,31 @@ public class ParserTest {
             ")												\n"
 		));
 
-//		assertEquals("[[fun, l, =>, [cons, [fun, [car, l]], [cdr, l]]], [10, 2, 3, 4, 5]]", parse(
-//	            "(												\n" +
-//	            "	 											\n"+
-//	            "	(def map-first 								\n"+
-//	            "	 	(lambda (fun l =>						\n"+
-//	            "	 		(cons (fun (car l)) (cdr l))		\n"+
-//	            "	 	))										\n"+
-//	            "	)											\n"+
-//	            "	 											\n"+
-//	            "	(map-first (lambda (x => (* x 10))) (list 1 2 3 4 5)) 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	(def mapcar 											\n"+
-//	            "	 	(lambda (fun l =>										\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	 	))										\n"+
-//	            "	) 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            "	 											\n"+
-//	            ")												\n"
-//			));
+		assertEquals("[[fun, lp, l, =>, [if, [length, l], [_mapcar, fun, [cons, lp, [fun, [car, l]]], [cdr, l]], lp]], [fun, l, =>, [_mapcar, fun, nil, l]], " +
+				"[10, 20, 30, 40, 50], [10, 20, 30, 40, 50]]", parse(
+
+	            "(																	\n" +
+	            "	 																\n"+
+	            "	(def _mapcar 													\n"+
+	            "	 	(lambda (fun lp l =>										\n"+
+	            "	 		(if (length l)											\n"+
+	            "	 			(_mapcar fun (cons lp (fun (car l))) (cdr l))		\n"+
+	            "	 			lp))))												\n"+
+	            "	 																\n"+
+	            "	(def mapcar 													\n"+
+	            "	 	(lambda (fun l =>											\n"+
+	            "	 		(_mapcar fun nil l))))									\n"+
+	            "	 																\n"+
+	            "	 																\n"+
+	            "	 																\n"+
+	            "	(_mapcar (lambda (x => (* x 10))) nil (list 1 2 3 4 5)) 		\n"+
+	            "	(mapcar (lambda (x => (* x 10))) (list 1 2 3 4 5)) 				\n"+
+	            "	 																\n"+
+	            "	 																\n"+
+	            "	 																\n"+
+	            "	 																\n"+
+	            ")																	\n"
+			));
 
 
 	}

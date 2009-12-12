@@ -172,6 +172,7 @@ public class Parser {
 
 		}
 
+		System.out.println(funNode.value + "-->"+funNode.line);
 		final String funName = (String) funNode.value;
 
 		Rare evaluator = null;
