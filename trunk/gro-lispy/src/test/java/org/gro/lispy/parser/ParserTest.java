@@ -183,17 +183,12 @@ public class ParserTest {
 		assertEquals("[0]", parse("( (if (quote 1) (quote 0)(quote 1))  )"));
 		assertEquals("[1]", parse("( (if (quote 0) (quote 0)(quote 1))  )"));
 
-		assertEquals("[0]", parse("( (if (true) (quote 0)(quote 1))  )"));
-		assertEquals("[1]", parse("( (if (false) (quote 0)(quote 1))  )"));
+//		assertEquals("[0]", parse("( (if (true) (quote 0)(quote 1))  )"));
+//		assertEquals("[1]", parse("( (if (false) (quote 0)(quote 1))  )"));
+		assertEquals("[0]", parse("( (if true (quote 0)(quote 1))  )"));
+		assertEquals("[1]", parse("( (if false (quote 0)(quote 1))  )"));
 
 
-		assertEquals("[1]", parse("( (true) )"));
-		try {
-			// la definició lambda de true i false impedeixen que aquest tipus
-			// booleà es pugui operar
-			assertEquals("[1]", parse("( (+ true 1) )"));
-			fail();
-		} catch (final RuntimeException e) {}
 	}
 
 
@@ -381,7 +376,7 @@ public class ParserTest {
             "	 (def filter-by													\n"+
             "	 	(lambda (fun l => (_filter-by fun nil l))))					\n"+
             "	 																\n"+
-            "	 																\n"+
+            "	; usage example: 																\n"+
             "	(_filter-by (lambda (x => (= x 3))) nil (list 1 2 3 4 5)) 		\n"+
             "	(filter-by (lambda (x => (= x 3))) (list 1 2 3 4 5)) 			\n"+
             "	 																\n"+

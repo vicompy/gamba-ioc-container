@@ -54,8 +54,8 @@ public class Parser {
 		scope.createLevel();
 
 		scope.define("=>", new Node(-1, "=>"));
-		scope.define("true", define("(lambda (=> 1))"));
-		scope.define("false", define("(lambda (=> 0))"));
+		scope.define("true", define("(quote 1)"));
+		scope.define("false", define("(quote 0)"));
 		scope.define("inc", define("(lambda (x => (+ x 1)))"));
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
 		scope.define("nil", define("(quote ())"));
@@ -177,7 +177,7 @@ public class Parser {
 
 		}
 
-		 System.out.println(funNode.value + "-->"+funNode.line);
+//		 System.out.println(funNode.value + "-->"+funNode.line);
 		final String funName = (String) funNode.value;
 
 		Rare evaluator = null;
