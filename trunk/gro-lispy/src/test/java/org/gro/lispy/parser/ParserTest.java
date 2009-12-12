@@ -152,6 +152,9 @@ public class ParserTest {
 		assertEquals("[1]", parse(
 			"( (assert nil (cdr (list 1))) )"
 		));
+		assertEquals("[1]", parse(
+			"( (assert nil (car (list))) )"
+		));
 
 	}
 
@@ -169,6 +172,9 @@ public class ParserTest {
 
 	@Test
 	public void testIf() {
+
+		assertEquals("[0]", parse("( (if 1 0 1)  )"));
+		assertEquals("[1]", parse("( (if 0 0 1)  )"));
 
 		assertEquals("[0]", parse("( (if (quote 1) (quote 0)(quote 1))  )"));
 		assertEquals("[1]", parse("( (if (quote 0) (quote 0)(quote 1))  )"));
@@ -206,7 +212,7 @@ public class ParserTest {
 			));
 
 		assertEquals("[[n, =>, [if, [=, n, 0], [', 1], [*, n, [fact, [-, n, 1]]]]], 120]", parse(
-	            "(												\n" +
+	            "(												\n"+
 	            "	(def fact									\n"+
 	            "  		(lambda (n =>							\n"+
 	            "		    (if (= n 0)							\n"+
@@ -238,7 +244,7 @@ public class ParserTest {
 //	}
 
 	@Test
-	public void testSequence() {
+	public void testAssert() {
 
 		assertEquals("[1]", parse(
             "(												\n" +
@@ -262,6 +268,25 @@ public class ParserTest {
     		));
 			fail();
 		} catch(final RuntimeException e) {}
+
+	}
+
+
+	@Test
+	public void testMultiEval() {
+
+		assertEquals("[1]", parse(
+            "(												\n" +
+            "	(assert nil (multi (disp 5) (disp (newline)) (disp(+ 2 3))))	\n"+
+            "	 											\n"+
+            ")												\n"
+		));
+		assertEquals("[[]]", parse(//(newline)
+            "(												\n" +
+            "	(disp \"Gro says:\" (newline) (concat \"hello \" \"world!\"))	\n"+
+            "	 											\n"+
+            ")												\n"
+		));
 
 	}
 

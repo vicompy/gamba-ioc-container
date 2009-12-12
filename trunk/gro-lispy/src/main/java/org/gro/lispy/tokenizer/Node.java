@@ -156,7 +156,7 @@ public class Node {
 			return true;
 		if (obj == null)
 			return false;
-		System.out.println(getClass() +" vs. "+obj.getClass());
+//		System.out.println(getClass() +" vs. "+obj.getClass());
 		if (getClass() != obj.getClass())
 			return false;
 		final Node other = (Node) obj;
