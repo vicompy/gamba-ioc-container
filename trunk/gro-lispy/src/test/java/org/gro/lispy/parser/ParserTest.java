@@ -107,6 +107,9 @@ public class ParserTest {
 		assertEquals("[[1, 2, 3]]", parse(
 			"( (cons 1 (quote (2 3))) )"
 		));
+		assertEquals("[[1, 2, 3]]", parse(
+			"( (cons (quote (1 2)) 3) )"
+		));
 
 		assertEquals("[[1, 2, 3]]", parse(
 			"( (list 1 2 3) )"
@@ -196,13 +199,13 @@ public class ParserTest {
 	@Test
 	public void testFact() {
 
-		assertEquals("[[N, =>, [if, [#, N], [*, N, [fact, [-, N, 1]]], [#, 1]]], 120]", parse(
+		assertEquals("[[N, =>, [if, N, [*, N, [fact, [-, N, 1]]], 1]], 120]", parse(
 	            "(												\n" +
 	            "	(def fact									\n"+
 	            "  		(lambda (N =>							\n"+
-	            "		    (if (# N)							\n"+
+	            "		    (if N							\n"+
 	            "       		(* N (fact (- N 1)))			\n"+
-	            "         		(# 1)							\n"+
+	            "         		1							\n"+
 	            "      		)									\n"+
 	            "  		))										\n"+
 	            "	)											\n"+
@@ -248,7 +251,7 @@ public class ParserTest {
 
 		assertEquals("[1]", parse(
             "(												\n" +
-            "	(assert (# 5) (+ 2 3))						\n"+
+            "	(assert 5 (+ 2 3))						\n"+
             "	 											\n"+
             ")												\n"
 		));
@@ -281,12 +284,84 @@ public class ParserTest {
             "	 											\n"+
             ")												\n"
 		));
-		assertEquals("[[]]", parse(//(newline)
+		assertEquals("[[]]", parse(
             "(												\n" +
             "	(disp \"Gro says:\" (newline) (concat \"hello \" \"world!\"))	\n"+
             "	 											\n"+
             ")												\n"
 		));
+
+		assertEquals("[[], [3], [2, 3], [1, 2, 3], []]", parse(
+            "(												\n" +
+            "	 											\n"+
+            "	 (def l nil)								\n"+
+            "	 											\n"+
+            "	 (let l (cons 3 l))							\n"+
+            "	 (let l (cons 2 l))							\n"+
+            "	 (let l (cons 1 l))							\n"+
+            "	 (disp l)											\n"+
+            "	 											\n"+
+            "	 											\n"+
+            "	 											\n"+
+            ")												\n"
+		));
+
+
+		assertEquals("[[n, l, =>, [if, n, [_recur, [-, n, 1], [cons, n, l]], l]], [n, =>, [_recur, n, nil]], " +
+				"[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]]", parse(
+            "(												\n" +
+            "	 											\n"+
+            "	(def _recur									\n"+
+            "	 	(lambda (n l =>							\n"+
+            "	 		(if n								\n"+
+            "	 			(_recur (- n 1) (cons n l))		\n"+
+            "	 			l								\n"+
+            "	 		)									\n"+
+            "		))	 									\n"+
+            "	) 											\n"+
+            "	 											\n"+
+            "	(def sequence 								\n"+
+            "	 	(lambda (								\n"+
+            "	 		n => (_recur n nil)					\n"+
+            "	 											\n"+
+            "	 	))										\n"+
+            "	) 											\n"+
+            "	 											\n"+
+            "	 											\n"+
+            "	(_recur 5 nil)								\n"+
+            "	(sequence 5) 								\n"+
+            "	 											\n"+
+            ")												\n"
+		));
+
+//		assertEquals("[[fun, l, =>, [cons, [fun, [car, l]], [cdr, l]]], [10, 2, 3, 4, 5]]", parse(
+//	            "(												\n" +
+//	            "	 											\n"+
+//	            "	(def map-first 								\n"+
+//	            "	 	(lambda (fun l =>						\n"+
+//	            "	 		(cons (fun (car l)) (cdr l))		\n"+
+//	            "	 	))										\n"+
+//	            "	)											\n"+
+//	            "	 											\n"+
+//	            "	(map-first (lambda (x => (* x 10))) (list 1 2 3 4 5)) 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	(def mapcar 											\n"+
+//	            "	 	(lambda (fun l =>										\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	 	))										\n"+
+//	            "	) 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            "	 											\n"+
+//	            ")												\n"
+//			));
+
 
 	}
 
