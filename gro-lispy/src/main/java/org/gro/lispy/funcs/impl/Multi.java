@@ -1,6 +1,5 @@
 package org.gro.lispy.funcs.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gro.lispy.funcs.Function;
@@ -28,7 +27,7 @@ public class Multi extends Rare {
 	public Function getEvaluator() {
 		return new Function() {
 			public Node eval(final Node funNode, final List<Node> args) {
-				return new Node(new ArrayList<Node>());
+				return args.get(args.size() - 1);
 			}
 		};
 	}

@@ -204,9 +204,9 @@ public class ParserTest {
 	            "(												\n" +
 	            "	(def fact									\n"+
 	            "  		(lambda (N =>							\n"+
-	            "		    (if N							\n"+
+	            "		    (if N								\n"+
 	            "       		(* N (fact (- N 1)))			\n"+
-	            "         		1							\n"+
+	            "         		1								\n"+
 	            "      		)									\n"+
 	            "  		))										\n"+
 	            "	)											\n"+
@@ -215,12 +215,12 @@ public class ParserTest {
 	            ")												\n"
 			));
 
-		assertEquals("[[n, =>, [if, [=, n, 0], [', 1], [*, n, [fact, [-, n, 1]]]]], 120]", parse(
+		assertEquals("[[n, =>, [if, [=, n, 0], 1, [*, n, [fact, [-, n, 1]]]]], 120]", parse(
 	            "(												\n"+
 	            "	(def fact									\n"+
 	            "  		(lambda (n =>							\n"+
 	            "		    (if (= n 0)							\n"+
-	            "         		(' 1)							\n"+
+	            "         		1								\n"+
 	            "       		(* n (fact (- n 1)))			\n"+
 	            "      		)									\n"+
 	            "  		))										\n"+
@@ -300,7 +300,7 @@ public class ParserTest {
             "	 (let l (cons 3 l))							\n"+
             "	 (let l (cons 2 l))							\n"+
             "	 (let l (cons 1 l))							\n"+
-            "	 (disp l)											\n"+
+            "	 (disp l)									\n"+
             "	 											\n"+
             "	 											\n"+
             "	 											\n"+
@@ -335,34 +335,60 @@ public class ParserTest {
             ")												\n"
 		));
 
-		assertEquals("[[fun, lp, l, =>, [if, [length, l], [_mapcar, fun, [cons, lp, [fun, [car, l]]], [cdr, l]], lp]], [fun, l, =>, [_mapcar, fun, nil, l]], " +
-				"[10, 20, 30, 40, 50], [10, 20, 30, 40, 50]]", parse(
-
-	            "(																	\n" +
-	            "	 																\n"+
-	            "	(def _mapcar 													\n"+
-	            "	 	(lambda (fun lp l =>										\n"+
-	            "	 		(if (length l)											\n"+
-	            "	 			(_mapcar fun (cons lp (fun (car l))) (cdr l))		\n"+
-	            "	 			lp))))												\n"+
-	            "	 																\n"+
-	            "	(def mapcar 													\n"+
-	            "	 	(lambda (fun l =>											\n"+
-	            "	 		(_mapcar fun nil l))))									\n"+
-	            "	 																\n"+
-	            "	 																\n"+
-	            "	 																\n"+
-	            "	(_mapcar (lambda (x => (* x 10))) nil (list 1 2 3 4 5)) 		\n"+
-	            "	(mapcar (lambda (x => (* x 10))) (list 1 2 3 4 5)) 				\n"+
-	            "	 																\n"+
-	            "	 																\n"+
-	            "	 																\n"+
-	            "	 																\n"+
-	            ")																	\n"
-			));
 
 
 	}
+
+
+	@Test
+	public void testHighOrderFunctions() {
+
+		assertEquals("[[FUN, LP, L, =>, [if, [length, L], [_mapcar, FUN, [cons, LP, [FUN, [car, L]]], [cdr, L]], LP]], [fun, l, =>, [_mapcar, fun, nil, l]], " +
+		"[10, 20, 30, 40, 50], [10, 20, 30, 40, 50]]", parse(
+
+        "(																	\n"+
+        "	 																\n"+
+        "	(def _mapcar 													\n"+
+        "	 	(lambda (FUN LP L =>										\n"+
+        "	 		(if (length L)											\n"+
+        "	 			(_mapcar FUN (cons LP (FUN (car L))) (cdr L))		\n"+
+        "	 			LP))))												\n"+
+        "	 																\n"+
+        "	(def mapcar 													\n"+
+        "	 	(lambda (fun l =>											\n"+
+        "	 		(_mapcar fun nil l))))									\n"+
+        "	 																\n"+
+        "	 																\n"+
+        "	 																\n"+
+        "	(_mapcar (lambda (x => (* x 10))) nil (list 1 2 3 4 5)) 		\n"+
+        "	(mapcar (lambda (x => (* x 10))) (list 1 2 3 4 5)) 				\n"+
+        "	 																\n"+
+        ")																	\n"
+	));
+		assertEquals("[[fun, lp, l, =>, [if, [length, l], [if, [fun, [car, l]], [_filter-by, fun, lp, [cdr, l]], [_filter-by, fun, [cons, lp, [car, l]], [cdr, l]]], lp]], [fun, l, =>, [_filter-by, fun, nil, l]], " +
+				"[1, 2, 4, 5], " +
+				"[1, 2, 4, 5]]", parse(
+            "(																	\n"+
+            "	 																\n"+
+            "	(def _filter-by 												\n"+
+            "	 	(lambda (fun lp l =>										\n"+
+            "	 		(if (length l)											\n"+
+            "	 			(if (fun (car l))									\n"+
+            "	 				(_filter-by fun lp (cdr l))						\n"+
+            "	 				(_filter-by fun (cons lp (car l)) (cdr l)))		\n"+
+            "	 			lp))))												\n"+
+            "	 																\n"+
+            "	 (def filter-by													\n"+
+            "	 	(lambda (fun l => (_filter-by fun nil l))))					\n"+
+            "	 																\n"+
+            "	 																\n"+
+            "	(_filter-by (lambda (x => (= x 3))) nil (list 1 2 3 4 5)) 		\n"+
+            "	(filter-by (lambda (x => (= x 3))) (list 1 2 3 4 5)) 			\n"+
+            "	 																\n"+
+            ")																	\n"
+		));
+	}
+
 
 	private String parse(final String program) {
 		final Parser parser = new Parser(program);
