@@ -1,6 +1,5 @@
 package org.gro.lispy.funcs.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.gro.lispy.funcs.Function;
@@ -34,22 +33,20 @@ public class If extends Rare {
 				if (args.get(0).nodeType != NodeType.NUMBER) {
 					throw new RuntimeException("if requires a boolean result (NUMERIC) as a first argument");
 				}
-				if (args.get(1).nodeType != NodeType.LIST) {
-					throw new RuntimeException("if requires a list as a second argument");
-				}
-				if (args.get(2).nodeType != NodeType.LIST) {
-					throw new RuntimeException("if requires a list as a third argument");
-				}
 
-				final List<Node> list = new ArrayList<Node>();
-
-				//TODO cal copiar la llista? no es pot retornar direcatment?
 				if (((Number) args.get(0).value).doubleValue() != 0) {
-					list.addAll((List<Node>) args.get(1).value);
+					if (args.get(1).nodeType == NodeType.LIST) {
+						return new Node((List<Node>) args.get(1).value);
+					} else {
+						return args.get(1);
+					}
 				} else {
-					list.addAll((List<Node>) args.get(2).value);
+					if (args.get(2).nodeType == NodeType.LIST) {
+						return new Node((List<Node>) args.get(2).value);
+					} else {
+						return args.get(2);
+					}
 				}
-				return new Node(list);
 			}
 		};
 	}

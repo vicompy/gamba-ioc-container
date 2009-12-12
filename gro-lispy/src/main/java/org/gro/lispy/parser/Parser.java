@@ -14,6 +14,7 @@ import org.gro.lispy.funcs.impl.Cdr;
 import org.gro.lispy.funcs.impl.Concat;
 import org.gro.lispy.funcs.impl.Cons;
 import org.gro.lispy.funcs.impl.Def;
+import org.gro.lispy.funcs.impl.Disp;
 import org.gro.lispy.funcs.impl.Equals;
 import org.gro.lispy.funcs.impl.If;
 import org.gro.lispy.funcs.impl.LList;
@@ -21,6 +22,8 @@ import org.gro.lispy.funcs.impl.Lambda;
 import org.gro.lispy.funcs.impl.Length;
 import org.gro.lispy.funcs.impl.Let;
 import org.gro.lispy.funcs.impl.Mul;
+import org.gro.lispy.funcs.impl.Multi;
+import org.gro.lispy.funcs.impl.NewLine;
 import org.gro.lispy.funcs.impl.Quote;
 import org.gro.lispy.funcs.impl.Sub;
 import org.gro.lispy.scope.ScopedSymbolTable;
@@ -58,6 +61,7 @@ public class Parser {
 		scope.define("dec", define("(lambda (x => (- x 1)))"));
 		scope.define("#", define("(lambda (x => (+ x)))"));
 		scope.define("nil", define("(quote ())"));
+//		scope.define("newline", define("\n"));
 
 		final List<Object> returning = new ArrayList<Object>();
 		for (final Node expression : program) {
@@ -229,6 +233,15 @@ public class Parser {
 		}
 		if ("assert".equals(funName)) {
 			evaluator = new Assert();
+		}
+		if ("multi".equals(funName)) {
+			evaluator = new Multi();
+		}
+		if ("disp".equals(funName)) {
+			evaluator = new Disp();
+		}
+		if ("newline".equals(funName)) {
+			evaluator = new NewLine();
 		}
 		if ("=".equals(funName)) {
 			evaluator = new Equals();
