@@ -8,6 +8,7 @@ import java.util.List;
 import org.gro.lispy.funcs.Rare;
 import org.gro.lispy.funcs.Rare.ArgEvalMode;
 import org.gro.lispy.funcs.impl.Add;
+import org.gro.lispy.funcs.impl.And;
 import org.gro.lispy.funcs.impl.Assert;
 import org.gro.lispy.funcs.impl.Car;
 import org.gro.lispy.funcs.impl.Cdr;
@@ -31,6 +32,7 @@ import org.gro.lispy.scope.ScopedSymbolTableException;
 import org.gro.lispy.tokenizer.Node;
 import org.gro.lispy.tokenizer.Tokenizer;
 import org.gro.lispy.tokenizer.Node.NodeType;
+
 
 public class Parser {
 
@@ -149,15 +151,15 @@ public class Parser {
 			// qual; en ser evaluada ja s'aniràn substituint els arguments per
 			// els corresponents valors.
 			final Node value = iterLambdaDef.next();
-			final Node r ;
+			final Node r;
 			if (value.value instanceof List) {
 				final List<Node> lambdaExpTokens = new ArrayList<Node>();
-    			for (final Node n : (List<Node>) value.value) {
-    				lambdaExpTokens.add(n);
-    			}
-    			r = parseExpression(new Node(lambdaExpTokens));
+				for (final Node n : (List<Node>) value.value) {
+					lambdaExpTokens.add(n);
+				}
+				r = parseExpression(new Node(lambdaExpTokens));
 			} else {
-//				lambdaExpTokens.add(value);
+				// lambdaExpTokens.add(value);
 				r = parseExpression(value);
 			}
 			// System.out.println(lambdaExpTokens.toString());
@@ -165,8 +167,8 @@ public class Parser {
 			// finalment, evalua el cos de la lambda; els arguments seràn
 			// substituits per els seus valors, ja que aquests han sigut
 			// definits en scope com a variables.
-//			final Node
-//			r = parseExpression(new Node(lambdaExpTokens));
+			// final Node
+			// r = parseExpression(new Node(lambdaExpTokens));
 
 			// tanca l'scope de lambda i així esborra els arguments-valors.
 			scope.removeLevel();
@@ -175,7 +177,7 @@ public class Parser {
 
 		}
 
-		System.out.println(funNode.value + "-->"+funNode.line);
+		 System.out.println(funNode.value + "-->"+funNode.line);
 		final String funName = (String) funNode.value;
 
 		Rare evaluator = null;
@@ -183,10 +185,7 @@ public class Parser {
 		// identifica la funció
 		if ("if".equals(funName)) {
 			evaluator = new If();
-		}
-		// TODO implementar funció lispy: multi-eval, i així poder anidar blocs
-		// de sentències!! i en diferents nivells d'scope!!!
-		if ("eval".equals(funName)) {
+		} else if ("eval".equals(funName)) {
 			final List<Node> args = new LinkedList<Node>();
 			while (iter.hasNext()) {
 				args.add(parseExpression(iter.next()));
@@ -195,62 +194,46 @@ public class Parser {
 				throw new RuntimeException("missing unique argument for eval");
 			}
 			return parseExpression(args.get(0));
-		}
-		if ("quote".equals(funName) || "'".equals(funName)) {
+		} else if ("quote".equals(funName) || "'".equals(funName)) {
 			evaluator = new Quote();
-		}
-		if ("lambda".equals(funName)) {
+		} else if ("lambda".equals(funName)) {
 			evaluator = new Lambda();
-		}
-		if ("+".equals(funName)) {
+		} else if ("+".equals(funName)) {
 			evaluator = new Add();
-		}
-		if ("-".equals(funName)) {
+		} else if ("-".equals(funName)) {
 			evaluator = new Sub();
-		}
-		if ("*".equals(funName)) {
+		} else if ("*".equals(funName)) {
 			evaluator = new Mul();
-		}
-		if ("concat".equals(funName)) {
+		} else if ("concat".equals(funName)) {
 			evaluator = new Concat();
-		}
-		if ("def".equals(funName)) {
+		} else if ("def".equals(funName)) {
 			evaluator = new Def(scope);
-		}
-		if ("let".equals(funName)) {
+		} else if ("let".equals(funName)) {
 			evaluator = new Let(scope);
-		}
-		if ("car".equals(funName)) {
+		} else if ("car".equals(funName)) {
 			evaluator = new Car();
-		}
-		if ("cdr".equals(funName)) {
+		} else if ("cdr".equals(funName)) {
 			evaluator = new Cdr();
-		}
-		if ("cons".equals(funName)) {
+		} else if ("cons".equals(funName)) {
 			evaluator = new Cons();
-		}
-		if ("list".equals(funName)) {
+		} else if ("list".equals(funName)) {
 			evaluator = new LList();
-		}
-		if ("length".equals(funName)) {
+		} else if ("length".equals(funName)) {
 			evaluator = new Length();
-		}
-		if ("assert".equals(funName)) {
+		} else if ("assert".equals(funName)) {
 			evaluator = new Assert();
-		}
-		if ("multi".equals(funName)) {
+		} else if ("multi".equals(funName)) {
 			scope.createLevel();
 			evaluator = new Multi();
 			scope.removeLevel();
-		}
-		if ("disp".equals(funName)) {
+		} else if ("disp".equals(funName)) {
 			evaluator = new Disp();
-		}
-		if ("newline".equals(funName)) {
+		} else if ("newline".equals(funName)) {
 			evaluator = new NewLine();
-		}
-		if ("=".equals(funName)) {
+		} else if ("=".equals(funName)) {
 			evaluator = new Equals();
+		} else if ("and".equals(funName)) {
+			evaluator = new And();
 		}
 
 		if (evaluator == null) {
