@@ -7,13 +7,12 @@ public class AlphaBeta {
 	private Node bestNode;
 	private long bestAlfa;
 	private long nodesAnalitzats;
-//	private MapHash<Node> hash;
 
 	public Node search(final Node node, final int maxDepth, final int myDir) {
 		this.bestNode = null;
 		this.bestAlfa = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
-//		this.hash = new MapHash<Node>();
+		// this.hash = hash;
 
 		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir);
 		System.out.println("analitzats " + nodesAnalitzats + " nodes.");
@@ -26,14 +25,14 @@ public class AlphaBeta {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-			return PieceWeightHeuristic.calc(node, myDir);
+			return BoardHeuristic.calc(node, myDir);
 		}
 
 		// amb hash: analitzats 295963 nodes.
 		// sans hash: analitzats 418945 nodes.
-//		if (hash.cuttable(node, initialDepth - depth)) {
-//			return Long.MIN_VALUE;
-//		}
+		// if (hash.cuttable(node, initialDepth - depth)) {
+		// return Long.MIN_VALUE;
+		// }
 
 		final MovGen movGen = new MovGen(node, myDir);
 		final List<Node> childs = movGen.generaMovesMatadors();

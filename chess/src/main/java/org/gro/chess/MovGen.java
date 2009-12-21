@@ -13,11 +13,15 @@ public class MovGen {
 		this.moves = generaMoves(myDir);
 	}
 
+	public List<Move> getMoves() {
+		return moves;
+	}
+
 	public List<Node> generaMovesMatadors() {
 		final List<Node> r = new ArrayList<Node>();
 
 		for (final Move m : moves) {
-			if (m.isMate) {
+			if (m.isMatador) {
 				final Node n = (Node) nodeBoard.clone();
 				n.movePiece(m.srcIndex, m.dstIndex);
 				r.add(n);
@@ -30,7 +34,7 @@ public class MovGen {
 		final List<Node> r = new ArrayList<Node>();
 
 		for (final Move m : moves) {
-			if (!m.isMate) {
+			if (!m.isMatador) {
 				final Node n = (Node) nodeBoard.clone();
 				n.movePiece(m.srcIndex, m.dstIndex);
 				r.add(n);
@@ -241,16 +245,16 @@ public class MovGen {
 		return index + ac + af * 8;
 	}
 
-	private class Move {
+	public class Move {
 		public int srcIndex;
 		public int dstIndex;
-		public boolean isMate;
+		public boolean isMatador;
 
 		public Move(final int srcIndex, final int dstIndex, final boolean isMate) {
 			super();
 			this.srcIndex = srcIndex;
 			this.dstIndex = dstIndex;
-			this.isMate = isMate;
+			this.isMatador = isMate;
 		}
 
 	}
