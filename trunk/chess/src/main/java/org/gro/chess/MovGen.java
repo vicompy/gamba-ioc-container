@@ -210,16 +210,23 @@ public class MovGen {
 
 	private void peoMoving(final int pieceIndex, final int myDir, final List<Move> r) {
 		// avançament normal
+		if (Node.invalidCoords(pieceIndex / 8 + myDir, pieceIndex % 8)) {
+			return;
+		}
 		if (nodeBoard.isEmpty(updateIndex(pieceIndex, myDir, 0))) {
 			r.add(new Move(pieceIndex, updateIndex(pieceIndex, myDir, 0), false));
 		}
 		// mate per la dreta
-		if (nodeBoard.isOpponentPiece(updateIndex(pieceIndex, myDir, 1), myDir)) {
-			r.add(new Move(pieceIndex, updateIndex(pieceIndex, myDir, 1), true));
+		if (pieceIndex % 8 < 7) {
+			if (nodeBoard.isOpponentPiece(updateIndex(pieceIndex, myDir, 1), myDir)) {
+				r.add(new Move(pieceIndex, updateIndex(pieceIndex, myDir, 1), true));
+			}
 		}
 		// mate per l'esquerra
-		if (nodeBoard.isOpponentPiece(updateIndex(pieceIndex, myDir, -1), myDir)) {
-			r.add(new Move(pieceIndex, updateIndex(pieceIndex, myDir, -1), true));
+		if (pieceIndex % 8 > 0) {
+			if (nodeBoard.isOpponentPiece(updateIndex(pieceIndex, myDir, -1), myDir)) {
+				r.add(new Move(pieceIndex, updateIndex(pieceIndex, myDir, -1), true));
+			}
 		}
 		// if en sortida, avança 2
 		if (myDir == Node.WHITE_DIR && pieceIndex / 8 == 6 || myDir == Node.BLACK_DIR && pieceIndex / 8 == 1) {
