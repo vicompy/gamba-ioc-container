@@ -215,4 +215,33 @@ public class Node implements Cloneable {
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (blackKingIsMoved ? 1231 : 1237);
+		result = prime * result + Arrays.hashCode(board);
+		result = prime * result + (whiteKingIsMoved ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Node other = (Node) obj;
+		if (blackKingIsMoved != other.blackKingIsMoved)
+			return false;
+		if (!Arrays.equals(board, other.board))
+			return false;
+		if (whiteKingIsMoved != other.whiteKingIsMoved)
+			return false;
+		return true;
+	}
+
+
 }

@@ -2,16 +2,13 @@ package org.gro.chess;
 
 import static junit.framework.Assert.*;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class PieceWeightHeuristicTest {
 
-	private Node n;
 
-	@Before
-	public void setUp() {
-
+	@Test
+	public void test1() {
 		final String board = ""+
 		"qq......"+
 		"pppppppp"+
@@ -22,11 +19,7 @@ public class PieceWeightHeuristicTest {
 		".....K.."+
 		"........";
 
-		n = new Node(board);
-	}
-
-	@Test
-	public void testConstruction() {
+		final Node n = new Node(board);
 
 		assertEquals(
 				 " | 0 1 2 3 4 5 6 7\n"+
@@ -46,6 +39,43 @@ public class PieceWeightHeuristicTest {
 		assertTrue(PieceWeightHeuristic.calc(n, Node.WHITE_DIR) > 0);
 
 		assertTrue(PieceWeightHeuristic.calc(n, Node.WHITE_DIR) == -PieceWeightHeuristic.calc(n, Node.BLACK_DIR));
+	}
+
+
+	@Test
+	public void test2() {
+		final String board = ""+
+		"········"+
+		"········"+
+		"·p······"+
+		"········"+
+		"········"+
+		"········"+
+		"········"+
+		"········";
+
+		final Node n = new Node(board);
+
+		assertEquals(50L, PieceWeightHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(-50L, PieceWeightHeuristic.calc(n, Node.WHITE_DIR));
+	}
+
+	@Test
+	public void test3() {
+		final String board = ""+
+		"········"+
+		"········"+
+		"·P······"+
+		"········"+
+		"········"+
+		"········"+
+		"········"+
+		"········";
+
+		final Node n = new Node(board);
+
+		assertEquals(-50L, PieceWeightHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(50L, PieceWeightHeuristic.calc(n, Node.WHITE_DIR));
 	}
 
 

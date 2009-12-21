@@ -18,7 +18,7 @@ public class PieceWeightHeuristic {
 
 	private static long computePieceWeigth(final int pieceType) {
 		switch (pieceType) {
-    		case Node.PEO: return 100L;
+    		case Node.PEO: return 50L;
     		case Node.TORRE: return 400L;
     		case Node.CAVALL: return 300L;
     		case Node.ALFIL: return 250L;
