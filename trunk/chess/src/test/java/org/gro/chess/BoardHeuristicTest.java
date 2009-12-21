@@ -4,7 +4,7 @@ import static junit.framework.Assert.*;
 
 import org.junit.Test;
 
-public class PieceWeightHeuristicTest {
+public class BoardHeuristicTest {
 
 
 	@Test
@@ -35,10 +35,10 @@ public class PieceWeightHeuristicTest {
 				 "\n",
 				 n.toString()
 		);
-		assertTrue(PieceWeightHeuristic.calc(n, Node.BLACK_DIR) < 0);
-		assertTrue(PieceWeightHeuristic.calc(n, Node.WHITE_DIR) > 0);
+		assertTrue(BoardHeuristic.calc(n, Node.BLACK_DIR) < 0);
+		assertTrue(BoardHeuristic.calc(n, Node.WHITE_DIR) > 0);
 
-		assertTrue(PieceWeightHeuristic.calc(n, Node.WHITE_DIR) == -PieceWeightHeuristic.calc(n, Node.BLACK_DIR));
+//		assertTrue(BoardHeuristic.calc(n, Node.WHITE_DIR) == -BoardHeuristic.calc(n, Node.BLACK_DIR));
 	}
 
 
@@ -56,8 +56,8 @@ public class PieceWeightHeuristicTest {
 
 		final Node n = new Node(board);
 
-		assertEquals(50L, PieceWeightHeuristic.calc(n, Node.BLACK_DIR));
-		assertEquals(-50L, PieceWeightHeuristic.calc(n, Node.WHITE_DIR));
+		assertEquals(50L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(-50L, BoardHeuristic.calc(n, Node.WHITE_DIR));
 	}
 
 	@Test
@@ -74,8 +74,26 @@ public class PieceWeightHeuristicTest {
 
 		final Node n = new Node(board);
 
-		assertEquals(-50L, PieceWeightHeuristic.calc(n, Node.BLACK_DIR));
-		assertEquals(50L, PieceWeightHeuristic.calc(n, Node.WHITE_DIR));
+		assertEquals(-50L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(50L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+	}
+
+	@Test
+	public void test4() {
+		final String board = ""+
+		"········"+
+		"········"+
+		"·p······"+
+		"··P·····"+
+		"········"+
+		"········"+
+		"········"+
+		"········";
+
+		final Node n = new Node(board);
+
+		assertEquals(10L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(10L, BoardHeuristic.calc(n, Node.WHITE_DIR));
 	}
 
 
