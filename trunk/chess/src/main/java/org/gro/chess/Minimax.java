@@ -12,20 +12,11 @@ public class Minimax implements ISearch {
 	}
 
 	private long nodesAnalitzats;
-	private MapHash<Node> hash;
-
-	boolean usaHash;
-
-	public Minimax(final boolean usaHash) {
-		super();
-		this.usaHash = usaHash;
-	}
 
 	public Node search(final Node node, final int maxDepth, final int myDir) {
 		this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
-		hash = new MapHash<Node>();
 
 		search(node, maxDepth, maxDepth, myDir);
 		System.out.println("analitzats " + nodesAnalitzats + " nodes.");
@@ -54,8 +45,8 @@ public class Minimax implements ISearch {
 			if (alfa < childScore) {
 				alfa = childScore;
 				if (initialDepth == depth) {
-        			bestScore = childScore;
-        			bestNode = child;
+					bestScore = childScore;
+					bestNode = child;
 				}
 			}
 

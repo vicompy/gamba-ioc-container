@@ -1,14 +1,11 @@
 package org.gro.chess;
 
-import java.util.List;
-
-import org.gro.chess.MovGen.Move;
-
 public class BoardHeuristic {
 
 	public static long calc(final Node board, final int myDir) {
 		return calque(board, myDir) - calque(board, -myDir);
 	}
+
 	private static long calque(final Node board, final int myDir) {
 
 		long score = 0L;
@@ -31,36 +28,38 @@ public class BoardHeuristic {
 		// }
 		// }
 
-		// evalua la bona formació peonil
-		{
-			long pawnScore = 0L;
-			for (int i = 8; i < 8 * 8 - 8; i++) {
-				if (board.isFriendlyPawn(i, myDir)) {
-					if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
-						pawnScore += 1;
+		// bonifica la bona formació peonil
+		long pawnScore = 0L;
+		for (int i = 8; i < 8 * 8 - 8; i++) {
+			if (board.isFriendlyPawn(i, myDir)) {
+				if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
+					pawnScore += 1;
+				}
+				if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
+					pawnScore += 1;
+				}
+			}
+		}
+		score += pawnScore;
+
+		// bonifica els alfils i cavalls que han abandonat la línia de reserva
+		// bonifica les torres i rei mantinguts en línia de reserva
+		for (int i = 0; i < 8 * 8; i++) {
+			if (board.isFriendlyPiece(i, myDir)) {
+				if (board.getPieceType(i) == Node.ALFIL || board.getPieceType(i) == Node.CAVALL) {
+					if (myDir == Node.BLACK_DIR && i / 7 > 0 || myDir == Node.WHITE_DIR && i / 7 < 7) {
+						score += 1;
 					}
-					if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
-						pawnScore += 1;
+				}
+				if (board.getPieceType(i) == Node.TORRE || board.getPieceType(i) == Node.REI) {
+					if (myDir == Node.BLACK_DIR && i / 7 == 0 || myDir == Node.WHITE_DIR && i / 7 == 7) {
+						score += 1;
 					}
 				}
 			}
-			// System.out.println("pawnScore="+pawnScore);
-			score += pawnScore;
 		}
 
-		{
-			long openScore = 0L;
-			for (int i = 0; i < 8 * 8; i++) {
-				if (board.isFriendlyPiece(i, myDir)
-						&& (board.getPieceType(i) == Node.ALFIL || board.getPieceType(i) == Node.CAVALL)) {
-					if (i / 7 > 0 && i / 7 < 7) {
-						openScore += 1;
-					}
-				}
-			}
-			score += openScore;
-		}
-
+		// bonifica l'obertura central de peons
 		if (myDir == Node.BLACK_DIR) {
 			if (!board.isFriendlyPawn(8 * 1 + 3, myDir)) {
 				score += 1;
