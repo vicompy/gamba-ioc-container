@@ -2,7 +2,7 @@ package org.gro.chess;
 
 import java.util.List;
 
-public class AlphaBeta2 implements ISearch {
+public class AlphaBeta implements ISearch {
 
 	private Node bestNode;
 	private long bestScore;
