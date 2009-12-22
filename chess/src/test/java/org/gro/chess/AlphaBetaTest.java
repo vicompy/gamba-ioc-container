@@ -49,24 +49,6 @@ public class AlphaBetaTest {
 //		assertEquals(1, n.getColorDir(8));
 	}
 
-	@Test
-	public void test2() {
-		final String board = ""+
-		"t..q.tk."+
-		"..p..ppp"+
-		"p...p..."+
-		".p.cP..."+
-		"....p..."+
-		"P.P....."+
-		"..P..PPP"+
-		"T.AQ.TK.";
-
-		Node n = new Node(board);
-		final AlphaBeta ab = new AlphaBeta();
-		System.out.println(n);
-		System.out.println(n = ab.search(n, 4, Node.WHITE_DIR));
-	}
-
 //	@Test
 //	public void test2() {
 //		final String board = ""+
@@ -82,34 +64,11 @@ public class AlphaBetaTest {
 //		Node n = new Node(board);
 //		final AlphaBeta ab = new AlphaBeta();
 //		System.out.println(n);
-//		try {
-//		for (int i = 0; i < 1; i++) {
-//			System.out.println("torn #"+i+", blanques: ");
-//			System.out.println(n = ab.search(n, 6, Node.WHITE_DIR));
-//			System.out.println("torn #"+i+", negres: ");
-//			System.out.println(n = ab.search(n, 6, Node.BLACK_DIR));
-//			System.gc();
-//		}
-//		} catch(final Exception e) {}
-//
-//		Node n2 = new Node(board);
-//		final AlphaBeta ab2 = new AlphaBeta();
-//		System.out.println(n2);
-//		try {
-//		for (int i = 0; i < 1; i++) {
-//			System.out.println("torn #"+i+", blanques: ");
-//			System.out.println(n2 = ab2.search(n2, 6, Node.WHITE_DIR));
-//			System.out.println("torn #"+i+", negres: ");
-//			System.out.println(n2 = ab2.search(n2, 6, Node.BLACK_DIR));
-//			System.gc();
-//		}
-//		} catch(final Exception e) {}
-//
-//		assertEquals(n, n2);
-//
+//		System.out.println(n = ab.search(n, 4, Node.WHITE_DIR));
 //	}
 
-//	@Test
+
+	@Test
 	public void jugaPartidaPerConsola() throws IOException {
 		final String board = ""+
 		"tcaqkact"+
@@ -123,7 +82,7 @@ public class AlphaBetaTest {
 
 		Node n = new Node(board);
 
-		final AlphaBeta ab = new AlphaBeta();
+		final ISearch ab = new Minimax(false);
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
@@ -135,15 +94,22 @@ public class AlphaBetaTest {
 			final int srcx = in.nextInt();
 			final int dsty = in.nextInt();
 			final int dstx = in.nextInt();
-
 			n.movePiece(srcx+srcy*8, dstx+dsty*8);
 			System.out.println(n);
 
-//			System.out.println(n = ab.search(n, 6, Node.WHITE_DIR));
-//			System.gc();
-			System.out.println(n = ab.search(n, 6, Node.BLACK_DIR));
-			System.gc();
+//			System.out.println(n = ab.search(n, 5, Node.WHITE_DIR));
+			System.out.println(n = ab.search(n, 4, Node.BLACK_DIR));
+//			System.out.println("score fet el mov: "+ab.getBestScore());
+
+//			break; //TODO
 		}
 	}
 
 }
+
+//6343 6454 7655 6050 5534 3453 6656 5444 7245 (l'A blanc amenaça un buit en
+//defensa negra, que respon OK)
+//(cont;) 7152 (el C avançat amenaça la Q negra, que la fa retrocedir!) 7346
+//(treu Q blanca en escena, i la T negra fa un moviment estúpid)
+
+//

@@ -1,12 +1,12 @@
-//package org.gro.chess;
-//
-//import static junit.framework.Assert.*;
-//
-//import org.junit.Test;
-//
-//public class BoardHeuristicTest {
-//
-//
+package org.gro.chess;
+
+import static junit.framework.Assert.*;
+
+import org.junit.Test;
+
+public class BoardHeuristicTest {
+
+
 //	@Test
 //	public void test1() {
 //		final String board = ""+
@@ -40,61 +40,111 @@
 //
 ////		assertTrue(BoardHeuristic.calc(n, Node.WHITE_DIR) == -BoardHeuristic.calc(n, Node.BLACK_DIR));
 //	}
+
+
+//	@Test
+//	public void test2() {
+//		final String board = ""+
+//		"········"+
+//		"········"+
+//		"·p······"+
+//		"········"+
+//		"········"+
+//		"········"+
+//		"········"+
+//		"········";
 //
+//		final Node n = new Node(board);
 //
-////	@Test
-////	public void test2() {
-////		final String board = ""+
-////		"········"+
-////		"········"+
-////		"·p······"+
-////		"········"+
-////		"········"+
-////		"········"+
-////		"········"+
-////		"········";
-////
-////		final Node n = new Node(board);
-////
-////		assertEquals(50L, BoardHeuristic.calc(n, Node.BLACK_DIR));
-////		assertEquals(-50L, BoardHeuristic.calc(n, Node.WHITE_DIR));
-////	}
-////
-////	@Test
-////	public void test3() {
-////		final String board = ""+
-////		"········"+
-////		"········"+
-////		"·P······"+
-////		"········"+
-////		"········"+
-////		"········"+
-////		"········"+
-////		"········";
-////
-////		final Node n = new Node(board);
-////
-////		assertEquals(-50L, BoardHeuristic.calc(n, Node.BLACK_DIR));
-////		assertEquals(50L, BoardHeuristic.calc(n, Node.WHITE_DIR));
-////	}
-////
-////	@Test
-////	public void test4() {
-////		final String board = ""+
-////		"········"+
-////		"········"+
-////		"·p······"+
-////		"··P·····"+
-////		"········"+
-////		"········"+
-////		"········"+
-////		"········";
-////
-////		final Node n = new Node(board);
-////
-////		assertEquals(10L, BoardHeuristic.calc(n, Node.BLACK_DIR));
-////		assertEquals(10L, BoardHeuristic.calc(n, Node.WHITE_DIR));
-////	}
+//		assertEquals(50L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+//		assertEquals(-50L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+//	}
 //
+//	@Test
+//	public void test3() {
+//		final String board = ""+
+//		"········"+
+//		"········"+
+//		"·P······"+
+//		"········"+
+//		"········"+
+//		"········"+
+//		"········"+
+//		"········";
 //
-//}
+//		final Node n = new Node(board);
+//
+//		assertEquals(-50L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+//		assertEquals(50L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+//	}
+//
+//	@Test
+//	public void test4() {
+//		final String board = ""+
+//		"········"+
+//		"········"+
+//		"·p······"+
+//		"··P·····"+
+//		"········"+
+//		"········"+
+//		"········"+
+//		"········";
+//
+//		final Node n = new Node(board);
+//
+//		assertEquals(10L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+//		assertEquals(10L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+//	}
+
+	@Test
+	public void test4() {
+		final String board = ""+
+		"········"+
+		"········"+
+		"·ppp····"+
+		"········"+
+		"········"+
+		"····PPP·"+
+		"········"+
+		"········";
+
+		final Node n = new Node(board);
+
+		assertEquals(0L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(0L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+	}
+	@Test
+	public void test5() {
+		final String board = ""+
+		"········"+
+		"pppppppp"+
+		"········"+
+		"········"+
+		"········"+
+		"········"+
+		"PPPPPPPP"+
+		"········";
+
+		final Node n = new Node(board);
+
+		assertEquals(0L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(0L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+	}
+	@Test
+	public void test6() {
+		final String board = ""+
+		"········"+
+		"ppp·pppp"+
+		"···p····"+
+		"········"+
+		"········"+
+		"····P···"+
+		"PPPP·PPP"+
+		"········";
+
+		final Node n = new Node(board);
+
+		assertEquals(0L, BoardHeuristic.calc(n, Node.BLACK_DIR));
+		assertEquals(0L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+	}
+}

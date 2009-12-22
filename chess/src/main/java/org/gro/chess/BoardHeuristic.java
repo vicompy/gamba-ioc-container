@@ -7,23 +7,73 @@ import org.gro.chess.MovGen.Move;
 public class BoardHeuristic {
 
 	public static long calc(final Node board, final int myDir) {
+		return calque(board, myDir) - calque(board, -myDir);
+	}
+	private static long calque(final Node board, final int myDir) {
+
+		long score = 0L;
 
 		// evalua qualitat del material de cada jugador
-		long score = 0L;
 		for (int i = 0; i < 8 * 8; i++) {
 			if (board.isFriendlyPiece(i, myDir)) {
 				score += computePieceWeigth(board.getPieceType(i));
 			}
 		}
 
-		// evalua la quantitat d'amenaçes que es fa al contrari
+		// // final evalua la quantitat d'amenaçes que es fa al contrari
+		// {
+		// final MovGen movGen = new MovGen(board, myDir);
+		// final List<Move> moves = movGen.getMoves();
+		// for (final Move m : moves) {
+		// if (m.isMatador) {
+		// score += computePieceWeigth(board.getPieceType(m.dstIndex)) / 10;
+		// }
+		// }
+		// }
+
+		// evalua la bona formació peonil
 		{
-			final MovGen movGen = new MovGen(board, myDir);
-			final List<Move> moves = movGen.getMoves();
-			for (final Move m : moves) {
-				if (m.isMatador) {
-					score += computePieceWeigth(board.getPieceType(m.dstIndex)) / 5;
+			long pawnScore = 0L;
+			for (int i = 8; i < 8 * 8 - 8; i++) {
+				if (board.isFriendlyPawn(i, myDir)) {
+					if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
+						pawnScore += 1;
+					}
+					if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
+						pawnScore += 1;
+					}
 				}
+			}
+			// System.out.println("pawnScore="+pawnScore);
+			score += pawnScore;
+		}
+
+		{
+			long openScore = 0L;
+			for (int i = 0; i < 8 * 8; i++) {
+				if (board.isFriendlyPiece(i, myDir)
+						&& (board.getPieceType(i) == Node.ALFIL || board.getPieceType(i) == Node.CAVALL)) {
+					if (i / 7 > 0 && i / 7 < 7) {
+						openScore += 1;
+					}
+				}
+			}
+			score += openScore;
+		}
+
+		if (myDir == Node.BLACK_DIR) {
+			if (!board.isFriendlyPawn(8 * 1 + 3, myDir)) {
+				score += 1;
+			}
+			if (!board.isFriendlyPawn(8 * 1 + 4, myDir)) {
+				score += 1;
+			}
+		} else {
+			if (!board.isFriendlyPawn(8 * 6 + 3, myDir)) {
+				score += 1;
+			}
+			if (!board.isFriendlyPawn(8 * 6 + 4, myDir)) {
+				score += 1;
 			}
 		}
 
@@ -39,7 +89,7 @@ public class BoardHeuristic {
 		case Node.CAVALL:
 			return 300L;
 		case Node.ALFIL:
-			return 250L;
+			return 300L;
 		case Node.REINA:
 			return 2000L;
 		case Node.REI:
@@ -48,9 +98,3 @@ public class BoardHeuristic {
 		return 0L;
 	}
 }
-
-// 6343 6454 7655 6050 5534 3453 6656 5444 7245 (l'A blanc amenaça un buit en
-// defensa negra, que respon OK)
-// (cont;) 7152 (el C avançat amenaça la Q negra, que la fa retrocedir!) 7346
-// (treu Q blanca en escena, i la T negra fa un moviment estúpid)
-

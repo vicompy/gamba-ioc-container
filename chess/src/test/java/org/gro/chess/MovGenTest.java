@@ -18,6 +18,55 @@ public class MovGenTest {
     //	"........"+
     //	"........";
 
+	@Test
+	public void test() {
+
+		final String board = ""+
+		"........"+
+		"p·······"+
+		"·A······"+
+		"········"+
+		"········"+
+		"········"+
+		"········"+
+		"········";
+
+		final Node n = new Node(board);
+		final MovGen blackGen = new MovGen(n, Node.BLACK_DIR);
+
+
+		assertEquals(
+				 " | 0 1 2 3 4 5 6 7\n"+
+				 "-+----------------\n"+
+				 "0| · · · · · · · · \n"+
+				 "1| p · · · · · · · \n"+
+				 "2| · A · · · · · · \n"+
+				 "3| · · · · · · · · \n"+
+				 "4| · · · · · · · · \n"+
+				 "5| · · · · · · · · \n"+
+				 "6| · · · · · · · · \n"+
+				 "7| · · · · · · · · \n"+
+				 "\n",
+				 n.toString()
+		);
+
+		final List<Node> killingBlack = blackGen.generaMovesMatadors();
+		assertEquals(
+				 "["+
+				 " | 0 1 2 3 4 5 6 7\n"+
+				 "-+----------------\n"+
+				 "0| · · · · · · · · \n"+
+				 "1| · · · · · · · · \n"+
+				 "2| · p · · · · · · \n"+
+				 "3| · · · · · · · · \n"+
+				 "4| · · · · · · · · \n"+
+				 "5| · · · · · · · · \n"+
+				 "6| · · · · · · · · \n"+
+				 "7| · · · · · · · · \n"+
+				 "\n]",
+		killingBlack.toString());
+	}
+
 
 	@Test
 	public void testBlackMoves() {
