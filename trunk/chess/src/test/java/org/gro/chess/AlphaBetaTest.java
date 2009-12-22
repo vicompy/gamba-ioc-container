@@ -49,6 +49,23 @@ public class AlphaBetaTest {
 //		assertEquals(1, n.getColorDir(8));
 	}
 
+	@Test
+	public void test2() {
+		final String board = ""+
+		"t..q.tk."+
+		"..p..ppp"+
+		"p...p..."+
+		".p.cP..."+
+		"....p..."+
+		"P.P....."+
+		"..P..PPP"+
+		"T.AQ.TK.";
+
+		Node n = new Node(board);
+		final AlphaBeta ab = new AlphaBeta();
+		System.out.println(n);
+		System.out.println(n = ab.search(n, 4, Node.WHITE_DIR));
+	}
 
 //	@Test
 //	public void test2() {
@@ -92,8 +109,8 @@ public class AlphaBetaTest {
 //
 //	}
 
-	@Test
-	public void test3() throws IOException {
+//	@Test
+	public void jugaPartidaPerConsola() throws IOException {
 		final String board = ""+
 		"tcaqkact"+
 		"pppppppp"+
@@ -110,6 +127,8 @@ public class AlphaBetaTest {
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
+			System.out.println("score blanques: " + BoardHeuristic.calc(n, Node.WHITE_DIR));
+			System.out.println("score negres: " + BoardHeuristic.calc(n, Node.BLACK_DIR));
 			System.out.println("entra mov: ");
 			final Scanner in = new Scanner(System.in);
 			final int srcy = in.nextInt();
