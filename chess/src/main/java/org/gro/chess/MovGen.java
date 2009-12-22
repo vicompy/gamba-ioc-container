@@ -241,11 +241,11 @@ public class MovGen {
 		}
 	}
 
-	public static int updateIndex(final int index, final int af, final int ac) {
+	private static int updateIndex(final int index, final int af, final int ac) {
 		return index + ac + af * 8;
 	}
 
-	public class Move {
+	protected class Move {
 		public int srcIndex;
 		public int dstIndex;
 		public boolean isMatador;

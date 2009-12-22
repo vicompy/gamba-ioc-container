@@ -12,7 +12,6 @@ public class AlphaBeta {
 		this.bestNode = null;
 		this.bestAlfa = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
-		// this.hash = hash;
 
 		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir);
 		System.out.println("analitzats " + nodesAnalitzats + " nodes.");
@@ -27,12 +26,6 @@ public class AlphaBeta {
 		if (depth == 0) {
 			return BoardHeuristic.calc(node, myDir);
 		}
-
-		// amb hash: analitzats 295963 nodes.
-		// sans hash: analitzats 418945 nodes.
-		// if (hash.cuttable(node, initialDepth - depth)) {
-		// return Long.MIN_VALUE;
-		// }
 
 		final MovGen movGen = new MovGen(node, myDir);
 		final List<Node> childs = movGen.generaMovesMatadors();
@@ -58,14 +51,3 @@ public class AlphaBeta {
 	}
 
 }
-
-/*
- *
- * function alphabeta(node, depth, α, β) (* β represents previous player best
- * choice - doesn't want it if α would worsen it *) if depth = 0 "or" node is a
- * terminal node return the heuristic value of node foreach child of node α :=
- * max(α, -alphabeta(child, depth-1, -β, -α)) (* use symmetry, -β becomes
- * subsequently pruned α *) if β≤α break (* Beta cut-off *) return α
- *
- * (* Initial call *) alphabeta(origin, depth, -infinity, +infinity)
- */
