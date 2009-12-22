@@ -17,14 +17,6 @@ public class AlphaBeta2 implements ISearch {
 	}
 
 	private long nodesAnalitzats;
-	private MapHash<Node> hash;
-
-	boolean usaHash;
-
-	public AlphaBeta2(final boolean usaHash) {
-		super();
-		this.usaHash = usaHash;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -35,7 +27,6 @@ public class AlphaBeta2 implements ISearch {
 		this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
-		hash = new MapHash<Node>();
 
 		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
 		System.out.println("analitzats* " + nodesAnalitzats + " nodes.");
@@ -62,9 +53,9 @@ public class AlphaBeta2 implements ISearch {
 
 		if (myDir == maximizingDir) {
 
-			if (initialDepth == depth) {
-				System.out.print("rumiant: 0%, ");
-			}
+//			if (initialDepth == depth) {
+//				System.out.print("rumiant: 0%, ");
+//			}
 			for (final Node child : childs) {
 				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
 				if (initialDepth == depth) {
@@ -79,13 +70,13 @@ public class AlphaBeta2 implements ISearch {
 				if (alfa >= beta) {
 					return alfa; // cut-off
 				}
-				if (initialDepth == depth) {
-					System.out.print((childs.indexOf(child) * 100) / childs.size() + "%, ");
-				}
+//				if (initialDepth == depth) {
+//					System.out.print((childs.indexOf(child) * 100) / childs.size() + "%, ");
+//				}
 			}
-			if (initialDepth == depth) {
-				System.out.println("OK");
-			}
+//			if (initialDepth == depth) {
+//				System.out.println("OK");
+//			}
 			return alfa; // our best move
 		} else {
 

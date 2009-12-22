@@ -66,9 +66,9 @@ public class AlphaBeta2Hash implements ISearch {
 
 				//final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
 
-				final MapaW<Node> exist = hash.exists(node, depth);
+				final MapaW<Node> exist = hash.exists(node);
 				long score;
-				if (exist == null || exist.getLevel() == depth) {
+				if (exist == null || exist.getLevel() > depth) {
 
 					score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
 

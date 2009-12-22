@@ -15,7 +15,8 @@ public class MapHash<T> {
 
 	public void put(final T mapaGen, final int level, final long score) {
 		final MapaW<T> mapa = new MapaW<T>(mapaGen, level, score);
-		final int hashValue = mapa.hashCode();
+//		final int hashValue = mapa.hashCode();
+		final int hashValue = mapaGen.hashCode();
 		List<MapaW<T>> span = this.hash.get(hashValue);
 		if (span == null) {
 			span = new ArrayList<MapaW<T>>();
@@ -24,7 +25,7 @@ public class MapHash<T> {
 		span.add(mapa);
 	}
 
-	public MapaW<T> exists(final T mapaGen, final int level) {
+	public MapaW<T> exists(final T mapaGen) {
 		final MapaW<T> mapa = new MapaW<T>(mapaGen, -1, -1L); // TODO
 		final int hashValue = mapaGen.hashCode();
 
