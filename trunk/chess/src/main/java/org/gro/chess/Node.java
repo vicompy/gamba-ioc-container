@@ -148,6 +148,9 @@ public class Node implements Cloneable {
 		}
 		return getColorDir(index) == myDir;
 	}
+	public boolean isFriendlyPawn(final int index, final int myDir) {
+		return isFriendlyPiece(index, myDir) && getPieceType(index) == PEO;
+	}
 
 	/**
 	 * retorna el tipus de peça (sense info del color)
@@ -242,6 +245,8 @@ public class Node implements Cloneable {
 			return false;
 		return true;
 	}
+
+
 
 
 }
