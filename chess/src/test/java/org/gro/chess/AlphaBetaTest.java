@@ -68,7 +68,7 @@ public class AlphaBetaTest {
 //	}
 
 
-	@Test
+//	@Test
 	public void jugaPartidaPerConsola() throws IOException {
 		final String board = ""+
 		"tcaqkact"+
@@ -82,7 +82,7 @@ public class AlphaBetaTest {
 
 		Node n = new Node(board);
 
-		final ISearch ab = new Minimax(false);
+		final ISearch ab = new AlphaBeta2(false);
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
@@ -98,7 +98,7 @@ public class AlphaBetaTest {
 			System.out.println(n);
 
 //			System.out.println(n = ab.search(n, 5, Node.WHITE_DIR));
-			System.out.println(n = ab.search(n, 4, Node.BLACK_DIR));
+			System.out.println(n = ab.search(n, 6, Node.BLACK_DIR));
 //			System.out.println("score fet el mov: "+ab.getBestScore());
 
 //			break; //TODO

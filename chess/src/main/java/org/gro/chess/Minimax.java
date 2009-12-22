@@ -37,7 +37,6 @@ public class Minimax implements ISearch {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-//			System.out.println("searching for: "+myDir);
 			return BoardHeuristic.calc(node, myDir);
 		}
 
@@ -52,7 +51,6 @@ public class Minimax implements ISearch {
 			final long childScore;
 			childScore = -search(child, initialDepth, depth - 1, -myDir);
 
-//			alfa = Math.max(alfa, childScore);
 			if (alfa < childScore) {
 				alfa = childScore;
 				if (initialDepth == depth) {
@@ -60,14 +58,6 @@ public class Minimax implements ISearch {
         			bestNode = child;
 				}
 			}
-
-
-//			if (initialDepth == depth) {
-//				if (bestScore < alfa) {
-//					bestScore = alfa;
-//					bestNode = child;
-//				}
-//			}
 
 		}
 
