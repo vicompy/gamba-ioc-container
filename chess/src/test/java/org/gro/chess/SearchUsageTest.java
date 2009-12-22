@@ -35,7 +35,7 @@ public class SearchUsageTest {
 		}
 
 		Node n2 = new Node(board);
-		final ISearch ab2 = new AlphaBeta2();
+		final ISearch ab2 = new AlphaBeta();
 		for (int i = 0; i < 4; i++) {
 			n2 = ab2.search(n2, 3, Node.WHITE_DIR);
 			n2 = ab2.search(n2, 3, Node.BLACK_DIR);

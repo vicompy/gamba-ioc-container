@@ -3,8 +3,6 @@ package org.gro.chess;
 //import static junit.framework.Assert.*;
 
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -68,7 +66,7 @@ public class AlphaBetaTest {
 //	}
 
 
-	@Test
+//	@Test
 	public void jugaPartidaPerConsola() throws IOException {
 		final String board = ""+
 		"tcaqkact"+
@@ -82,7 +80,7 @@ public class AlphaBetaTest {
 
 		Node n = new Node(board);
 
-		final ISearch ab = new AlphaBeta2();
+		final ISearch ab = new AlphaBeta();
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
