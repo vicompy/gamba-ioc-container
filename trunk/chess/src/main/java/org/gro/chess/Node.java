@@ -21,8 +21,8 @@ public class Node implements Cloneable {
 	private final int[] board;
 	private boolean whiteKingIsMoved;
 	private boolean blackKingIsMoved;
-	private boolean whiteKingIsCastled; //TODO
-	private boolean blackKingIsCastled; //TODO
+//	private boolean whiteKingIsCastled; //TODO
+//	private boolean blackKingIsCastled; //TODO
 
 
 
@@ -106,7 +106,7 @@ public class Node implements Cloneable {
 			this.whiteKingIsMoved = true;
 		}
 
-		// TODO si el rei no està mogut, i fa moviment d'enroc, mout¡re tb la
+		// TODO si el rei no està mogut, i fa moviment d'enroc, moure tb la
 		// torre!!
 
 		final boolean isKillingMove = false;
