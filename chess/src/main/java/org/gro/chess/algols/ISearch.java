@@ -5,5 +5,6 @@ import org.gro.chess.Node;
 public interface ISearch {
 
 	Node search(final Node node, final int maxDepth, final int myDir);
+	long analitzats();
 
 }

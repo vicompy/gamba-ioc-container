@@ -11,11 +11,12 @@ public class MovGen {
 	public MovGen(final Node nodeBoard, final int myDir) {
 		this.nodeBoard = nodeBoard;
 		this.moves = generaMoves(myDir);
+//		Collections.sort(this.moves);
 	}
 
-//	public List<Move> getMoves() {
-//		return moves;
-//	}
+	// public List<Move> getMoves() {
+	// return moves;
+	// }
 
 	public List<Node> generaMovesMatadors() {
 		final List<Node> r = new ArrayList<Node>();
@@ -245,17 +246,27 @@ public class MovGen {
 		return index + ac + af * 8;
 	}
 
-	protected static class Move {
+	protected static class Move { // implements Comparable<Move> {
 		public int srcIndex;
 		public int dstIndex;
 		public boolean isMatador;
+		public long killedPieceWeight;
 
-		public Move(final int srcIndex, final int dstIndex, final boolean isMate) {
+		public Move(final int srcIndex, final int dstIndex, final boolean isMatador/*, final Node nodeBoard*/) {
 			super();
 			this.srcIndex = srcIndex;
 			this.dstIndex = dstIndex;
-			this.isMatador = isMate;
+			this.isMatador = isMatador;
+//			if (isMatador) {
+//				this.killedPieceWeight = BoardHeuristic.computePieceWeigth(nodeBoard.getPieceType(dstIndex));
+//			} else {
+//				this.killedPieceWeight = 0;
+//			}
 		}
+
+//		public int compareTo(final Move arg0) {
+//			return (int) (-killedPieceWeight + arg0.killedPieceWeight);
+//		}
 
 	}
 

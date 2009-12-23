@@ -123,4 +123,5 @@ public final class BoardHeuristic {
 		}
 		return 0L;
 	}
+
 }

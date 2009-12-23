@@ -55,4 +55,7 @@ public class Minimax implements ISearch {
 		return alfa;
 	}
 
+	public long analitzats() {
+		return nodesAnalitzats;
+	}
 }
