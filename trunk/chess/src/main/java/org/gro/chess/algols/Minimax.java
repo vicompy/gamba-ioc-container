@@ -1,6 +1,10 @@
-package org.gro.chess;
+package org.gro.chess.algols;
 
 import java.util.List;
+
+import org.gro.chess.BoardHeuristic;
+import org.gro.chess.MovGen;
+import org.gro.chess.Node;
 
 public class Minimax implements ISearch {
 

@@ -1,4 +1,4 @@
-package org.gro.chess;
+package org.gro.chess.algols;
 
 import java.util.ArrayList;
 import java.util.HashMap;

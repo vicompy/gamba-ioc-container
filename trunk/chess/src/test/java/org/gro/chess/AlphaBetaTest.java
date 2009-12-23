@@ -6,6 +6,8 @@ package org.gro.chess;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.gro.chess.algols.AlphaBeta;
+import org.gro.chess.algols.ISearch;
 import org.junit.Test;
 
 public class AlphaBetaTest {

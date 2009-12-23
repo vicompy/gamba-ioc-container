@@ -29,18 +29,18 @@ public class BoardHeuristic {
 		// }
 
 		// bonifica la bona formació peonil
-		long pawnScore = 0L;
-		for (int i = 8; i < 8 * 8 - 8; i++) {
-			if (board.isFriendlyPawn(i, myDir)) {
-				if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
-					pawnScore += 1;
-				}
-				if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
-					pawnScore += 1;
-				}
-			}
-		}
-		score += pawnScore;
+//		long pawnScore = 0L;
+//		for (int i = 8; i < 8 * 8 - 8; i++) {
+//			if (board.isFriendlyPawn(i, myDir)) {
+//				if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
+//					pawnScore += 1;
+//				}
+//				if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
+//					pawnScore += 1;
+//				}
+//			}
+//		}
+//		score += pawnScore;
 
 		// bonifica els alfils i cavalls que han abandonat la línia de reserva
 		// bonifica les torres i rei mantinguts en línia de reserva
@@ -58,6 +58,29 @@ public class BoardHeuristic {
 				}
 			}
 		}
+
+//		int baseIndex;
+//		if (myDir == Node.BLACK_DIR) {
+//			baseIndex = 0;
+//		} else {
+//			baseIndex = 8 * 7;
+//		}
+//
+//		for (int c = 0; c < 8; c++) {
+//			final int i = baseIndex + c;
+//			if (board.isFriendlyPiece(i, myDir)) {
+//				if (board.getPieceType(i) == Node.ALFIL || board.getPieceType(i) == Node.CAVALL) {
+//					if (myDir == Node.BLACK_DIR && i / 7 > 0 || myDir == Node.WHITE_DIR && i / 7 < 7) {
+//						score += 1;
+//					}
+//				}
+//				if (board.getPieceType(i) == Node.TORRE || board.getPieceType(i) == Node.REI) {
+//					if (myDir == Node.BLACK_DIR && i / 7 == 0 || myDir == Node.WHITE_DIR && i / 7 == 7) {
+//						score += 1;
+//					}
+//				}
+//			}
+//		}
 
 		// bonifica l'obertura central de peons
 		if (myDir == Node.BLACK_DIR) {

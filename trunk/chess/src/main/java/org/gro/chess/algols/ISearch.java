@@ -1,4 +1,6 @@
-package org.gro.chess;
+package org.gro.chess.algols;
+
+import org.gro.chess.Node;
 
 public interface ISearch {
 
