@@ -6,8 +6,8 @@ package org.gro.chess;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.gro.chess.algols.AlphaBeta;
 import org.gro.chess.algols.ISearch;
+import org.gro.chess.algols.NegascoutAlphaBeta;
 import org.junit.Test;
 
 public class AlphaBetaTest {
@@ -82,7 +82,7 @@ public class AlphaBetaTest {
 
 		Node n = new Node(board);
 
-		final ISearch ab = new AlphaBeta();
+		final ISearch ab = new NegascoutAlphaBeta();
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
