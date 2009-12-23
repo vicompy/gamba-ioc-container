@@ -16,19 +16,35 @@ import algols.Minimax;
 public class SearchUsageTest {
 
 
-	final static String board = ""+
-	"t..q.tk."+
-	"..p..ppp"+
-	"p...p..."+
-	".p.cP..."+
-	"....p..."+
-	"P.P....."+
-	"..P..PPP"+
-	"T.AQ.TK.";
+	private final static String board1 = ""+
+    	"t..q.tk."+
+    	"..p..ppp"+
+    	"p...p..."+
+    	".p.cP..."+
+    	"....p..."+
+    	"P.P....."+
+    	"..P..PPP"+
+    	"T.AQ.TK.";
+	private final static String board2 = ""+
+    	"tcaqkact"+
+    	"pppppppp"+
+    	"········"+
+    	"········"+
+    	"········"+
+    	"········"+
+    	"PPPPPPPP"+
+    	"TCAQKACT";
 
 
 	@Test
 	public void test1() {
+		testMinimaxVsAlphaBeta(board1, 10, 3);
+		testMinimaxVsAlphaBeta(board2, 10, 3);
+		testAlphaBetaVsNegaScout(board1, 10, 6);
+		testAlphaBetaVsNegaScout(board2, 10, 6);
+	}
+
+	public void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth) {
 		long t;
 
 		/*
@@ -37,9 +53,9 @@ public class SearchUsageTest {
 		t = System.currentTimeMillis();
 		Node n = new Node(board);
 		final ISearch ab = new Minimax();
-		for (int i = 0; i < 6; i++) {
-			n = ab.search(n, 3, Node.WHITE_DIR);
-			n = ab.search(n, 3, Node.BLACK_DIR);
+		for (int i = 0; i < turns; i++) {
+			n = ab.search(n, depth, Node.WHITE_DIR);
+			n = ab.search(n, depth, Node.BLACK_DIR);
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 
@@ -49,9 +65,9 @@ public class SearchUsageTest {
 		t = System.currentTimeMillis();
 		Node n2 = new Node(board);
 		final ISearch ab2 = new AlphaBeta();
-		for (int i = 0; i < 6; i++) {
-			n2 = ab2.search(n2, 3, Node.WHITE_DIR);
-			n2 = ab2.search(n2, 3, Node.BLACK_DIR);
+		for (int i = 0; i < turns; i++) {
+			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
+			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 
@@ -60,36 +76,42 @@ public class SearchUsageTest {
 	}
 
 
-	@Test
-	public void test2() {
+
+	public void testAlphaBetaVsNegaScout(final String board, final int turns, final int depth) {
 		long t;
 
 		/*
 		 * testa MiniMax-Alfa/Beta
 		 */
 		t = System.currentTimeMillis();
+		long na = 0;
 		Node n2 = new Node(board);
 		final ISearch ab2 = new AlphaBeta();
-		for (int i = 0; i < 4; i++) {
-			n2 = ab2.search(n2, 5, Node.WHITE_DIR);
-			n2 = ab2.search(n2, 5, Node.BLACK_DIR);
+		for (int i = 0; i < turns; i++) {
+			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
+			na += ab2.analitzats();
+			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
+			na += ab2.analitzats();
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
+		System.out.println("total: "+na);
 
 		/*
 		 * testa NegaScout
 		 */
 		t = System.currentTimeMillis();
+		na = 0;
 		Node n3 = new Node(board);
 		final ISearch ab3 = new NegascoutAlphaBeta();
-		for (int i = 0; i < 4; i++) {
-			n3 = ab3.search(n3, 5, Node.WHITE_DIR);
-//			System.out.println(n3);
-			n3 = ab3.search(n3, 5, Node.BLACK_DIR);
+		for (int i = 0; i < turns; i++) {
+			n3 = ab3.search(n3, depth, Node.WHITE_DIR);
+			na += ab3.analitzats();
+			n3 = ab3.search(n3, depth, Node.BLACK_DIR);
+			na += ab3.analitzats();
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
+		System.out.println("total: "+na);
 
-//		assertEquals(n, n2);
 		assertEquals(n2, n3);
 	}
 

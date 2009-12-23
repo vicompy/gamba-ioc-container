@@ -6,7 +6,6 @@ import org.gro.chess.BoardHeuristic;
 import org.gro.chess.MovGen;
 import org.gro.chess.Node;
 
-
 public class NegascoutAlphaBeta implements ISearch {
 
 	private Node bestNode;
@@ -14,7 +13,7 @@ public class NegascoutAlphaBeta implements ISearch {
 	private long nodesAnalitzats;
 
 	public Node search(final Node node, final int maxDepth, final int myDir) {
-//		this.bestNode = null;
+		// this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
 
@@ -41,12 +40,14 @@ public class NegascoutAlphaBeta implements ISearch {
 			return BoardHeuristic.calc(node, maximizingDir);
 		}
 
+		long a = alfa;
 		long b = beta;
+		long score;
 
 		if (myDir == maximizingDir) {
 
 			for (final Node child : childs) {
-				long score = search(child, initialDepth, depth - 1, alfa, b, -myDir, maximizingDir);
+				score = search(child, initialDepth, depth - 1, alfa, b, -myDir, maximizingDir);
 				if (initialDepth == depth) {
 					if (bestScore < score) {
 						bestScore = score;
@@ -57,7 +58,7 @@ public class NegascoutAlphaBeta implements ISearch {
 					alfa = score;
 				}
 				if (alfa >= beta) {
-					return alfa;// cut-off
+					return alfa; // cut-off
 				}
 				if (alfa >= b) {
 					score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
@@ -71,7 +72,7 @@ public class NegascoutAlphaBeta implements ISearch {
 						alfa = score;
 					}
 					if (alfa >= beta) {
-						return alfa;// cut-off
+						return alfa; // cut-off
 					}
 				}
 				b = alfa + 1;
@@ -80,17 +81,47 @@ public class NegascoutAlphaBeta implements ISearch {
 		} else {
 
 			for (final Node child : childs) {
-				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
+
+				score = search(child, initialDepth, depth - 1, a, beta, -myDir, maximizingDir);
+				if (initialDepth == depth) {
+					if (bestScore < score) {
+						bestScore = score;
+						bestNode = child;
+					}
+				}
 				if (score < beta) {
 					beta = score;
 				}
 				if (alfa >= beta) {
-					return beta; // cut-off
+					return alfa; // cut-off
 				}
+
+				if (a >= beta) {
+					score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
+					if (initialDepth == depth) {
+						if (bestScore < score) {
+							bestScore = score;
+							bestNode = child;
+						}
+					}
+					if (score < beta) {
+						beta = score;
+					}
+					if (alfa >= beta) {
+						return beta; // cut-off
+					}
+				}
+//				a = alfa + 1; //320440
+//				a = alfa - 1; //280574
+				a = beta - 1; //253837, i tb 1319065 vs. 818703
+//				a = beta + 1; //347632
 			}
 			return beta; // our best move
 		}
 
 	}
 
+	public long analitzats() {
+		return nodesAnalitzats;
+	}
 }
