@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.gro.chess.algols.ISearch;
-import org.gro.chess.algols.NegascoutAlphaBeta;
+import org.gro.chess.algols.NegaScout;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class PlayerTest {
 
 		Node n = new Node(board);
 
-		final ISearch ab = new NegascoutAlphaBeta();
+		final ISearch ab = new NegaScout();
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {

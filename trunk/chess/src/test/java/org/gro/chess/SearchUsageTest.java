@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 
 import org.gro.chess.algols.ISearch;
-import org.gro.chess.algols.NegascoutAlphaBeta;
+import org.gro.chess.algols.NegaScout;
 import org.junit.Test;
 
 import algols.AlphaBeta;
@@ -38,10 +38,11 @@ public class SearchUsageTest {
 
 	@Test
 	public void test1() {
-		testMinimaxVsAlphaBeta(board1, 10, 3);
-		testMinimaxVsAlphaBeta(board2, 10, 3);
-		testAlphaBetaVsNegaScout(board1, 10, 6);
-		testAlphaBetaVsNegaScout(board2, 10, 6);
+		final int nIters = 2;
+		testMinimaxVsAlphaBeta(board1, nIters, 3);
+		testMinimaxVsAlphaBeta(board2, nIters, 3);
+		testAlphaBetaVsNegaScout(board1, nIters, 5);
+		testAlphaBetaVsNegaScout(board2, nIters, 5);
 	}
 
 	public void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth) {
@@ -102,7 +103,7 @@ public class SearchUsageTest {
 		t = System.currentTimeMillis();
 		na = 0;
 		Node n3 = new Node(board);
-		final ISearch ab3 = new NegascoutAlphaBeta();
+		final ISearch ab3 = new NegaScout();
 		for (int i = 0; i < turns; i++) {
 			n3 = ab3.search(n3, depth, Node.WHITE_DIR);
 			na += ab3.analitzats();

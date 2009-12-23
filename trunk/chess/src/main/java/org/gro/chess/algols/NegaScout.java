@@ -6,7 +6,7 @@ import org.gro.chess.BoardHeuristic;
 import org.gro.chess.MovGen;
 import org.gro.chess.Node;
 
-public class NegascoutAlphaBeta implements ISearch {
+public class NegaScout implements ISearch {
 
 	private Node bestNode;
 	private long bestScore;
