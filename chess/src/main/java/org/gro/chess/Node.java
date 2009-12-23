@@ -21,6 +21,8 @@ public class Node implements Cloneable {
 	private final int[] board;
 	private boolean whiteKingIsMoved;
 	private boolean blackKingIsMoved;
+	private boolean whiteKingIsCastled; //TODO
+	private boolean blackKingIsCastled; //TODO
 
 
 

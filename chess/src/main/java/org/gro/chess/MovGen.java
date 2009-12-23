@@ -250,6 +250,8 @@ public class MovGen {
 		public int srcIndex;
 		public int dstIndex;
 		public boolean isMatador;
+//		public boolean isPromotion; //TODO
+//		public boolean isCastling;  //TODO
 		public long killedPieceWeight;
 
 		public Move(final int srcIndex, final int dstIndex, final boolean isMatador/*, final Node nodeBoard*/) {
