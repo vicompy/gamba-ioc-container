@@ -4,13 +4,16 @@ package org.gro.chess;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.gro.chess.algols.ISearch;
 import org.gro.chess.algols.NegascoutAlphaBeta;
+import org.junit.Ignore;
+import org.junit.Test;
 
-import algols.ISearch;
 
+@Ignore
 public class PlayerTest {
 
-//	@Test
+	@Test
 	public void jugaPartidaPerConsola() throws IOException {
 		final String board = ""+
 		"tcaqkact"+

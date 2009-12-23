@@ -6,7 +6,6 @@ import org.gro.chess.BoardHeuristic;
 import org.gro.chess.MovGen;
 import org.gro.chess.Node;
 
-import algols.ISearch;
 
 public class NegascoutAlphaBeta implements ISearch {
 

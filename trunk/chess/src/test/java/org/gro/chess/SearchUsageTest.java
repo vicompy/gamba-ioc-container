@@ -6,11 +6,11 @@ package org.gro.chess;
 import static org.junit.Assert.*;
 
 
+import org.gro.chess.algols.ISearch;
 import org.gro.chess.algols.NegascoutAlphaBeta;
 import org.junit.Test;
 
 import algols.AlphaBeta;
-import algols.ISearch;
 import algols.Minimax;
 
 public class SearchUsageTest {
