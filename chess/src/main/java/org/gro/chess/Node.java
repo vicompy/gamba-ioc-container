@@ -128,10 +128,10 @@ public class Node implements Cloneable {
 	public int getColorDir(final int index) {
 		if (isBlack(index)) {
 			return BLACK_DIR;
-		} else if (isWhite(index)) {
+		} else { // if (isWhite(index)) {
 			return WHITE_DIR;
-		} else {
-			throw new RuntimeException(index + " -- " + board[index]);
+			// } else {
+			// throw new RuntimeException(index + " -- " + board[index]);
 		}
 	}
 
@@ -148,6 +148,7 @@ public class Node implements Cloneable {
 		}
 		return getColorDir(index) == myDir;
 	}
+
 	public boolean isFriendlyPawn(final int index, final int myDir) {
 		return isFriendlyPiece(index, myDir) && getPieceType(index) == PEO;
 	}
@@ -245,8 +246,5 @@ public class Node implements Cloneable {
 			return false;
 		return true;
 	}
-
-
-
 
 }

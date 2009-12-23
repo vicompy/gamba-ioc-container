@@ -1,8 +1,12 @@
-package org.gro.chess;
+package org.gro.chess.algols;
 
 import java.util.List;
 
-public class AlphaBeta2Hash implements ISearch {
+import org.gro.chess.BoardHeuristic;
+import org.gro.chess.MovGen;
+import org.gro.chess.Node;
+
+public class AlphaBeta implements ISearch {
 
 	private Node bestNode;
 	private long bestScore;
@@ -17,14 +21,6 @@ public class AlphaBeta2Hash implements ISearch {
 	}
 
 	private long nodesAnalitzats;
-	private MapHash<Node> hash;
-
-	boolean usaHash;
-
-	public AlphaBeta2Hash(final boolean usaHash) {
-		super();
-		this.usaHash = usaHash;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -35,10 +31,9 @@ public class AlphaBeta2Hash implements ISearch {
 		this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
-		hash = new MapHash<Node>();
 
 		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
-		System.out.println("analitzats** " + nodesAnalitzats + " nodes.");
+		System.out.println("analitzats* " + nodesAnalitzats + " nodes.");
 
 		return this.bestNode;
 	}
@@ -62,26 +57,11 @@ public class AlphaBeta2Hash implements ISearch {
 
 		if (myDir == maximizingDir) {
 
+//			if (initialDepth == depth) {
+//				System.out.print("rumiant: 0%, ");
+//			}
 			for (final Node child : childs) {
-
-				//final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-
-				final MapaW<Node> exist = hash.exists(node);
-				long score;
-				if (exist == null || exist.getLevel() > depth) {
-
-					score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-
-					if (exist == null) {
-						hash.put(node, depth, score);
-					} else {
-						exist.update(depth, score);
-					}
-				} else {
-//					return exist.getScore();
-					score = exist.getScore();
-				}
-
+				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
 				if (initialDepth == depth) {
 					if (bestScore < score) {
 						bestScore = score;
@@ -94,29 +74,18 @@ public class AlphaBeta2Hash implements ISearch {
 				if (alfa >= beta) {
 					return alfa; // cut-off
 				}
+//				if (initialDepth == depth) {
+//					System.out.print((childs.indexOf(child) * 100) / childs.size() + "%, ");
+//				}
 			}
+//			if (initialDepth == depth) {
+//				System.out.println("OK");
+//			}
 			return alfa; // our best move
 		} else {
 
 			for (final Node child : childs) {
 				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-
-				// final MapaW<Node> exist = hash.exists(node, depth);
-				// final long score;
-				// if (exist == null || exist.getLevel() < depth) {
-				//
-				// score = search(child, initialDepth, depth - 1, alfa, beta,
-				// -myDir, maximizingDir);
-				//
-				// if (exist == null) {
-				// hash.put(node, depth, score);
-				// } else {
-				// exist.update(depth, score);
-				// }
-				// } else {
-				// return exist.getScore();
-				// }
-
 				if (score < beta) {
 					beta = score;
 				}
