@@ -1,4 +1,4 @@
-package org.gro.chess.algols;
+package algols;
 
 import java.util.List;
 
@@ -10,23 +10,8 @@ public class AlphaBeta implements ISearch {
 
 	private Node bestNode;
 	private long bestScore;
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.gro.chess.ISearch#getBestScore()
-	 */
-	public long getBestScore() {
-		return bestScore;
-	}
-
 	private long nodesAnalitzats;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.gro.chess.ISearch#search(org.gro.chess.Node, int, int)
-	 */
 	public Node search(final Node node, final int maxDepth, final int myDir) {
 		this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;

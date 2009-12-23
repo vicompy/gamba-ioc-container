@@ -1,4 +1,4 @@
-package org.gro.chess.algols;
+package algols;
 
 import java.util.List;
 
@@ -9,17 +9,12 @@ import org.gro.chess.Node;
 public class Minimax implements ISearch {
 
 	private Node bestNode;
-	private long bestScore;
-
-	public long getBestScore() {
-		return bestScore;
-	}
-
+//	private long bestScore;
 	private long nodesAnalitzats;
 
 	public Node search(final Node node, final int maxDepth, final int myDir) {
 		this.bestNode = null;
-		this.bestScore = Long.MIN_VALUE;
+//		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
 
 		search(node, maxDepth, maxDepth, myDir);
@@ -49,7 +44,7 @@ public class Minimax implements ISearch {
 			if (alfa < childScore) {
 				alfa = childScore;
 				if (initialDepth == depth) {
-					bestScore = childScore;
+//					bestScore = childScore;
 					bestNode = child;
 				}
 			}

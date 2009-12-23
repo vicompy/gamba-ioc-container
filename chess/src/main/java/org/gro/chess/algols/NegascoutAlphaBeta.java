@@ -6,27 +6,14 @@ import org.gro.chess.BoardHeuristic;
 import org.gro.chess.MovGen;
 import org.gro.chess.Node;
 
+import algols.ISearch;
+
 public class NegascoutAlphaBeta implements ISearch {
 
 	private Node bestNode;
 	private long bestScore;
-
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.gro.chess.ISearch#getBestScore()
-	 */
-	public long getBestScore() {
-		return bestScore;
-	}
-
 	private long nodesAnalitzats;
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see org.gro.chess.ISearch#search(org.gro.chess.Node, int, int)
-	 */
 	public Node search(final Node node, final int maxDepth, final int myDir) {
 		this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;
