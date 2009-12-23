@@ -1,4 +1,4 @@
-package algols;
+package org.gro.chess.algols;
 
 import org.gro.chess.Node;
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.gro.chess.BoardHeuristic;
 import org.gro.chess.MovGen;
 import org.gro.chess.Node;
+import org.gro.chess.algols.ISearch;
 
 public class AlphaBeta implements ISearch {
 
