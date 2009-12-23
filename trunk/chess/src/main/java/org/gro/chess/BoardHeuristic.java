@@ -1,6 +1,10 @@
 package org.gro.chess;
 
-public class BoardHeuristic {
+public final class BoardHeuristic {
+
+	private BoardHeuristic() {
+
+	}
 
 	public static long calc(final Node board, final int myDir) {
 		return calque(board, myDir) - calque(board, -myDir);
