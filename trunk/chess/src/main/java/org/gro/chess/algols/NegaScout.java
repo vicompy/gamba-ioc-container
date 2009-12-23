@@ -6,6 +6,29 @@ import org.gro.chess.BoardHeuristic;
 import org.gro.chess.MovGen;
 import org.gro.chess.Node;
 
+/**
+ * <h3>Negascout (Principal Variation Search)</h3>
+ * <pre>
+ * function negascout(node, depth, α, β)
+ *     if node is a terminal node or depth = 0
+ *         return the heuristic value of node
+ *     b := β                                          (* initial window is (-β, -α) *)
+ *     foreach child of node
+ *         a := -negascout (child, depth-1, -b, -α)
+ *         if a>α
+ *             α := a
+ *         if α≥β
+ *             return α                                (* Beta cut-off *)
+ *         if α≥b                                      (* check if null-window failed high*)
+ *            α := -negascout(child, depth-1, -β, -α)  (* full re-search *)
+ *            if α≥β
+ *                return α                             (* Beta cut-off *)
+ *         b := α+1                                    (* set new null window *)
+ *     return α
+ * </pre>
+ *
+ * @author mhoms
+ */
 public class NegaScout implements ISearch {
 
 	private Node bestNode;
@@ -27,26 +50,6 @@ public class NegaScout implements ISearch {
 		return this.bestNode;
 	}
 
-	/**
-	 * <pre>
-	 * function negascout(node, depth, α, β)
-	 *     if node is a terminal node or depth = 0
-	 *         return the heuristic value of node
-	 *     b := β                                          (* initial window is (-β, -α) *)
-	 *     foreach child of node
-	 *         a := -negascout (child, depth-1, -b, -α)
-	 *         if a>α
-	 *             α := a
-	 *         if α≥β
-	 *             return α                                (* Beta cut-off *)
-	 *         if α≥b                                      (* check if null-window failed high*)
-	 *            α := -negascout(child, depth-1, -β, -α)  (* full re-search *)
-	 *            if α≥β
-	 *                return α                             (* Beta cut-off *)
-	 *         b := α+1                                    (* set new null window *)
-	 *     return α
-	 * </pre>
-	 */
 	private long search(final Node node, final int initialDepth, final int depth, final int myDir, long alfa,
 			final long beta) {
 
