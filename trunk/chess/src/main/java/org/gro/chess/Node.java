@@ -198,10 +198,10 @@ public class Node implements Cloneable {
 	private int dirToColor(final int dir) {
 		if (dir == WHITE_DIR) {
 			return WHITE;
-		} else if (dir == BLACK_DIR) {
+		} else { // if (dir == BLACK_DIR) {
 			return BLACK;
-		} else {
-			throw new RuntimeException();
+			// } else {
+			// throw new RuntimeException();
 		}
 	}
 
@@ -212,10 +212,10 @@ public class Node implements Cloneable {
 	public boolean isKingMoved(final int dir) {
 		if (dir == WHITE_DIR) {
 			return whiteKingIsMoved;
-		} else if (dir == BLACK_DIR) {
+		} else { // if (dir == BLACK_DIR) {
 			return blackKingIsMoved;
-		} else {
-			throw new RuntimeException();
+			// } else {
+			// throw new RuntimeException();
 		}
 	}
 

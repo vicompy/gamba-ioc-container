@@ -13,9 +13,9 @@ public class MovGen {
 		this.moves = generaMoves(myDir);
 	}
 
-	public List<Move> getMoves() {
-		return moves;
-	}
+//	public List<Move> getMoves() {
+//		return moves;
+//	}
 
 	public List<Node> generaMovesMatadors() {
 		final List<Node> r = new ArrayList<Node>();
