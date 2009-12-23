@@ -1,10 +1,8 @@
-package org.gro.chess.algols;
+package algols;
 
 import org.gro.chess.Node;
 
 public interface ISearch {
-
-	public abstract long getBestScore();
 
 	public abstract Node search(final Node node, final int maxDepth, final int myDir);
 

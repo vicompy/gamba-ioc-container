@@ -1,4 +1,4 @@
-package org.gro.chess.algols;
+package algols;
 //package org.gro.chess;
 //
 //import java.util.List;
