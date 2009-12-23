@@ -26,7 +26,7 @@ public class Node implements Cloneable {
 
 	private Node(final int[] board, final boolean whiteKingIsMoved, final boolean blackKingIsMoved) {
 		super();
-		this.board = board;
+		this.board = board.clone();
 		this.whiteKingIsMoved = whiteKingIsMoved;
 		this.blackKingIsMoved = blackKingIsMoved;
 	}
@@ -59,7 +59,7 @@ public class Node implements Cloneable {
 
 	@Override
 	public String toString() {
-		final StringBuffer strb = new StringBuffer();
+		final StringBuffer strb = new StringBuffer(50);
 
 		strb.append(" | 0 1 2 3 4 5 6 7\n");
 		strb.append("-+----------------\n");

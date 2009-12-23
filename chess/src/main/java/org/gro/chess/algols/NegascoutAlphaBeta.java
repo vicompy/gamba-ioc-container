@@ -14,7 +14,7 @@ public class NegascoutAlphaBeta implements ISearch {
 	private long nodesAnalitzats;
 
 	public Node search(final Node node, final int maxDepth, final int myDir) {
-		this.bestNode = null;
+//		this.bestNode = null;
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
 
@@ -37,7 +37,7 @@ public class NegascoutAlphaBeta implements ISearch {
 		final List<Node> childs = movGen.generaMovesMatadors();
 		childs.addAll(movGen.generaMovesNoMatadors());
 
-		if (childs.size() == 0) {
+		if (childs.isEmpty()) {
 			return BoardHeuristic.calc(node, maximizingDir);
 		}
 
