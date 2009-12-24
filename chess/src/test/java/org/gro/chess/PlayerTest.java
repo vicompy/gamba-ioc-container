@@ -31,8 +31,8 @@ public class PlayerTest {
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
-			System.out.println("score blanques: " + BoardHeuristic.calc(n, Node.WHITE_DIR));
-			System.out.println("score negres: " + BoardHeuristic.calc(n, Node.BLACK_DIR));
+			System.out.println("score blanques: " + BoardHeuristic.calcDiff(n, Node.WHITE_DIR));
+			System.out.println("score negres: " + BoardHeuristic.calcDiff(n, Node.BLACK_DIR));
 			System.out.println("entra mov: ");
 			final Scanner in = new Scanner(System.in);
 			final int srcy = in.nextInt();

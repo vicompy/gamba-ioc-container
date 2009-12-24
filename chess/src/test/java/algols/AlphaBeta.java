@@ -30,7 +30,7 @@ public class AlphaBeta implements ISearch {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-			return BoardHeuristic.calc(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		final MovGen movGen = new MovGen(node, myDir);
@@ -38,7 +38,7 @@ public class AlphaBeta implements ISearch {
 		childs.addAll(movGen.generaMovesNoMatadors());
 
 		if (childs.size() == 0) {
-			return BoardHeuristic.calc(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		if (myDir == maximizingDir) {
