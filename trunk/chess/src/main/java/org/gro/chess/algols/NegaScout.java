@@ -29,7 +29,7 @@ public class NegaScout implements ISearch {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-			return BoardHeuristic.calc(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		final MovGen movGen = new MovGen(node, myDir);
@@ -37,7 +37,7 @@ public class NegaScout implements ISearch {
 		childs.addAll(movGen.generaMovesNoMatadors());
 
 		if (childs.isEmpty()) {
-			return BoardHeuristic.calc(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		long a = alfa;
@@ -83,12 +83,6 @@ public class NegaScout implements ISearch {
 			for (final Node child : childs) {
 
 				score = search(child, initialDepth, depth - 1, a, beta, -myDir, maximizingDir);
-				if (initialDepth == depth) {
-					if (bestScore < score) {
-						bestScore = score;
-						bestNode = child;
-					}
-				}
 				if (score < beta) {
 					beta = score;
 				}
@@ -98,12 +92,6 @@ public class NegaScout implements ISearch {
 
 				if (a >= beta) {
 					score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-					if (initialDepth == depth) {
-						if (bestScore < score) {
-							bestScore = score;
-							bestNode = child;
-						}
-					}
 					if (score < beta) {
 						beta = score;
 					}
@@ -111,10 +99,7 @@ public class NegaScout implements ISearch {
 						return beta; // cut-off
 					}
 				}
-//				a = alfa + 1; //320440
-//				a = alfa - 1; //280574
-				a = beta - 1; //253837, i tb 1319065 vs. 818703
-//				a = beta + 1; //347632
+				a = beta - 1;
 			}
 			return beta; // our best move
 		}

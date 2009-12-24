@@ -28,7 +28,7 @@ public class Minimax implements ISearch {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-			return BoardHeuristic.calc(node, myDir);
+			return BoardHeuristic.calcDiff(node, myDir);
 		}
 
 		final MovGen movGen = new MovGen(node, myDir);

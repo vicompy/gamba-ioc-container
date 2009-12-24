@@ -38,28 +38,28 @@ public class NodeTest {
 		n = new Node(board);
 	}
 
-	@Test
-	public void testConstruction() {
-
-//		System.out.println(n.toString());
-
-		assertEquals(
-				 " | 0 1 2 3 4 5 6 7\n"+
-				 "-+----------------\n"+
-				 "0| · · · · · · · · \n"+
-				 "1| p p p p p p p p \n"+
-				 "2| · · · · · · · q \n"+
-				 "3| · · · · · · · · \n"+
-				 "4| · · · · · · · · \n"+
-				 "5| · · P · · A · · \n"+
-				 "6| · · · · · K · · \n"+
-				 "7| · · · · · · · · \n"+
-				 "\n",
-				 n.toString()
-		);
-		assertEquals(-1, n.getColorDir(42));
-		assertEquals(1, n.getColorDir(8));
-	}
+//	@Test
+//	public void testConstruction() {
+//
+////		System.out.println(n.toString());
+//
+//		assertEquals(
+//				 " | 0 1 2 3 4 5 6 7\n"+
+//				 "-+----------------\n"+
+//				 "0| · · · · · · · · \n"+
+//				 "1| p p p p p p p p \n"+
+//				 "2| · · · · · · · q \n"+
+//				 "3| · · · · · · · · \n"+
+//				 "4| · · · · · · · · \n"+
+//				 "5| · · P · · A · · \n"+
+//				 "6| · · · · · K · · \n"+
+//				 "7| · · · · · · · · \n"+
+//				 "\n",
+//				 n.toString()
+//		);
+//		assertEquals(-1, n.getColorDir(42));
+//		assertEquals(1, n.getColorDir(8));
+//	}
 
 	@Test
 	public void testWhitePieceList() {

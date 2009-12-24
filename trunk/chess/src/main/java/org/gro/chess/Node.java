@@ -4,10 +4,24 @@ import java.util.Arrays;
 
 public class Node implements Cloneable {
 
+	/**
+	 * constant que estableix la direcció d'avanç del bàndol blanc; serveix per
+	 * a indicar el bàndol actualment a considerar en els càlculs.
+	 */
 	public final static int WHITE_DIR = -1;
+	/**
+	 * constant que estableix la direcció d'avanç del bàndol negre; serveix per
+	 * a indicar el bàndol actualment a considerar en els càlculs.
+	 */
 	public final static int BLACK_DIR = 1;
 
+	/**
+	 * constant que especifica que una peça de taulell és blanca.
+	 */
 	private final static int WHITE = 10;
+	/**
+	 * constant que especifica que una peça de taulell és negra.
+	 */
 	private final static int BLACK = 20;
 
 	public final static int BUIT = 0;
@@ -18,14 +32,23 @@ public class Node implements Cloneable {
 	public final static int REINA = 5;
 	public final static int REI = 6;
 
+	/**
+	 * array que codifica l'estat del taulell
+	 */
 	private final int[] board;
 	private boolean whiteKingIsMoved;
 	private boolean blackKingIsMoved;
-//	private boolean whiteKingIsCastled; //TODO
-//	private boolean blackKingIsCastled; //TODO
 
+	// private boolean whiteKingIsCastled; //TODO
+	// private boolean blackKingIsCastled; //TODO
 
-
+	/**
+	 * constructor de còpia privat; utilitzat pel mètode {@link Node#clone()}.
+	 *
+	 * @param board
+	 * @param whiteKingIsMoved
+	 * @param blackKingIsMoved
+	 */
 	private Node(final int[] board, final boolean whiteKingIsMoved, final boolean blackKingIsMoved) {
 		super();
 		this.board = board.clone();
@@ -33,32 +56,65 @@ public class Node implements Cloneable {
 		this.blackKingIsMoved = blackKingIsMoved;
 	}
 
+	/**
+	 * constructor de l'objecte, que construeix el taulell.
+	 *
+	 * @param mapa codificació en String del taulell
+	 */
 	public Node(final String mapa) {
 		whiteKingIsMoved = false;
 		blackKingIsMoved = false;
-		board = new int[8*8];
+		board = new int[8 * 8];
 
-		for (int f = 0; f < 8*8; f++) {
-			switch(mapa.charAt(f)) {
-				case 'p': board[f] = BLACK+PEO; break;
-				case 't': board[f] = BLACK+TORRE; break;
-				case 'c': board[f] = BLACK+CAVALL; break;
-				case 'a': board[f] = BLACK+ALFIL; break;
-				case 'q': board[f] = BLACK+REINA; break;
-				case 'k': board[f] = BLACK+REI; break;
+		for (int f = 0; f < 8 * 8; f++) {
+			switch (mapa.charAt(f)) {
+			case 'p':
+				board[f] = BLACK + PEO;
+				break;
+			case 't':
+				board[f] = BLACK + TORRE;
+				break;
+			case 'c':
+				board[f] = BLACK + CAVALL;
+				break;
+			case 'a':
+				board[f] = BLACK + ALFIL;
+				break;
+			case 'q':
+				board[f] = BLACK + REINA;
+				break;
+			case 'k':
+				board[f] = BLACK + REI;
+				break;
 
-				case 'P': board[f] = WHITE+PEO; break;
-				case 'T': board[f] = WHITE+TORRE; break;
-				case 'C': board[f] = WHITE+CAVALL; break;
-				case 'A': board[f] = WHITE+ALFIL; break;
-				case 'Q': board[f] = WHITE+REINA; break;
-				case 'K': board[f] = WHITE+REI; break;
+			case 'P':
+				board[f] = WHITE + PEO;
+				break;
+			case 'T':
+				board[f] = WHITE + TORRE;
+				break;
+			case 'C':
+				board[f] = WHITE + CAVALL;
+				break;
+			case 'A':
+				board[f] = WHITE + ALFIL;
+				break;
+			case 'Q':
+				board[f] = WHITE + REINA;
+				break;
+			case 'K':
+				board[f] = WHITE + REI;
+				break;
 
-				default:  board[f] = BUIT;
+			default:
+				board[f] = BUIT;
 			}
 		}
 	}
 
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		final StringBuffer strb = new StringBuffer(50);
@@ -68,21 +124,47 @@ public class Node implements Cloneable {
 		for (int f = 0; f < 8; f++) {
 			strb.append(f + "| ");
 			for (int c = 0; c < 8; c++) {
-				switch(board[c+f*8]) {
-				case BLACK+PEO: strb.append("p"); break;
-				case BLACK+TORRE: strb.append("t"); break;
-				case BLACK+CAVALL: strb.append("c"); break;
-				case BLACK+ALFIL: strb.append("a"); break;
-				case BLACK+REINA: strb.append("q"); break;
-				case BLACK+REI: strb.append("k"); break;
+				switch (board[c + f * 8]) {
+				case BLACK + PEO:
+					strb.append("p");
+					break;
+				case BLACK + TORRE:
+					strb.append("t");
+					break;
+				case BLACK + CAVALL:
+					strb.append("c");
+					break;
+				case BLACK + ALFIL:
+					strb.append("a");
+					break;
+				case BLACK + REINA:
+					strb.append("q");
+					break;
+				case BLACK + REI:
+					strb.append("k");
+					break;
 
-				case WHITE+PEO: strb.append("P"); break;
-				case WHITE+TORRE: strb.append("T"); break;
-				case WHITE+CAVALL: strb.append("C"); break;
-				case WHITE+ALFIL: strb.append("A"); break;
-				case WHITE+REINA: strb.append("Q"); break;
-				case WHITE+REI: strb.append("K"); break;
-				default: strb.append("·"); break;
+				case WHITE + PEO:
+					strb.append("P");
+					break;
+				case WHITE + TORRE:
+					strb.append("T");
+					break;
+				case WHITE + CAVALL:
+					strb.append("C");
+					break;
+				case WHITE + ALFIL:
+					strb.append("A");
+					break;
+				case WHITE + REINA:
+					strb.append("Q");
+					break;
+				case WHITE + REI:
+					strb.append("K");
+					break;
+				default:
+					strb.append("·");
+					break;
 				}
 				strb.append(" ");
 			}
@@ -93,11 +175,24 @@ public class Node implements Cloneable {
 		return strb.toString();
 	}
 
+	/**
+	 * mètode de clonat de taulell; utilitzat en composició de noves situacions,
+	 * doncs és utilitzat per {@link MovGen} per a la generació de moviments.
+	 *
+	 * @see java.lang.Object#clone()
+	 */
 	@Override
 	protected Object clone() {
 		return new Node(this.board.clone(), this.whiteKingIsMoved, this.blackKingIsMoved);
 	}
 
+	/**
+	 * mou una peça del taulell, prèviament clonat
+	 *
+	 * @param src
+	 * @param dst
+	 * @return
+	 */
 	public boolean movePiece(final int src, final int dst) {
 
 		if (board[src] == BLACK + REI) {
@@ -115,19 +210,40 @@ public class Node implements Cloneable {
 		return isKillingMove;
 	}
 
+	/**
+	 * indica el color d'una peça del taulell
+	 *
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
+	 * @return
+	 */
 	public boolean isBlack(final int index) {
 		return board[index] > BLACK;
 	}
 
+	/**
+	 * indica el color d'una peça del taulell
+	 *
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
+	 * @return
+	 */
 	public boolean isWhite(final int index) {
 		return board[index] > WHITE && board[index] < BLACK;
 	}
 
+	/**
+	 * indica el si una peça del taulell romàn buida
+	 *
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
+	 * @return
+	 */
 	public boolean isEmpty(final int index) {
 		return board[index] % 10 == BUIT;
 	}
 
-	public int getColorDir(final int index) {
+	private int getColorDir(final int index) {
 		if (isBlack(index)) {
 			return BLACK_DIR;
 		} else { // if (isWhite(index)) {
@@ -137,6 +253,15 @@ public class Node implements Cloneable {
 		}
 	}
 
+	/**
+	 * indica si una peça del taulell es considera del bàndol contrari
+	 * (enemiga), donada una direcció natural d'avanç.
+	 *
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
+	 * @param myDir
+	 * @return
+	 */
 	public boolean isOpponentPiece(final int index, final int myDir) {
 		if (isEmpty(index)) {
 			return false;
@@ -144,6 +269,15 @@ public class Node implements Cloneable {
 		return getColorDir(index) == -myDir;
 	}
 
+	/**
+	 * indica si una peça del taulell es considera del mateix bàndol (amiga),
+	 * donada una direcció natural d'avanç.
+	 *
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
+	 * @param myDir
+	 * @return
+	 */
 	public boolean isFriendlyPiece(final int index, final int myDir) {
 		if (isEmpty(index)) {
 			return false;
@@ -151,6 +285,14 @@ public class Node implements Cloneable {
 		return getColorDir(index) == myDir;
 	}
 
+	/**
+	 * indica si una posició de taulell està ocupada per un peó amic.
+	 *
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
+	 * @param myDir
+	 * @return
+	 */
 	public boolean isFriendlyPawn(final int index, final int myDir) {
 		return isFriendlyPiece(index, myDir) && getPieceType(index) == PEO;
 	}
@@ -158,7 +300,8 @@ public class Node implements Cloneable {
 	/**
 	 * retorna el tipus de peça (sense info del color)
 	 *
-	 * @param index
+	 * @param index posició de cel.la del taulell (índex de l'array que el
+	 *            codifica).
 	 * @return
 	 */
 	public int getPieceType(final int index) {

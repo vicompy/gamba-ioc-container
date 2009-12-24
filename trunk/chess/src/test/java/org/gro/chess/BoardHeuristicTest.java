@@ -110,8 +110,8 @@ public class BoardHeuristicTest {
 
 		final Node n = new Node(board);
 
-		assertEquals(0L, BoardHeuristic.calc(n, Node.BLACK_DIR));
-		assertEquals(0L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+		assertEquals(0L, BoardHeuristic.calcDiff(n, Node.BLACK_DIR));
+		assertEquals(0L, BoardHeuristic.calcDiff(n, Node.WHITE_DIR));
 	}
 	@Test
 	public void test5() {
@@ -127,8 +127,8 @@ public class BoardHeuristicTest {
 
 		final Node n = new Node(board);
 
-		assertEquals(0L, BoardHeuristic.calc(n, Node.BLACK_DIR));
-		assertEquals(0L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+		assertEquals(0L, BoardHeuristic.calcDiff(n, Node.BLACK_DIR));
+		assertEquals(0L, BoardHeuristic.calcDiff(n, Node.WHITE_DIR));
 	}
 	@Test
 	public void test6() {
@@ -144,7 +144,7 @@ public class BoardHeuristicTest {
 
 		final Node n = new Node(board);
 
-		assertEquals(0L, BoardHeuristic.calc(n, Node.BLACK_DIR));
-		assertEquals(0L, BoardHeuristic.calc(n, Node.WHITE_DIR));
+		assertEquals(0L, BoardHeuristic.calcDiff(n, Node.BLACK_DIR));
+		assertEquals(0L, BoardHeuristic.calcDiff(n, Node.WHITE_DIR));
 	}
 }
