@@ -115,11 +115,8 @@ public final class BoardHeuristic {
 			return 300L;
 		case Node.REINA:
 			return 2000L;
-//		case Node.REI:
-//			return 100000L;
-		default:
+		default: // Node.REI
 			return 100000L;
-//			return 0L;
 		}
 	}
 
