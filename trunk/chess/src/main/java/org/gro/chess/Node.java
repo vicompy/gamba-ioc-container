@@ -2,6 +2,8 @@ package org.gro.chess;
 
 import java.util.Arrays;
 
+import org.gro.chess.movgen.MovGen;
+
 public class Node implements Cloneable {
 
 	/**
@@ -182,7 +184,7 @@ public class Node implements Cloneable {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	protected Object clone() {
+	public Object clone() {
 		return new Node(this.board.clone(), this.whiteKingIsMoved, this.blackKingIsMoved);
 	}
 

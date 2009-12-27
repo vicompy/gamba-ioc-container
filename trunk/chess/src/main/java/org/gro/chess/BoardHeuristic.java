@@ -1,5 +1,7 @@
 package org.gro.chess;
 
+import org.gro.chess.movgen.MovGen;
+
 /**
  * classe que estàticament, proporciona mètodes per a l'evaluació heurística de
  * taulells.
