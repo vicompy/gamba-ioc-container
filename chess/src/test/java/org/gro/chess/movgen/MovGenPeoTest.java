@@ -8,7 +8,7 @@ import org.gro.chess.Node;
 import org.gro.chess.movgen.MovGen;
 import org.junit.Test;
 
-public class MovGenTest {
+public class MovGenPeoTest {
 
 	//	final String board = ""+
     //	"........"+
