@@ -1,9 +1,11 @@
-package org.gro.chess;
+package org.gro.chess.movgen;
 
 import static junit.framework.Assert.assertEquals;
 
 import java.util.List;
 
+import org.gro.chess.Node;
+import org.gro.chess.movgen.MovGen;
 import org.junit.Test;
 
 public class MovGenAlfilTest {

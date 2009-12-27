@@ -3,16 +3,16 @@ package org.gro.chess;
 //import static junit.framework.Assert.*;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-
+import org.gro.chess.algols.AlphaBeta;
 import org.gro.chess.algols.ISearch;
+import org.gro.chess.algols.Minimax;
 import org.gro.chess.algols.NegaScout;
 import org.junit.Test;
 
-import algols.AlphaBeta;
-import algols.Minimax;
 
+//@Ignore
 public class SearchUsageTest {
 
 
