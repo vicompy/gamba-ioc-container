@@ -18,8 +18,7 @@ public class MovGen {
 		generaMoves(myDir);
 	}
 
-	// TODO for test only
-	protected List<Node> generaMovesMatadors() {
+	public List<Node> generaMovesMatadors() {
 		final List<Node> r = new ArrayList<Node>();
 
 		for (final Move m : movesM) {
