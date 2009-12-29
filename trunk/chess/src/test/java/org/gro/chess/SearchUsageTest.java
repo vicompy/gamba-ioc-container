@@ -25,6 +25,7 @@ public class SearchUsageTest {
     	"P.P....."+
     	"..P..PPP"+
     	"T.AQ.TK.";
+
 	private final static String board2 = ""+
     	"tcaqkact"+
     	"pppppppp"+
@@ -52,11 +53,11 @@ public class SearchUsageTest {
 		 * testa MiniMax
 		 */
 		t = System.currentTimeMillis();
-		Node n = new Node(board);
-		final ISearch ab = new Minimax();
+		Node n1 = new Node(board);
+		final ISearch ab1 = new Minimax();
 		for (int i = 0; i < turns; i++) {
-			n = ab.search(n, depth, Node.WHITE_DIR);
-			n = ab.search(n, depth, Node.BLACK_DIR);
+			n1 = ab1.search(n1, depth, Node.WHITE_DIR);
+			n1 = ab1.search(n1, depth, Node.BLACK_DIR);
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 
@@ -73,7 +74,7 @@ public class SearchUsageTest {
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 
 
-		assertEquals(n, n2);
+		assertEquals(n1, n2);
 	}
 
 
@@ -86,13 +87,13 @@ public class SearchUsageTest {
 		 */
 		t = System.currentTimeMillis();
 		long na = 0;
-		Node n2 = new Node(board);
-		final ISearch ab2 = new AlphaBeta();
+		Node n1 = new Node(board);
+		final ISearch ab1 = new AlphaBeta();
 		for (int i = 0; i < turns; i++) {
-			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
-			na += ab2.analitzats();
-			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
-			na += ab2.analitzats();
+			n1 = ab1.search(n1, depth, Node.WHITE_DIR);
+			na += ab1.analitzats();
+			n1 = ab1.search(n1, depth, Node.BLACK_DIR);
+			na += ab1.analitzats();
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 		System.out.println("total: "+na);
@@ -102,18 +103,18 @@ public class SearchUsageTest {
 		 */
 		t = System.currentTimeMillis();
 		na = 0;
-		Node n3 = new Node(board);
-		final ISearch ab3 = new NegaScout();
+		Node n2 = new Node(board);
+		final ISearch ab2 = new NegaScout();
 		for (int i = 0; i < turns; i++) {
-			n3 = ab3.search(n3, depth, Node.WHITE_DIR);
-			na += ab3.analitzats();
-			n3 = ab3.search(n3, depth, Node.BLACK_DIR);
-			na += ab3.analitzats();
+			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
+			na += ab2.analitzats();
+			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
+			na += ab2.analitzats();
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 		System.out.println("total: "+na);
 
-		assertEquals(n2, n3);
+		assertEquals(n1, n2);
 	}
 
 }
