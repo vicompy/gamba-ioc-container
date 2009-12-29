@@ -47,20 +47,6 @@ public final class BoardHeuristic {
 			}
 		}
 
-		// bonifica la bona formació peonil
-		long pawnScore = 0L;
-		for (int i = 8; i < 8 * 8 - 8; i++) {
-			if (board.isFriendlyPawn(i, myDir)) {
-				if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
-					pawnScore += 1;
-				}
-				if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
-					pawnScore += 1;
-				}
-			}
-		}
-		score += pawnScore;
-
 		// bonifica els alfils i cavalls que han abandonat la línia de reserva
 		// bonifica les torres i rei mantinguts en línia de reserva
 		for (int i = 0; i < 8 * 8; i++) {
@@ -78,20 +64,44 @@ public final class BoardHeuristic {
 			}
 		}
 
+		// bonifica la bona formació peonil
+		long pawnScore = 0L;
+		for (int i = 8; i < 8 * 8 - 8; i++) {
+			if (board.isFriendlyPawn(i, myDir)) {
+				if (i % 8 > 0 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, -1), myDir)) {
+					pawnScore += 1;
+				}
+				if (i % 8 < 7 && board.isFriendlyPawn(MovGen.updateIndex(i, myDir, 1), myDir)) {
+					pawnScore += 1;
+				}
+			}
+		}
+		score += pawnScore;
+
 		// bonifica l'obertura central de peons
 		if (myDir == Node.BLACK_DIR) {
-			if (!board.isFriendlyPawn(8 * 1 + 3, myDir)) {
-				score += 1;
-			}
-			if (!board.isFriendlyPawn(8 * 1 + 4, myDir)) {
-				score += 1;
+			for (int i = 0; i < 8; i++) {
+				if (i == 3 || i == 4) {
+					if (!board.isFriendlyPawn(8 * 1 + i, myDir)) {
+						score += 2;
+					}
+				} else {
+					if (board.isFriendlyPawn(8 * 1 + i, myDir)) {
+						score += 2;
+					}
+				}
 			}
 		} else {
-			if (!board.isFriendlyPawn(8 * 6 + 3, myDir)) {
-				score += 1;
-			}
-			if (!board.isFriendlyPawn(8 * 6 + 4, myDir)) {
-				score += 1;
+			for (int i = 0; i < 8; i++) {
+				if (i == 3 || i == 4) {
+					if (!board.isFriendlyPawn(8 * 6 + i, myDir)) {
+						score += 2;
+					}
+				} else {
+					if (board.isFriendlyPawn(8 * 6 + i, myDir)) {
+						score += 2;
+					}
+				}
 			}
 		}
 
@@ -108,15 +118,15 @@ public final class BoardHeuristic {
 	private static long computePieceWeigth(final int pieceType) {
 		switch (pieceType) {
 		case Node.PEO:
-			return 50L;
+			return 100L;
 		case Node.TORRE:
-			return 400L;
+			return 300L;
 		case Node.CAVALL:
 			return 300L;
 		case Node.ALFIL:
-			return 300L;
+			return 500L;
 		case Node.REINA:
-			return 2000L;
+			return 900L;
 		default: // Node.REI
 			return 100000L;
 		}
