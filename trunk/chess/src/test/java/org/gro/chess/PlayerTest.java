@@ -2,7 +2,7 @@ package org.gro.chess;
 
 
 import java.io.IOException;
-//import java.util.Scanner;
+import java.util.Scanner;
 
 import org.gro.chess.algols.ISearch;
 import org.gro.chess.algols.NegaScout;
@@ -34,15 +34,15 @@ public class PlayerTest {
 			System.out.println("score blanques: " + BoardHeuristic.calcDiff(n, Node.WHITE_DIR));
 			System.out.println("score negres: " + BoardHeuristic.calcDiff(n, Node.BLACK_DIR));
 			System.out.println("entra mov: ");
-//			final Scanner in = new Scanner(System.in);
-//			final int srcy = in.nextInt();
-//			final int srcx = in.nextInt();
-//			final int dsty = in.nextInt();
-//			final int dstx = in.nextInt();
-//			n.movePiece(srcx+srcy*8, dstx+dsty*8);
+			final Scanner in = new Scanner(System.in);
+			final int srcy = in.nextInt();
+			final int srcx = in.nextInt();
+			final int dsty = in.nextInt();
+			final int dstx = in.nextInt();
+			n.movePiece(srcx+srcy*8, dstx+dsty*8);
 			System.out.println(n);
 
-			System.out.println(n = ab.search(n, 5, Node.WHITE_DIR));
+//			System.out.println(n = ab.search(n, 5, Node.WHITE_DIR));
 			System.out.println(n = ab.search(n, 5, Node.BLACK_DIR));
 
 		}

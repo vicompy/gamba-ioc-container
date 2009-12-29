@@ -43,7 +43,6 @@ public class Minimax implements ISearch {
 			if (alfa < childScore) {
 				alfa = childScore;
 				if (initialDepth == depth) {
-//					bestScore = childScore;
 					bestNode = child;
 				}
 			}

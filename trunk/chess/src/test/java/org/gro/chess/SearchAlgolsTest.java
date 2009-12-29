@@ -13,7 +13,7 @@ import org.junit.Test;
 
 
 //@Ignore
-public class SearchUsageTest {
+public class SearchAlgolsTest {
 
 
 	private final static String board1 = ""+
@@ -36,9 +36,17 @@ public class SearchUsageTest {
     	"PPPPPPPP"+
     	"TCAQKACT";
 
-
 	@Test
 	public void test1() {
+		final int nIters = 2;
+		testMinimaxVsAlphaBeta(board1, nIters, 2);
+		testMinimaxVsAlphaBeta(board2, nIters, 2);
+		testAlphaBetaVsNegaScout(board1, nIters, 4);
+		testAlphaBetaVsNegaScout(board2, nIters, 4);
+	}
+
+	@Test
+	public void test2() {
 		final int nIters = 2;
 		testMinimaxVsAlphaBeta(board1, nIters, 3);
 		testMinimaxVsAlphaBeta(board2, nIters, 3);
