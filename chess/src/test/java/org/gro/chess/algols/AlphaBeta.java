@@ -18,8 +18,8 @@ public class AlphaBeta implements ISearch {
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
 
-		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
-		System.out.println("analitzats* " + nodesAnalitzats + " nodes.");
+		final long r = search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
+		System.out.println("analitzats " + nodesAnalitzats + " nodes, score="+r);
 
 		return this.bestNode;
 	}
@@ -39,65 +39,59 @@ public class AlphaBeta implements ISearch {
 			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
-//		if (myDir == maximizingDir) {
-//
-//			for (final Node child : childs) {
-//				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-//				if (initialDepth == depth) {
-//					if (bestScore < score) {
-//						bestScore = score;
-//						bestNode = child;
-//					}
-//				}
-//				if (score > alfa) {
-//					alfa = score;
-//				}
-//				if (alfa >= beta) {
-//					return alfa; // cut-off
-//				}
-//			}
-//			return alfa; // our best move
-//		} else {
-//
-//			for (final Node child : childs) {
-//				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-//				if (score < beta) {
-//					beta = score;
-//				}
-//				if (alfa >= beta) {
-//					return beta; // cut-off
-//				}
-//			}
-//			return beta; // our best move
-//		}
+		if (myDir == maximizingDir) {
 
-		for (final Node child : childs) {
-			final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-			if (initialDepth == depth) {
-				if (bestScore < score) {
-					bestScore = score;
-					bestNode = child;
+			for (final Node child : childs) {
+				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
+				if (initialDepth == depth) {
+					if (bestScore < score) {
+						bestScore = score;
+						bestNode = child;
+					}
 				}
-			}
-			if (myDir == maximizingDir) {
 				if (score > alfa) {
 					alfa = score;
 				}
-			} else {
+				if (alfa >= beta) {
+					return alfa; // cut-off
+				}
+			}
+			return alfa; // our best move
+		} else {
+
+			for (final Node child : childs) {
+				final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
 				if (score < beta) {
 					beta = score;
 				}
+				if (alfa >= beta) {
+					return beta; // cut-off
+				}
 			}
-			if (alfa >= beta) {
-				return alfa; // cut-off
-			}
+			return beta; // our best move
 		}
 
-		if (myDir == maximizingDir) {
-			return alfa; // our best move
-		} else {
-			return beta;
-		}
+//		for (final Node child : childs) {
+//			final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
+//			if (initialDepth == depth && bestScore < score) {
+//				bestScore = score;
+//				bestNode = child;
+//			}
+//			if (myDir == maximizingDir && score > alfa) {
+//				alfa = score;
+//			} else if (myDir != maximizingDir && score < beta) {
+//				beta = score;
+//			}
+//			if (alfa >= beta) {
+//				return alfa; // cut-off
+//			}
+//		}
+//
+//		if (myDir == maximizingDir) {
+//			return alfa; // our best move
+//		} else {
+//			return beta;
+//		}
 
 	}
 
