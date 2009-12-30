@@ -25,13 +25,13 @@ public class QuiescentAlphaBeta extends AbstractQuiescentableNegaScout {
 			long beta, final int myDir, final int maximizingDir) {
 
 		if (depth == 0) {
-			return BoardHeuristic.calcDiff(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, myDir);
 		}
 
 		final List<Node> childs = new MovGen(node, myDir).generaMovesMatadors();
 
 		if (childs.isEmpty()) {
-			return BoardHeuristic.calcDiff(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, myDir);
 		}
 
 		nodesAnalitzats++;
