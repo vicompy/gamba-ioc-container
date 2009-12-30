@@ -5,15 +5,14 @@ package org.gro.chess;
 
 import static org.junit.Assert.assertEquals;
 
-import org.gro.chess.algols.AlphaBeta;
 import org.gro.chess.algols.ISearch;
-import org.gro.chess.algols.Minimax;
 import org.gro.chess.algols.quiescents.QuiescentAlphaBeta;
 import org.gro.chess.algols.quiescents.QuiescentMinimax;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
-//@Ignore
+@Ignore
 public class QuiescentAlgolsTest {
 
 
@@ -27,15 +26,15 @@ public class QuiescentAlgolsTest {
 	"..P..PPP"+
 	"T.AQ.TK.";
 
-	private final static String board2 = ""+
-	"········"+
-	"········"+
-	"·k······"+
-	"········"+
-	"···p····"+
-	"··Q·····"+
-	"·····A··"+
-	"········";
+//	private final static String board2 = ""+
+//	"········"+
+//	"········"+
+//	"·k······"+
+//	"········"+
+//	"···p····"+
+//	"··Q·····"+
+//	"·····A··"+
+//	"········";
 
 //	@Test
 //	public void a() {

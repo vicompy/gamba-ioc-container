@@ -6,10 +6,11 @@ import java.util.Scanner;
 
 import org.gro.chess.algols.ISearch;
 import org.gro.chess.algols.NegaScout;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
-//@Ignore
+@Ignore
 public class PlayerTest {
 
 	@Test
