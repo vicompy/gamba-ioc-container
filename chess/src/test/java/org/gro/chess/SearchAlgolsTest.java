@@ -77,35 +77,41 @@ public class SearchAlgolsTest {
 	private final int nIters = 2;
 
 	@Test
-	public void test2() {
+	public void test1() {
 		testMinimaxVsAlphaBeta(board1, nIters, 2);
 		testMinimaxVsAlphaBeta(board2, nIters, 2);
-		testMinimaxVsAlphaBeta(board3, nIters, 2);// TODO funka de casualitat?
-//		testMinimaxVsAlphaBeta(board1, nIters, 3);
-//		testMinimaxVsAlphaBeta(board2, nIters, 3);
-//		testMinimaxVsAlphaBeta(board3, nIters, 3);// TODO falla
-		testMinimaxVsAlphaBeta(board1, nIters, 4);
-		testMinimaxVsAlphaBeta(board2, nIters, 4);
-		testMinimaxVsAlphaBeta(board3, nIters, 4);// TODO funka de casualitat?
+		testMinimaxVsAlphaBeta(board3, nIters, 2);
 	}
 
 	@Test
-	public void test7() {
+	public void test2() {
+		testMinimaxVsAlphaBeta(board1, nIters, 4);
+		testMinimaxVsAlphaBeta(board2, nIters, 4);
+		testMinimaxVsAlphaBeta(board3, nIters, 4);
+	}
+
+	@Test
+	public void test3() {
 		testAlphaBetaVsNegaScout(board1, nIters, 2);
 		testAlphaBetaVsNegaScout(board2, nIters, 2);
 		testAlphaBetaVsNegaScout(board3, nIters, 2);
+	}
+
+	@Test
+	public void test4() {
 		testAlphaBetaVsNegaScout(board1, nIters, 4);
 		testAlphaBetaVsNegaScout(board2, nIters, 4);
 		testAlphaBetaVsNegaScout(board3, nIters, 4);
-//		testAlphaBetaVsNegaScout(board1, nIters, 5);
-//		testAlphaBetaVsNegaScout(board2, nIters, 5);
-//		testAlphaBetaVsNegaScout(board3, nIters, 5);
+	}
+
+	@Test
+	public void test5() {
 		testAlphaBetaVsNegaScout(board1, nIters, 6);
 		testAlphaBetaVsNegaScout(board2, nIters, 6);
 		testAlphaBetaVsNegaScout(board3, nIters, 6);
 	}
 
-	public void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth) {
+	private void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth) {
 		long t;
 
 		System.out.println("===================");
@@ -139,7 +145,7 @@ public class SearchAlgolsTest {
 
 
 
-	public void testAlphaBetaVsNegaScout(final String board, final int turns, final int depth) {
+	private void testAlphaBetaVsNegaScout(final String board, final int turns, final int depth) {
 		long t;
 
 		System.out.println("===================*");
