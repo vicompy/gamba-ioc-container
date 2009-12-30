@@ -108,6 +108,8 @@ public class SearchAlgolsTest {
 	public void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth) {
 		long t;
 
+		System.out.println("===================");
+
 		/*
 		 * testa MiniMax
 		 */
@@ -132,8 +134,6 @@ public class SearchAlgolsTest {
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 
-		System.out.println("===================");
-
 		assertEquals(n1, n2);
 	}
 
@@ -141,6 +141,8 @@ public class SearchAlgolsTest {
 
 	public void testAlphaBetaVsNegaScout(final String board, final int turns, final int depth) {
 		long t;
+
+		System.out.println("===================*");
 
 		/*
 		 * testa MiniMax-Alfa/Beta
@@ -175,8 +177,6 @@ public class SearchAlgolsTest {
 		System.out.println("total: "+na);
 
 		assertEquals(n1, n2);
-
-		System.out.println("===================");
 	}
 
 }
