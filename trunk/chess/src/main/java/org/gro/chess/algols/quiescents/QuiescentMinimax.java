@@ -32,14 +32,14 @@ public class QuiescentMinimax extends AbstractQuiescentableNegaScout {
 
 		for (final Node child : childs) {
 
-			final long childScore = -quiescentSearch(child, depth - 1,0,0, -myDir, maximizingDir);
+			final long childScore = -quiescentSearch(child, depth - 1, 0, 0, -myDir, maximizingDir);
 
 			if (a < childScore) {
 				a = childScore;
 			}
 		}
 
-		return alfa;
+		return a;
 	}
 
 }

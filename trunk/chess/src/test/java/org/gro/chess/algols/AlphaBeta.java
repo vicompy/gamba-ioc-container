@@ -35,7 +35,7 @@ public class AlphaBeta implements ISearch {
 
 		final List<Node> childs = new MovGen(node, myDir).generaAllMoves();
 
-		if (childs.size() == 0) {
+		if (childs.isEmpty()) {
 			return BoardHeuristic.calcDiff(node, myDir);
 		}
 

@@ -22,8 +22,8 @@ public abstract class AbstractQuiescentableNegaScout implements ISearch {
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
 
-		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
-		System.out.println("analitzats** " + nodesAnalitzats + " nodes.");
+		final long r = search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
+		System.out.println("analitzats** " + nodesAnalitzats + " nodes, score="+r);
 
 		return this.bestNode;
 	}
@@ -37,14 +37,15 @@ public abstract class AbstractQuiescentableNegaScout implements ISearch {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-			// return BoardHeuristic.calcDiff(node, maximizingDir);
-//			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, maximizingDir);
+			// return BoardHeuristic.calcDiff(node, myDir);
+			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, maximizingDir);
 
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, -maximizingDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, -myDir, maximizingDir);
-			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, myDir);
+//			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, myDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, -myDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, -myDir, myDir);
+//			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, -myDir, -myDir);
 		}
 
 		final List<Node> childs = new MovGen(node, myDir).generaAllMoves();
