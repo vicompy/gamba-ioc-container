@@ -17,30 +17,17 @@ public class QuiescentMinimax extends AbstractQuiescentableNegaScout {
 			final int myDir, final int maximizingDir) {
 
 		if (depth == 0) {
-			return BoardHeuristic.calcDiff(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, myDir);
 		}
 
 		final List<Node> childs = new MovGen(node, myDir).generaMovesMatadors();
 
 		if (childs.isEmpty()) {
-			return BoardHeuristic.calcDiff(node, maximizingDir);
+			return BoardHeuristic.calcDiff(node, myDir);
 		}
 
 		nodesAnalitzats++;
 
-//		long a = Long.MIN_VALUE;
-//
-//		for (final Node child : childs) {
-//
-//			final long childScore = -quiescentSearch(child, depth - 1, 0, 0, -myDir, maximizingDir);
-//
-//			if (a < childScore) {
-//				a = childScore;
-//			}
-//
-//		}
-//
-//		return a;
 		long a = Long.MIN_VALUE;
 
 		for (final Node child : childs) {
