@@ -17,8 +17,8 @@ public class NegaScout implements ISearch {
 		this.bestScore = Long.MIN_VALUE;
 		this.nodesAnalitzats = 0L;
 
-		search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
-		System.out.println("analitzats** " + nodesAnalitzats + " nodes.");
+		final long r = search(node, maxDepth, maxDepth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, myDir);
+		System.out.println("analitzats " + nodesAnalitzats + " nodes, score="+r);
 
 		return this.bestNode;
 	}

@@ -16,9 +16,9 @@ public class QuiescentAlphaBeta extends AbstractQuiescentableNegaScout {
 	public long quiescentSearch(final Node node, final int depth,
 			final long alfa, final long beta, final int myDir, final int maximizingDir) {
 
-		// return _quiescentSearch(node, depth, Long.MIN_VALUE, Long.MAX_VALUE,
-		// myDir, maximizingDir);
-		return _quiescentSearch(node, depth, alfa, beta, myDir, maximizingDir);
+		 return _quiescentSearch(node, depth, Long.MIN_VALUE, Long.MAX_VALUE,
+		 myDir, maximizingDir);
+//		return _quiescentSearch(node, depth, alfa, beta, myDir, maximizingDir);
 	}
 
 	public long _quiescentSearch(final Node node, final int depth, long alfa,
@@ -37,54 +37,50 @@ public class QuiescentAlphaBeta extends AbstractQuiescentableNegaScout {
 		nodesAnalitzats++;
 
 
-		for (final Node child : childs) {
-			final long score = _quiescentSearch(child, depth - 1, alfa, beta, -myDir, maximizingDir);
-			if (myDir == maximizingDir) {
-				if (score > alfa) {
-					alfa = score;
-				}
-			} else {
-				if (score < beta) {
-					beta = score;
-				}
-			}
+//		for (final Node child : childs) {
+//			final long score = _quiescentSearch(child, depth - 1, alfa, beta, -myDir, maximizingDir);
+//			if (myDir == maximizingDir && score > alfa) {
+//				alfa = score;
+//			} else if (myDir != maximizingDir && score < beta) {
+//				beta = score;
+//			}
 //			if (alfa >= beta) {
 //				return alfa; // cut-off
 //			}
-		}
-
-		if (myDir == maximizingDir) {
-			return alfa; // our best move
-		} else {
-			return beta;
-		}
-
-
-//		if (myDir == maximizingDir) {
+//		}
 //
-//			for (final Node child : childs) {
-//				final long score = _quiescentSearch(child, depth - 1, alfa, beta, -myDir, maximizingDir);
-//				if (score > alfa) {
-//					alfa = score;
-//				}
-//				// if (alfa >= beta) {
-//				// return alfa; // cut-off
-//				// }
-//			}
+//		if (myDir == maximizingDir) {
 //			return alfa; // our best move
 //		} else {
-//
-//			for (final Node child : childs) {
-//				final long score = _quiescentSearch(child, depth - 1, alfa, beta, -myDir, maximizingDir);
-//				if (score < beta) {
-//					beta = score;
-//				}
-//				// if (alfa >= beta) {
-//				// return beta; // cut-off
-//				// }
-//			}
-//			return beta; // our best move
+//			return beta;
 //		}
+
+
+		if (myDir == maximizingDir) {
+
+			for (final Node child : childs) {
+				final long score = _quiescentSearch(child, depth - 1, alfa, beta, -myDir, maximizingDir);
+				if (score > alfa) {
+					alfa = score;
+				}
+				// if (alfa >= beta) {
+				// return alfa; // cut-off
+				// }
+			}
+			return alfa; // our best move
+		} else {
+
+			for (final Node child : childs) {
+				final long score = _quiescentSearch(child, depth - 1, alfa, beta, -myDir, maximizingDir);
+				if (score < beta) {
+					beta = score;
+				}
+				// if (alfa >= beta) {
+				// return beta; // cut-off
+				// }
+			}
+			return beta; // our best move
+		}
 	}
 
 }

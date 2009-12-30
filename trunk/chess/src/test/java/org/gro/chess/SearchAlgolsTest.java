@@ -36,22 +36,65 @@ public class SearchAlgolsTest {
     	"PPPPPPPP"+
     	"TCAQKACT";
 
+	private final static String board3 = ""+
+    	"········"+
+    	"········"+
+    	"·k······"+
+    	"········"+
+    	"···p····"+
+    	"··Q·····"+
+    	"·····A··"+
+    	"········";
+
+
 	@Test
-	public void test1() {
-		final int nIters = 2;
-		testMinimaxVsAlphaBeta(board1, nIters, 2);
-		testMinimaxVsAlphaBeta(board2, nIters, 2);
-		testAlphaBetaVsNegaScout(board1, nIters, 4);
-		testAlphaBetaVsNegaScout(board2, nIters, 4);
+	public void b() {
+		Node n1 = new Node(board2);
+		final ISearch ab1 = new Minimax();
+		n1 = ab1.search(n1, 1, Node.BLACK_DIR);
+		System.out.println(n1);
+
+		Node n2 = new Node(board2);
+		final ISearch ab2 = new Minimax();
+		n2 = ab2.search(n2, 5, Node.BLACK_DIR);
+		System.out.println(n2);
+
+		Node n5 = new Node(board2);
+		final ISearch ab5 = new AlphaBeta();
+		n5 = ab5.search(n5, 1, Node.BLACK_DIR);
+		System.out.println(n5);
+
+		Node n6 = new Node(board2);
+		final ISearch ab6 = new AlphaBeta();
+		n6 = ab6.search(n6, 5, Node.BLACK_DIR);
+		System.out.println(n6);
+
+		assertEquals(n1, n5); //TODO funka de casualitat
+		assertEquals(n2, n6); //TODO falla
 	}
+
+
+	private final int nIters = 2;
 
 	@Test
 	public void test2() {
-		final int nIters = 2;
+		testMinimaxVsAlphaBeta(board1, nIters, 2);
+		testMinimaxVsAlphaBeta(board2, nIters, 2);
+		testMinimaxVsAlphaBeta(board3, nIters, 2);// TODO funka de casualitat?
 		testMinimaxVsAlphaBeta(board1, nIters, 3);
 		testMinimaxVsAlphaBeta(board2, nIters, 3);
+		testMinimaxVsAlphaBeta(board3, nIters, 3);// TODO falla
+		testMinimaxVsAlphaBeta(board3, nIters, 4);// TODO falla
+	}
+
+	@Test
+	public void test7() {
+		testAlphaBetaVsNegaScout(board1, nIters, 4);
+		testAlphaBetaVsNegaScout(board2, nIters, 4);
+		testAlphaBetaVsNegaScout(board3, nIters, 4);
 		testAlphaBetaVsNegaScout(board1, nIters, 5);
 		testAlphaBetaVsNegaScout(board2, nIters, 5);
+		testAlphaBetaVsNegaScout(board3, nIters, 5);
 	}
 
 	public void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth) {
@@ -81,6 +124,7 @@ public class SearchAlgolsTest {
 		}
 		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 
+		System.out.println("===================");
 
 		assertEquals(n1, n2);
 	}
@@ -123,6 +167,8 @@ public class SearchAlgolsTest {
 		System.out.println("total: "+na);
 
 		assertEquals(n1, n2);
+
+		System.out.println("===================");
 	}
 
 }
