@@ -1,9 +1,10 @@
-package org.gro.chess.algols.quiescents;
+package org.gro.chess.algols;
 
 import java.util.List;
 
 import org.gro.chess.BoardHeuristic;
 import org.gro.chess.Node;
+import org.gro.chess.algols.quiescents.AbstractQuiescentableNegaScout;
 import org.gro.chess.movgen.MovGen;
 
 public class QuiescentMinimax extends AbstractQuiescentableNegaScout {
@@ -23,7 +24,7 @@ public class QuiescentMinimax extends AbstractQuiescentableNegaScout {
 		final List<Node> childs = new MovGen(node, myDir).generaMovesMatadors();
 
 		if (childs.isEmpty()) {
-			return BoardHeuristic.calcDiff(node, myDir);
+			return BoardHeuristic.calcDiff(node, myDir); //TODO pq no funka amb maximizingDir? AlphaBeta bé ho fa!
 		}
 
 		nodesAnalitzats++;
