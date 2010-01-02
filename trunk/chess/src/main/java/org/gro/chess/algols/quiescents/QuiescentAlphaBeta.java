@@ -16,16 +16,16 @@ public class QuiescentAlphaBeta extends AbstractQuiescentableNegaScout {
 	public long quiescentSearch(final Node node, final int depth, final long alfa, final long beta,
 			final int myDir, final int maximizingDir) {
 
-		return _quiescentSearch(node, depth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, maximizingDir);
-//		 return _quiescentSearch(node, depth, alfa, beta, myDir,
-//		 maximizingDir);
+//		return _quiescentSearch(node, depth, Long.MIN_VALUE, Long.MAX_VALUE, myDir, maximizingDir);
+		 return _quiescentSearch(node, depth, alfa, beta, myDir,
+		 maximizingDir);
 	}
 
 	public long _quiescentSearch(final Node node, final int depth, long alfa, long beta, final int myDir,
 			final int maximizingDir) {
 
 		if (depth == 0) {
-			return BoardHeuristic.calcDiff(node, myDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		final List<Node> childs = new MovGen(node, myDir).generaMovesMatadors();
@@ -43,9 +43,9 @@ public class QuiescentAlphaBeta extends AbstractQuiescentableNegaScout {
 				if (score > alfa) {
 					alfa = score;
 				}
-//				if (alfa >= beta) {
-//					return alfa; // cut-off
-//				}
+				if (alfa >= beta) {
+					return alfa; // cut-off
+				}
 			}
 			return alfa; // our best move
 		} else {
@@ -55,9 +55,9 @@ public class QuiescentAlphaBeta extends AbstractQuiescentableNegaScout {
 				if (score < beta) {
 					beta = score;
 				}
-//				if (alfa >= beta) {
-//					return beta; // cut-off
-//				}
+				if (alfa >= beta) {
+					return beta; // cut-off
+				}
 			}
 			return beta; // our best move
 		}

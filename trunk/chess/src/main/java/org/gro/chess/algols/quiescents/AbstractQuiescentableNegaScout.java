@@ -38,11 +38,11 @@ public abstract class AbstractQuiescentableNegaScout implements ISearch {
 
 		if (depth == 0) {
 			// return BoardHeuristic.calcDiff(node, myDir);
-			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, maximizingDir);
+//			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, maximizingDir);
 
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, -maximizingDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, -myDir, maximizingDir);
-//			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, myDir);
+			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, myDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, myDir, -myDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, -myDir, myDir);
 //			return quiescentSearch(node, quiescentMaxDepth, alfa, beta, -myDir, -myDir);

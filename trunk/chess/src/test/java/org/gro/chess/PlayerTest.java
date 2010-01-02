@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import org.gro.chess.algols.ISearch;
-import org.gro.chess.algols.NegaScout;
 import org.gro.chess.algols.quiescents.QuiescentAlphaBeta;
-import org.gro.chess.algols.quiescents.QuiescentMinimax;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
-//@Ignore
+@Ignore
 public class PlayerTest {
 
 	@Test
@@ -29,7 +27,7 @@ public class PlayerTest {
 
 		Node n = new Node(board);
 
-		final ISearch ab = new QuiescentMinimax(2);
+		final ISearch ab = new QuiescentAlphaBeta(4);
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {
@@ -45,9 +43,9 @@ public class PlayerTest {
 			System.out.println(n);
 
 //			System.out.println(n = ab.search(n, 4, Node.WHITE_DIR));
-			System.out.println(n = ab.search(n, 6, Node.BLACK_DIR));
+			System.out.println(n = ab.search(n, 4, Node.BLACK_DIR));
 
-		}
+		} // 6444 7152 7542
 	}
 
 }

@@ -17,6 +17,7 @@ public class BeanShellTest {
 		i.set("foo", 5); // Set variables
 		i.set("date", new Date());
 
+		@SuppressWarnings("unused")
 		final Date date = (Date) i.get("date"); // retrieve a variable
 
 		// Eval a statement and get the result
