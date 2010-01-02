@@ -6,11 +6,13 @@ import java.util.Scanner;
 
 import org.gro.chess.algols.ISearch;
 import org.gro.chess.algols.NegaScout;
+import org.gro.chess.algols.quiescents.QuiescentAlphaBeta;
+import org.gro.chess.algols.quiescents.QuiescentMinimax;
 import org.junit.Ignore;
 import org.junit.Test;
 
 
-@Ignore
+//@Ignore
 public class PlayerTest {
 
 	@Test
@@ -27,7 +29,7 @@ public class PlayerTest {
 
 		Node n = new Node(board);
 
-		final ISearch ab = new NegaScout();
+		final ISearch ab = new QuiescentMinimax(2);
 		System.out.println(n);
 
 		for (int i = 0; i < 100; i++) {

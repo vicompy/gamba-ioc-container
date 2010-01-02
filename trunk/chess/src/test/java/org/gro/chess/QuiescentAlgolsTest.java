@@ -6,6 +6,7 @@ package org.gro.chess;
 import static org.junit.Assert.assertEquals;
 
 import org.gro.chess.algols.ISearch;
+import org.gro.chess.algols.NegaScout;
 import org.gro.chess.algols.quiescents.QuiescentAlphaBeta;
 import org.gro.chess.algols.quiescents.QuiescentMinimax;
 import org.junit.Ignore;
@@ -26,15 +27,15 @@ public class QuiescentAlgolsTest {
 	"..P..PPP"+
 	"T.AQ.TK.";
 
-//	private final static String board2 = ""+
-//	"········"+
-//	"········"+
-//	"·k······"+
-//	"········"+
-//	"···p····"+
-//	"··Q·····"+
-//	"·····A··"+
-//	"········";
+	private final static String board2 = ""+
+	"········"+
+	"········"+
+	"·k······"+
+	"········"+
+	"···p····"+
+	"··Q·····"+
+	"·····A··"+
+	"········";
 
 //	@Test
 //	public void a() {
@@ -83,8 +84,18 @@ public class QuiescentAlgolsTest {
 
 	private final int nIters = 1;
 
+//	@Test
+//	public void test1() {
+//		testQuiescentableNegaScoutVsNegaScout(board1, nIters, 2, 0);
+//		testQuiescentableNegaScoutVsNegaScout(board1, nIters, 4, 0);
+//		testQuiescentableNegaScoutVsNegaScout(board1, nIters, 6, 0);
+//
+//		testQuiescentableNegaScoutVsNegaScout(board2, nIters, 2, 0);
+//		testQuiescentableNegaScoutVsNegaScout(board2, nIters, 4, 0);
+//	}
+
 	@Test
-	public void test1() {
+	public void test2() {
 		testMinimaxVsAlphaBeta(board1, nIters, 2, 0);
 		testMinimaxVsAlphaBeta(board1, nIters, 4, 0);
 		testMinimaxVsAlphaBeta(board1, nIters, 2, 2); // TODO falla
@@ -113,6 +124,38 @@ public class QuiescentAlgolsTest {
 		t = System.currentTimeMillis();
 		Node n2 = new Node(board);
 		final ISearch ab2 = new QuiescentAlphaBeta(quiescentDepth);
+		for (int i = 0; i < turns; i++) {
+			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
+//			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
+		}
+		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
+
+
+		assertEquals(n1, n2);
+	}
+
+
+	public void testQuiescentableNegaScoutVsNegaScout(final String board, final int turns, final int depth, final int quiescentDepth) {
+		long t;
+
+		/*
+		 * testa MiniMax
+		 */
+		t = System.currentTimeMillis();
+		Node n1 = new Node(board);
+		final ISearch ab1 = new QuiescentAlphaBeta(quiescentDepth);
+		for (int i = 0; i < turns; i++) {
+			n1 = ab1.search(n1, depth, Node.WHITE_DIR);
+//			n1 = ab1.search(n1, depth, Node.BLACK_DIR);
+		}
+		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
+
+		/*
+		 * testa MiniMax-Alfa/Beta
+		 */
+		t = System.currentTimeMillis();
+		Node n2 = new Node(board);
+		final ISearch ab2 = new NegaScout();
 		for (int i = 0; i < turns; i++) {
 			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
 //			n2 = ab2.search(n2, depth, Node.BLACK_DIR);

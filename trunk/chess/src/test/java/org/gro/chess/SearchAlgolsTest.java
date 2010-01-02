@@ -74,10 +74,11 @@ public class SearchAlgolsTest {
 //	}
 
 
-	private final int nIters = 2;
+	private int nIters = 2;
 
 	@Test
 	public void test1() {
+		nIters = 6;
 		testMinimaxVsAlphaBeta(board1, nIters, 2);
 		testMinimaxVsAlphaBeta(board2, nIters, 2);
 		testMinimaxVsAlphaBeta(board3, nIters, 2);
@@ -85,6 +86,7 @@ public class SearchAlgolsTest {
 
 	@Test
 	public void test2() {
+		nIters = 3;
 		testMinimaxVsAlphaBeta(board1, nIters, 4);
 		testMinimaxVsAlphaBeta(board2, nIters, 4);
 		testMinimaxVsAlphaBeta(board3, nIters, 4);
@@ -92,6 +94,7 @@ public class SearchAlgolsTest {
 
 	@Test
 	public void test3() {
+		nIters = 6;
 		testAlphaBetaVsNegaScout(board1, nIters, 2);
 		testAlphaBetaVsNegaScout(board2, nIters, 2);
 		testAlphaBetaVsNegaScout(board3, nIters, 2);
@@ -99,6 +102,7 @@ public class SearchAlgolsTest {
 
 	@Test
 	public void test4() {
+		nIters = 3;
 		testAlphaBetaVsNegaScout(board1, nIters, 4);
 		testAlphaBetaVsNegaScout(board2, nIters, 4);
 		testAlphaBetaVsNegaScout(board3, nIters, 4);
@@ -106,6 +110,7 @@ public class SearchAlgolsTest {
 
 	@Test
 	public void test5() {
+		nIters = 3;
 		testAlphaBetaVsNegaScout(board1, nIters, 6);
 		testAlphaBetaVsNegaScout(board2, nIters, 6);
 		testAlphaBetaVsNegaScout(board3, nIters, 6);
