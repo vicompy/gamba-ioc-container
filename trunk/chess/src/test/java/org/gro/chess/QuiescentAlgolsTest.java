@@ -80,7 +80,7 @@ public class QuiescentAlgolsTest {
 //	}
 
 
-	private final int nIters = 1;
+	private final int nIters = 4;
 
 	@Test
 	public void test1() {

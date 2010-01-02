@@ -43,7 +43,7 @@ public class PlayerTest {
 			System.out.println(n);
 
 //			System.out.println(n = ab.search(n, 4, Node.WHITE_DIR));
-			System.out.println(n = ab.search(n, 4, Node.BLACK_DIR));
+			System.out.println(n = ab.search(n, 6, Node.BLACK_DIR));
 
 		} // 6444 7152 7542
 	}
