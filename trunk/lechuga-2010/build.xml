@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<project name="gro-framework-releaser" default="build" basedir=".">
+
+	<property name="artifact" value="lechuga-framework" />
+	<property name="version" value="0.2.1" />
+
+	<property name="src-dir" value="./ant-build/sources/" />
+	<property name="class-dir" value="./ant-build/classes/" />
+	<property name="jar-dir" value="./ant-build/" />
+
+
+	<target name="clean">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="cleaning..." />
+		<echo level="info" message="***********************************" />
+
+		<delete dir="${src-dir}" />
+		<delete dir="${class-dir}" />
+		<delete dir="${jar-dir}" />
+		<mkdir dir="${src-dir}" />
+		<mkdir dir="${class-dir}" />
+		<mkdir dir="${jar-dir}" />
+	</target>
+
+
+	<target name="copy" depends="clean">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="copying..." />
+		<echo level="info" message="***********************************" />
+
+		<copy todir="${src-dir}/">
+			<fileset dir="./src/main/java/">
+				<include name="org/**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- goal: compile             -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="compile" depends="copy">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="compiling..." />
+		<echo level="info" message="***********************************" />
+		<javac destdir="${class-dir}">
+			<src path="${src-dir}" />
+			<classpath>
+				<fileset dir="./">
+					<include name="**/*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- goal: build               -->
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<target name="jars" depends="compile">
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="packing..." />
+		<echo level="info" message="***********************************" />
+		<jar basedir="${class-dir}/" destfile="${jar-dir}/${artifact}-${version}.jar" />
+		<jar basedir="${src-dir}/" destfile="${jar-dir}/${artifact}-${version}-sources.jar" />
+	</target>
+
+	<target name="build" depends="jars">
+		<copy todir="../gro-demo-webapp/webapp/WEB-INF/lib/" file="${jar-dir}/${artifact}-${version}.jar" />
+		<echo level="info" message="***********************************" />
+		<echo level="info" message="${artifact}-${version}.jar build OK" />
+		<echo level="info" message="***********************************" />
+	</target>
+
+</project>
+
