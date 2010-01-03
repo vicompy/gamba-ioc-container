@@ -71,27 +71,7 @@ public class AlphaBeta implements ISearch {
 			return beta; // our best move
 		}
 
-//		for (final Node child : childs) {
-//			final long score = search(child, initialDepth, depth - 1, alfa, beta, -myDir, maximizingDir);
-//			if (initialDepth == depth && bestScore < score) {
-//				bestScore = score;
-//				bestNode = child;
-//			}
-//			if (myDir == maximizingDir && score > alfa) {
-//				alfa = score;
-//			} else if (myDir != maximizingDir && score < beta) {
-//				beta = score;
-//			}
-//			if (alfa >= beta) {
-//				return alfa; // cut-off
-//			}
-//		}
-//
-//		if (myDir == maximizingDir) {
-//			return alfa; // our best move
-//		} else {
-//			return beta;
-//		}
+
 
 	}
 
