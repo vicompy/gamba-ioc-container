@@ -17,7 +17,7 @@ public abstract class Validator {
 
 		final String[] values = params.get(paramName);
 		if (values == null) {
-			throw new RuntimeException("validator: param not found: " + paramName);
+			throw new ValidationException("validator: param not found: " + paramName);
 		}
 		return values;
 	}
@@ -117,20 +117,20 @@ public abstract class Validator {
 
 	protected Map<String, String> predicatesOr(final Map<String, String>... predicates) {
 
-		Map<String, String> r = null;
+		Map<String, String> result = null;
 
 		for (int i = predicates.length - 1; i >= 0; i--) {
-			final Map<String, String> p = predicates[i];
+			final Map<String, String> predicate = predicates[i];
 
-			if (p != null) {
-				r = p;
+			if (predicate != null) {
+				result = predicate;
 			} else {
 				return null;
 			}
 
 		}
 
-		return r;
+		return result;
 	}
 
 	abstract protected Map<String, String> validate(Map<String, String[]> params);

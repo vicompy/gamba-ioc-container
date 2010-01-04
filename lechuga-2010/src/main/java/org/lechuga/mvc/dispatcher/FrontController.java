@@ -21,14 +21,7 @@ public class FrontController extends HttpServlet {
 	private Dispatcher dispatcher;
 	private ViewResolver viewResolver;
 
-	final static GroLog LOG = GroLog.getGroLogger(FrontController.class).config();
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public FrontController() {
-		super();
-	}
+	private final static GroLog LOG = GroLog.getGroLogger(FrontController.class).config();
 
 	@Override
 	public void init() {
@@ -99,7 +92,6 @@ public class FrontController extends HttpServlet {
 		// redirecciona al recurs resolt
 		getServletConfig().getServletContext().getRequestDispatcher(resolvedForwardResourceName).forward(
 				request, response);
-
 	}
 
 	/**

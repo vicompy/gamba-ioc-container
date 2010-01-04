@@ -45,12 +45,12 @@ public class MethodScanner {
 	 */
 	public Map<Class<?>, List<Method>> nonObjectableMethods(final Class<?>[] claz) {
 
-		final Map<Class<?>, List<Method>> r = new HashMap<Class<?>, List<Method>>();
+		final Map<Class<?>, List<Method>> result = new HashMap<Class<?>, List<Method>>();
 
 		for (final Class<?> c : claz) {
-			r.put(c, nonObjectableMethods(c));
+			result.put(c, nonObjectableMethods(c));
 		}
-		return r;
+		return result;
 	}
 	// TODO no determinar els mètodes candidats mirant que no estiguin en
 	// object; n'hia ha prou que un mètode candidat tingui 2-3 arguments, i que
