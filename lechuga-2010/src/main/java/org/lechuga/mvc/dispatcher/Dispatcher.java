@@ -68,16 +68,52 @@ public class Dispatcher {
 		 * argument opcional) dóna lloc a un binding abans d'invocar aquest
 		 * mètode, passant el beanform bindat com a argument.
 		 */
+//		final Object formBean;
+//		final Bind bindAnnotation = classMethod.method.getAnnotation(Bind.class);
+//		final Class<?> formBeanClass = bindAnnotation.formBean();
+//		if (bindAnnotation == null) {
+//			formBean = null;
+//			LOG.fine("requested formbean: none");
+//		} else {
+//			//
+//			// construeix el bean de formulari i el rellena dels paràmetres HTTP
+//			//
+//			LOG.fine("requested formbean: ", classMethod.controllerShortName, " => ", formBeanClass);
+//
+//			//
+//			// etapa de validació de paràmetres Http, abans del binding
+//			//
+//			final Validated validated = classMethod.method.getAnnotation(Validated.class);
+//			if (validated != null) {
+//				// es demana validació
+//				final Class<? extends Validator> validatorClass = validated.by();
+//				Validator validator;
+//				try {
+//					validator = validatorClass.newInstance();
+//				} catch (final Exception exc) {
+//					throw new RuntimeException("error instanciant el validador: " + validatorClass.getName(), exc);
+//				}
+//				final Map<String,String> errorMessages = validator.publicValidate(request.getParameterMap());
+//				if (errorMessages != null) {
+//					request.setAttribute("validationErrorMap", errorMessages);
+//					return validated.onError();
+//				}
+//			}
+//
+//			formBean = this.httpBinder.doBind(formBeanClass, request.getParameterMap());
+//
+//		}
+
 		final Class<?>[] argClasses = classMethod.method.getParameterTypes();
 		final Object formBean;
-		if (argClasses.length != 3) {
+		if (argClasses.length != 2) {
 			formBean = null;
 			LOG.fine("requested formbean: none");
 		} else {
 			//
 			// construeix el bean de formulari i el rellena dels paràmetres HTTP
 			//
-			final Class<?> formBeanClass = argClasses[2];
+			final Class<?> formBeanClass = argClasses[1];
 			LOG.fine("requested formbean: ", classMethod.controllerShortName, " => ", formBeanClass);
 
 			//
@@ -109,9 +145,9 @@ public class Dispatcher {
 		String forwardResourceName;
 		try {
 			if (formBean == null) {
-				forwardResourceName = (String) classMethod.method.invoke(controller, request, response);
+				forwardResourceName = (String) classMethod.method.invoke(controller, new RequestContext(request, response));
 			} else {
-				forwardResourceName = (String) classMethod.method.invoke(controller, request, response,
+				forwardResourceName = (String) classMethod.method.invoke(controller, new RequestContext(request, response),
 						formBean);
 			}
 		} catch (final Exception e) {

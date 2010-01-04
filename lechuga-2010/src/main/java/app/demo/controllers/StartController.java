@@ -1,16 +1,15 @@
 package app.demo.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.lechuga.mvc.dispatcher.RequestContext;
 
 public class StartController {
 
-//	private final static GroLog LOG = GroLog.getGroLogger(ControllerScanFacade.class);
+	// private final static GroLog LOG =
+	// GroLog.getGroLogger(ControllerScanFacade.class);
 
-	public String demo(final HttpServletRequest request, final HttpServletResponse response) {
+	public String demo(final RequestContext ctx) {
 
 		return "/demo/start.do";
 	}
-
 
 }
