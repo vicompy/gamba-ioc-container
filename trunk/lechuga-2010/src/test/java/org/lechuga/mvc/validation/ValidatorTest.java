@@ -79,7 +79,6 @@ class AgeValidator extends Validator {
 			predicate(isEmpty("age", "is not empty nor numeric"))
 		);
 	}
-
 }
 
 class NameValidator extends Validator {
@@ -93,5 +92,4 @@ class NameValidator extends Validator {
 			predicate(isDouble("name", "is not double empty"))
 		);
 	}
-
 }

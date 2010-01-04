@@ -18,4 +18,6 @@ public class ConfigConstants {
 
 	public static final String CONTEXT_NAME_ATTRIBUTE_NAME = "contextName";
 	public static final String FORMBEAN_ATTRIBUTE_NAME = "form";
+	public static final String VALIDATION_ERROR_MAP_ATTRIBUTE_NAME = "validationErrorMap";
+
 }

@@ -68,8 +68,8 @@ public class BeanBinder implements IBeanBinder {
 				return Double.valueOf(v);
 			if (boolean.class.equals(type))
 				return Boolean.valueOf(v); // TODO si?
-			if (short.class.equals(type))
-				return Short.valueOf(v);
+			if (short.class.equals(type)) //NOPMD
+				return Short.valueOf(v);  //NOPMD
 		} catch (final NumberFormatException e) {
 			throw new BindingException("", e); // TODO
 		}

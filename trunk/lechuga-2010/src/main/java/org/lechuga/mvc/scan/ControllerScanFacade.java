@@ -13,7 +13,7 @@ import org.lechuga.mvc.scan.method.MethodScanner;
 
 public class ControllerScanFacade {
 
-	final static GroLog LOG = GroLog.getGroLogger(ControllerScanFacade.class);
+	private final static GroLog LOG = GroLog.getGroLogger(ControllerScanFacade.class);
 
 	/**
 	 * llista a totes les classes contingudes en el package especificat; d'aquí
@@ -41,8 +41,8 @@ public class ControllerScanFacade {
 	public static Map<String, ClassMethod> getControllerMappingsMap(final String packageName) {
 
 		final Map<String, ClassMethod> mappingsMap = new HashMap<String, ClassMethod>();
-		final Class<?>[] cl = new ClassScanner().getClasses(packageName);
-		final Map<Class<?>, List<Method>> methodsMap = new MethodScanner().nonObjectableMethods(cl);
+		final Class<?>[] claz = new ClassScanner().getClasses(packageName);
+		final Map<Class<?>, List<Method>> methodsMap = new MethodScanner().nonObjectableMethods(claz);
 
 		LOG.info("scanning for controllers in: ", packageName);
 		final IClassFilter filter = new ControllerFilter();
@@ -50,10 +50,10 @@ public class ControllerScanFacade {
 			if (filter.mustBeAccepted(c)) {
 				for (final Method m : methodsMap.get(c)) {
 
-					final ClassMethod cm = new ClassMethod(c, m);
-					mappingsMap.put(cm.getRequestPath(), cm);
+					final ClassMethod classMethod = new ClassMethod(c, m);
+					mappingsMap.put(classMethod.getRequestPath(), classMethod);
 
-					LOG.info("*  ", cm);
+					LOG.info("*  ", classMethod);
 				}
 			}
 		}

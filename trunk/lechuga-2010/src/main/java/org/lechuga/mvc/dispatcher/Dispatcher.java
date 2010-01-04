@@ -40,7 +40,7 @@ public class Dispatcher {
 		final ClassMethod classMethod = controllerMappingsMap.get(request.getServletPath());
 
 		if (classMethod == null) {
-			throw new RuntimeException("requested controller not found in mappings list: "
+			throw new DispatcherException("requested controller not found in mappings list: "
 					+ request.getServletPath());
 		}
 
@@ -53,7 +53,7 @@ public class Dispatcher {
 		try {
 			controller = classMethod.controller.newInstance();
 		} catch (final Exception e) {
-			throw new RuntimeException("controller object not instantiable: "
+			throw new DispatcherException("controller object not instantiable: "
 					+ classMethod.controller.getName(), e);
 		}
 
@@ -127,11 +127,12 @@ public class Dispatcher {
 				try {
 					validator = validatorClass.newInstance();
 				} catch (final Exception exc) {
-					throw new RuntimeException("error instanciant el validador: " + validatorClass.getName(), exc);
+					throw new DispatcherException("error instanciant el validador: " + validatorClass.getName(), exc);
 				}
+
 				final Map<String,String> errorMessages = validator.publicValidate(request.getParameterMap());
 				if (errorMessages != null) {
-					request.setAttribute("validationErrorMap", errorMessages);
+					request.setAttribute(ConfigConstants.VALIDATION_ERROR_MAP_ATTRIBUTE_NAME, errorMessages);
 					return validated.onError();
 				}
 			}
@@ -151,7 +152,7 @@ public class Dispatcher {
 						formBean);
 			}
 		} catch (final Exception e) {
-			throw new RuntimeException(
+			throw new DispatcherException(
 					"error invoking: " + classMethod.controller + "." + classMethod.method, e);
 		}
 

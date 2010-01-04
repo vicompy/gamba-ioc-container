@@ -22,4 +22,12 @@ public class RequestContext {
 		return response;
 	}
 
+	public String getParam(final String parameterName) {
+		return request.getParameter(parameterName);
+	}
+
+	public void setAttr(final String parameterName, final Object value) {
+		request.setAttribute(parameterName, value);
+	}
+
 }
