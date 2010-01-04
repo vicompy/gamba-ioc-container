@@ -1,10 +1,6 @@
 package app.demo.controllers;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.lechuga.mvc.dispatcher.RequestContext;
 import org.lechuga.mvc.validation.Validated;
 
 import app.demo.forms.DemoForm;
@@ -15,25 +11,19 @@ public class DemoController {
 	// private final static GroLog LOG =
 	// GroLog.getGroLogger(ControllerScanFacade.class);
 
-	public void setValidators(final Map<Class<?>, Class<?>> map) {
-		map.put(DemoForm.class, DemoValidator.class);
-	}
-
-	public String start(final HttpServletRequest request, final HttpServletResponse response) {
+	public String start(final RequestContext ctx) {
 
 		return "question-form";
 	}
 
 	@Validated(by = DemoValidator.class, onError = "question-form")
-	public String sayHello(final HttpServletRequest request, final HttpServletResponse response,
-			final DemoForm form) {
+	public String sayHello(final RequestContext ctx, final DemoForm form) {
 
 		return "/demo/say-hello-second-part.do";
 	}
 
 	@Validated(by = DemoValidator.class, onError = "question-form")
-	public String sayHelloSecondPart(final HttpServletRequest request, final HttpServletResponse response,
-			final DemoForm form) {
+	public String sayHelloSecondPart(final RequestContext ctx, final DemoForm form) {
 
 		form.setAge(form.getAge() * 2);
 
@@ -45,5 +35,5 @@ public class DemoController {
 /**
  * notepad <br>
  * recordatoris i avisos <br>
- * gestor d'urls d'interés (delicious) <br>
+ * gestor d'urls d'interés (delicious bookmarks) <br>
  */
