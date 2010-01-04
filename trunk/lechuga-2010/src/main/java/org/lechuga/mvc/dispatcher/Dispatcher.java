@@ -9,9 +9,9 @@ import org.gro.logging.GroLog;
 import org.lechuga.mvc.binding.BeanBinder;
 import org.lechuga.mvc.binding.IBeanBinder;
 import org.lechuga.mvc.scan.ClassMethod;
+import org.lechuga.mvc.validation.Validated;
 import org.lechuga.mvc.validation.Validator;
 
-import app.demo.controllers.Validated;
 
 public class Dispatcher {
 

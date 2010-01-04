@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.lechuga.mvc.validation.Validated;
+
 import app.demo.forms.DemoForm;
 import app.demo.forms.DemoValidator;
 
@@ -29,6 +31,7 @@ public class DemoController {
 		return "/demo/say-hello-second-part.do";
 	}
 
+	@Validated(by = DemoValidator.class, onError = "question-form")
 	public String sayHelloSecondPart(final HttpServletRequest request, final HttpServletResponse response,
 			final DemoForm form) {
 
