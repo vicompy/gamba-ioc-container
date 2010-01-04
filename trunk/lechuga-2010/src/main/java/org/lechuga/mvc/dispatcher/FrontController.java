@@ -110,7 +110,6 @@ public class FrontController extends HttpServlet {
 	 *
 	 * @param request
 	 */
-	// TODO
 	@SuppressWarnings("unchecked")
 	private void putParamsAsAttributes(final HttpServletRequest request) {
 		final Map<String, String[]> paramsMap = request.getParameterMap();

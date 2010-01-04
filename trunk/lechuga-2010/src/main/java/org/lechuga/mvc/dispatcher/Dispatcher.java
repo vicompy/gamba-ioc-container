@@ -9,6 +9,9 @@ import org.gro.logging.GroLog;
 import org.lechuga.mvc.binding.BeanBinder;
 import org.lechuga.mvc.binding.IBeanBinder;
 import org.lechuga.mvc.scan.ClassMethod;
+import org.lechuga.mvc.validation.Validator;
+
+import app.demo.controllers.Validated;
 
 public class Dispatcher {
 
@@ -76,6 +79,27 @@ public class Dispatcher {
 			//
 			final Class<?> formBeanClass = argClasses[2];
 			LOG.fine("requested formbean: ", classMethod.controllerShortName, " => ", formBeanClass);
+
+			//
+			// etapa de validació de paràmetres Http, abans del binding
+			//
+			final Validated validated = classMethod.method.getAnnotation(Validated.class);
+			if (validated != null) {
+				// es demana validació
+				final Class<? extends Validator> validatorClass = validated.by();
+				Validator validator;
+				try {
+					validator = validatorClass.newInstance();
+				} catch (final Exception exc) {
+					throw new RuntimeException("error instanciant el validador: " + validatorClass.getName(), exc);
+				}
+				final Map<String,String> errorMessages = validator.publicValidate(request.getParameterMap());
+				if (errorMessages != null) {
+					request.setAttribute("validationErrorMap", errorMessages);
+					return validated.onError();
+				}
+			}
+
 			formBean = this.httpBinder.doBind(formBeanClass, request.getParameterMap());
 		}
 

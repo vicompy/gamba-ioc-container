@@ -13,8 +13,6 @@ public class DemoController {
 	// private final static GroLog LOG =
 	// GroLog.getGroLogger(ControllerScanFacade.class);
 
-	// TODO desar això en una IValidatedController, el Dispatcher hauria de
-	// veure si un Controller l'implementa.
 	public void setValidators(final Map<Class<?>, Class<?>> map) {
 		map.put(DemoForm.class, DemoValidator.class);
 	}
@@ -24,6 +22,7 @@ public class DemoController {
 		return "question-form";
 	}
 
+	@Validated(by = DemoValidator.class, onError = "question-form")
 	public String sayHello(final HttpServletRequest request, final HttpServletResponse response,
 			final DemoForm form) {
 
