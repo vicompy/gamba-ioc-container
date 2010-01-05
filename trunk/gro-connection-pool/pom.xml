@@ -9,12 +9,12 @@
 
 	<dependencies>
 
-<!--		<dependency>-->
-<!--			<groupId>org.gro</groupId>-->
-<!--			<artifactId>connection-pool</artifactId>-->
-<!--			<version>0.2.1</version>-->
-<!--			<scope>test</scope>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>org.gro</groupId>
+			<artifactId>gro-logging</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>hsqldb</groupId>

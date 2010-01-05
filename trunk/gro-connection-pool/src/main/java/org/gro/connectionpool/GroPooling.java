@@ -3,43 +3,43 @@ package org.gro.connectionpool;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Stack;
 
 public class GroPooling {
 
-	private final String driverClassName;
+	private IPoolLogger logger;
+
 	private final String connectionUrl;
 	private final String userName;
 	private final String passWord;
 
 	private final int preferredPoolSize;
-	private final List<Connection> pool;
+	private final Stack<Connection> pool;
 	private final Driver driverInstance;
+	private int connectionsInUse;
 
-	private final static String propertiesFile = "pool-config.properties";
+	private final static String PROPERTIES_CONFIG_FILE = "pool-config.properties";
 
+	protected GroPooling() {
 
-	private GroPooling() {
+		final PropertiesLoader propLoader = new PropertiesLoader(PROPERTIES_CONFIG_FILE);
 
-		final PropertiesLoader pl = new PropertiesLoader(propertiesFile);
-		driverClassName = pl.getProperty("driver-class-name");
-		connectionUrl = pl.getProperty("connection-url");
-		preferredPoolSize = Integer.valueOf(pl.getProperty("pool-size"));
+		final String driverClassName = propLoader.getProperty("driver-class-name");
+		connectionUrl = propLoader.getProperty("connection-url");
+		preferredPoolSize = Integer.valueOf(propLoader.getProperty("pool-size"));
 
-		if ("null".equals(pl.getProperty("username"))) {
+		if ("none".equals(propLoader.getProperty("username"))) {
 			userName = null;
 		} else {
-			userName = pl.getProperty("username");
+			userName = propLoader.getProperty("username");
 		}
-		if ("null".equals(pl.getProperty("password"))) {
+		if ("none".equals(propLoader.getProperty("password"))) {
 			passWord = null;
 		} else {
-			passWord = pl.getProperty("password");
+			passWord = propLoader.getProperty("password");
 		}
 
-		pool = new ArrayList<Connection>();
+		pool = new Stack<Connection>();
 
 		try {
 			driverInstance = (Driver) Class.forName(driverClassName).newInstance();
@@ -47,33 +47,44 @@ public class GroPooling {
 
 			for (int i = 0; i < preferredPoolSize; i++) {
 				final Connection conn = DriverManager.getConnection(connectionUrl, userName, passWord);
-				pool.add(conn);
+				pool.push(conn);
 			}
 		} catch (final Exception exc) {
 			throw new GroPoolingException(exc);
 		}
 
-//		log.info("connection pool size: ",  preferredPoolSize);
-//		log.info("fetching connections from: ",  connectionUrl);
+		connectionsInUse = 0;
 
 	}
 
 	public Connection getConnection() {
 
+		Connection r;
+
 		if (pool.isEmpty()) {
 			// no queden conexions disponibles, crear una nova
 			try {
-				return DriverManager.getConnection(connectionUrl, userName, passWord);
+				r = DriverManager.getConnection(connectionUrl, userName, passWord);
 			} catch (final Exception exc) {
 				throw new GroPoolingException(exc);
 			}
 		} else {
-			final Connection conn;
-			synchronized (this) {
-				conn = pool.get(0);
-				pool.remove(0); // TODO nooo! remove() i add() estàn sincronittzats, però en diferents blocs!
+			// pop
+			r = pushOrPop(null);
+		}
+
+		connectionsInUse++;
+		log("connection served");
+		return r;
+	}
+
+	public Connection pushOrPop(final Connection conn) {
+		synchronized (this) {
+			if (conn == null) {
+				return pool.pop();
+			} else {
+				return pool.push(conn);
 			}
-			return conn;
 		}
 	}
 
@@ -84,18 +95,18 @@ public class GroPooling {
 					// les lliures ja estàn plenes, deixar desperdiciar aquesta
 					conn.close();
 				} else {
-					synchronized (this) {
-						pool.add(conn); // TODO nooo! remove() i add() estàn sincronittzats, però en diferents blocs!
-					}
+					// push
+					pushOrPop(conn);
 				}
 			}
-//			System.out.println("r-" + poolCurrentSize() + "-");
 		} catch (final Exception exc) {
 			throw new GroPoolingException(exc);
 		}
+		connectionsInUse--;
+		log("connection released");
 	}
 
-	@Deprecated // només invocar en finalitzar l'aplicació!!
+	// només invocar en finalitzar l'aplicació!!
 	public void destroyAllConnections() {
 		try {
 			for (final Connection c : pool) {
@@ -106,11 +117,14 @@ public class GroPooling {
 		} catch (final Exception exc) {
 			throw new GroPoolingException(exc);
 		}
-//		log.info("pool connections are correctly destroyed.");
+
+		connectionsInUse = 0;
+		log("pool connections are correctly destroyed");
 	}
 
 	/**
-	 * reinicialitza l'estat del pool: tanca les anteriors, i re-omple el pool creant-ne de noves
+	 * reinicialitza l'estat del pool: tanca les anteriors, i re-omple el pool
+	 * creant-ne de noves
 	 */
 	public void clearConnections() {
 		try {
@@ -120,12 +134,14 @@ public class GroPooling {
 			pool.clear();
 			for (int i = 0; i < preferredPoolSize; i++) {
 				final Connection conn = DriverManager.getConnection(connectionUrl, userName, passWord);
-				pool.add(conn);
+				pool.push(conn);
 			}
 		} catch (final Exception exc) {
 			throw new GroPoolingException(exc);
 		}
-//		log.info("pool connections are suspiciously flushed. this feature is intended only for testing purposes.");
+
+		connectionsInUse = 0;
+		log("pool connections are suspiciously flushed. this feature is very rare.");
 	}
 
 	public int poolCurrentSize() {
@@ -133,10 +149,23 @@ public class GroPooling {
 	}
 
 	static class SingletonInstanceHolder {
-		static final GroPooling poolInstance = new GroPooling();
+		static final GroPooling POOL_INSTANCE = new GroPooling();
 	}
 
 	public static GroPooling getInstance() {
-		return SingletonInstanceHolder.poolInstance;
+		return SingletonInstanceHolder.POOL_INSTANCE;
 	}
+
+	public void setLogger(final IPoolLogger logger) {
+		this.logger = logger;
+		logger.receiveMessage("connection pool startup OK");
+	}
+
+	public void log(final String message) {
+		if (logger != null) {
+			logger.receiveMessage(message + ". pool connections: in-use=" + connectionsInUse + " unused="
+					+ pool.size());
+		}
+	}
+
 }
