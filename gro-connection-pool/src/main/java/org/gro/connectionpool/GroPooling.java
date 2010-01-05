@@ -13,7 +13,7 @@ public class GroPooling {
 	private final String userName;
 	private final String passWord;
 
-	private final int preferredPoolSize;
+	private final int poolMaxSize;
 	private final Stack<Connection> pool;
 	private final Driver driverInstance;
 	private int connectionsInUse;
@@ -26,7 +26,7 @@ public class GroPooling {
 
 		final String driverClassName = propLoader.getProperty("driver-class-name");
 		connectionUrl = propLoader.getProperty("connection-url");
-		preferredPoolSize = Integer.valueOf(propLoader.getProperty("pool-size"));
+		poolMaxSize = Integer.valueOf(propLoader.getProperty("pool-size"));
 
 		if ("none".equals(propLoader.getProperty("username"))) {
 			userName = null;
@@ -45,7 +45,7 @@ public class GroPooling {
 			driverInstance = (Driver) Class.forName(driverClassName).newInstance();
 			DriverManager.registerDriver(driverInstance);
 
-			for (int i = 0; i < preferredPoolSize; i++) {
+			for (int i = 0; i < poolMaxSize; i++) {
 				final Connection conn = DriverManager.getConnection(connectionUrl, userName, passWord);
 				pool.push(conn);
 			}
@@ -91,7 +91,7 @@ public class GroPooling {
 	public void releaseConnection(final Connection conn) {
 		try {
 			if (conn != null && !conn.isClosed()) {
-				if (pool.size() >= this.preferredPoolSize) {
+				if (pool.size() >= this.poolMaxSize) {
 					// les lliures ja estàn plenes, deixar desperdiciar aquesta
 					conn.close();
 				} else {
@@ -132,7 +132,7 @@ public class GroPooling {
 				c.close();
 			}
 			pool.clear();
-			for (int i = 0; i < preferredPoolSize; i++) {
+			for (int i = 0; i < poolMaxSize; i++) {
 				final Connection conn = DriverManager.getConnection(connectionUrl, userName, passWord);
 				pool.push(conn);
 			}
@@ -166,6 +166,18 @@ public class GroPooling {
 			logger.receiveMessage(message + ". pool connections: in-use=" + connectionsInUse + " unused="
 					+ pool.size());
 		}
+	}
+
+	public int getConnectionsInUse() {
+		return connectionsInUse;
+	}
+
+	public int getPoolSize() {
+		return pool.size();
+	}
+
+	public int getPoolMaxSize() {
+		return poolMaxSize;
 	}
 
 }
