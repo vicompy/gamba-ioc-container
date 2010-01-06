@@ -33,7 +33,8 @@ public class FrontController extends HttpServlet {
 			if (controllerBasePackage == null) {
 				controllerBasePackage = ConfigConstants.CONTROLLERS_BASE_PACKAGE_DEFAULT_VALUE;
 			}
-			LOG.info(ConfigConstants.CONTROLLERS_BASE_PACKAGE_SERVLET_PARAMETER, " = ",
+			LOG
+					.info(ConfigConstants.CONTROLLERS_BASE_PACKAGE_SERVLET_PARAMETER, " = ",
 							controllerBasePackage);
 			final Map<String, ClassMethod> controllerMappingsMap = ControllerScanFacade
 					.getControllerMappingsMap(controllerBasePackage);
@@ -90,8 +91,18 @@ public class FrontController extends HttpServlet {
 		putParamsAsAttributes(request);
 
 		// redirecciona al recurs resolt
-		getServletConfig().getServletContext().getRequestDispatcher(resolvedForwardResourceName).forward(
-				request, response);
+		if (resolvedForwardResourceName.charAt(0) == '*') {
+			// si el 1st char de la url és '*' el reemplaça per el contextPath
+			// d'aplicació, util per a SendRedirects.
+			final String urlToRedirect = request.getContextPath() + resolvedForwardResourceName.substring(1);
+			LOG.fine("sendRedirect to: ", urlToRedirect);
+			response.sendRedirect(urlToRedirect);
+		} else {
+
+			LOG.fine("forward to: ", resolvedForwardResourceName);
+			getServletConfig().getServletContext().getRequestDispatcher(resolvedForwardResourceName).forward(
+					request, response);
+		}
 	}
 
 	/**
