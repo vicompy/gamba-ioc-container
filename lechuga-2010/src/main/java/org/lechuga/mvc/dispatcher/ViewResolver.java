@@ -23,12 +23,13 @@ class ViewResolver {
 	 */
 	public String resolve(final String resourceName) {
 
-		// si determina que es tracta de petició d'action (/XXX.do) la deixa tal
+		// si determina que es tracta de petició d'action (*.do) la deixa tal
 		// cual, sino li empalma el prefix i postfix definit per a completar el
 		// nom de vista.
 		String viewRequest = null;
-		if (resourceName.startsWith(ConfigConstants.ACTION_SERVLET_PREFIX)
-				&& resourceName.contains(ConfigConstants.ACTION_SERVLET_EXTENSION)) {
+//		if (resourceName.startsWith(ConfigConstants.ACTION_SERVLET_PREFIX)
+//				&& resourceName.contains(ConfigConstants.ACTION_SERVLET_EXTENSION)) {
+		if (resourceName.endsWith(ConfigConstants.ACTION_SERVLET_EXTENSION)) {
 			viewRequest = resourceName;
 			LOG.finest("redirecting to servlet: ", viewRequest);
 		} else {
