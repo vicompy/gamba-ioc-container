@@ -158,7 +158,9 @@ public class GroPooling {
 
 	public void setLogger(final IPoolLogger logger) {
 		this.logger = logger;
-		logger.receiveMessage("connection pool startup OK");
+		if (logger != null) {
+			logger.receiveMessage("connection pool startup OK");
+		}
 	}
 
 	public void log(final String message) {

@@ -24,13 +24,13 @@ public class GroPoolingTest {
 
 	@Before
 	public void beforeMethod() {
-		GroLog.getGroLogger(this.getClass()).config();
+		pool = GroPooling.getInstance();
 	}
 
 	@Test
 	public void test1() {
 
-		pool = GroPooling.getInstance();
+		GroLog.getGroLogger(this.getClass()).config();
 		pool.setLogger(logger);
 
 		final Stack<Connection> used = new Stack<Connection>();
@@ -97,6 +97,7 @@ public class GroPoolingTest {
 	 */
 	@Test
 	public void test2() {
+		pool.setLogger(null);
 
 		final Stack<Connection> used = new Stack<Connection>();
 
