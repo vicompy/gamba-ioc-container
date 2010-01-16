@@ -1,6 +1,9 @@
 <!DOCTYPE project>
 
-<project name="lineproject" basedir="." default="jar">
+<project name="gro-framework" basedir="." default="jar">
+
+	<property name="jarname" value="gro-framework" />
+	<property name="version" value="0.0.1" />
 
 	<property name="build-dir" value="./ant-build" />
 	<property name="classes-dir" value="./ant-build/classes" />
@@ -18,7 +21,7 @@
 	<target name="compile" depends="clean">
 
 		<javac srcdir="${lechuga-mvc-source-root}" 
-			   destdir="/home/mhoms/java/workspace2/mynanorm/ant-build/classes" excludes="**/app/*">
+			   destdir="/home/mhoms/java/workspace2/mynanorm/ant-build/classes" excludes="app/**">
 			<classpath>
 				<pathelement path="${maven-repo-base-dir}/org/gro/gro-logging/0.0.1-SNAPSHOT/gro-logging-0.0.1-SNAPSHOT.jar" />
 				<pathelement path="${maven-repo-base-dir}/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" />
@@ -31,10 +34,10 @@
 	
 	<target name="jar" depends="compile">
 		<jar 	basedir="${classes-dir}" 
-				destfile="${build-dir}/gro-orm-0.0.1.jar"
+				destfile="${build-dir}/${jarname}-${version}.jar"
 				compress="true"
 		/>
-		<length file="${build-dir}/gro-orm-0.0.1.jar" property="jar-size" />
+		<length file="${build-dir}/${jarname}-${version}.jar" property="jar-size" />
 		<echo message="Done, jar size: ${jar-size} bytes." />
 	</target>
 
