@@ -20,14 +20,25 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.gro.orm.annotation.Query;
+import org.gro.orm.annotation.Retrieve;
 import org.gro.orm.exception.GroOrmException;
 import org.gro.orm.mapping.SelectMapper;
 
 /**
- * Java Dynamic proxy que simula l'objecte mock.
+ * <p>
+ * classe que donada una interfície de DAO amb els mètodes anotats per
+ * {@link Query}, en retorna un proxy que processa i executa les sentències SQL.
+ * El proxy es construeix ja amb una instància {@link java.sql.Connection}, a la
+ * que utilitza per accedir per JDBC a la base de dades.
+ * </p>
+ * <p>
+ * Veure que es pot accedir a la última sentència SQL processada i executada,
+ * amb l'accessor {@link #getLastProcessedQuery()}.
+ * </p>
  *
  * @author mhoms
  */
@@ -43,15 +54,16 @@ public final class GroDaoFactory implements InvocationHandler {
 	}
 
 	/**
-	 * crea una instància del proxy
+	 * crea una instància proxy que compleix l'interfície de DAO, i conté una
+	 * referència a la {@link java.sql.Connection}.
 	 *
-	 * @param interfaceToProx interfície a proxejar
-	 * @return instància del proxy
+	 * @param daoInterface interfície de DAO a proxejar
+	 * @return una nova instància de proxy
 	 */
-	public static Object newInstance(final Class<?> interfaceToProx, final Connection c) {
+	public static Object newInstance(final Class<?> daoInterface, final Connection c) {
 
-		if (interfaceToProx.isInterface()) {
-			final Class<?>[] interfaceToImplement = new Class<?>[] { interfaceToProx };
+		if (daoInterface.isInterface()) {
+			final Class<?>[] interfaceToImplement = new Class<?>[] { daoInterface };
 
 			return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
 					interfaceToImplement, new GroDaoFactory(c));
@@ -61,27 +73,50 @@ public final class GroDaoFactory implements InvocationHandler {
 	}
 
 	/**
+	 * membre interceptor del proxy; del mètode interceptat utilitza:
+	 * <ul>
+	 * <li>l'anotació {@link Query} la qual conté la sentència SQL a processar.</li>
+	 * <li>els valors dels arguments amb els que s'ha incocat, per a aplicar
+	 * substitucions sobre la query.</li>
+	 * <li>el tipus de retorn, per a retornar el tipus esperat.</li>
+	 * </ul>
+	 *
 	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object,
 	 *      java.lang.reflect.Method, java.lang.Object[])
 	 */
 	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 
-		lastProcessedQuery = processQuery(method, args);
+		final Query annoQuery = method.getAnnotation(Query.class);
+		if (annoQuery == null) {
+			return null;
+		}
+		final String query = method.getAnnotation(Query.class).value().trim();
+		lastProcessedQuery = processQuery(method, args, query);
 
-		System.out.println("quer: " + lastProcessedQuery);
+		// System.out.println("quer: " + lastProcessedQuery);
 
 		if (isSelectStatement(lastProcessedQuery)) {
 			// una lectura Select
-			final Class<?> returnType = method.getReturnType();
-			if (returnType.isArray()) {
-				final SelectMapper s = new SelectMapper(returnType.getComponentType());
-				return s.queryForEntities(c, lastProcessedQuery);
-			} else {
-				final SelectMapper s = new SelectMapper(returnType);
-				return s.queryForEntity(c, lastProcessedQuery);
+			return executeSelect(method, lastProcessedQuery);
+		} else if (isInsertStatement(lastProcessedQuery)) {
+
+			final Statement st = c.createStatement();
+			final int rowsAffected = st.executeUpdate(lastProcessedQuery);
+
+			final Retrieve annoRetrieve = method.getAnnotation(Retrieve.class);
+			if (annoRetrieve != null) {
+				final String query2 = annoRetrieve.value().trim();
+				lastProcessedQuery = processQuery(method, args, query2);
+				final Object r = executeSelect(method, lastProcessedQuery);
+
+				st.close();
+				return r;
 			}
+			st.close();
+			return rowsAffected;
+
 		} else {
-			// una modificació: Insert, Update ó Delete
+			// una modificació Update ó Delete
 
 			final Statement st = c.createStatement();
 			final int rowsAffected = st.executeUpdate(lastProcessedQuery);
@@ -92,19 +127,48 @@ public final class GroDaoFactory implements InvocationHandler {
 
 	}
 
+	private Object executeSelect(final Method method, final String query) throws SQLException {
+		final Class<?> returnType = method.getReturnType();
+		if (returnType.isArray()) {
+			final SelectMapper s = new SelectMapper(returnType.getComponentType());
+			return s.queryForEntities(c, query);
+		} else {
+			final SelectMapper s = new SelectMapper(returnType);
+			return s.queryForEntity(c, query);
+		}
+	}
+
+	/**
+	 * <p>
+	 * determina si una sentència ja processada és de tipus Select (que
+	 * retornarà el resultat de la consulta), o bé una de tipus
+	 * update/insert/delete, doncs retornarè un enter indicant les tuples
+	 * afectades.
+	 * </p>
+	 * <p>
+	 * Veure que el tipus es determina per si la sentència processada comença
+	 * per "select", així que la query no pot començar per altres caràcters com
+	 * espais, tabuladors, comentaris, etc.
+	 * </p>
+	 *
+	 * @param query
+	 * @return
+	 */
 	private boolean isSelectStatement(final String query) {
 		return query.toUpperCase().startsWith("SELECT");
 	}
 
-	private String processQuery(final Method method, final Object[] args) {
+	private boolean isInsertStatement(final String query) {
+		return query.toUpperCase().startsWith("INSERT");
+	}
 
-		final String query = method.getAnnotation(Query.class).value().trim();
+	private String processQuery(final Method method, final Object[] args, final String query) {
 
 		final StringBuffer strb = new StringBuffer();
 		for (int i = 0; i < query.length(); i++) {
 			if (query.charAt(i) == '$') {
 
-				int j = i + 1; // chupa =$
+				int j = i + 1; // chupa $
 
 				// recupera el # de paràmetre
 				while (isDigit(query.charAt(j))) {
@@ -177,6 +241,14 @@ public final class GroDaoFactory implements InvocationHandler {
 	// }
 	// }
 
+	/**
+	 * donat un valor (de tipus qualsevol), el retorna en representació
+	 * {@link String} i apta per a ser aplicat a una query per substitució de
+	 * variable.
+	 *
+	 * @param value
+	 * @return
+	 */
 	private String valueOf(final Object value) {
 		if (value == null) {
 			return "NULL";
@@ -195,6 +267,11 @@ public final class GroDaoFactory implements InvocationHandler {
 		return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || isDigit(c);
 	}
 
+	/**
+	 * retorna la última query processada i executada.
+	 *
+	 * @return
+	 */
 	public String getLastProcessedQuery() {
 		return lastProcessedQuery;
 	}
