@@ -23,6 +23,9 @@ import java.sql.Connection;
 
 import javax.sql.DataSource;
 
+import org.gro.orm.logging.DefaultConsoleLogger;
+import org.gro.orm.logging.IGroOrmLogger;
+
 /**
  *
  *
@@ -32,11 +35,21 @@ public final class TransactionalServiceFactory implements InvocationHandler {
 
 	private final DataSource dataSource;
 	private final Object service;
+	private final IGroOrmLogger log;
 
 	public TransactionalServiceFactory(final DataSource dataSource, final Object service) {
 		super();
 		this.dataSource = dataSource;
 		this.service = service;
+		this.log = new DefaultConsoleLogger();
+	}
+
+	public TransactionalServiceFactory(final DataSource dataSource, final Object service,
+			final IGroOrmLogger log) {
+		super();
+		this.dataSource = dataSource;
+		this.service = service;
+		this.log = log;
 	}
 
 	/**
@@ -67,7 +80,7 @@ public final class TransactionalServiceFactory implements InvocationHandler {
 		((Transactional) service).setConnection(c);
 
 		try {
-
+			log.info(this.getClass(), "invoking service method: " + method.toString());
 			final Object r = method.invoke(service, args);
 
 			c.commit();
