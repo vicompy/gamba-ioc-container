@@ -26,6 +26,8 @@ import java.sql.Statement;
 import org.gro.orm.annotation.Query;
 import org.gro.orm.annotation.Retrieve;
 import org.gro.orm.exception.GroOrmException;
+import org.gro.orm.logging.DefaultConsoleLogger;
+import org.gro.orm.logging.IGroOrmLogger;
 import org.gro.orm.mapping.SelectMapper;
 
 /**
@@ -47,10 +49,12 @@ public final class GroDaoFactory implements InvocationHandler {
 	private static final Class<?>[] EMPTY_CLASS_ARRAY = new Class<?>[] {};
 	private final Connection c;
 	private String lastProcessedQuery;
+	private final IGroOrmLogger log;
 
-	public GroDaoFactory(final Connection c) {
+	public GroDaoFactory(final Connection c, final IGroOrmLogger log) {
 		super();
 		this.c = c;
+		this.log = log;
 	}
 
 	/**
@@ -66,7 +70,26 @@ public final class GroDaoFactory implements InvocationHandler {
 			final Class<?>[] interfaceToImplement = new Class<?>[] { daoInterface };
 
 			return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-					interfaceToImplement, new GroDaoFactory(c));
+					interfaceToImplement, new GroDaoFactory(c, new DefaultConsoleLogger()));
+		}
+
+		throw new GroOrmException("only interface types permitted");
+	}
+
+	/**
+	 * crea una instància proxy que compleix l'interfície de DAO, i conté una
+	 * referència a la {@link java.sql.Connection}.
+	 *
+	 * @param daoInterface interfície de DAO a proxejar
+	 * @return una nova instància de proxy
+	 */
+	public static Object newInstance(final Class<?> daoInterface, final Connection c, final IGroOrmLogger log) {
+
+		if (daoInterface.isInterface()) {
+			final Class<?>[] interfaceToImplement = new Class<?>[] { daoInterface };
+
+			return Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+					interfaceToImplement, new GroDaoFactory(c, log));
 		}
 
 		throw new GroOrmException("only interface types permitted");
@@ -88,17 +111,21 @@ public final class GroDaoFactory implements InvocationHandler {
 
 		final Query annoQuery = method.getAnnotation(Query.class);
 		if (annoQuery == null) {
-			return null;
+			throw new GroOrmException("DAO method not annotated with @Query: "+method.toString());
 		}
 		final String query = method.getAnnotation(Query.class).value().trim();
 		lastProcessedQuery = processQuery(method, args, query);
+
 
 		// System.out.println("quer: " + lastProcessedQuery);
 
 		if (isSelectStatement(lastProcessedQuery)) {
 			// una lectura Select
+			log.info(this.getClass(), "execing SELECT query: " + lastProcessedQuery);
 			return executeSelect(method, lastProcessedQuery);
 		} else if (isInsertStatement(lastProcessedQuery)) {
+
+			log.info(this.getClass(), "execing INSERT query: " + lastProcessedQuery);
 
 			final Statement st = c.createStatement();
 			final int rowsAffected = st.executeUpdate(lastProcessedQuery);
@@ -107,6 +134,7 @@ public final class GroDaoFactory implements InvocationHandler {
 			if (annoRetrieve != null) {
 				final String query2 = annoRetrieve.value().trim();
 				lastProcessedQuery = processQuery(method, args, query2);
+				log.info(this.getClass(), "execing INSERT-Retrieve query: " + lastProcessedQuery);
 				final Object r = executeSelect(method, lastProcessedQuery);
 
 				st.close();
@@ -117,6 +145,7 @@ public final class GroDaoFactory implements InvocationHandler {
 
 		} else {
 			// una modificació Update ó Delete
+			log.info(this.getClass(), "execing UPDATE/DELETE/other query: " + lastProcessedQuery);
 
 			final Statement st = c.createStatement();
 			final int rowsAffected = st.executeUpdate(lastProcessedQuery);
