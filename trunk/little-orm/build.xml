@@ -1,29 +1,41 @@
 <!DOCTYPE project>
 
-<project name="lineproject" basedir="." default="compile">
+<project name="lineproject" basedir="." default="jar">
 
-	<!--
-	<property name="external-jars" value="" />
+	<property name="build-dir" value="./ant-build" />
+	<property name="classes-dir" value="./ant-build/classes" />
+	<property name="maven-repo-base-dir" value="/home/mhoms/Desktop/mhoms/.m2/repository" />
 	
-	<classpath>
-		<pathelement path="${external-jars}" />
-	</classpath>
-	-->
-
-	<!--
-	<target name="compile">
-		<exec dir="C:\javaworkspace2\lineproject" executable="C:\apache-maven-2.0.10-bin\apache-maven-2.0.10\bin\mvn.bat">
-			<arg value="clean" />
-			<arg value="package" />
-		</exec>
-	</target>
-	-->
+	<property name="lechuga-mvc-source-root" value="/home/mhoms/java/workspace2/lechuga-2010/src/main/java" />
+	<property name="lechuga-orm-source-root" value="/home/mhoms/java/workspace2/mynanorm/src/main/java" />
+	
 	
 	<target name="clean">
-		<delete dir="./ant-build" />
+		<delete dir="${build-dir}" />
+		<mkdir dir="${classes-dir}" />
 	</target>
 
 	<target name="compile" depends="clean">
+
+		<javac srcdir="${lechuga-mvc-source-root}" 
+			   destdir="/home/mhoms/java/workspace2/mynanorm/ant-build/classes" excludes="**/app/*">
+			<classpath>
+				<pathelement path="${maven-repo-base-dir}/org/gro/gro-logging/0.0.1-SNAPSHOT/gro-logging-0.0.1-SNAPSHOT.jar" />
+				<pathelement path="${maven-repo-base-dir}/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" />
+			</classpath>
+			
+		</javac>
+		<javac 	srcdir="${lechuga-orm-source-root}" 
+				destdir="${classes-dir}" />
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar 	basedir="${classes-dir}" 
+				destfile="${build-dir}/gro-orm-0.0.1.jar"
+				compress="true"
+		/>
+		<length file="${build-dir}/gro-orm-0.0.1.jar" property="jar-size" />
+		<echo message="Done, jar size: ${jar-size} bytes." />
 	</target>
 
 </project>
