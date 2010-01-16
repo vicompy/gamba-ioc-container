@@ -10,6 +10,7 @@ import java.util.Arrays;
 import javax.sql.DataSource;
 
 import org.gro.orm.datasource.TestingDataSourceFactory;
+import org.gro.orm.service.ents.Tag;
 import org.gro.orm.service.ents.User;
 import org.gro.orm.service.ents.UserUrl;
 import org.junit.After;
@@ -106,11 +107,6 @@ public class TransactionalServiceTest {
 		c.close();
 	}
 
-	/**
-	 * TESTA LA CÀRREGA D'UNA SIMPLE CLASSE, NO RELACIONADA
-	 *
-	 * @throws Exception
-	 */
 	@Test
 	public void testPerson() throws Exception {
 
@@ -130,6 +126,33 @@ public class TransactionalServiceTest {
 
 		final UserUrl[] userUrls = service.loadAllUserUrls();
 		System.out.println(Arrays.toString(userUrls));
+	}
+
+	@Test
+	public void testTransaction() throws Exception {
+
+		final IBookmarkService service = (IBookmarkService) TransactionalServiceFactory.newInstance(BookmarkService.class, ds);
+
+		final Tag[] tags1 = service.loadAllTags();
+		System.out.println(Arrays.toString(tags1));
+		assertEquals("[" +
+				"Tag [idTag=1, name=www utility, urls=null], " +
+				"Tag [idTag=2, name=mail service, urls=null], " +
+				"Tag [idTag=3, name=finder, urls=null]]", Arrays.toString(tags1));
+
+		Tag tag = new Tag(null, "tag-de-test");
+		tag = service.createTag(tag);
+		System.out.println(tag.toString());
+		assertEquals("Tag [idTag=100, name=null, urls=null]", tag.toString());
+
+		final Tag[] tags2 = service.loadAllTags();
+		System.out.println(Arrays.toString(tags2));
+		assertEquals("[" +
+				"Tag [idTag=1, name=www utility, urls=null], " +
+				"Tag [idTag=2, name=mail service, urls=null], " +
+				"Tag [idTag=3, name=finder, urls=null], " +
+				"Tag [idTag=100, name=tag-de-test, urls=null]]", Arrays.toString(tags2));
+
 	}
 
 

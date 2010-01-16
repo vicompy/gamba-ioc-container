@@ -43,4 +43,11 @@ public class BookmarkService implements IBookmarkService {
 		return userUrlDao.loadAll();
 	}
 
+	public Tag createTag(final Tag tag) {
+		return ((TagDao) GroDaoFactory.newInstance(TagDao.class, c)).create(tag);
+	}
+	public Tag[] loadAllTags() {
+		return ((TagDao) GroDaoFactory.newInstance(TagDao.class, c)).loadAll();
+	}
+
 }
