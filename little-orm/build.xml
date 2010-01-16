@@ -1,0 +1,29 @@
+<!DOCTYPE project>
+
+<project name="lineproject" basedir="." default="compile">
+
+	<!--
+	<property name="external-jars" value="" />
+	
+	<classpath>
+		<pathelement path="${external-jars}" />
+	</classpath>
+	-->
+
+	<!--
+	<target name="compile">
+		<exec dir="C:\javaworkspace2\lineproject" executable="C:\apache-maven-2.0.10-bin\apache-maven-2.0.10\bin\mvn.bat">
+			<arg value="clean" />
+			<arg value="package" />
+		</exec>
+	</target>
+	-->
+	
+	<target name="clean">
+		<delete dir="./ant-build" />
+	</target>
+
+	<target name="compile" depends="clean">
+	</target>
+
+</project>
