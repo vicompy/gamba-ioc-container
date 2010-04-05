@@ -9,31 +9,38 @@ import org.homs.sokoban.Solver;
 public class SokoGen {
 
 	private final MapHash hash = new MapHash();
-//	private final Mapa m;
-
-	public SokoGen() {
-//		final String l = "" +
-//		"######\n"+
-//		"## ..#\n"+
-//		"##$@ #\n"+
-//		"#  $ #\n"+
-//		"#   ##\n"+
-//		"######\n"+
-//		"\n";
-//		this.m = new Mapa(l);
-	}
-
-	SolutionResult best = null;
+	private SolutionResult best = null;
+	private int checked = 0;
 
 	public void generate(final Mapa mapa) {
 		final int cols = mapa.getCols();
 		final int rows = mapa.getRows();
 
-		if (hash.cuttable(new MapaGen(mapa), 5)) {
+		// TODO simplificació de mapes experimental: la hash fundeix! de 1360 a 374 mapes explorats!!
+		final Mapa mapa2 = new Mapa(mapa);
+		for (int n = 0; n < 4; n++)
+		for (int f = 1; f < rows - 1; f++) {
+			for (int c = 1; c < cols - 1; c++) {
+
+				if (mapa2.getMap()[c+f*mapa2.getCols()] == ' ') {
+					int numWalls = 0;
+					if (mapa2.getMap()[(c+1)+f*mapa2.getCols()] == '#') numWalls++;
+					if (mapa2.getMap()[(c-1)+f*mapa2.getCols()] == '#') numWalls++;
+					if (mapa2.getMap()[c+(f+1)*mapa2.getCols()] == '#') numWalls++;
+					if (mapa2.getMap()[c+(f-1)*mapa2.getCols()] == '#') numWalls++;
+					if (numWalls >= 3) {
+						mapa2.getMap()[c+f*mapa2.getCols()] = '#';
+					}
+				}
+			}
+		}
+
+		if (hash.cuttable(new MapaGen(mapa2), 5)) {
 			return;
 		}
 
-		final SolutionResult sr = new Solver(mapa, new MapHash()).solve(14);
+		checked++;
+		final SolutionResult sr = new Solver(mapa, new MapHash()).solve(22);
 		if (sr == null) {
 			return;
 		}
@@ -41,17 +48,8 @@ public class SokoGen {
 		if (best == null || !best.isWorseThan(sr)) {
 			this.best = sr;
 			System.out.println(sr.toString());
-			System.out.println(mapa.toString());
+			System.out.println(mapa2.toString());
 		}
-
-//		if (mapa.equals(this.m)) {
-//			System.out.println("***************************************************");
-//		}
-
-//		if (sr.getLevel() > 8) {
-//			System.out.println(sr.toString());
-//			System.out.println(mapa.toString());
-//		}
 
 		for (int f = 1; f < rows - 1; f++) {
 			for (int c = 1; c < cols - 1; c++) {
@@ -66,4 +64,10 @@ public class SokoGen {
 		}
 
 	}
+
+	public int getChecked() {
+		return checked;
+	}
+
+
 }
