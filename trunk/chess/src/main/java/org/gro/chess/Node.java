@@ -123,47 +123,46 @@ public class Node implements Cloneable {
 
 		strb.append(" | 0 1 2 3 4 5 6 7\n");
 		strb.append("-+----------------\n");
-		// ♔♕♖♗♘♙♚♛♜♝♞♟
 		for (int f = 0; f < 8; f++) {
 			strb.append(f + "| ");
 			for (int c = 0; c < 8; c++) {
 				switch (board[c + f * 8]) {
 				case BLACK + PEO:
-					strb.append("♟");
+					strb.append("p");
 					break;
 				case BLACK + TORRE:
-					strb.append("♜");
+					strb.append("t");
 					break;
 				case BLACK + CAVALL:
-					strb.append("♞");
+					strb.append("c");
 					break;
 				case BLACK + ALFIL:
-					strb.append("♝");
+					strb.append("a");
 					break;
 				case BLACK + REINA:
-					strb.append("♛");
+					strb.append("q");
 					break;
 				case BLACK + REI:
-					strb.append("♚");
+					strb.append("k");
 					break;
-				// ♔♕♖♗♘♙♚♛♜♝♞♟
+
 				case WHITE + PEO:
-					strb.append("♙");
+					strb.append("P");
 					break;
 				case WHITE + TORRE:
-					strb.append("♖");
+					strb.append("T");
 					break;
 				case WHITE + CAVALL:
-					strb.append("♘");
+					strb.append("C");
 					break;
 				case WHITE + ALFIL:
-					strb.append("♗");
+					strb.append("A");
 					break;
 				case WHITE + REINA:
-					strb.append("♕");
+					strb.append("Q");
 					break;
 				case WHITE + REI:
-					strb.append("♔");
+					strb.append("K");
 					break;
 				default:
 					strb.append("·");
@@ -177,6 +176,65 @@ public class Node implements Cloneable {
 
 		return strb.toString();
 	}
+//	public String toString() {
+//		final StringBuffer strb = new StringBuffer(50);
+//
+//		strb.append(" | 0 1 2 3 4 5 6 7\n");
+//		strb.append("-+----------------\n");
+//		// ♔♕♖♗♘♙♚♛♜♝♞♟
+//		for (int f = 0; f < 8; f++) {
+//			strb.append(f + "| ");
+//			for (int c = 0; c < 8; c++) {
+//				switch (board[c + f * 8]) {
+//				case BLACK + PEO:
+//					strb.append("♟");
+//					break;
+//				case BLACK + TORRE:
+//					strb.append("♜");
+//					break;
+//				case BLACK + CAVALL:
+//					strb.append("♞");
+//					break;
+//				case BLACK + ALFIL:
+//					strb.append("♝");
+//					break;
+//				case BLACK + REINA:
+//					strb.append("♛");
+//					break;
+//				case BLACK + REI:
+//					strb.append("♚");
+//					break;
+//				// ♔♕♖♗♘♙♚♛♜♝♞♟
+//				case WHITE + PEO:
+//					strb.append("♙");
+//					break;
+//				case WHITE + TORRE:
+//					strb.append("♖");
+//					break;
+//				case WHITE + CAVALL:
+//					strb.append("♘");
+//					break;
+//				case WHITE + ALFIL:
+//					strb.append("♗");
+//					break;
+//				case WHITE + REINA:
+//					strb.append("♕");
+//					break;
+//				case WHITE + REI:
+//					strb.append("♔");
+//					break;
+//				default:
+//					strb.append("·");
+//					break;
+//				}
+//				strb.append(" ");
+//			}
+//			strb.append("\n");
+//		}
+//		strb.append("\n");
+//
+//		return strb.toString();
+//	}
 
 	/**
 	 * mètode de clonat de taulell; utilitzat en composició de noves situacions,
