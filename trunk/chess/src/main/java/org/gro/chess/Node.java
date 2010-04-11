@@ -20,11 +20,11 @@ public class Node implements Cloneable {
 	/**
 	 * constant que especifica que una peça de taulell és blanca.
 	 */
-	private final static int WHITE = 10;
+	public final static int WHITE = 10;
 	/**
 	 * constant que especifica que una peça de taulell és negra.
 	 */
-	private final static int BLACK = 20;
+	public final static int BLACK = 20;
 
 	public final static int BUIT = 0;
 	public final static int PEO = 1;
@@ -123,46 +123,47 @@ public class Node implements Cloneable {
 
 		strb.append(" | 0 1 2 3 4 5 6 7\n");
 		strb.append("-+----------------\n");
+		// ♔♕♖♗♘♙♚♛♜♝♞♟
 		for (int f = 0; f < 8; f++) {
 			strb.append(f + "| ");
 			for (int c = 0; c < 8; c++) {
 				switch (board[c + f * 8]) {
 				case BLACK + PEO:
-					strb.append("p");
+					strb.append("♟");
 					break;
 				case BLACK + TORRE:
-					strb.append("t");
+					strb.append("♜");
 					break;
 				case BLACK + CAVALL:
-					strb.append("c");
+					strb.append("♞");
 					break;
 				case BLACK + ALFIL:
-					strb.append("a");
+					strb.append("♝");
 					break;
 				case BLACK + REINA:
-					strb.append("q");
+					strb.append("♛");
 					break;
 				case BLACK + REI:
-					strb.append("k");
+					strb.append("♚");
 					break;
-
+				// ♔♕♖♗♘♙♚♛♜♝♞♟
 				case WHITE + PEO:
-					strb.append("P");
+					strb.append("♙");
 					break;
 				case WHITE + TORRE:
-					strb.append("T");
+					strb.append("♖");
 					break;
 				case WHITE + CAVALL:
-					strb.append("C");
+					strb.append("♘");
 					break;
 				case WHITE + ALFIL:
-					strb.append("A");
+					strb.append("♗");
 					break;
 				case WHITE + REINA:
-					strb.append("Q");
+					strb.append("♕");
 					break;
 				case WHITE + REI:
-					strb.append("K");
+					strb.append("♔");
 					break;
 				default:
 					strb.append("·");
@@ -392,6 +393,10 @@ public class Node implements Cloneable {
 		if (whiteKingIsMoved != other.whiteKingIsMoved)
 			return false;
 		return true;
+	}
+
+	public int[] getBoard() {
+		return board;
 	}
 
 }
