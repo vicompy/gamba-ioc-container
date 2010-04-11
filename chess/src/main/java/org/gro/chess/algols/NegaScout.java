@@ -29,13 +29,13 @@ public class NegaScout implements ISearch {
 		nodesAnalitzats++;
 
 		if (depth == 0) {
-			return BoardHeuristic.calcDiff(node, myDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		final List<Node> childs = new MovGen(node, myDir).generaAllMoves();
 
 		if (childs.isEmpty()) {
-			return BoardHeuristic.calcDiff(node, myDir);
+			return BoardHeuristic.calcDiff(node, maximizingDir);
 		}
 
 		long a = alfa;

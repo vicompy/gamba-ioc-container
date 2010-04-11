@@ -6,9 +6,7 @@
 //import static org.junit.Assert.assertEquals;
 //
 //import org.gro.chess.algols.ISearch;
-//import org.gro.chess.algols.NegaScout;
-//import org.gro.chess.algols.QuiescentMinimax;
-//import org.gro.chess.algols.quiescents.QuiescentAlphaBeta;
+//import org.gro.chess.algols.SplittedNegaScout;
 //import org.junit.Test;
 //
 //
@@ -34,94 +32,62 @@
 //	"··Q·····"+
 //	"·····A··"+
 //	"········";
+//	private final static String board3 = ""+
+//	"tcaqkact"+
+//	"pppppppp"+
+//	"········"+
+//	"········"+
+//	"········"+
+//	"········"+
+//	"PPPPPPPP"+
+//	"TCAQKACT";
 //
-////	@Test
-////	public void a() {
-////		Node n1 = new Node(board2);
-////		final ISearch ab1 = new Minimax();
-////		n1 = ab1.search(n1, 1, Node.BLACK_DIR);
-////		System.out.println(n1);
-////
-////		Node n2 = new Node(board2);
-////		final ISearch ab2 = new Minimax();
-////		n2 = ab2.search(n2, 5, Node.BLACK_DIR);
-////		System.out.println(n2);
-////
-////		// TODO deixa matar al rei!? no pot ser!
-////		Node n3 = new Node(board2);
-////		final ISearch ab3 = new QuiescentMinimax(5);
-////		n3 = ab3.search(n3, 1, Node.BLACK_DIR);
-////		System.out.println(n3);
-////
-////		// aquest funka! el que falla és el q-minimax
-////		Node n4 = new Node(board2);
-////		final ISearch ab4 = new QuiescentAlphaBeta(5);
-////		n4 = ab4.search(n4, 1, Node.BLACK_DIR);
-////		System.out.println(n4);
-////
-////		assertEquals(n2, n4);
-////	}
+////	private final int nIters = 2;
 //
-//
-////	@Test
-////	public void a2() {
-////		Node n1 = new Node(board2);
-////		final ISearch ab1 = new AlphaBeta();
-////		n1 = ab1.search(n1, 1, Node.BLACK_DIR);
-////		System.out.println(n1);
-////
-////		// aquest funka! el que falla és el q-minimax
-////		Node n4 = new Node(board2);
-////		final ISearch ab4 = new QuiescentAlphaBeta(5);
-////		n4 = ab4.search(n4, 1, Node.BLACK_DIR);
-////		System.out.println(n4);
-////
-//////		assertEquals(n1, n4);
-////	}
-//
-//
-//	private final int nIters = 4;
+//	@Test
+//	public void test0() {
+//		final int nIters = 1;
+//		testNSVsQNSAB(board1, nIters, 2, 0);
+//		testNSVsQNSAB(board1, nIters, 4, 0);
+//		testNSVsQNSAB(board1, nIters, 2, 2);
+//		testNSVsQNSAB(board1, nIters, 2, 4);
+//		testNSVsQNSAB(board1, nIters, 4, 2);
+//	}
 //
 //	@Test
 //	public void test1() {
-//		testQuiescentableNegaScoutVsNegaScout(board1, nIters, 2, 0);
-//		testQuiescentableNegaScoutVsNegaScout(board1, nIters, 4, 0);
-////		testQuiescentableNegaScoutVsNegaScout(board1, nIters, 6, 0);
-//
-//		testQuiescentableNegaScoutVsNegaScout(board2, nIters, 2, 0);
-//		testQuiescentableNegaScoutVsNegaScout(board2, nIters, 4, 0);
+//		final int nIters = 1;
+//		testNSVsQNSAB(board2, nIters, 2, 0);
+//		testNSVsQNSAB(board2, nIters, 4, 0);
+//		testNSVsQNSAB(board2, nIters, 2, 2);
+//		testNSVsQNSAB(board2, nIters, 2, 4);
+//		testNSVsQNSAB(board2, nIters, 4, 2);
 //	}
 //
 //	@Test
 //	public void test2() {
-//		testMinimaxVsAlphaBeta(board1, nIters, 2, 0);
-//		testMinimaxVsAlphaBeta(board1, nIters, 4, 0);
-//		testMinimaxVsAlphaBeta(board1, nIters, 2, 2); // TODO falla
-//		testMinimaxVsAlphaBeta(board1, nIters, 2, 4); // TODO falla
-//		testMinimaxVsAlphaBeta(board1, nIters, 4, 2); // TODO falla
+//		final int nIters = 1;
+//		testNSVsQNSAB(board3, nIters, 2, 0);
+//		testNSVsQNSAB(board3, nIters, 4, 0);
+//		testNSVsQNSAB(board3, nIters, 2, 2);
+//		testNSVsQNSAB(board3, nIters, 2, 4);
+//		testNSVsQNSAB(board3, nIters, 4, 2);
 //	}
 //
-//	@Test
-//	public void test3() {
-//		testMinimaxVsAlphaBeta(board2, nIters, 2, 0);
-//		testMinimaxVsAlphaBeta(board2, nIters, 4, 0);
-//		testMinimaxVsAlphaBeta(board2, nIters, 2, 2); // TODO falla
-//		testMinimaxVsAlphaBeta(board2, nIters, 2, 4); // TODO falla
-//		testMinimaxVsAlphaBeta(board2, nIters, 4, 2); // TODO falla
-//	}
-//
-//	public void testMinimaxVsAlphaBeta(final String board, final int turns, final int depth, final int quiescentDepth) {
+//	public void testNSVsQNSAB(final String board, final int turns, final int depth, final int quiescentDepth) {
 //		long t;
+//
+//		System.out.println("===============================================");
 //
 //		/*
 //		 * testa MiniMax
 //		 */
 //		t = System.currentTimeMillis();
 //		Node n1 = new Node(board);
-//		final ISearch ab1 = new QuiescentMinimax(quiescentDepth);
+//		final ISearch ab1 = new SplittedNegaScout(0);
 //		for (int i = 0; i < turns; i++) {
-//			n1 = ab1.search(n1, depth, Node.WHITE_DIR);
-//			n1 = ab1.search(n1, depth, Node.BLACK_DIR);
+//			n1 = ab1.search(n1, depth+quiescentDepth, Node.WHITE_DIR);
+//			n1 = ab1.search(n1, depth+quiescentDepth, Node.BLACK_DIR);
 //		}
 //		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
 //
@@ -130,7 +96,7 @@
 //		 */
 //		t = System.currentTimeMillis();
 //		Node n2 = new Node(board);
-//		final ISearch ab2 = new QuiescentAlphaBeta(quiescentDepth);
+//		final ISearch ab2 = new SplittedNegaScout(quiescentDepth);
 //		for (int i = 0; i < turns; i++) {
 //			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
 //			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
@@ -141,36 +107,5 @@
 //		assertEquals(n1, n2);
 //	}
 //
-//
-//	public void testQuiescentableNegaScoutVsNegaScout(final String board, final int turns, final int depth, final int quiescentDepth) {
-//		long t;
-//
-//		/*
-//		 * testa MiniMax
-//		 */
-//		t = System.currentTimeMillis();
-//		Node n1 = new Node(board);
-//		final ISearch ab1 = new QuiescentAlphaBeta(quiescentDepth);
-//		for (int i = 0; i < turns; i++) {
-//			n1 = ab1.search(n1, depth, Node.WHITE_DIR);
-//			n1 = ab1.search(n1, depth, Node.BLACK_DIR);
-//		}
-//		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
-//
-//		/*
-//		 * testa MiniMax-Alfa/Beta
-//		 */
-//		t = System.currentTimeMillis();
-//		Node n2 = new Node(board);
-//		final ISearch ab2 = new NegaScout();
-//		for (int i = 0; i < turns; i++) {
-//			n2 = ab2.search(n2, depth, Node.WHITE_DIR);
-//			n2 = ab2.search(n2, depth, Node.BLACK_DIR);
-//		}
-//		System.out.println("in " + (System.currentTimeMillis() - t) + " ms.");
-//
-//
-//		assertEquals(n1, n2);
-//	}
 //
 //}
